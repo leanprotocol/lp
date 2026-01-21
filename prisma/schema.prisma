@@ -1,0 +1,297 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ========================================
+// ENUMS
+// ========================================
+
+enum QuizStatus {
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+  HOLD
+}
+
+enum SubscriptionStatus {
+  PENDING_APPROVAL
+  APPROVED
+  REJECTED
+  EXPIRED
+  ACTIVE
+}
+
+enum PaymentStatus {
+  PROCESSING
+  SUCCESS
+  FAILED
+  REFUNDED
+}
+
+enum RefundStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+// ========================================
+// USER MODEL
+// ========================================
+
+model User {
+  id                String              @id @default(uuid())
+  name              String?
+  mobileNumber      String              @unique
+  password          String
+  isVerified        Boolean             @default(false)
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  
+  // Relations
+  otps              OTP[]
+  quizSubmissions   QuizSubmission[]
+  subscriptions     Subscription[]
+  payments          Payment[]
+  refundRequests    RefundRequest[]
+  contactQueries    ContactQuery[]
+  
+  @@index([mobileNumber])
+}
+
+// ========================================
+// OTP MODEL
+// ========================================
+
+model OTP {
+  id              String    @id @default(uuid())
+  userId          String
+  hashedOtp       String
+  attempts        Int       @default(0)
+  isBlocked       Boolean   @default(false)
+  blockedUntil    DateTime?
+  expiresAt       DateTime
+  createdAt       DateTime  @default(now())
+  
+  // Relations
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+// ========================================
+// ADMIN MODEL
+// ========================================
+
+model Admin {
+  id              String    @id @default(uuid())
+  email           String    @unique
+  password        String
+  name            String
+  role            String    @default("admin")
+  isActive        Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  @@index([email])
+}
+
+// ========================================
+// INSURANCE PROVIDER MODEL
+// ========================================
+
+model InsuranceProvider {
+  id                  String              @id @default(uuid())
+  name                String              @unique
+  coveragePercentage  Float               @default(0)
+  description         String?
+  isActive            Boolean             @default(true)
+  displayOrder        Int                 @default(0)
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  
+  // Relations
+  quizSubmissions     QuizSubmission[]
+  
+  @@index([isActive])
+  @@index([displayOrder])
+}
+
+// ========================================
+// QUIZ SUBMISSION MODEL
+// ========================================
+
+model QuizSubmission {
+  id                    String              @id @default(uuid())
+  userId                String?
+  quizSessionId         String?
+  answers               Json
+  insuranceProviderId   String?
+  status                QuizStatus          @default(PENDING_REVIEW)
+  reviewedBy            String?
+  reviewNotes           String?
+  submittedAt           DateTime            @default(now())
+  reviewedAt            DateTime?
+  
+  // Relations
+  user                  User?               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  insuranceProvider     InsuranceProvider?  @relation(fields: [insuranceProviderId], references: [id], onDelete: SetNull)
+  
+  @@index([userId])
+  @@unique([quizSessionId])
+  @@index([status])
+  @@index([insuranceProviderId])
+}
+
+// ========================================
+// SUBSCRIPTION PLAN MODEL
+// ========================================
+
+model SubscriptionPlan {
+  id                    String          @id @default(uuid())
+  name                  String
+  description           String?
+  price                 Float
+  durationDays          Int
+  features              Json
+  isActive              Boolean         @default(true)
+  displayOrder          Int             @default(0)
+  allowMultiplePurchase Boolean         @default(false)
+  isRefundable          Boolean         @default(false)
+  allowAutoRenew        Boolean         @default(false)
+  createdAt             DateTime        @default(now())
+  updatedAt             DateTime        @updatedAt
+  
+  // Relations
+  subscriptions         Subscription[]
+  
+  @@index([isActive])
+  @@index([displayOrder])
+}
+
+// ========================================
+// SUBSCRIPTION MODEL
+// ========================================
+
+model Subscription {
+  id                String              @id @default(uuid())
+  userId            String
+  planId            String
+  status            SubscriptionStatus  @default(PENDING_APPROVAL)
+  startDate         DateTime?
+  endDate           DateTime?
+  autoRenew         Boolean             @default(false)
+  approvedBy        String?
+  rejectionReason   String?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  
+  // Relations
+  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan              SubscriptionPlan    @relation(fields: [planId], references: [id])
+  payments          Payment[]
+  refundRequests    RefundRequest[]
+  
+  @@index([userId])
+  @@index([planId])
+  @@index([status])
+  @@index([endDate])
+}
+
+// ========================================
+// PAYMENT MODEL
+// ========================================
+
+model Payment {
+  id                  String          @id @default(uuid())
+  userId              String
+  subscriptionId      String
+  razorpayOrderId     String          @unique
+  razorpayPaymentId   String?         @unique
+  razorpaySignature   String?
+  amount              Float
+  currency            String          @default("INR")
+  status              PaymentStatus   @default(PROCESSING)
+  failureReason       String?
+  metadata            Json?
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+  
+  // Relations
+  user                User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subscription        Subscription    @relation(fields: [subscriptionId], references: [id])
+  
+  @@index([userId])
+  @@index([subscriptionId])
+  @@index([razorpayOrderId])
+  @@index([razorpayPaymentId])
+  @@index([status])
+}
+
+// ========================================
+// REFUND REQUEST MODEL
+// ========================================
+
+model RefundRequest {
+  id                  String        @id @default(uuid())
+  userId              String
+  subscriptionId      String
+  reason              String
+  status              RefundStatus  @default(PENDING)
+  adminNotes          String?
+  refundAmount        Float?
+  razorpayRefundId    String?       @unique
+  requestedAt         DateTime      @default(now())
+  processedAt         DateTime?
+  
+  // Relations
+  user                User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subscription        Subscription  @relation(fields: [subscriptionId], references: [id])
+  
+  @@index([userId])
+  @@index([subscriptionId])
+  @@index([status])
+}
+
+// ========================================
+// CONTACT QUERY MODEL
+// ========================================
+
+model ContactQuery {
+  id              String    @id @default(uuid())
+  userId          String?
+  name            String
+  mobileNumber    String
+  email           String?
+  message         String
+  createdAt       DateTime  @default(now())
+  
+  // Relations
+  user            User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  @@index([mobileNumber])
+  @@index([createdAt])
+}
+
+// ========================================
+// NEWSLETTER SUBSCRIPTION MODEL
+// ========================================
+
+model NewsletterSubscription {
+  id              String    @id @default(uuid())
+  email           String    @unique
+  isActive        Boolean   @default(true)
+  subscribedAt    DateTime  @default(now())
+  unsubscribedAt  DateTime?
+  
+  @@index([email])
+  @@index([subscribedAt])
+  @@index([isActive])
+}
