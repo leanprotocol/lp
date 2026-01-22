@@ -195,10 +195,12 @@ function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start gap-3 inter text-accent2/80 font-light">
                 <Mail className="w-5 h-5 shrink-0 text-accent2/50" />
-                <span>support@leanprotocol.in</span>
+                <a href="mailto:support@leanprotocol.in" className="hover:text-accent2 transition-colors">
+                  support@leanprotocol.in
+                </a>
               </li>
               <li className="inter text-accent2/80 font-light pt-2">
-                1-800-555-0123
+                9871786353
                 <br />
                 <span className="text-xs text-accent2/50">Mon-Fri, 9am - 6pm EST</span>
               </li>

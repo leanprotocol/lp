@@ -21,7 +21,7 @@ const row1Data: Benefit[] = [
   { text: "Diabetes", image: "/marquee/diabetes.png" },
   { text: "Mental health", image: "/marquee/mental-health.png" },
   { text: "Back pain", image: "/marquee/back-pain.png" },
-  { text: "Sleep apnea", image: "/marquee/sleep-apnea.png" },
+  { text: "Sound Sleep", image: "/marquee/sleep-apnea.png" },
   { text: "Heart Health", image: "/marquee/heart-health.png" },
   { text: "Mobility", image: "/marquee/mobility.png" },
   { text: "Metabolism", image: "/marquee/metabolism.png" },

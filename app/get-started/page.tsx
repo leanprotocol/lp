@@ -1,16 +1,13 @@
-import Footer from '@/components/footer'
-import GetStartedPage from '@/components/get-started/get-started-page'
-import { Header } from '@/components/header'
-import React from 'react'
+import GetStartedPage from "@/components/get-started/get-started-page";
+import { Header } from "@/components/header";
+import Footer from "@/components/footer";
 
-const page = () => {
+export default function Page() {
   return (
-    <div>
-        <Header/>
-        <GetStartedPage/>
-        <Footer/>
-    </div>
-  )
+    <main className="min-h-screen bg-white">
+      <Header />
+      <GetStartedPage />
+      <Footer />
+    </main>
+  );
 }
-
-export default page
