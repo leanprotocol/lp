@@ -68,7 +68,8 @@ CREATE TABLE "InsuranceProvider" (
 -- CreateTable
 CREATE TABLE "QuizSubmission" (
     "id" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
+    "userId" TEXT,
+    "quizSessionId" TEXT,
     "answers" JSONB NOT NULL,
     "insuranceProviderId" TEXT,
     "status" "QuizStatus" NOT NULL DEFAULT 'PENDING_REVIEW',
@@ -210,6 +211,9 @@ CREATE INDEX "QuizSubmission_status_idx" ON "QuizSubmission"("status");
 
 -- CreateIndex
 CREATE INDEX "QuizSubmission_insuranceProviderId_idx" ON "QuizSubmission"("insuranceProviderId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "QuizSubmission_quizSessionId_key" ON "QuizSubmission"("quizSessionId");
 
 -- CreateIndex
 CREATE INDEX "SubscriptionPlan_isActive_idx" ON "SubscriptionPlan"("isActive");
