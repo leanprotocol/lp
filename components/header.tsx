@@ -139,10 +139,10 @@ export function Header() {
           </Link>
         </nav>
 
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 min-w-[120px] justify-end">
           {/* Auth Button */}
           {loading ? (
-            <div className="w-10 h-10 rounded-full bg-gray-200 animate-pulse" />
+            <div className="h-10 w-[110px] rounded-full border border-foreground/10 bg-gray-200/70 animate-pulse" />
           ) : me ? (
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center justify-center w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 font-semibold text-sm hover:bg-emerald-200 transition-colors outline-none">
