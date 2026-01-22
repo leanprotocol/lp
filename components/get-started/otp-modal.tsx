@@ -20,9 +20,9 @@ interface ExistingUserNoticeProps {
 }
 
 const ExistingUserNotice = ({ message }: ExistingUserNoticeProps) => (
-  <p className="text-sm text-red-600">
-    {message || 'You are already registered. Please log in to continue.'}{' '}
-    <Link href="/login" className="underline font-medium">
+  <p className="text-xs text-[#6B7280] leading-relaxed">
+    {message || "You are already registered. Please log in to continue."}{" "}
+    <Link href="/login" className="underline font-medium text-[#4B5563]">
       Log in
     </Link>
     .
@@ -42,25 +42,33 @@ export default function OTPModal({ isOpen, onClose, onNext, selectedProvider }: 
   const recaptchaVerifierRef = useRef<RecaptchaVerifier | null>(null);
   const [existingUserNotice, setExistingUserNotice] = useState<string | null>(null);
 
+  const ensureRecaptchaVerifier = (auth: ReturnType<typeof getFirebaseAuth>) => {
+    if (!auth || typeof window === "undefined") return null;
+
+    const container = document.getElementById("recaptcha-container");
+    if (!container) return null;
+
+    if (recaptchaVerifierRef.current) return recaptchaVerifierRef.current;
+
+    try {
+      container.innerHTML = "";
+      const verifier = new RecaptchaVerifier(auth, "recaptcha-container", {
+        size: "invisible",
+        callback: () => {},
+      });
+      recaptchaVerifierRef.current = verifier;
+      setRecaptchaVerifier(verifier);
+      return verifier;
+    } catch (error) {
+      console.error("reCAPTCHA setup error:", error);
+      return null;
+    }
+  };
+
   useEffect(() => {
     if (isOpen && typeof window !== 'undefined') {
       const auth = getFirebaseAuth();
-      if (auth && !recaptchaVerifier) {
-        try {
-          const container = document.getElementById('recaptcha-container');
-          if (container) {
-            container.innerHTML = '';
-          }
-          const verifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-            size: 'invisible',
-            callback: () => {},
-          });
-          setRecaptchaVerifier(verifier);
-          recaptchaVerifierRef.current = verifier;
-        } catch (error) {
-          console.error('reCAPTCHA setup error:', error);
-        }
-      }
+      ensureRecaptchaVerifier(auth);
     }
     return () => {
       const verifier = recaptchaVerifierRef.current;
@@ -98,7 +106,16 @@ export default function OTPModal({ isOpen, onClose, onNext, selectedProvider }: 
     setExistingUserNotice(null);
     setResendTimer(0);
     setConfirmationResult(null);
-    setRecaptchaVerifier(null);
+    if (recaptchaVerifierRef.current) {
+      try {
+        recaptchaVerifierRef.current.clear();
+      } catch (error) {
+        console.warn('reCAPTCHA cleanup error:', error);
+      } finally {
+        recaptchaVerifierRef.current = null;
+        setRecaptchaVerifier(null);
+      }
+    }
     if (typeof window !== 'undefined') {
       const container = document.getElementById('recaptcha-container');
       if (container) {
@@ -170,14 +187,15 @@ export default function OTPModal({ isOpen, onClose, onNext, selectedProvider }: 
         return;
       }
 
-      if (!recaptchaVerifier) {
+      const verifier = ensureRecaptchaVerifier(auth);
+      if (!verifier) {
         setError("reCAPTCHA not initialized. Please refresh and try again.");
         setIsVerifying(false);
         return;
       }
 
       const phoneNumber = `+91${mobileNumber}`;
-      const confirmation = await signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier);
+      const confirmation = await signInWithPhoneNumber(auth, phoneNumber, verifier);
       
       setConfirmationResult(confirmation);
       setOtpSent(true);
@@ -217,13 +235,19 @@ export default function OTPModal({ isOpen, onClose, onNext, selectedProvider }: 
     setError("");
     try {
       const auth = getFirebaseAuth();
-      if (!auth || !recaptchaVerifier) {
+      if (!auth) {
+        setError("Please refresh and try again.");
+        return;
+      }
+
+      const verifier = ensureRecaptchaVerifier(auth);
+      if (!verifier) {
         setError("Please refresh and try again.");
         return;
       }
 
       const phoneNumber = `+91${mobileNumber}`;
-      const confirmation = await signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier);
+      const confirmation = await signInWithPhoneNumber(auth, phoneNumber, verifier);
       
       setConfirmationResult(confirmation);
       setResendTimer(30);
@@ -321,6 +345,7 @@ export default function OTPModal({ isOpen, onClose, onNext, selectedProvider }: 
         </div>
 
         <div className="p-6 md:p-8">
+          <div id="recaptcha-container" className="hidden" />
           {!otpSent ? (
             <>
               <div className="text-center mb-6">
@@ -361,8 +386,6 @@ export default function OTPModal({ isOpen, onClose, onNext, selectedProvider }: 
                 </div>
 
               </div>
-
-              <div id="recaptcha-container" className="hidden" />
 
               {/* Error Message */}
               {(error || existingUserNotice) && (
@@ -461,6 +484,9 @@ export default function OTPModal({ isOpen, onClose, onNext, selectedProvider }: 
                 onClick={() => {
                   setOtpSent(false);
                   setError("");
+                  setOtp("");
+                  setConfirmationResult(null);
+                  setResendTimer(0);
                 }}
                 className="w-full mt-4 cursor-pointer text-xs text-[#6B7280] hover:text-[#1F302B] transition-colors"
               >
