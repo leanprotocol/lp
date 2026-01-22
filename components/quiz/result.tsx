@@ -114,14 +114,30 @@ export default function Result({
             <h2 className="font-serif text-xl md:text-2xl text-[#1F302B] mb-2">
               No Worries
             </h2>
-            <p className="text-base md:text-lg text-black/70 mb-6 max-w-2xl mx-auto leading-relaxed">
-              Our treatment’s first steps begins with the at home Advanced Blood Test—starting with just
+            <p className="text-base md:text-lg text-black/70 mb-4 max-w-2xl mx-auto leading-relaxed">
+              Our treatment’s first steps begin with the at-home Advanced Blood Test, designed to give your care team a clearer starting point.
             </p>
-            <div className="inline-block relative">
-                <span className="font-serif font-bold text-4xl text-[#1F302B] relative z-10 px-2">
-                    Rs 2299
+            <div className="inline-flex flex-col  items-center justify-center gap-3 text-[#2F3A32]">
+              <span className="text-sm font-medium tracking-[0.3em] uppercase text-[#8B9384]">
+                Transparent Pricing
+              </span>
+              <div className="flex flex-col sm:flex-row items-center gap-2 text-base font-medium text-[#5B6356]">
+                <span>
+                  Actual Value{" "}
+                  <span className="line-through text-[#A8A393]">
+                    Rs 6000
+                  </span>
                 </span>
-                <div className="absolute inset-x-0 bottom-1 h-3 bg-[#F0F2E9] -z-0"></div>
+                <span className="hidden sm:block text-[#CFCABA]">|</span>
+                <span className="inline-flex items-center gap-2 rounded-full  px-5 py-3 shadow-[0_4px_20px_rgba(31,48,43,0.12)]">
+                  <span className="text-xs uppercase tracking-[0.25em] text-[#1F302B]">
+                    Our Price
+                  </span>
+                  <span className="font-serif text-3xl font-bold leading-none text-[#1F302B]">
+                    Rs 2299
+                  </span>
+                </span>
+              </div>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">

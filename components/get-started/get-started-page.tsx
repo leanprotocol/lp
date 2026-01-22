@@ -31,8 +31,8 @@ export default function GetStartedPage() {
   ];
 
   return (
-    <section className="relative bg-white min-h-[calc(100vh-5rem)] flex flex-col lg:flex-row -mb-1 -mt-21">
-      <div className="relative w-full lg:w-[45%] min-h-[55vh] lg:min-h-[calc(100vh-5rem)] bg-[#F0F2E9] order-1 lg:order-1 overflow-hidden flex-1">
+    <section className="relative bg-white min-h-[calc(100dvh-5rem)] flex flex-col lg:flex-row">
+      <div className="relative w-full lg:w-[45%] min-h-[55vh] lg:min-h-[calc(100dvh-5rem)] bg-[#F0F2E9] order-1 lg:order-1 overflow-hidden flex-1">
         <Image
           src="/get-started.png"
           alt="Medical consultation"
@@ -49,7 +49,7 @@ export default function GetStartedPage() {
         </div>
       </div>
 
-      <div className="w-full lg:w-[55%] order-2 lg:order-2 flex flex-col justify-center py-16 px-4 md:px-16 xl:px-24 bg-white flex-1 min-h-[50vh] lg:min-h-[calc(100vh-5rem)]">
+      <div className="w-full lg:w-[55%] order-2 lg:order-2 flex flex-col justify-center py-16 px-4 md:px-16 xl:px-24 bg-white flex-1 min-h-[50vh] lg:min-h-[calc(100dvh-5rem)]">
         <div className="max-w-3xl mx-auto lg:mx-0">
           <div className="mb-12">
             <h1 className="heading">

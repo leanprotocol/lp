@@ -361,7 +361,7 @@ function QuizPageContent() {
       id: "medical_conditions", 
       question: "Have you ever had any of the following medical conditions or received treatment for them?", 
       type: "checkbox",
-      options: ["Heart Failure", "Undergoing Dialysis", "Anorexia or Bulimia", "Organ transplant", "Liver Failure", "None"]
+      options: ["Heart Blockage/Stroke", "Undergoing Dialysis", "Anorexia or Bulimia", "Organ transplant", "Liver Failure", "None"]
     },
     { 
       id: "cancer_history", 
@@ -724,7 +724,7 @@ function QuizPageContent() {
   }
 
   return (
-    <div className="h-dvh overflow-hidden bg-gradient-to-br from-[#F7F1EB] via-white to-[#E8F0ED] text-[#191919] flex flex-col items-center px-4 pt-6 pb-4">
+    <div className="fixed inset-0 overflow-hidden bg-gradient-to-br from-[#F7F1EB] via-white to-[#E8F0ED] text-[#191919] flex flex-col items-center px-4 pt-6 pb-4 z-50">
       
       {/* Progress */}
       {activeInsuranceName && (
