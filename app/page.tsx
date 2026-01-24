@@ -22,7 +22,6 @@ export default function Page() {
       <Hero />
       <InsuranceLogos />
       <CausesSection />
-      <ParallaxJourney />
       <ParallaxJourney /> 
       {/* <MembersServed /> */}
       <MedicationToolkit />
