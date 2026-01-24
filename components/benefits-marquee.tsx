@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   motion,
   useScroll,
@@ -90,9 +90,10 @@ function BenefitCard({ text, image }: Benefit) {
 interface ParallaxProps {
   children: React.ReactNode;
   baseVelocity: number;
+  copyCount?: number;
 }
 
-function ParallaxText({ children, baseVelocity = 100 }: ParallaxProps) {
+function ParallaxText({ children, baseVelocity = 100, copyCount = 3 }: ParallaxProps) {
   const baseX = useMotionValue(0);
   const { scrollY } = useScroll();
   const scrollVelocity = useVelocity(scrollY);
@@ -105,7 +106,28 @@ function ParallaxText({ children, baseVelocity = 100 }: ParallaxProps) {
     clamp: false,
   });
 
-  const x = useTransform(baseX, (v) => `${wrap(-20, -45, v)}%`);
+  const trackRef = useRef<HTMLDivElement | null>(null);
+  const [setWidth, setSetWidth] = useState(0);
+
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+
+    const update = () => {
+      const w = el.scrollWidth;
+      setSetWidth(copyCount > 0 ? w / copyCount : w);
+    };
+
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [copyCount]);
+
+  const x = useTransform(baseX, (v) => {
+    if (!setWidth) return "0px";
+    return `${wrap(-setWidth, 0, v)}px`;
+  });
 
   const directionFactor = useRef<number>(1);
   const isDragging = useRef<boolean>(false);
@@ -135,8 +157,8 @@ function ParallaxText({ children, baseVelocity = 100 }: ParallaxProps) {
     if (isDragging.current) {
       const delta = e.clientX - lastClientX.current;
       lastClientX.current = e.clientX;
-      // Update baseX directly with the drag delta
-      baseX.set(baseX.get() + delta * 0.05); // 0.05 factor maps pixels to % roughly
+      // Update baseX directly with the drag delta (px-based)
+      baseX.set(baseX.get() + delta);
     }
   };
   const handlePointerUp = () => {
@@ -153,14 +175,31 @@ function ParallaxText({ children, baseVelocity = 100 }: ParallaxProps) {
         onPointerUp={handlePointerUp}
         onPointerLeave={handlePointerUp}
       >
-        {children}
+        <div ref={trackRef} className="flex gap-2 md:gap-4">
+          {Array.from({ length: copyCount }).map((_, idx) => (
+            <div key={idx} className="flex gap-2 md:gap-4">
+              {children}
+            </div>
+          ))}
+        </div>
       </motion.div>
     </div>
   );
 }
 
 export default function DiseaseMarqueeOverlay() {
-  const duplications = [1, 2, 3, 4]; 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 768px)");
+    const onChange = () => setIsMobile(media.matches);
+    onChange();
+    media.addEventListener("change", onChange);
+    return () => media.removeEventListener("change", onChange);
+  }, []);
+
+  // px/sec (mobile faster, desktop slower)
+  const baseSpeed = isMobile ? 140 : 60;
 
   return (
     <section className="py-12 md:py-18 bg-dark relative overflow-hidden">
@@ -185,20 +224,16 @@ export default function DiseaseMarqueeOverlay() {
 
       <div className="flex flex-col space-y-0 md:space-y-3 relative z-0">
         {/* Row 1 - Speed increased */}
-        <ParallaxText baseVelocity={-4}>
-          {duplications.map((d) => (
-             row1Data.map((benefit, i) => (
-              <BenefitCard key={`r1-${d}-${i}`} {...benefit} />
-            ))
+        <ParallaxText baseVelocity={-baseSpeed}>
+          {row1Data.map((benefit, i) => (
+            <BenefitCard key={`r1-${i}`} {...benefit} />
           ))}
         </ParallaxText>
 
         {/* Row 2 - Speed increased */}
-        <ParallaxText baseVelocity={4}>
-          {duplications.map((d) => (
-             row2Data.map((benefit, i) => (
-              <BenefitCard key={`r2-${d}-${i}`} {...benefit} />
-            ))
+        <ParallaxText baseVelocity={baseSpeed}>
+          {row2Data.map((benefit, i) => (
+            <BenefitCard key={`r2-${i}`} {...benefit} />
           ))}
         </ParallaxText>
       </div>
