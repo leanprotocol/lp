@@ -56,8 +56,8 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-3 z-50 mx-auto w-[98%] max-w-[97%] rounded-2xl border border-white/40 bg-white/60 backdrop-blur-xl shadow-[0_12px_30px_rgba(15,23,42,0.12)] ring-1 ring-black/5 transition-all duration-300">
-      <div className="container mx-auto flex h-20 items-center justify-between px-4 lg:px-8">
+    <header className="sticky top-0 md:top-3 z-50 mx-auto w-full md:w-[98%] md:max-w-[97%] md:rounded-2xl border border-white/40 bg-white/60 backdrop-blur-xl shadow-[0_12px_30px_rgba(15,23,42,0.12)] ring-1 ring-black/5 transition-all duration-300">
+      <div className="container mx-auto flex h-16 md:h-20 items-center justify-between px-4 lg:px-8">
         <Link href="/" className="flex items-center">
           <Image
             src="/logo-cropped.png"

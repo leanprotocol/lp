@@ -60,7 +60,7 @@ const wrap = (min: number, max: number, v: number) => {
 
 function BenefitCard({ text, image }: Benefit) {
   return (
-    <div className="group relative w-52 h-40 md:w-64 md:h-52 shrink-0 rounded-xl overflow-hidden transition-all duration-500 cursor-default transform bg-[#F7F1EB]">
+    <div className="group relative w-36 h-36 md:w-64 md:h-52 shrink-0 rounded-xl overflow-hidden transition-all duration-500 select-none cursor-default transform bg-[#F7F1EB]">
       <Image
         src={image}
         alt={text}
@@ -68,7 +68,7 @@ function BenefitCard({ text, image }: Benefit) {
         sizes="(max-width: 768px) 208px, 256px"
         placeholder="blur"
         blurDataURL="/blur-placeholder.png"
-        className="absolute inset-0 w-full h-full object-cover transform transition-transform duration-700 ease-out z-0"
+        className="absolute inset-0 w-full h-full object-cover transform transition-transform duration-700 ease-out z-0 pointer-events-none"
         onError={(e) => {
           (e.target as HTMLImageElement).style.display = 'none';
           (e.target as HTMLImageElement).parentElement!.style.backgroundColor = '#5B746F';
@@ -79,7 +79,7 @@ function BenefitCard({ text, image }: Benefit) {
       
       <div className="absolute bottom-0 left-0 w-full p-4 z-20 flex flex-col justify-end">
         <div className="w-6 h-0.5 bg-white/80 mb-2 group-hover:w-10 transition-all duration-500 rounded-full"></div>
-        <h3 className="font-serif text-lg text-white font-medium tracking-tight truncate ">
+        <h3 className="font-serif text-sm md:text-lg text-white font-medium tracking-tight truncate ">
           {text}
         </h3>
       </div>
@@ -108,24 +108,50 @@ function ParallaxText({ children, baseVelocity = 100 }: ParallaxProps) {
   const x = useTransform(baseX, (v) => `${wrap(-20, -45, v)}%`);
 
   const directionFactor = useRef<number>(1);
+  const isDragging = useRef<boolean>(false);
+  const lastClientX = useRef<number>(0);
   useAnimationFrame((t, delta) => {
     let moveBy = directionFactor.current * baseVelocity * (delta / 1000);
 
-    if (velocityFactor.get() < 0) {
-      directionFactor.current = -1;
-    } else if (velocityFactor.get() > 0) {
-      directionFactor.current = 1;
-    }
+    if (!isDragging.current) {
 
-    moveBy += directionFactor.current * moveBy * velocityFactor.get();
-    baseX.set(baseX.get() + moveBy);
+      if (velocityFactor.get() < 0) {
+        directionFactor.current = -1;
+      } else if (velocityFactor.get() > 0) {
+        directionFactor.current = 1;
+      }
+
+      moveBy += directionFactor.current * moveBy * velocityFactor.get();
+      baseX.set(baseX.get() + moveBy);
+    }
   });
+
+  // Native Pointer Events for smoother, jitter-free dragging
+  const handlePointerDown = (e: React.PointerEvent) => {
+    isDragging.current = true;
+    lastClientX.current = e.clientX;
+  };
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (isDragging.current) {
+      const delta = e.clientX - lastClientX.current;
+      lastClientX.current = e.clientX;
+      // Update baseX directly with the drag delta
+      baseX.set(baseX.get() + delta * 0.05); // 0.05 factor maps pixels to % roughly
+    }
+  };
+  const handlePointerUp = () => {
+    isDragging.current = false;
+  };
 
   return (
     <div className="overflow-hidden whitespace-nowrap py-2 md:py-3">
       <motion.div 
-        className="flex gap-4 px-4" 
+        className="flex gap-2 md:gap-4 px-2 md:px-4 cursor-grab active:cursor-grabbing touch-none" 
         style={{ x }}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerLeave={handlePointerUp}
       >
         {children}
       </motion.div>
@@ -147,7 +173,7 @@ export default function DiseaseMarqueeOverlay() {
           className="text-center w-full mx-auto"
         >
           <h2 className="heading-white leading-tight">
-            <span className="inline-block whitespace-nowrap">
+            <span className="inline-block md:whitespace-nowrap">
               Because breaking free from obesity will make you better in every way.
             </span>
             <span className="mt-2 block italic text-white">
@@ -157,9 +183,9 @@ export default function DiseaseMarqueeOverlay() {
         </motion.div>
       </div>
 
-      <div className="flex flex-col space-y-2 md:space-y-3 relative z-0">
-        {/* Row 1 */}
-        <ParallaxText baseVelocity={-1}>
+      <div className="flex flex-col space-y-0 md:space-y-3 relative z-0">
+        {/* Row 1 - Speed increased */}
+        <ParallaxText baseVelocity={-4}>
           {duplications.map((d) => (
              row1Data.map((benefit, i) => (
               <BenefitCard key={`r1-${d}-${i}`} {...benefit} />
@@ -167,8 +193,8 @@ export default function DiseaseMarqueeOverlay() {
           ))}
         </ParallaxText>
 
-        {/* Row 2 */}
-        <ParallaxText baseVelocity={1}>
+        {/* Row 2 - Speed increased */}
+        <ParallaxText baseVelocity={4}>
           {duplications.map((d) => (
              row2Data.map((benefit, i) => (
               <BenefitCard key={`r2-${d}-${i}`} {...benefit} />

@@ -66,7 +66,7 @@ export default function InsuranceCoverage() {
 
   return (
     <section className="py-12 md:py-18 text-[#191919] bg-accent-foreground">
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
+      <div className="max-w-7xl mx-auto px-3 md:px-8">
         
         {/* Heading */}
         <motion.div
@@ -74,9 +74,9 @@ export default function InsuranceCoverage() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-16 max-w-5xl mx-auto"
+          className="text-center mb-10 md:mb-16 max-w-5xl mx-auto"
         >
-          <h2 className="forum text-4xl md:text-5xl font-serif leading-tight">
+          <h2 className="forum text-[28px] md:text-5xl font-serif leading-tight">
             Got Coverage? Check If your Insurance <span className="italic text-[#2D3319] opacity-70">covers your treatment!</span> 
           </h2>
         </motion.div>

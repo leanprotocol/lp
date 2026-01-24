@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, TouchEvent } from "react"
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
@@ -9,6 +9,8 @@ import Link from "next/link"
 export function MedicationCarousel() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
+  const [touchStart, setTouchStart] = useState<number | null>(null)
+  const [touchEnd, setTouchEnd] = useState<number | null>(null)
 
   const medications = [
     {
@@ -101,6 +103,22 @@ export function MedicationCarousel() {
     handleSlideChange(prev)
   }
 
+  // Swipe Logic
+  const minSwipeDistance = 50
+  const onTouchStart = (e: TouchEvent) => {
+    setTouchEnd(null)
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+  const onTouchMove = (e: TouchEvent) => setTouchEnd(e.targetTouches[0].clientX)
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > minSwipeDistance
+    const isRightSwipe = distance < -minSwipeDistance
+    if (isLeftSwipe) nextSlide()
+    if (isRightSwipe) prevSlide()
+  }
+
   return (
     <section className="w-full bg-[#F5F2ED] py-12 md:py-18">
       <div className="container mx-auto px-4 lg:px-8">
@@ -115,7 +133,12 @@ export function MedicationCarousel() {
         <div className="relative max-w-6xl mx-auto mb-12">
           
           {/* Main Card Container */}
-          <div className="bg-white rounded-3xl overflow-hidden min-h-auto lg:min-h-[500px] flex items-center shadow-sm">
+          <div 
+            className="bg-white rounded-3xl overflow-hidden min-h-auto lg:min-h-[500px] flex items-center shadow-sm"
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+          >
             <div 
                 className={`w-full grid grid-cols-1 lg:grid-cols-2 gap-0 lg:gap-12 items-center transition-all duration-300 ease-in-out ${
                   isAnimating ? "opacity-0 scale-95" : "opacity-100 scale-100"

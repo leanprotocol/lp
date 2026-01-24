@@ -27,9 +27,10 @@ export default function OurWhyHero() {
           <div className="flex flex-col sm:flex-row sm:items-center gap-4 text-dark">
             <span className="font-serif text-base md:text-lg text-[#1F302B] pr-5 md:pr-0">
               Start your journey for just{" "}
-              <span className="line-through opacity-70 pr-1">Rs 5799</span>
-              <span className="font-semibold border-b border-dark/40 ">Rs 2299</span>
-              {/* <span className="font-semibold border-b border-dark/40 hidden md:visible">Rs 2299</span> */}
+              <span className="block md:inline">
+                <span className="line-through opacity-70 pr-1"> Rs 5799</span>
+                <span className="font-semibold border-b border-dark/40"> Rs 2299</span>
+              </span>
             </span>
             <Button
               asChild

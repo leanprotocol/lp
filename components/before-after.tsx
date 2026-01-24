@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, TouchEvent } from "react"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight, TrendingDown } from "lucide-react"
 
@@ -15,6 +15,8 @@ interface Testimonial {
 export function BeforeAfter() {
   const [mobileIndex, setMobileIndex] = useState(0)
   const [desktopIndex, setDesktopIndex] = useState(0)
+  const [touchStart, setTouchStart] = useState<number | null>(null)
+  const [touchEnd, setTouchEnd] = useState<number | null>(null)
 
   const testimonials: Testimonial[] = [
     {
@@ -91,6 +93,22 @@ export function BeforeAfter() {
     if (desktopIndex > 0) setDesktopIndex(desktopIndex - 1)
   }
 
+  // Swipe Logic
+  const minSwipeDistance = 50
+  const onTouchStart = (e: TouchEvent) => {
+    setTouchEnd(null)
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+  const onTouchMove = (e: TouchEvent) => setTouchEnd(e.targetTouches[0].clientX)
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > minSwipeDistance
+    const isRightSwipe = distance < -minSwipeDistance
+    if (isLeftSwipe) nextMobile()
+    if (isRightSwipe) prevMobile()
+  }
+
   return (
     <section className="relative py-8 md:py-16 bg-dark overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#2D3319] rounded-full blur-[120px] opacity-20 pointer-events-none" />
@@ -104,7 +122,12 @@ export function BeforeAfter() {
 
         <div className="relative max-w-7xl mx-auto">
 
-          <div className="lg:hidden relative">
+          <div 
+            className="lg:hidden relative"
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+          >
             <div className="overflow-hidden px-1">
               <div
                 className="flex transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] gap-4"

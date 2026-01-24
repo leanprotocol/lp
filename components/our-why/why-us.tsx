@@ -9,46 +9,46 @@ export default function WhyUs() {
     <section className="overflow-hidden">
       <div className="max-w-5xl mx-auto px-4 md:px-0">
         
-        <div className="flex flex-col items- text- mb-10 mt-16">
+        <div className="flex flex-col mb-5 mt-16">
            
-           <h2 className=" max-w-3xl text-[1.9rem] md:text-[2rem] text-[#1F302B] leading-[1.3] ">
+           <h2 className=" max-w-3xl text-[1.5rem] md:text-[2rem] text-[#1F302B] leading-[1.3] ">
              Most people don’t
              want six-pack abs. <br />
-            <span className="text-[2rem] md:text-[2.1rem]">
+            <span className="text-[1.5rem] md:text-[2.1rem]">
                They just want to wake up feeling lighter, clearer, healthier. To move without effort. To breathe without struggle.
             
               </span> 
            </h2>
-            <p className=" text-[1.7rem] md:text-[1.8rem] text-[#1F302B] relative z-10 leading-[1.4] ">
+            <p className=" text-[1.5rem] md:text-[1.8rem] text-[#1F302B] relative z-10 leading-[1.4] ">
                    To feel… well again.
              </p>
 
         </div>
 
-            <div className="flex flex-col items- text- mb-16">
+            <div className="flex flex-col mb-16">
            
-           <h2 className=" max-w-xl text-[1.9rem] md:text-[2rem] font-medium text-[#1F302B] leading-[1.3] ">
+           <h2 className=" max-w-xl text-[1.5rem] md:text-[2rem] font-medium text-[#1F302B] leading-[1.3] ">
             But when we looked around, we saw the problem!
            </h2>
- <p className="max-w-3xl text-[1.6rem] md:text-[1.7rem] text-[#1F302B] relative z-10 leading-[1.4] ">
+ <p className="max-w-3xl text-[1.5rem] md:text-[1.7rem] text-[#1F302B] relative z-10 leading-[1.4] ">
            Everyone had a piece of the puzzle.
 No one was putting it together for you.
 </p>
 
- <p className="max-w-3xl text-[1.6rem] md:text-[1.7rem] text-[#1F302B] relative z-10 leading-[1.4]  mt-8">
+ <p className="max-w-3xl text-[1.5rem] md:text-[1.7rem] text-[#1F302B] relative z-10 leading-[1.4] mt-6 md:mt-8">
            Your doctor has your medication. <br />
 Your trainer has your workout plan. <br />
 Your nutritionist has your diet plan. <br />
 Your smartwatch has your body metrics. 
 </p>
 
- <p className="max-w-2xl text-[1.6rem] md:text-[1.7rem] text-[#1F302B] relative z-10 leading-[1.4]  mt-8">
+ <p className="max-w-2xl text-[1.5rem] md:text-[1.7rem] text-[#1F302B] relative z-10 leading-[1.4] mt-6 md:mt-8">
            Everyone’s talking. <br />
 No one’s listening. <br />
 And you’re the only one trying to make it all sense.
 </p>
 
- <p className=" text-[1.8rem] md:text-[1.9rem] text-[#1F302B] relative z-10 leading-[1.3] mt-8">
+ <p className=" text-[1.5rem] md:text-[1.6rem] text-[#1F302B] relative z-10 leading-[1.3] mt-6 md:mt-8">
                    So we built Lean Protocol.
 
              </p>
