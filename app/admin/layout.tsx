@@ -144,7 +144,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
               <p className="text-lg font-semibold text-slate-900">LH</p>
             ) : (
               <div className="flex flex-col items-center">
-                <p className="text-lg font-semibold text-slate-900">Lean Health</p>
+                <p className="text-lg font-semibold text-slate-900">Lean Protocol</p>
                 <p className="text-xs text-slate-500 uppercase tracking-wider">admin console</p>
               </div>
             )}

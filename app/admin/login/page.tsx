@@ -63,7 +63,7 @@ function AdminLoginContent() {
       <div className="max-w-4xl w-full grid grid-cols-1 lg:grid-cols-2 bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl">
         <div className="hidden lg:flex flex-col justify-between bg-white/5 rounded-l-3xl p-10 border-r border-white/5">
           <div>
-            <p className="text-sm uppercase tracking-[0.4em] text-white/50">Lean Health Admin</p>
+            <p className="text-sm uppercase tracking-[0.4em] text-white/50">Lean Protocol Admin</p>
             <h1 className="mt-6 text-4xl font-semibold leading-snug">
               Secure console for <span className="text-emerald-300">care administrators</span>
             </h1>
@@ -81,7 +81,7 @@ function AdminLoginContent() {
           <div className="lg:hidden flex items-center gap-3 text-white mb-10">
             <ShieldCheck className="w-6 h-6 text-emerald-300" />
             <div>
-              <p className="uppercase text-xs tracking-[0.4em] text-white/50">Lean Health Admin</p>
+              <p className="uppercase text-xs tracking-[0.4em] text-white/50">Lean Protocol Admin</p>
               <h1 className="text-2xl font-semibold mt-2">Secure Portal</h1>
             </div>
           </div>
