@@ -199,7 +199,7 @@ export default function DiseaseMarqueeOverlay() {
   }, []);
 
   // px/sec (mobile faster, desktop slower)
-  const baseSpeed = isMobile ? 140 : 60;
+  const baseSpeed = isMobile ? 70 : 30;
 
   return (
     <section className="py-12 md:py-18 bg-dark relative overflow-hidden">

@@ -173,7 +173,7 @@ export function Header() {
           ) : (
             <Button
               variant="outline"
-              className="rounded-full border-foreground px-6 bg-transparent hover:bg-dark"
+              className="hidden lg:inline-flex rounded-full border-foreground px-6 bg-transparent hover:bg-dark"
               asChild
             >
               <Link href="/login">Log in</Link>
@@ -272,6 +272,42 @@ export function Header() {
             >
               Knowledge Hub
             </Link>
+
+            {!loading && !me && (
+              <Button
+                variant="outline"
+                className="w-full rounded-full border-foreground bg-transparent hover:bg-dark"
+                asChild
+              >
+                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                  Log in
+                </Link>
+              </Button>
+            )}
+
+            {!loading && me && (
+              <>
+                <Button
+                  variant="outline"
+                  className="w-full rounded-full border-foreground bg-transparent hover:bg-dark"
+                  asChild
+                >
+                  <Link href="/dashboard" onClick={() => setIsMobileMenuOpen(false)}>
+                    Dashboard
+                  </Link>
+                </Button>
+                <Button
+                  variant="outline"
+                  className="w-full rounded-full border-foreground bg-transparent hover:bg-dark"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    handleLogout();
+                  }}
+                >
+                  Log out
+                </Button>
+              </>
+            )}
           </nav>
         </div>
       )}

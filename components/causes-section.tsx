@@ -235,7 +235,7 @@
 
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, TouchEvent } from "react";
 import {
   ChevronLeft,
   ChevronRight,
@@ -311,6 +311,8 @@ export default function CausesSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
   const nextSlide = useCallback(() => {
     setActiveIndex((prev) => (prev + 1) % causes.length);
@@ -325,6 +327,22 @@ export default function CausesSection() {
     if (direction === "next") nextSlide();
     else prevSlide();
     setTimeout(() => setIsPaused(false), 8000);
+  };
+
+  // Swipe Logic (mobile)
+  const minSwipeDistance = 50;
+  const onTouchStart = (e: TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+  const onTouchMove = (e: TouchEvent) => setTouchEnd(e.targetTouches[0].clientX);
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    if (isLeftSwipe) handleManualNav("next");
+    if (isRightSwipe) handleManualNav("prev");
   };
 
   useEffect(() => {
@@ -351,7 +369,12 @@ export default function CausesSection() {
         {/* Carousel Area */}
         <div className="relative mb-12">
           
-          <div className="flex flex-col md:flex-row rounded-[1.7rem] overflow-hidden bg-white border border-[#E3E3E3] transition-all duration-500  md:h-[380px]">
+          <div
+            className="flex flex-col md:flex-row rounded-[1.7rem] overflow-hidden bg-white border border-[#E3E3E3] transition-all duration-500  md:h-[380px]"
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+          >
             
             <div className="relative w-full md:w-[55%] h-60 md:h-auto bg-[#F7F1EB] shrink-0">
                 <Image

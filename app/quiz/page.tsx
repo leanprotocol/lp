@@ -724,7 +724,7 @@ function QuizPageContent() {
   }
 
   return (
-    <div className="fixed inset-0 overflow-hidden bg-gradient-to-br from-[#F7F1EB] via-white to-[#E8F0ED] text-[#191919] flex flex-col items-center px-4 pt-6 pb-4 z-50">
+    <div className="fixed inset-0 overflow-hidden overflow-x-hidden bg-gradient-to-br from-[#F7F1EB] via-white to-[#E8F0ED] text-[#191919] flex flex-col items-center px-4 pt-6 pb-4 z-50">
       
       {/* Progress */}
       {activeInsuranceName && (
@@ -749,8 +749,8 @@ function QuizPageContent() {
       </div>
 
       <div className="w-full max-w-lg sm:max-w-2xl lg:max-w-4xl flex-1 flex flex-col overflow-hidden min-h-0">
-        <div ref={scrollContainerRef} className="flex-1 overflow-y-auto min-h-0 pb-6">
-          <div className="relative">
+        <div ref={scrollContainerRef} className="flex-1 overflow-y-auto overflow-x-hidden min-h-0 pb-6">
+          <div className="relative overflow-x-hidden">
             <AnimatePresence initial={false} mode="wait" custom={direction}>
               <motion.div
                 key={currentQ.id}
@@ -759,7 +759,7 @@ function QuizPageContent() {
                 initial="enter"
                 animate="center"
                 exit="exit"
-                className="flex flex-col"
+                className="flex flex-col min-w-0"
               >
               {/* --- STEP 1: MIXED PROFILE FORM --- */}
               {currentQ.type === "mixed-profile" && (
