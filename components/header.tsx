@@ -9,8 +9,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 interface MeResponse {
   success: boolean;
@@ -27,6 +29,14 @@ export function Header() {
   const [me, setMe] = useState<MeResponse["user"] | null>(null);
   const [loading, setLoading] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isActive = (href: string) => {
+    if (!pathname) return false;
+    if (href === "/") return pathname === "/";
+    if (href === "/medications") return pathname === "/medications" || pathname.startsWith("/medications/");
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
 
   useEffect(() => {
     const fetchMe = async () => {
@@ -70,23 +80,60 @@ export function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-8">
+        <nav className="hidden lg:flex items-center gap-8 relative">
           <Link
             href="/"
-            className="text-base text-foreground hover:text-foreground/70 transition-colors"
+            className={`text-base transition-colors ${
+              isActive("/") ? "text-[#1F302B]" : "text-foreground hover:text-foreground/70"
+            }`}
           >
-            Home
+            <span className="relative inline-flex pb-4 leading-none">
+              Home
+              {isActive("/") && (
+                <motion.span
+                  layoutId="desktop-nav-underline"
+                  className="absolute left-0 right-0 bottom-1 h-0.5 bg-[#1F302B]"
+                  transition={{ type: "spring", stiffness: 500, damping: 40 }}
+                />
+              )}
+            </span>
           </Link>
           <Link
             href="/our-why"
-            className="text-base text-foreground hover:text-foreground/70 transition-colors"
+            className={`text-base transition-colors ${
+              isActive("/our-why") ? "text-[#1F302B]" : "text-foreground hover:text-foreground/70"
+            }`}
           >
-            Our Why
+            <span className="relative inline-flex pb-4 leading-none">
+              Our Why
+              {isActive("/our-why") && (
+                <motion.span
+                  layoutId="desktop-nav-underline"
+                  className="absolute left-0 right-0 bottom-1 h-0.5 bg-[#1F302B]"
+                  transition={{ type: "spring", stiffness: 500, damping: 40 }}
+                />
+              )}
+            </span>
           </Link>
           <DropdownMenu>
-            <DropdownMenuTrigger className="text-base text-foreground hover:text-foreground/70 transition-colors flex items-center gap-1 outline-none">
-              Medication
-              <ChevronDown className="w-4 h-4" />
+            <DropdownMenuTrigger
+              className={`text-base transition-colors leading-none outline-none ${
+                isActive("/medications") ? "text-[#1F302B]" : "text-foreground hover:text-foreground/70"
+              }`}
+            >
+              <span className="relative inline-flex flex-col pb-4 leading-none">
+                <span className="flex items-center gap-1">
+                  Medication
+                  <ChevronDown className="w-4 h-4" />
+                </span>
+                {isActive("/medications") && (
+                  <motion.span
+                    layoutId="desktop-nav-underline"
+                    className="absolute left-0 right-0 bottom-1 h-0.5 bg-[#1F302B]"
+                    transition={{ type: "spring", stiffness: 500, damping: 40 }}
+                  />
+                )}
+              </span>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-56">
               <DropdownMenuItem asChild>
@@ -133,9 +180,20 @@ export function Header() {
           </DropdownMenu>
           <Link
             href="/blog"
-            className="text-base text-foreground hover:text-foreground/70 transition-colors"
+            className={`text-base transition-colors ${
+              isActive("/blog") ? "text-[#1F302B]" : "text-foreground hover:text-foreground/70"
+            }`}
           >
-            Knowledge Hub
+            <span className="relative inline-flex pb-4 leading-none">
+              Knowledge Hub
+              {isActive("/blog") && (
+                <motion.span
+                  layoutId="desktop-nav-underline"
+                  className="absolute left-0 right-0 bottom-1 h-0.5 bg-[#1F302B]"
+                  transition={{ type: "spring", stiffness: 500, damping: 40 }}
+                />
+              )}
+            </span>
           </Link>
         </nav>
 
@@ -200,14 +258,22 @@ export function Header() {
           <nav className="flex flex-col gap-4">
             <Link
               href="/"
-              className="text-base font-medium text-foreground py-2 hover:text-foreground/70 transition-colors"
+              className={`text-base font-medium py-2 px-3 rounded-lg transition-colors ${
+                isActive("/")
+                  ? "text-[#1F302B] bg-[#1F302B]/10"
+                  : "text-foreground hover:text-foreground/70"
+              }`}
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Home
             </Link>
             <Link
               href="/our-why"
-              className="text-base font-medium text-foreground py-2 hover:text-foreground/70 transition-colors"
+              className={`text-base font-medium py-2 px-3 rounded-lg transition-colors ${
+                isActive("/our-why")
+                  ? "text-[#1F302B] bg-[#1F302B]/10"
+                  : "text-foreground hover:text-foreground/70"
+              }`}
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Our Why
@@ -216,48 +282,86 @@ export function Header() {
             {/* Mobile Medication Dropdown */}
             <div className="py-2">
               <DropdownMenu>
-                <DropdownMenuTrigger className="text-base font-medium text-foreground hover:text-foreground/70 transition-colors flex items-center justify-between w-full outline-none">
+                <DropdownMenuTrigger
+                  className={`text-base font-medium py-2 px-3 rounded-lg transition-colors flex items-center justify-between w-full outline-none ${
+                    isActive("/medications")
+                      ? "text-[#1F302B] bg-[#1F302B]/10"
+                      : "text-foreground hover:text-foreground/70"
+                  }`}
+                >
                   Medication
                   <ChevronDown className="w-4 h-4" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start" className="w-[calc(100vw-4rem)]">
                   <DropdownMenuItem asChild>
-                    <Link href="/medications" className="cursor-pointer" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Link
+                      href="/medications"
+                      className={`cursor-pointer ${isActive("/medications") ? "font-semibold text-[#1F302B]" : ""}`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
                       All medication
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="/medications/zepbound" className="cursor-pointer" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Link
+                      href="/medications/zepbound"
+                      className={`cursor-pointer ${isActive("/medications/zepbound") ? "font-semibold text-[#1F302B]" : ""}`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
                       Zepbound®
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="/medications/mounjaro" className="cursor-pointer" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Link
+                      href="/medications/mounjaro"
+                      className={`cursor-pointer ${isActive("/medications/mounjaro") ? "font-semibold text-[#1F302B]" : ""}`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
                       Mounjaro®
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="/medications/saxenda" className="cursor-pointer" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Link
+                      href="/medications/saxenda"
+                      className={`cursor-pointer ${isActive("/medications/saxenda") ? "font-semibold text-[#1F302B]" : ""}`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
                       Saxenda®
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="/medications/victoza" className="cursor-pointer" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Link
+                      href="/medications/victoza"
+                      className={`cursor-pointer ${isActive("/medications/victoza") ? "font-semibold text-[#1F302B]" : ""}`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
                       Victoza®
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="/medications/wegovy" className="cursor-pointer" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Link
+                      href="/medications/wegovy"
+                      className={`cursor-pointer ${isActive("/medications/wegovy") ? "font-semibold text-[#1F302B]" : ""}`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
                       Wegovy®
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="/medications/ozempic" className="cursor-pointer" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Link
+                      href="/medications/ozempic"
+                      className={`cursor-pointer ${isActive("/medications/ozempic") ? "font-semibold text-[#1F302B]" : ""}`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
                       Ozempic
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="/medications/rybelsus" className="cursor-pointer" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Link
+                      href="/medications/rybelsus"
+                      className={`cursor-pointer ${isActive("/medications/rybelsus") ? "font-semibold text-[#1F302B]" : ""}`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
                       Rybelsus
                     </Link>
                   </DropdownMenuItem>
@@ -267,7 +371,11 @@ export function Header() {
 
             <Link
               href="/blog"
-              className="text-base font-medium text-foreground py-2 hover:text-foreground/70 transition-colors"
+              className={`text-base font-medium py-2 px-3 rounded-lg transition-colors ${
+                isActive("/blog")
+                  ? "text-[#1F302B] bg-[#1F302B]/10"
+                  : "text-foreground hover:text-foreground/70"
+              }`}
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Knowledge Hub
