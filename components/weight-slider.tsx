@@ -38,7 +38,7 @@ export function WeightSlider() {
       <div className="container mx-auto px-4 lg:px-8">
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center max-w-7xl mx-auto">
-          <div>
+          <div className="order-2 lg:order-1">
             <div className="flex justify-center">
               <div className="relative p-14 md:p-28 rounded-full bg-[#D4E5C4] flex flex-col items-center justify-center">
                 <p className="text-sm text-black/70 mb-2">Lose up to</p>
@@ -53,8 +53,8 @@ export function WeightSlider() {
             </p>
           </div>
 
-          <div>
-            <h2 className="font-serif text-4xl lg:text-5xl text-black mb-10 md:mb-16 text-center">
+          <div className="order-1 lg:order-2">
+            <h2 className="font-serif text-[28px] lg:text-5xl text-black mb-10 md:mb-16 text-center">
               Curious about weight loss medications?
             </h2>
             <div className="bg-white border border-black rounded-3xl md:rounded-[3rem] p-6 md:p-12 md:py-16">

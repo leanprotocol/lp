@@ -23,6 +23,7 @@ export default function Page() {
       <InsuranceLogos />
       <CausesSection />
       <ParallaxJourney />
+      <ParallaxJourney /> 
       {/* <MembersServed /> */}
       <MedicationToolkit />
       {/* <MicrodoseSection /> */}

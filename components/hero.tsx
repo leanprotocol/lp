@@ -32,7 +32,11 @@ export function Hero() {
              <span className="italic font-light text-accent opacity-90">Affordable for India</span>
           </h1>
 
-          <p className="mb-7 text-white max-w-2xl"> Advanced blood tests. 1-on-1 Nutritionist insights. 1-on-1 doctor care. Your clear future action plan- all for ₹2,299. No Hidden Terms</p>
+          <p className="mb-7 text-white max-w-2xl"> Advanced blood test & evaluation
+1:1 nutritionist consult (60 min)
+Weight-loss doctor consultation.
+A clear future action plan
+All for 2299. No hidden terms</p>
 
           <div className="mb-7 flex flex-col sm:flex-row gap-3">
       <Link href="/get-started">

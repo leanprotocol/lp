@@ -60,16 +60,16 @@ export function ParallaxJourney() {
           </div>
 
           {/* Scrolling Image Cards (Updated Design) */}
-          <div className="space-y-8">
+          <div className="space-y-4 md:space-y-8">
             {journeySteps.map((step, index) => {
               const stepNumber = String(index + 1).padStart(2, "0")
               return (
                 <div
                   key={step.title}
-                  className="journey-card group relative overflow-hidden rounded-[2.2rem] bg-gray-100"
+                  className="journey-card group relative overflow-hidden rounded-3xl md:rounded-[2.2rem] bg-gray-100"
                   style={{ animationDelay: `${index * 120}ms` }}
                 >
-                  <div className="relative h-[450px] w-full">
+                  <div className="relative h-[300px] md:h-[450px] w-full">
                     {/* Image with Zoom Effect */}
                     <img
                       src={step.image || "/placeholder.svg"}
@@ -80,7 +80,7 @@ export function ParallaxJourney() {
 
 
                     {/* Smart Gradient Overlay: Only darkens the bottom for text readability */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 md:via-black/40 to-transparent opacity-80" />
 
                     {/* Content Positioned at Bottom */}
                     <div className="absolute bottom-0 left-0 right-0 p-5 md:p-7 text-white transition-transform duration-500">
@@ -88,7 +88,7 @@ export function ParallaxJourney() {
                         <span className="h-px w-10 bg-white/40" />
                         Step {stepNumber}
                       </div>
-                      <h3 className="text-2xl md:text-[26px] font-light mb-2 leading-tight text-balance">
+                      <h3 className="text-[24px] md:text-[26px] font-light mb-2 leading-tight text-balance">
                         {step.title}
                       </h3>
 

@@ -77,7 +77,7 @@ export default function MedicationToolkit() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="font-serif max-w-4xl text-[40px] md:text-[50px] leading-[1.1] text-dark tracking-tight"
+            className="font-serif max-w-4xl text-[28px] md:text-[50px] leading-[1.1] text-dark tracking-tight"
           >
            Wish to Choose your own Medications? <span className="italic opacity-70">We Got You!</span>{" "}
           </motion.h2>

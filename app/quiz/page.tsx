@@ -361,7 +361,7 @@ function QuizPageContent() {
       id: "medical_conditions", 
       question: "Have you ever had any of the following medical conditions or received treatment for them?", 
       type: "checkbox",
-      options: ["Heart Blockage/Stroke", "Undergoing Dialysis", "Anorexia or Bulimia", "Organ transplant", "Liver Failure", "None"]
+      options: ["Heart Blockage/ Stroke", "Undergoing Dialysis", "Anorexia or Bulimia", "Organ transplant", "Liver Failure", "None"]
     },
     { 
       id: "cancer_history", 
@@ -851,8 +851,8 @@ function QuizPageContent() {
 
         {/* --- STEP 2: GOAL WEIGHT --- */}
         {currentQ.type === "goal-weight" && (
-            <div className="space-y-6 text-center animate-in fade-in duration-500">
-                <h1 className="font-serif text-3xl text-[#111] mb-2">What is your goal weight?</h1>
+            <div className="space-y-6 text-center animate-in fade-in duration-500 mt-2">
+                <h1 className="font-serif text-3xl text-[#111] mb-4">What is your <span className="border-0 bg-accent2/30 border-dark p-1 px-5 rounded-4xl">goal</span> weight?</h1>
                 <p className="text-[#5B746F] font-medium mb-6">Current Weight: {answers.currentWeight} kg</p>
                 
                 <div className="max-w-xs mx-auto relative">

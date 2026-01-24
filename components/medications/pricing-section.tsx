@@ -37,7 +37,7 @@ const comparisonData = [
     others: false
   },
   {
-    feature: 'Smart App + Data Insights',
+    feature: 'Local community access with bi-weekly activities',
     leanProtocol: true,
     others: false
   },
@@ -59,7 +59,7 @@ export default function PricingSection() {
       <div className="max-w-7xl mx-auto px-4 md:px-14">
 
         <div className="text-center mb-10 md:mb-12 max-w-4xl mx-auto">
-          <h2 className="heading text-2xl md:text-4xl">
+          <h2 className="heading ">
             Medication is just one piece of the puzzel but we solve it differently
           </h2>
           <p className='sub-heading text-black/70 mt-4 md:mt-2 text-sm md:text-base'>

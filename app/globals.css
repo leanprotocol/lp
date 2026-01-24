@@ -194,6 +194,16 @@
   }
 }
 
+ @media (max-width: 350px) {
+   .heading, .heading-hero, .heading-white {
+     font-size: 28px;
+     line-height: 35px;
+   }
+   .sub-heading{
+     font-size: 15px;
+   }
+ }
+
 /* Add marquee scroll animations for benefits section */
 @layer utilities {
   @keyframes scroll-right {

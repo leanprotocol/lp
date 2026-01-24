@@ -196,7 +196,11 @@ export default function SixPillars() {
         <div className="w-full mx-auto my-12 md:mt-30 md:mb-20  flex justify-center items-center">
             <div className="flex flex-col md:flex-row items-center gap-5 text-center md:text-left">
                 <span className="font-serif text-[#1F302B] text-xl md:text-2xl font-semibold">
-                    Start your journey for just <span className="line-through opacity-80 pr-1">Rs 5799 </span> <span className="font-bold border-b border-[#5B746F]">Rs 2299</span>
+                  Start your journey for just 
+                  <span className="block md:inline">
+                    <span className="line-through opacity-80 pr-1"> Rs 5799</span>
+                    <span className="font-bold border-b border-[#5B746F]"> Rs 2299</span>
+                  </span>
                 </span>
                 <Button 
                 asChild

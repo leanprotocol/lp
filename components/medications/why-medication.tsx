@@ -53,11 +53,11 @@ export default function WhyMedication() {
         <div className="bg-[#1F302B] max-w-4xl mx-auto rounded-[2rem] p-6 md:p-10 md:px-12 text-white text-center relative overflow-hidden">
             
             <div className="relative z-10">
-                <p className="font-serif text-2xl md:text-3xl leading-relaxed text-white mb-4">
+                <p className="font-serif text-[22px] md:text-3xl leading-relaxed text-white mb-0 md:mb-4">
                   "When weight gain is biologically driven, medication is <span className="opacity-50 line-through decoration-white/80 decoration-1">not cheating</span>."
                 </p>
                 
-                   <p className="font-serif text-2xl md:text-3xl text-accent2">
+                   <p className="font-serif text-[22px] md:text-3xl text-accent2">
                       It’s healthcare.
                    </p>
             </div>
