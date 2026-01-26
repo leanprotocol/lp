@@ -13,7 +13,6 @@ import BenefitsMarquee from "@/components/benefits-marquee";
 import Footer from "@/components/footer";
 import CausesSection from "@/components/causes-section";
 import { WeightSlider } from "@/components/weight-slider";
-import { BeforeAfter } from "@/components/before-after";
 
 export default function Page() {
   return (
@@ -29,7 +28,6 @@ export default function Page() {
       <WeightSlider />
       <InsuranceCoverage />
       <BenefitsMarquee />
-      <BeforeAfter />
       {/* <TestimonialsCarousel /> */}
       {/* <StatsSection /> */}
       {/* <DoctorTestimonial /> */}

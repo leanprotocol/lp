@@ -26,7 +26,7 @@ export function FinalCTA() {
           <div className="order-2">
             <div className="max-w-4xl ">
               <h2 className="heading">
-                Lean Protocol <br />
+                Lean Protocol -<br />
                 Not just medication, a <span className="italic opacity-70">complete medical ecosystem.</span>
               </h2>
             </div>

@@ -32,11 +32,17 @@ export function Hero() {
              <span className="italic font-light text-accent opacity-90">Affordable for India</span>
           </h1>
 
-          <p className="mb-7 text-white max-w-2xl"> Advanced blood test & evaluation
-1:1 nutritionist consult (60 min)
-Weight-loss doctor consultation.
-A clear future action plan
-All for 2299. No hidden terms</p>
+          <p className="mb-7 text-white max-w-2xl hidden sm:block">
+            Advanced blood test & evaluation · 1:1 nutritionist consult (60 min) · Weight-loss doctor consultation · A clear future action plan · All for 2299. No hidden terms
+          </p>
+
+          <div className="mb-7 text-white space-y-1 text-[14px] leading-[15px] sm:hidden">
+            <p>Advanced blood test &amp; evaluation</p>
+            <p>1:1 nutritionist consult (60 min)</p>
+            <p>Weight-loss doctor consultation</p>
+            <p>A clear future action plan</p>
+            <p>All for 2299. No hidden terms</p>
+          </div>
 
           <div className="mb-7 flex flex-col sm:flex-row gap-3">
       <Link href="/get-started">
@@ -99,8 +105,7 @@ export function InsuranceLogos() {
   return (
     <div className="container mx-auto px-4 py-3 mt-2">
       <p className="mb-8 mt-5 text-[10px] leading-relaxed text-muted-foreground/60 max-w-4xl mx-auto text-center px-4">
-        In large 68–72 week clinical trials, Wegovy (2.4 mg) and Zepbound (15 mg) showed average weight loss of ~15% and ~20% respectively in adults with obesity, when combined with diet and exercise Versus just 2–3% with lifestyle changes alone. Prescriptions are at a doctor’s discretion. GLP-1 medications carry safety warnings; full risk information applies. See full risk info here
-
+        In large 68–72 week clinical trials, Wegovy (2.4 mg) and Zepbound (15 mg) showed average weight loss of ~15% and ~20% respectively in adults with obesity, when combined with diet and exercise Versus just 2–3% with lifestyle changes alone. Prescriptions are at a doctor’s discretion.
       </p>
     </div>
   )

@@ -17,7 +17,7 @@ interface Benefit {
   image: string;
 }
 
-const row1Data: Benefit[] = [
+const benefits: Benefit[] = [
   { text: "Diabetes", image: "/marquee/diabetes.png" },
   { text: "Mental health", image: "/marquee/mental-health.png" },
   { text: "Back pain", image: "/marquee/back-pain.png" },
@@ -35,23 +35,8 @@ const row1Data: Benefit[] = [
   { text: "Balance", image: "/marquee/balance.png" },
 ];
 
-const row2Data: Benefit[] = [
-  { text: "Confidence", image: "/marquee/confidence.png" },
-  { text: "Joint pain", image: "/marquee/joint-pain.png" },
-  { text: "Blood pressure", image: "/marquee/blood-pressure.png" },
-  { text: "Hydration", image: "/marquee/hydration.png" },
-  { text: "Self-esteem", image: "/marquee/self-esteem.png" },
-  { text: "Energy", image: "/marquee/energy.png" },
-  { text: "Longevity", image: "/marquee/longevity.png" },
-  { text: "Balance", image: "/marquee/balance.png" },
-  { text: "Diabetes", image: "/marquee/diabetes.png" },
-  { text: "Mental health", image: "/marquee/mental-health.png" },
-  { text: "Back pain", image: "/marquee/back-pain.png" },
-  { text: "Sleep apnea", image: "/marquee/sleep-apnea.png" },
-  { text: "Heart Health", image: "/marquee/heart-health.png" },
-  { text: "Mobility", image: "/marquee/mobility.png" },
-  { text: "Metabolism", image: "/marquee/metabolism.png" },
-];
+const row1Data = benefits.filter((_, index) => index % 2 === 0);
+const row2Data = benefits.filter((_, index) => index % 2 === 1);
 
 const wrap = (min: number, max: number, v: number) => {
   const rangeSize = max - min;
@@ -129,21 +114,16 @@ function ParallaxText({ children, baseVelocity = 100, copyCount = 3 }: ParallaxP
     return `${wrap(-setWidth, 0, v)}px`;
   });
 
-  const directionFactor = useRef<number>(1);
   const isDragging = useRef<boolean>(false);
   const lastClientX = useRef<number>(0);
+  const direction = baseVelocity >= 0 ? 1 : -1;
+  const speed = Math.abs(baseVelocity);
   useAnimationFrame((t, delta) => {
-    let moveBy = directionFactor.current * baseVelocity * (delta / 1000);
+    let moveBy = direction * speed * (delta / 1000);
 
     if (!isDragging.current) {
-
-      if (velocityFactor.get() < 0) {
-        directionFactor.current = -1;
-      } else if (velocityFactor.get() > 0) {
-        directionFactor.current = 1;
-      }
-
-      moveBy += directionFactor.current * moveBy * velocityFactor.get();
+      const boost = Math.abs(velocityFactor.get());
+      moveBy += direction * speed * boost * (delta / 1000);
       baseX.set(baseX.get() + moveBy);
     }
   });
