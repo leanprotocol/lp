@@ -159,6 +159,25 @@ export default function OTPModal({ isOpen, onClose, onNext, selectedProvider }: 
     setExistingUserNotice(null);
 
     try {
+      const preRegister = await fetch('/api/auth/pre-register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: fullName.trim(),
+          mobileNumber,
+        }),
+      });
+
+      if (!preRegister.ok) {
+        const errorData = await preRegister.json().catch(() => null);
+        console.error('Pre-register failed:', errorData?.error);
+        setError(errorData?.error || 'Failed to start signup. Please try again.');
+        setIsVerifying(false);
+        return;
+      }
+
       const registrationCheck = await fetch('/api/auth/check-registration', {
         method: 'POST',
         headers: {
@@ -275,6 +294,24 @@ export default function OTPModal({ isOpen, onClose, onNext, selectedProvider }: 
     try {
       const credential = await confirmationResult.confirm(otp);
       const firebaseIdToken = await credential.user.getIdToken();
+
+      const verifyResponse = await fetch('/api/auth/verify-firebase', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firebaseIdToken,
+          name: fullName.trim(),
+        }),
+      });
+
+      if (!verifyResponse.ok) {
+        const verifyError = await verifyResponse.json().catch(() => null);
+        console.error('Backend verification failed:', verifyError?.error);
+        setError(verifyError?.error || 'Verification failed. Please try again.');
+        return;
+      }
 
       if (typeof window !== 'undefined') {
         sessionStorage.setItem('quiz-firebase-id-token', firebaseIdToken);
