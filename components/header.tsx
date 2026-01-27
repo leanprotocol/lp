@@ -117,15 +117,12 @@ export function Header() {
           </Link>
           <DropdownMenu>
             <DropdownMenuTrigger
-              className={`text-base transition-colors leading-none outline-none ${
+              className={`text-base transition-colors leading-none outline-none inline-flex items-baseline gap-1 ${
                 isActive("/medications") ? "text-[#1F302B]" : "text-foreground hover:text-foreground/70"
               }`}
             >
-              <span className="relative inline-flex flex-col pb-4 leading-none">
-                <span className="flex items-center gap-1">
-                  Medication
-                  <ChevronDown className="w-4 h-4" />
-                </span>
+              <span className="relative inline-flex pb-4 leading-none">
+                Medication
                 {isActive("/medications") && (
                   <motion.span
                     layoutId="desktop-nav-underline"
@@ -134,6 +131,7 @@ export function Header() {
                   />
                 )}
               </span>
+              <ChevronDown className="w-4 h-4 mt-1" />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-56">
               <DropdownMenuItem asChild>
