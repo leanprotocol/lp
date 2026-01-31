@@ -29,7 +29,7 @@ export function ProgramSupportSection() {
       
         {/* Hero image with phone */}
         <div className="relative w-full h-50 md:h-150 mb-0">
-          <Image src="/program-support-section.png" alt="Lean Protocol app showing progress tracking" fill className="object-cover" />
+          <Image src="/program-support-section.jpg" alt="Lean Protocol app showing progress tracking" fill className="object-cover" />
         </div>
          {/* <div className="w-full py-10 pb-28">
       <div className="container mx-auto px-4 lg:px-8">

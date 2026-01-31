@@ -18,11 +18,20 @@ export function MedicationsHero() {
         {/* Hero image */}
         <div className="relative w-full max-w-4xl mx-auto aspect-[16/7] rounded-3xl overflow-hidden">
           <Image
-            src="/medications-hero2.png"
+            src="/medications-hero-mobile.jpg"
             alt="Lean Protocol weight loss medication pens"
             fill
-            className="object-cover"
             priority
+            className="object-cover md:hidden"
+            sizes="(max-width: 767px) 100vw"
+          />
+          <Image
+            src="/medications-hero-web.jpg"
+            alt="Lean Protocol weight loss medication pens"
+            fill
+            priority
+            className="hidden object-cover md:block"
+            sizes="(min-width: 768px) 100vw"
           />
         </div>
 
