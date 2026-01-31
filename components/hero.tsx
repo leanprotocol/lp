@@ -1,8 +1,36 @@
+"use client"
+
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Check, Zap, ShieldCheck, TrendingDown, Stethoscope, Sun, ArrowRight } from "lucide-react"
 import Link from "next/link"
 
 export function Hero() {
+  const [videoSrc, setVideoSrc] = useState(() => {
+    if (typeof window === "undefined") {
+      return "/hero-web.mp4"
+    }
+
+    return window.matchMedia("(min-width: 768px)").matches
+      ? "/hero-web.mp4"
+      : "/hero-mobile.mp4"
+  })
+
+  useEffect(() => {
+    if (typeof window === "undefined") return
+
+    const mediaQuery = window.matchMedia("(min-width: 768px)")
+
+    const handleChange = (event: MediaQueryListEvent) => {
+      setVideoSrc(event.matches ? "/hero-web.mp4" : "/hero-mobile.mp4")
+    }
+
+    setVideoSrc(mediaQuery.matches ? "/hero-web.mp4" : "/hero-mobile.mp4")
+    mediaQuery.addEventListener("change", handleChange)
+
+    return () => mediaQuery.removeEventListener("change", handleChange)
+  }, [])
+
   return (
     <section className="relative bg-[#F6F1EE] overflow-hidden rounded-[2rem] mx-4 mt-7 py-4 md:mx-6">
       
@@ -15,9 +43,11 @@ export function Hero() {
           loop
           muted
           playsInline
+          preload="metadata"
           className="h-full w-full object-cover"
+          aria-hidden
+          src={videoSrc}
         >
-          <source src="/heronew.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </div>
