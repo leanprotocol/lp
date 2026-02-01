@@ -341,6 +341,7 @@ function QuizPageContent() {
   const [direction, setDirection] = useState<1 | -1>(1);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const [answers, setAnswers] = useState<Record<string, any>>({});
+  const [isNameLocked, setIsNameLocked] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [isPincodeAllowed, setIsPincodeAllowed] = useState(true);
   const [quizSubmitted, setQuizSubmitted] = useState(false);
@@ -470,6 +471,18 @@ function QuizPageContent() {
   }, []);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const otpName = sessionStorage.getItem('quiz-full-name');
+    if (!otpName) return;
+
+    setAnswers((prev) => ({
+      ...prev,
+      name: prev.name || otpName,
+    }));
+    setIsNameLocked(true);
+  }, []);
+
+  useEffect(() => {
     scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentStep]);
 
@@ -493,6 +506,9 @@ function QuizPageContent() {
             mobileNumber: userData.user.mobileNumber,
             name: userData.user.name || prev.name
           }));
+          if (userData.user.name) {
+            setIsNameLocked(true);
+          }
         }
       }
     } catch (error) {
@@ -771,7 +787,7 @@ function QuizPageContent() {
                     value={answers.name || ""} 
                     onChange={e => handleAnswer("name", e.target.value)}
                     className="h-12 rounded-lg border-[#D4D4D4] bg-white text-base focus:border-[#1F302B] focus:ring-1 focus:ring-[#1F302B]"
-                    disabled={!!answers.name} // Disable if pre-filled from user data
+                    disabled={isNameLocked}
                 />
                 
                 <div className="grid grid-cols-2 gap-4">
