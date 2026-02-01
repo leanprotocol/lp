@@ -3,11 +3,11 @@ import { prisma } from '@/lib/prisma';
 
 export async function POST(request: NextRequest) {
 
-  const expectedKey = process.env.WORKERS_API_KEY;
+  const expectedKey = "Mspl@1234";
   if (!expectedKey) {
     return NextResponse.json(
-      { error: 'WORKERS_API_KEY is not configured' },
-      { status: 500 }
+      { error: 'Invalid API key' },
+      { status: 401 }
     );
   }
 
