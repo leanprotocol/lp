@@ -6,15 +6,7 @@ import { Check, Zap, ShieldCheck, TrendingDown, Stethoscope, Sun, ArrowRight } f
 import Link from "next/link"
 
 export function Hero() {
-  const [videoSrc, setVideoSrc] = useState(() => {
-    if (typeof window === "undefined") {
-      return "/hero-web.mp4"
-    }
-
-    return window.matchMedia("(min-width: 768px)").matches
-      ? "/hero-web.mp4"
-      : "/hero-mobile.mp4"
-  })
+  const [videoSrc, setVideoSrc] = useState<string | null>(null)
 
   useEffect(() => {
     if (typeof window === "undefined") return
@@ -38,6 +30,7 @@ export function Hero() {
       <div className="absolute inset-0 bg-black/30"> 
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent z-10" />
         
+        {videoSrc && (
         <video
           autoPlay
           loop
@@ -50,6 +43,7 @@ export function Hero() {
         >
           Your browser does not support the video tag.
         </video>
+        )}
       </div>
 
       {/* Content Container */}
