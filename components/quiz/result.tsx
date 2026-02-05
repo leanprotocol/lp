@@ -20,6 +20,7 @@ interface ResultProps {
   submissionError?: string;
   coverage?: CoverageInfo | null;
   isPincodeAllowed?: boolean;
+  planId?: string | null;
 }
 
 export default function Result({
@@ -28,6 +29,7 @@ export default function Result({
   submissionError,
   coverage,
   isPincodeAllowed = true,
+  planId = null,
 }: ResultProps) {
   const isSuccess = quizSubmitted && !submissionError;
   const hasCoverage = isSuccess && !!coverage;
@@ -75,7 +77,7 @@ export default function Result({
           originalPrice?: number | null;
           isDefault?: boolean;
         }>;
-        const matched = plans.find((p) => p.isDefault) ?? plans[0];
+        const matched = (planId ? plans.find((p) => p.id === planId) : null) ?? plans.find((p) => p.isDefault) ?? plans[0];
         setDefaultPlanId(matched?.id ?? null);
         setSelectedPlan(matched ?? null);
       } catch {
@@ -94,7 +96,7 @@ export default function Result({
       mounted = false;
       controller.abort();
     };
-  }, []);
+  }, [planId]);
 
   useEffect(() => {
     if (!devSkipEnabled) return;

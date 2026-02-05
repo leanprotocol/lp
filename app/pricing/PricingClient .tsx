@@ -1,8 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import OTPModal from "@/components/get-started/otp-modal";
+import { toast } from "@/hooks/use-toast";
 
 interface SubscriptionPlan {
   id: string;
@@ -18,12 +21,56 @@ interface SubscriptionPlan {
 }
 
 export default function PricingClient() {
+  const router = useRouter();
   const [plans, setPlans] = useState<SubscriptionPlan[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showOTPModal, setShowOTPModal] = useState(false);
+  const [pendingPlanId, setPendingPlanId] = useState<string | null>(null);
+  const [authChecked, setAuthChecked] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [activeSubscription, setActiveSubscription] = useState<
+    | { id: string; plan?: { id: string; name: string } | null }
+    | null
+  >(null);
 
   useEffect(() => {
     fetchPlans();
+  }, []);
+
+  useEffect(() => {
+    let mounted = true;
+    const checkAuthAndActivePlan = async () => {
+      try {
+        const meRes = await fetch("/api/user/me?optional=1");
+        const meData = await meRes.json().catch(() => null);
+        if (!mounted) return;
+
+        const loggedIn = !!meData?.user;
+        setIsLoggedIn(loggedIn);
+
+        if (loggedIn) {
+          const subRes = await fetch("/api/user/subscription/active?optional=1");
+          const subData = await subRes.json().catch(() => null);
+          if (!mounted) return;
+          setActiveSubscription(subData?.subscription ?? null);
+        } else {
+          setActiveSubscription(null);
+        }
+      } catch {
+        if (!mounted) return;
+        setIsLoggedIn(false);
+        setActiveSubscription(null);
+      } finally {
+        if (!mounted) return;
+        setAuthChecked(true);
+      }
+    };
+
+    checkAuthAndActivePlan();
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   const fetchPlans = async () => {
@@ -49,6 +96,28 @@ export default function PricingClient() {
     return Math.round(days / 30);
   };
 
+  const hasActivePlan = useMemo(() => {
+    return !!activeSubscription;
+  }, [activeSubscription]);
+
+  const handleGetStarted = async (planId: string) => {
+    if (hasActivePlan) {
+      toast({
+        title: "You already have an active plan",
+        description: "You can manage it from your dashboard.",
+      });
+      return;
+    }
+
+    if (!isLoggedIn) {
+      setPendingPlanId(planId);
+      setShowOTPModal(true);
+      return;
+    }
+
+    router.push(`/quiz?planId=${encodeURIComponent(planId)}`);
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -58,8 +127,9 @@ export default function PricingClient() {
   }
 
   return (
+    <>
       <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             Choose Your Plan
@@ -84,82 +154,86 @@ export default function PricingClient() {
             {plans.map((plan) => (
               <div
                 key={plan.id}
-                className={`relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden ${
-                  plan.isDefault ? "lg:scale-105 border-2 border-primary" : "border border-gray-200"
+                className={`relative flex flex-col rounded-3xl border px-0 pt-10 pb-8 shadow-sm bg-white/95 transition hover:-translate-y-1 hover:shadow-lg ${
+                  plan.isDefault
+                    ? "border-primary/70 shadow-primary/10"
+                    : "border-gray-200"
                 }`}
               >
                 {plan.isDefault && (
-                  <div className="absolute top-0 right-0 bg-primary text-white px-4 py-1 text-sm font-medium rounded-bl-lg">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary text-white text-xs tracking-[0.3em] px-4 py-1 uppercase">
                     Popular
                   </div>
                 )}
 
-                <div className="p-8">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                    {plan.name}
-                  </h3>
-                  
-                  {plan.description && (
-                    <p className="text-gray-600 text-sm mb-6">
-                      {plan.description}
-                    </p>
-                  )}
+                <div className="flex h-full flex-col px-8">
+                  <div className="min-h-[140px] space-y-3 text-left">
+                    <h3 className="text-[1.65rem] font-semibold text-gray-900">
+                      {plan.name}
+                    </h3>
+                    {plan.description && (
+                      <p className="text-sm text-gray-500 leading-relaxed">
+                        {plan.description}
+                      </p>
+                    )}
+                  </div>
 
-                  <div className="mb-6">
-                    <div className="flex items-baseline">
+                  <div className="mt-4 space-y-2">
+                    <div className="flex items-baseline gap-3">
                       {plan.originalPrice ? (
-                        <span className="text-xl text-gray-500 line-through mr-3">
+                        <span className="text-base text-gray-400 line-through">
                           ₹{Number(plan.originalPrice).toLocaleString()}
                         </span>
                       ) : null}
-                      <span className="text-5xl font-bold text-gray-900">
+                      <span className="text-4xl font-semibold tracking-tight text-gray-900">
                         ₹{plan.price.toLocaleString()}
                       </span>
                     </div>
-                    <p className="text-gray-500 mt-2">
-                      {durationInMonths(plan.durationDays)}{" "}
-                      {durationInMonths(plan.durationDays) === 1 ? "month" : "months"}
+                    <p className="text-sm text-gray-500 uppercase tracking-[0.3em]">
+                      {durationInMonths(plan.durationDays)} {durationInMonths(plan.durationDays) === 1 ? "month" : "months"}
                     </p>
                   </div>
 
-                  <Button
-                    className={`w-full mb-6 ${
-                      plan.isDefault
-                        ? "bg-primary hover:bg-primary/90"
-                        : "bg-gray-900 hover:bg-gray-800"
-                    }`}
-                  >
-                    Get Started
-                  </Button>
+                  <div className="mt-6">
+                    <Button
+                      className={`w-full rounded-2xl py-5 text-base font-semibold ${
+                        plan.isDefault
+                          ? "bg-primary text-white hover:bg-primary/90"
+                          : "bg-gray-900 text-white hover-bg-gray-800"
+                      }`}
+                      onClick={() => handleGetStarted(plan.id)}
+                      disabled={!authChecked}
+                    >
+                      Get Started
+                    </Button>
+                  </div>
 
-                  <div className="space-y-4">
-                    <p className="text-sm font-semibold text-gray-900 uppercase tracking-wide">
+                  <div className="space-y-4 flex-1 mt-6">
+                    <p className="text-xs tracking-[0.35em] text-gray-500 uppercase text-center md:text-left">
                       What's included
                     </p>
                     <ul className="space-y-3">
                       {plan.features.map((feature, idx) => (
                         <li key={idx} className="flex items-start gap-3">
                           <Check className="h-5 w-5 text-green-500 shrink-0 mt-0.5" />
-                          <span className="text-gray-700">{feature}</span>
+                          <span className="text-sm text-gray-700 leading-relaxed">{feature}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
 
                   {(plan.isRefundable || plan.allowAutoRenew) && (
-                    <div className="mt-6 pt-6 border-t border-gray-200">
-                      <div className="flex flex-wrap gap-2">
-                        {plan.isRefundable && (
-                          <span className="text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-medium">
-                            Refundable
-                          </span>
-                        )}
-                        {plan.allowAutoRenew && (
-                          <span className="text-xs bg-purple-100 text-purple-700 px-3 py-1 rounded-full font-medium">
-                            Auto-Renew Available
-                          </span>
-                        )}
-                      </div>
+                    <div className="pt-4 border-t border-gray-100 flex flex-wrap gap-2 mt-6">
+                      {plan.isRefundable && (
+                        <span className="text-xs bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full font-medium">
+                          Refundable
+                        </span>
+                      )}
+                      {plan.allowAutoRenew && (
+                        <span className="text-xs bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full font-medium">
+                          Auto-Renew Available
+                        </span>
+                      )}
                     </div>
                   )}
                 </div>
@@ -176,7 +250,26 @@ export default function PricingClient() {
             Contact Support
           </Button>
         </div>
-      </div>
-    </div>
+        </div>
+    
+
+  // (unreachable)  </div>
+
+
+      <OTPModal
+        isOpen={showOTPModal}
+        onClose={() => setShowOTPModal(false)}
+        onNext={() => {
+          const planId = pendingPlanId;
+          setShowOTPModal(false);
+          setPendingPlanId(null);
+          if (planId) {
+            router.push(`/quiz?planId=${encodeURIComponent(planId)}`);
+          } else {
+            router.push('/quiz');
+          }
+        }}
+      />
+    </>
   );
 }
