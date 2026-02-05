@@ -7,6 +7,10 @@ import Link from "next/link"
 
 export function Hero() {
   const [videoSrc, setVideoSrc] = useState<string | null>(null)
+  const [defaultPlan, setDefaultPlan] = useState<
+    | { id: string; price: number; originalPrice?: number | null; isDefault?: boolean }
+    | null
+  >(null)
 
   useEffect(() => {
     if (typeof window === "undefined") return
@@ -21,6 +25,42 @@ export function Hero() {
     mediaQuery.addEventListener("change", handleChange)
 
     return () => mediaQuery.removeEventListener("change", handleChange)
+  }, [])
+
+  useEffect(() => {
+    let mounted = true
+    const controller = new AbortController()
+
+    const fetchDefaultPlan = async () => {
+      try {
+        const res = await fetch("/api/plans", { signal: controller.signal })
+        const data = await res.json()
+        if (!mounted) return
+        if (!res.ok) {
+          setDefaultPlan(null)
+          return
+        }
+
+        const plans = (data?.plans ?? []) as Array<{
+          id: string
+          price: number
+          originalPrice?: number | null
+          isDefault?: boolean
+        }>
+        const matched = plans.find((p) => p.isDefault) ?? plans[0]
+        setDefaultPlan(matched ?? null)
+      } catch {
+        if (!mounted) return
+        setDefaultPlan(null)
+      }
+    }
+
+    fetchDefaultPlan()
+
+    return () => {
+      mounted = false
+      controller.abort()
+    }
   }, [])
 
   return (
@@ -57,7 +97,7 @@ export function Hero() {
           </h1>
 
           <p className="mb-7 text-white max-w-2xl hidden sm:block">
-            Advanced blood test & evaluation · 1:1 nutritionist consult (60 min) · Weight-loss doctor consultation · A clear future action plan · All for 2299. No hidden terms
+            Advanced blood test & evaluation · 1:1 nutritionist consult (60 min) · Weight-loss doctor consultation · A clear future action plan · All for {defaultPlan ? defaultPlan.price : "—"}. No hidden terms
           </p>
 
           <div className="mb-7 text-white space-y-1 text-[14px] leading-[15px] sm:hidden">
@@ -65,7 +105,7 @@ export function Hero() {
             <p>1:1 nutritionist consult (60 min)</p>
             <p>Weight-loss doctor consultation</p>
             <p>A clear future action plan</p>
-            <p>All for 2299. No hidden terms</p>
+            <p>All for {defaultPlan ? defaultPlan.price : "—"}. No hidden terms</p>
           </div>
 
           <div className="mb-7 flex flex-col sm:flex-row gap-3">

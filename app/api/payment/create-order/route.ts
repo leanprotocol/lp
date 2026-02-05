@@ -46,13 +46,13 @@ export async function POST(request: NextRequest) {
     const activeSubscription = await prisma.subscription.findFirst({
       where: {
         userId: user.userId,
-        status: { in: ['ACTIVE', 'PENDING_APPROVAL'] },
+        status: { in: ['ACTIVE'] },
       },
     });
 
     if (activeSubscription && !plan.allowMultiplePurchase) {
       return NextResponse.json(
-        { error: 'You already have an active subscription' },
+        { error: 'You already have an active subscription. Please contact support to change plans.' },
         { status: 400 }
       );
     }

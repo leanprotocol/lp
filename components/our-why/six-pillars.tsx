@@ -101,6 +101,7 @@
 
 "use client";
 
+import { useEffect, useState } from "react";
 import { 
   ClipboardCheck,   
   HeartHandshake,  
@@ -147,6 +148,47 @@ const pillars = [
 ];
 
 export default function SixPillars() {
+  const [defaultPlan, setDefaultPlan] = useState<
+    | { id: string; price: number; originalPrice?: number | null; isDefault?: boolean }
+    | null
+  >(null);
+
+  useEffect(() => {
+    let mounted = true;
+    const controller = new AbortController();
+
+    const fetchDefaultPlan = async () => {
+      try {
+        const res = await fetch("/api/plans", { signal: controller.signal });
+        const data = await res.json();
+        if (!mounted) return;
+        if (!res.ok) {
+          setDefaultPlan(null);
+          return;
+        }
+
+        const plans = (data?.plans ?? []) as Array<{
+          id: string;
+          price: number;
+          originalPrice?: number | null;
+          isDefault?: boolean;
+        }>;
+        const matched = plans.find((p) => p.isDefault) ?? plans[0];
+        setDefaultPlan(matched ?? null);
+      } catch {
+        if (!mounted) return;
+        setDefaultPlan(null);
+      }
+    };
+
+    fetchDefaultPlan();
+
+    return () => {
+      mounted = false;
+      controller.abort();
+    };
+  }, []);
+
   return (
     <section className="w-full md:pb-20 px-4 md:px-8 ">
       <div className="max-w-[84rem] mx-auto">
@@ -198,8 +240,14 @@ export default function SixPillars() {
                 <span className="font-serif text-[#1F302B] text-xl md:text-2xl font-semibold">
                   Start your journey for just 
                   <span className="block md:inline">
-                    <span className="line-through opacity-80 pr-1"> Rs 5799</span>
-                    <span className="font-bold border-b border-[#5B746F]"> Rs 2299</span>
+                    {defaultPlan?.originalPrice ? (
+                      <span className="line-through opacity-80 pr-1">
+                        {" "}Rs {Number(defaultPlan.originalPrice).toLocaleString()}
+                      </span>
+                    ) : null}
+                    <span className="font-bold border-b border-[#5B746F]">
+                      {" "}Rs {defaultPlan ? Number(defaultPlan.price).toLocaleString() : "—"}
+                    </span>
                   </span>
                 </span>
                 <Button 

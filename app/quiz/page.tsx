@@ -793,7 +793,7 @@ function QuizPageContent() {
                 Dev
               </p>
               <p className="text-sm text-[#1F302B] font-medium">
-                Skip quiz and launch Razorpay checkout for Rs 2299.
+                Skip quiz and launch Razorpay checkout for the default plan.
               </p>
             </div>
             <Button
@@ -811,7 +811,7 @@ function QuizPageContent() {
                   toast({
                     title: "No plan found",
                     description:
-                      "No active plans were returned from /api/plans. Create/activate a SubscriptionPlan (₹2299) and retry.",
+                      "No active plans were returned from /api/plans. Create/activate a default SubscriptionPlan and retry.",
                     variant: "destructive",
                   });
                   return;

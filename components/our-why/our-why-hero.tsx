@@ -1,11 +1,53 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
 export default function OurWhyHero() {
+  const [defaultPlan, setDefaultPlan] = useState<
+    | { id: string; price: number; originalPrice?: number | null; isDefault?: boolean }
+    | null
+  >(null);
+
+  useEffect(() => {
+    let mounted = true;
+    const controller = new AbortController();
+
+    const fetchDefaultPlan = async () => {
+      try {
+        const res = await fetch("/api/plans", { signal: controller.signal });
+        const data = await res.json();
+        if (!mounted) return;
+        if (!res.ok) {
+          setDefaultPlan(null);
+          return;
+        }
+
+        const plans = (data?.plans ?? []) as Array<{
+          id: string;
+          price: number;
+          originalPrice?: number | null;
+          isDefault?: boolean;
+        }>;
+        const matched = plans.find((p) => p.isDefault) ?? plans[0];
+        setDefaultPlan(matched ?? null);
+      } catch {
+        if (!mounted) return;
+        setDefaultPlan(null);
+      }
+    };
+
+    fetchDefaultPlan();
+
+    return () => {
+      mounted = false;
+      controller.abort();
+    };
+  }, []);
+
   return (
     <section className="relative w-full h-[50vh] md:h-[90vh] overflow-hidden -mt-22 md:-mt-28">
       <Image
@@ -28,8 +70,14 @@ export default function OurWhyHero() {
             <span className="font-serif text-base md:text-lg text-[#1F302B] pr-5 md:pr-0">
               Start your journey for just{" "}
               <span className="block md:inline">
-                <span className="line-through opacity-70 pr-1"> Rs 5799</span>
-                <span className="font-semibold border-b border-dark/40"> Rs 2299</span>
+                {defaultPlan?.originalPrice ? (
+                  <span className="line-through opacity-70 pr-1">
+                    {" "}Rs {Number(defaultPlan.originalPrice).toLocaleString()}
+                  </span>
+                ) : null}
+                <span className="font-semibold border-b border-dark/40">
+                  {" "}Rs {defaultPlan ? Number(defaultPlan.price).toLocaleString() : "—"}
+                </span>
               </span>
             </span>
             <Button
