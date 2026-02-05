@@ -91,7 +91,7 @@ export default function PaymentsPage() {
     .reduce((sum, p) => sum + p.amount, 0);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 w-full">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-semibold text-slate-900">Payments</h1>
@@ -101,7 +101,7 @@ export default function PaymentsPage() {
         </div>
       </div>
 
-      <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6">
+      <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 w-full">
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mb-6">
           <div className="relative flex-1">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
@@ -158,8 +158,8 @@ export default function PaymentsPage() {
             <p className="text-sm text-slate-500">No payments found</p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full">
+          <div className="w-full overflow-x-auto">
+            <table className="w-full min-w-[980px]">
               <thead>
                 <tr className="border-b border-slate-200">
                   <th className="pb-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">
@@ -212,7 +212,7 @@ export default function PaymentsPage() {
                           className="text-xs font-mono text-slate-600"
                           title={payment.razorpayOrderId}
                         >
-                          {payment.razorpayOrderId.slice(0, 20)}...
+                          {payment.razorpayOrderId}
                         </div>
                         <button
                           type="button"
@@ -227,10 +227,6 @@ export default function PaymentsPage() {
                             <Copy className="h-4 w-4" />
                           )}
                         </button>
-
-                        <div className="pointer-events-none absolute left-0 top-full z-10 mt-2 hidden w-max max-w-[320px] rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-mono text-slate-700 shadow-sm group-hover:block">
-                          {payment.razorpayOrderId}
-                        </div>
                       </div>
                     </td>
                     <td className="py-4 text-sm text-slate-600">

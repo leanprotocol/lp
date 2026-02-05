@@ -35,12 +35,18 @@ export async function POST(request: NextRequest) {
         include: { subscription: true },
       });
 
-      if (payment) {
+      if (payment && payment.status !== 'SUCCESS') {
         await prisma.payment.update({
           where: { id: payment.id },
           data: {
             razorpayPaymentId: paymentEntity.id,
             status: 'SUCCESS',
+            failureReason: null,
+            metadata: {
+              ...(typeof payment.metadata === 'object' && payment.metadata ? (payment.metadata as any) : {}),
+              capturedAt: new Date().toISOString(),
+              capturedVia: 'webhook',
+            },
           },
         });
       }
@@ -51,18 +57,31 @@ export async function POST(request: NextRequest) {
         where: { razorpayOrderId: paymentEntity.order_id },
       });
 
-      if (payment) {
+      if (payment && payment.status !== 'SUCCESS') {
         await prisma.payment.update({
           where: { id: payment.id },
           data: {
+            razorpayPaymentId: paymentEntity.id ?? payment.razorpayPaymentId,
             status: 'FAILED',
             failureReason: paymentEntity.error_description || 'Payment failed',
+            metadata: {
+              ...(typeof payment.metadata === 'object' && payment.metadata ? (payment.metadata as any) : {}),
+              failedAt: new Date().toISOString(),
+              failedVia: 'webhook',
+              error: {
+                code: paymentEntity.error_code,
+                description: paymentEntity.error_description,
+                source: paymentEntity.error_source,
+                step: paymentEntity.error_step,
+                reason: paymentEntity.error_reason,
+              },
+            },
           },
         });
 
         await prisma.subscription.update({
           where: { id: payment.subscriptionId },
-          data: { status: 'REJECTED' },
+          data: { status: 'REJECTED', rejectionReason: 'Payment failed' },
         });
       }
     }

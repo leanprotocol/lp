@@ -5,7 +5,7 @@ import { requireAuth } from '@/lib/auth/middleware';
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { authorized, user, response } = await requireAuth(request, ['admin']);
@@ -14,8 +14,10 @@ export async function PATCH(
     const body = await request.json();
     const validatedData = reviewSubscriptionSchema.parse(body);
 
+    const { id } = await params;
+
     const subscription = await prisma.subscription.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: { plan: true },
     });
 
@@ -44,7 +46,7 @@ export async function PATCH(
     }
 
     const updatedSubscription = await prisma.subscription.update({
-      where: { id: params.id },
+      where: { id },
       data: updateData,
     });
 
