@@ -43,16 +43,31 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const activeSubscription = await prisma.subscription.findFirst({
+    const blockingSubscription = await prisma.subscription.findFirst({
       where: {
         userId: user.userId,
-        status: { in: ['ACTIVE'] },
+        status: { in: ['ACTIVE', 'PENDING_APPROVAL'] },
       },
+      include: {
+        plan: { select: { name: true } },
+      },
+      orderBy: { createdAt: 'desc' },
     });
 
-    if (activeSubscription && !plan.allowMultiplePurchase) {
+    if (blockingSubscription && !plan.allowMultiplePurchase) {
       return NextResponse.json(
-        { error: 'You already have an active subscription. Please contact support to change plans.' },
+        {
+          error:
+            blockingSubscription.status === 'PENDING_APPROVAL'
+              ? 'You already have a subscription pending admin approval.'
+              : 'You already have an active subscription.',
+          blockingSubscription: {
+            id: blockingSubscription.id,
+            status: blockingSubscription.status,
+            planName: blockingSubscription.plan?.name ?? null,
+            endDate: blockingSubscription.endDate,
+          },
+        },
         { status: 400 }
       );
     }
