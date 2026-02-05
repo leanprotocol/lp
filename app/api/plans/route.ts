@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
   try {
     const plans = await prisma.subscriptionPlan.findMany({
       where: { isActive: true },
-      orderBy: { displayOrder: 'asc' },
+      orderBy: [{ isDefault: 'desc' }, { displayOrder: 'asc' }] as any,
     });
 
     return NextResponse.json({
@@ -17,8 +17,10 @@ export async function GET(request: NextRequest) {
         name: plan.name,
         description: plan.description,
         price: plan.price,
+        originalPrice: plan.originalPrice,
         durationDays: plan.durationDays,
         features: plan.features,
+        isDefault: plan.isDefault,
         isRefundable: plan.isRefundable,
         allowAutoRenew: plan.allowAutoRenew,
       })),

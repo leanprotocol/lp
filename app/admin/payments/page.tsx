@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Loader2, Search, Filter, CreditCard } from "lucide-react";
+import { Loader2, Search, Filter, CreditCard, Copy, Check } from "lucide-react";
 
 interface Payment {
   id: string;
@@ -36,6 +36,7 @@ export default function PaymentsPage() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("ALL");
+  const [copiedOrderId, setCopiedOrderId] = useState<string | null>(null);
 
   useEffect(() => {
     fetchPayments();
@@ -53,6 +54,18 @@ export default function PaymentsPage() {
       console.error("Failed to fetch payments:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleCopyOrderId = async (orderId: string) => {
+    try {
+      await navigator.clipboard.writeText(orderId);
+      setCopiedOrderId(orderId);
+      window.setTimeout(() => {
+        setCopiedOrderId((prev) => (prev === orderId ? null : prev));
+      }, 1200);
+    } catch (error) {
+      console.error("Failed to copy order id:", error);
     }
   };
 
@@ -194,8 +207,30 @@ export default function PaymentsPage() {
                       </span>
                     </td>
                     <td className="py-4">
-                      <div className="text-xs font-mono text-slate-600">
-                        {payment.razorpayOrderId.slice(0, 20)}...
+                      <div className="group relative inline-flex items-center gap-2">
+                        <div
+                          className="text-xs font-mono text-slate-600"
+                          title={payment.razorpayOrderId}
+                        >
+                          {payment.razorpayOrderId.slice(0, 20)}...
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => handleCopyOrderId(payment.razorpayOrderId)}
+                          className="opacity-0 group-hover:opacity-100 transition-opacity text-slate-500 hover:text-slate-700"
+                          aria-label="Copy order id"
+                          title="Copy order id"
+                        >
+                          {copiedOrderId === payment.razorpayOrderId ? (
+                            <Check className="h-4 w-4" />
+                          ) : (
+                            <Copy className="h-4 w-4" />
+                          )}
+                        </button>
+
+                        <div className="pointer-events-none absolute left-0 top-full z-10 mt-2 hidden w-max max-w-[320px] rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-mono text-slate-700 shadow-sm group-hover:block">
+                          {payment.razorpayOrderId}
+                        </div>
                       </div>
                     </td>
                     <td className="py-4 text-sm text-slate-600">

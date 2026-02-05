@@ -20,9 +20,11 @@ interface SubscriptionPlan {
   name: string;
   description: string | null;
   price: number;
+  originalPrice?: number | null;
   durationDays: number;
   features: string[];
   isActive: boolean;
+  isDefault?: boolean;
   displayOrder: number;
   allowMultiplePurchase: boolean;
   isRefundable: boolean;
@@ -35,9 +37,11 @@ interface PlanFormData {
   name: string;
   description: string;
   price: string;
+  originalPrice: string;
   durationDays: string;
   features: string[];
   isActive: boolean;
+  isDefault: boolean;
   allowMultiplePurchase: boolean;
   isRefundable: boolean;
   allowAutoRenew: boolean;
@@ -56,9 +60,11 @@ export default function PlansPage() {
     name: "",
     description: "",
     price: "",
+    originalPrice: "",
     durationDays: "",
     features: [""],
     isActive: true,
+    isDefault: false,
     allowMultiplePurchase: false,
     isRefundable: false,
     allowAutoRenew: false,
@@ -85,9 +91,11 @@ export default function PlansPage() {
         name: plan.name,
         description: plan.description || "",
         price: plan.price.toString(),
+        originalPrice: plan.originalPrice ? plan.originalPrice.toString() : "",
         durationDays: plan.durationDays.toString(),
         features: plan.features,
         isActive: plan.isActive,
+        isDefault: !!plan.isDefault,
         allowMultiplePurchase: plan.allowMultiplePurchase,
         isRefundable: plan.isRefundable,
         allowAutoRenew: plan.allowAutoRenew,
@@ -98,9 +106,11 @@ export default function PlansPage() {
         name: "",
         description: "",
         price: "",
+        originalPrice: "",
         durationDays: "",
         features: [""],
         isActive: true,
+        isDefault: false,
         allowMultiplePurchase: false,
         isRefundable: false,
         allowAutoRenew: false,
@@ -117,9 +127,11 @@ export default function PlansPage() {
       name: "",
       description: "",
       price: "",
+      originalPrice: "",
       durationDays: "",
       features: [""],
       isActive: true,
+      isDefault: false,
       allowMultiplePurchase: false,
       isRefundable: false,
       allowAutoRenew: false,
@@ -142,6 +154,13 @@ export default function PlansPage() {
       errors.price = "Price is required";
     } else if (isNaN(price) || price <= 0) {
       errors.price = "Price must be a positive number";
+    }
+
+    const originalPrice = formData.originalPrice.trim()
+      ? parseFloat(formData.originalPrice)
+      : undefined;
+    if (formData.originalPrice.trim() && (isNaN(originalPrice as number) || (originalPrice as number) <= 0)) {
+      errors.originalPrice = "Original price must be a positive number";
     }
 
     const duration = parseInt(formData.durationDays);
@@ -173,9 +192,11 @@ export default function PlansPage() {
         name: formData.name.trim(),
         description: formData.description.trim() || undefined,
         price: parseFloat(formData.price),
+        originalPrice: formData.originalPrice.trim() ? parseFloat(formData.originalPrice) : undefined,
         durationDays: parseInt(formData.durationDays),
         features: validFeatures,
         isActive: formData.isActive,
+        isDefault: formData.isDefault,
         allowMultiplePurchase: formData.allowMultiplePurchase,
         isRefundable: formData.isRefundable,
         allowAutoRenew: formData.allowAutoRenew,
@@ -210,6 +231,23 @@ export default function PlansPage() {
   const handleDeleteClick = (plan: SubscriptionPlan) => {
     setPlanToDelete(plan);
     setDeleteDialogOpen(true);
+  };
+
+  const handleMakeDefault = async (planId: string) => {
+    try {
+      const res = await fetch(`/api/admin/plans/${planId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isDefault: true }),
+      });
+      const result = await res.json();
+      if (!res.ok) {
+        throw new Error(result.error || "Failed to set default plan");
+      }
+      await refresh({ silent: true });
+    } catch (err: any) {
+      alert(err.message);
+    }
   };
 
   const handleConfirmDelete = async () => {
@@ -399,6 +437,23 @@ export default function PlansPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Original Price (₹)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={formData.originalPrice}
+                    onChange={(e) => setFormData(prev => ({ ...prev, originalPrice: e.target.value }))}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="Optional"
+                  />
+                  {formErrors.originalPrice && (
+                    <p className="text-red-500 text-sm mt-1">{formErrors.originalPrice}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     Duration (days) *
                   </label>
                   <input
@@ -473,6 +528,16 @@ export default function PlansPage() {
               </div>
 
               <div className="space-y-3 pt-2">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={formData.isDefault}
+                    onChange={(e) => setFormData(prev => ({ ...prev, isDefault: e.target.checked }))}
+                    className="w-4 h-4 text-primary"
+                  />
+                  <span className="text-sm font-medium text-gray-700">Default plan (shown first everywhere)</span>
+                </label>
+
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
@@ -574,6 +639,11 @@ export default function PlansPage() {
                     <div>
                       <h3 className="text-lg font-semibold flex items-center gap-2">
                         {plan.name}
+                        {plan.isDefault && (
+                          <span className="text-xs bg-emerald-100 text-emerald-700 px-2 py-1 rounded">
+                            Default
+                          </span>
+                        )}
                         {!plan.isActive && (
                           <span className="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded">
                             Inactive
@@ -585,7 +655,14 @@ export default function PlansPage() {
                       )}
                     </div>
                     <div className="text-right">
-                      <p className="text-2xl font-bold text-primary">₹{plan.price.toLocaleString()}</p>
+                      <div className="flex flex-col items-end">
+                        {plan.originalPrice ? (
+                          <p className="text-sm text-gray-500 line-through">
+                            ₹{Number(plan.originalPrice).toLocaleString()}
+                          </p>
+                        ) : null}
+                        <p className="text-2xl font-bold text-primary">₹{plan.price.toLocaleString()}</p>
+                      </div>
                       <p className="text-sm text-gray-500">
                         {durationInMonths(plan.durationDays)} {durationInMonths(plan.durationDays) === 1 ? "month" : "months"}
                       </p>
@@ -631,6 +708,16 @@ export default function PlansPage() {
                       <Edit className="h-4 w-4 mr-1" />
                       Edit
                     </Button>
+
+                    {!plan.isDefault && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleMakeDefault(plan.id)}
+                      >
+                        Make Default
+                      </Button>
+                    )}
                     <Button
                       variant="outline"
                       size="sm"

@@ -159,9 +159,11 @@ model SubscriptionPlan {
   name                  String
   description           String?
   price                 Float
+  originalPrice         Float?
   durationDays          Int
   features              Json
   isActive              Boolean         @default(true)
+  isDefault             Boolean         @default(false)
   displayOrder          Int             @default(0)
   allowMultiplePurchase Boolean         @default(false)
   isRefundable          Boolean         @default(false)

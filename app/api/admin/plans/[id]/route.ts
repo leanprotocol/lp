@@ -16,9 +16,18 @@ export async function PATCH(
 
     const { id } = await params;
 
-    const plan = await prisma.subscriptionPlan.update({
-      where: { id },
-      data: validatedData,
+    const plan = await prisma.$transaction(async (tx) => {
+      if (validatedData.isDefault === true) {
+        await tx.subscriptionPlan.updateMany({
+          where: { id: { not: id }, isDefault: true } as any,
+          data: { isDefault: false } as any,
+        });
+      }
+
+      return tx.subscriptionPlan.update({
+        where: { id },
+        data: validatedData,
+      });
     });
 
     return NextResponse.json({
