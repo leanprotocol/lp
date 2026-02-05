@@ -309,6 +309,7 @@ import { Textarea } from "@/components/ui/textarea";
 import Result, { CoverageInfo } from "@/components/quiz/result";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
+import { useRazorpayCheckout } from "@/hooks/use-razorpay-checkout";
 
 const allowedPincodes = ["110001", "400001", "560001", "122002", "201301"];
 
@@ -337,6 +338,7 @@ export default function QuizPage() {
 function QuizPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { isReady: razorpayReady, isLoading: razorpayLoading, openCheckout } = useRazorpayCheckout();
   const [currentStep, setCurrentStep] = useState(0);
   const [direction, setDirection] = useState<1 | -1>(1);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
@@ -354,6 +356,11 @@ function QuizPageContent() {
   >([]);
   const [selectedProviderId, setSelectedProviderId] = useState<string | null>(null);
   const [providerDisplayName, setProviderDisplayName] = useState<string | null>(null);
+
+  const [defaultPlanId, setDefaultPlanId] = useState<string | null>(null);
+  const [planLoading, setPlanLoading] = useState(false);
+
+  const devSkipPayEnabled = process.env.NODE_ENV === "development";
 
   const steps = [
     { id: "step1", type: "mixed-profile" },
@@ -468,6 +475,42 @@ function QuizPageContent() {
   useEffect(() => {
     fetch('/api/quiz/session').catch(() => undefined);
     checkUserAuthentication();
+  }, []);
+
+  useEffect(() => {
+    let mounted = true;
+    const controller = new AbortController();
+
+    const fetchDefaultPlan = async () => {
+      setPlanLoading(true);
+      try {
+        const res = await fetch("/api/plans", { signal: controller.signal });
+        const data = await res.json();
+
+        if (!mounted) return;
+        if (!res.ok) {
+          setDefaultPlanId(null);
+          return;
+        }
+
+        const plans = (data?.plans ?? []) as Array<{ id: string; price: number }>;
+        const matched = plans.find((p) => Number(p.price) === 2299) ?? plans[0];
+        setDefaultPlanId(matched?.id ?? null);
+      } catch {
+        if (!mounted) return;
+        setDefaultPlanId(null);
+      } finally {
+        if (!mounted) return;
+        setPlanLoading(false);
+      }
+    };
+
+    fetchDefaultPlan();
+
+    return () => {
+      mounted = false;
+      controller.abort();
+    };
   }, []);
 
   useEffect(() => {
@@ -741,6 +784,50 @@ function QuizPageContent() {
 
   return (
     <div className="fixed inset-0 overflow-hidden overflow-x-hidden bg-gradient-to-br from-[#F7F1EB] via-white to-[#E8F0ED] text-[#191919] flex flex-col items-center px-4 pt-6 pb-4 z-50">
+
+      {devSkipPayEnabled && (
+        <div className="w-full max-w-lg sm:max-w-2xl lg:max-w-4xl mb-5 bg-white/70 border border-amber-200 rounded-2xl px-5 py-4 shadow-sm backdrop-blur-sm">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div>
+              <p className="text-xs uppercase tracking-[0.3em] text-amber-700 mb-1">
+                Dev
+              </p>
+              <p className="text-sm text-[#1F302B] font-medium">
+                Skip quiz and launch Razorpay checkout for Rs 2299.
+              </p>
+            </div>
+            <Button
+              onClick={() => {
+                if (!razorpayReady) {
+                  toast({
+                    title: "Razorpay not ready",
+                    description: "checkout.js is still loading. Please try again in a moment.",
+                    variant: "destructive",
+                  });
+                  return;
+                }
+
+                if (!defaultPlanId) {
+                  toast({
+                    title: "No plan found",
+                    description:
+                      "No active plans were returned from /api/plans. Create/activate a SubscriptionPlan (₹2299) and retry.",
+                    variant: "destructive",
+                  });
+                  return;
+                }
+
+                openCheckout(defaultPlanId);
+              }}
+              disabled={planLoading || razorpayLoading}
+              className="h-10 px-4"
+              variant="outline"
+            >
+              {planLoading || razorpayLoading ? "Starting..." : "Skip & Pay"}
+            </Button>
+          </div>
+        </div>
+      )}
       
       {/* Progress */}
       {activeInsuranceName && (
