@@ -1,7 +1,9 @@
 "use client";
 
 import { AlertCircle, FileText, Microscope, ArrowRight, Zap, CheckCircle } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useRazorpayCheckout } from "@/hooks/use-razorpay-checkout";
 
 type CoverageStatus = "covered" | "partial" | "not_covered" | "not_applicable";
 
@@ -29,6 +31,95 @@ export default function Result({
 }: ResultProps) {
   const isSuccess = quizSubmitted && !submissionError;
   const hasCoverage = isSuccess && !!coverage;
+  const { isReady: razorpayReady, isLoading: razorpayLoading, openCheckout } = useRazorpayCheckout();
+
+  const [defaultPlanId, setDefaultPlanId] = useState<string | null>(null);
+  const [planLoading, setPlanLoading] = useState(false);
+  const [autoCheckoutTriggered, setAutoCheckoutTriggered] = useState(false);
+
+  const devSkipEnabled =
+    process.env.NODE_ENV === "development" &&
+    (typeof window !== "undefined" &&
+      new URLSearchParams(window.location.search).get("devSkipPay") === "1");
+
+  const canPay = useMemo(() => {
+    if (!defaultPlanId) return false;
+    if (!razorpayReady) return false;
+    return true;
+  }, [defaultPlanId, razorpayReady]);
+
+  useEffect(() => {
+    let mounted = true;
+    const controller = new AbortController();
+
+    const fetchDefaultPlan = async () => {
+      setPlanLoading(true);
+      try {
+        const res = await fetch("/api/plans", { signal: controller.signal });
+        const data = await res.json();
+
+        if (!mounted) return;
+
+        if (!res.ok) {
+          setDefaultPlanId(null);
+          return;
+        }
+
+        const plans = (data?.plans ?? []) as Array<{ id: string; price: number }>;
+        const matched = plans.find((p) => Number(p.price) === 2299);
+        setDefaultPlanId(matched?.id ?? null);
+      } catch {
+        if (!mounted) return;
+        setDefaultPlanId(null);
+      } finally {
+        if (!mounted) return;
+        setPlanLoading(false);
+      }
+    };
+
+    fetchDefaultPlan();
+
+    return () => {
+      mounted = false;
+      controller.abort();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!devSkipEnabled) return;
+    if (!defaultPlanId) return;
+    if (!razorpayReady) return;
+    if (razorpayLoading) return;
+    if (autoCheckoutTriggered) return;
+
+    setAutoCheckoutTriggered(true);
+    openCheckout(defaultPlanId);
+  }, [
+    devSkipEnabled,
+    defaultPlanId,
+    razorpayReady,
+    razorpayLoading,
+    autoCheckoutTriggered,
+    openCheckout,
+  ]);
+
+  useEffect(() => {
+    if (!isSuccess) return;
+    if (!defaultPlanId) return;
+    if (!razorpayReady) return;
+    if (razorpayLoading) return;
+    if (autoCheckoutTriggered) return;
+
+    setAutoCheckoutTriggered(true);
+    openCheckout(defaultPlanId);
+  }, [
+    isSuccess,
+    defaultPlanId,
+    razorpayReady,
+    razorpayLoading,
+    autoCheckoutTriggered,
+    openCheckout,
+  ]);
 
   const renderStatusBlock = () => {
     if (submissionError) {
@@ -176,9 +267,14 @@ export default function Result({
 
           <div className="mt-12 flex flex-col items-center">
             <Button 
+              onClick={() => {
+                if (!defaultPlanId) return;
+                openCheckout(defaultPlanId);
+              }}
+              disabled={!canPay || planLoading || razorpayLoading}
               className="w-full md:w-[160px] h-12 bg-[#1F302B] hover:bg-[#2C3E3A] text-white rounded-xl text-base font-medium transition-colors cursor-pointer flex items-center justify-center gap-2"
             >
-              Begin Now
+              {planLoading || razorpayLoading ? "Starting..." : "Begin Now"}
               <ArrowRight className="w-5 h-5" />
             </Button>
           </div>
