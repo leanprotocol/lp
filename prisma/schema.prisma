@@ -26,6 +26,9 @@ enum SubscriptionStatus {
   REJECTED
   EXPIRED
   ACTIVE
+  SUSPENDED
+  CANCELLED
+  REFUNDED
 }
 
 enum PaymentStatus {

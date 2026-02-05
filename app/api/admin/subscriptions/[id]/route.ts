@@ -43,6 +43,8 @@ export async function PATCH(
       updateData.status = 'ACTIVE';
     } else if (validatedData.status === 'REJECTED') {
       updateData.rejectionReason = validatedData.rejectionReason;
+    } else if (validatedData.status === 'CANCELLED' || validatedData.status === 'REFUNDED') {
+      updateData.endDate = new Date();
     }
 
     const updatedSubscription = await prisma.subscription.update({

@@ -29,8 +29,8 @@ export default function PricingClient() {
   const [pendingPlanId, setPendingPlanId] = useState<string | null>(null);
   const [authChecked, setAuthChecked] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [activeSubscription, setActiveSubscription] = useState<
-    | { id: string; plan?: { id: string; name: string } | null }
+  const [blockingSubscription, setBlockingSubscription] = useState<
+    | { id: string; status: string; endDate?: string | null; plan?: { id: string; name: string } | null }
     | null
   >(null);
 
@@ -50,17 +50,17 @@ export default function PricingClient() {
         setIsLoggedIn(loggedIn);
 
         if (loggedIn) {
-          const subRes = await fetch("/api/user/subscription/active?optional=1");
+          const subRes = await fetch("/api/user/subscription/blocking?optional=1");
           const subData = await subRes.json().catch(() => null);
           if (!mounted) return;
-          setActiveSubscription(subData?.subscription ?? null);
+          setBlockingSubscription(subData?.subscription ?? null);
         } else {
-          setActiveSubscription(null);
+          setBlockingSubscription(null);
         }
       } catch {
         if (!mounted) return;
         setIsLoggedIn(false);
-        setActiveSubscription(null);
+        setBlockingSubscription(null);
       } finally {
         if (!mounted) return;
         setAuthChecked(true);
@@ -97,14 +97,30 @@ export default function PricingClient() {
   };
 
   const hasActivePlan = useMemo(() => {
-    return !!activeSubscription;
-  }, [activeSubscription]);
+    return !!blockingSubscription;
+  }, [blockingSubscription]);
+
+  const formatDate = (value?: string | null) => {
+    if (!value) return null;
+    const d = new Date(value);
+    if (Number.isNaN(d.getTime())) return null;
+    return d.toLocaleDateString();
+  };
 
   const handleGetStarted = async (planId: string) => {
     if (hasActivePlan) {
+      const planName = blockingSubscription?.plan?.name || 'your plan';
+      const endDateLabel = formatDate(blockingSubscription?.endDate);
+
       toast({
-        title: "You already have an active plan",
-        description: "You can manage it from your dashboard.",
+        title:
+          blockingSubscription?.status === 'PENDING_APPROVAL'
+            ? 'Subscription pending approval'
+            : 'You already have an active subscription',
+        description:
+          blockingSubscription?.status === 'PENDING_APPROVAL'
+            ? `You have already purchased the subscription for ${planName}. Please wait for admin approval.`
+            : `You already have an active subscription for ${planName}${endDateLabel ? ` till ${endDateLabel}` : ''}.`,
       });
       return;
     }
@@ -199,7 +215,7 @@ export default function PricingClient() {
                       className={`w-full rounded-2xl py-5 text-base font-semibold ${
                         plan.isDefault
                           ? "bg-primary text-white hover:bg-primary/90"
-                          : "bg-gray-900 text-white hover-bg-gray-800"
+                          : "bg-gray-900 text-white hover:bg-gray-800"
                       }`}
                       onClick={() => handleGetStarted(plan.id)}
                       disabled={!authChecked}

@@ -18,7 +18,7 @@ export const createPlanSchema = z.object({
 export const updatePlanSchema = createPlanSchema.partial();
 
 export const reviewSubscriptionSchema = z.object({
-  status: z.enum(['APPROVED', 'REJECTED']),
+  status: z.enum(['APPROVED', 'REJECTED', 'SUSPENDED', 'CANCELLED', 'REFUNDED']),
   rejectionReason: z.string().optional(),
 });
 
