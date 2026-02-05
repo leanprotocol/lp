@@ -136,6 +136,15 @@ export class RazorpayService {
       throw error;
     }
   }
+
+  async fetchOrderPayments(orderId: string) {
+    try {
+      return await this.razorpay.orders.fetchPayments(orderId);
+    } catch (error) {
+      console.error('Razorpay Fetch Order Payments Error:', error);
+      throw error;
+    }
+  }
 }
 
 export const razorpayService = new RazorpayService();

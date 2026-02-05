@@ -46,12 +46,26 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (payment.status === 'SUCCESS') {
+      return NextResponse.json({
+        success: true,
+        message: 'Payment already verified.',
+        subscriptionId: payment.subscriptionId,
+      });
+    }
+
     await prisma.payment.update({
       where: { id: payment.id },
       data: {
         razorpayPaymentId: validatedData.razorpayPaymentId,
         razorpaySignature: validatedData.razorpaySignature,
         status: 'SUCCESS',
+        failureReason: null,
+        metadata: {
+          ...(typeof payment.metadata === 'object' && payment.metadata ? (payment.metadata as any) : {}),
+          verifiedAt: new Date().toISOString(),
+          verifiedVia: 'client',
+        },
       },
     });
 
