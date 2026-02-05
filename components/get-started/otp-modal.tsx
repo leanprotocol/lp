@@ -319,6 +319,11 @@ export default function OTPModal({ isOpen, onClose, onNext, selectedProvider }: 
       }
 
       resetState();
+      if (onNext) {
+        onNext({ mobileNumber });
+        return;
+      }
+
       window.location.href = '/quiz';
     } catch (error: any) {
       console.error('Firebase verify OTP error:', error);
