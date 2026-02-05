@@ -34,6 +34,10 @@ export default function Result({
   const { isReady: razorpayReady, isLoading: razorpayLoading, openCheckout } = useRazorpayCheckout();
 
   const [defaultPlanId, setDefaultPlanId] = useState<string | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState<
+    | { id: string; price: number; originalPrice?: number | null; isDefault?: boolean }
+    | null
+  >(null);
   const [planLoading, setPlanLoading] = useState(false);
   const [autoCheckoutTriggered, setAutoCheckoutTriggered] = useState(false);
 
@@ -65,12 +69,19 @@ export default function Result({
           return;
         }
 
-        const plans = (data?.plans ?? []) as Array<{ id: string; price: number }>;
-        const matched = plans.find((p) => Number(p.price) === 2299);
+        const plans = (data?.plans ?? []) as Array<{
+          id: string;
+          price: number;
+          originalPrice?: number | null;
+          isDefault?: boolean;
+        }>;
+        const matched = plans.find((p) => p.isDefault) ?? plans[0];
         setDefaultPlanId(matched?.id ?? null);
+        setSelectedPlan(matched ?? null);
       } catch {
         if (!mounted) return;
         setDefaultPlanId(null);
+        setSelectedPlan(null);
       } finally {
         if (!mounted) return;
         setPlanLoading(false);
@@ -213,19 +224,21 @@ export default function Result({
                 Transparent Pricing
               </span>
               <div className="flex flex-col sm:flex-row items-center gap-2 text-base font-medium text-[#5B6356]">
-                <span>
-                  Actual Value{" "}
-                  <span className="line-through text-[#A8A393]">
-                    Rs 6000
+                {selectedPlan?.originalPrice ? (
+                  <span>
+                    Actual Value{" "}
+                    <span className="line-through text-[#A8A393]">
+                      Rs {Number(selectedPlan.originalPrice).toLocaleString()}
+                    </span>
                   </span>
-                </span>
+                ) : null}
                 <span className="hidden sm:block text-[#CFCABA]">|</span>
                 <span className="inline-flex items-center gap-2 rounded-full  px-5 py-3 shadow-[0_4px_20px_rgba(31,48,43,0.12)]">
                   <span className="text-xs uppercase tracking-[0.25em] text-[#1F302B]">
                     Our Price
                   </span>
                   <span className="font-serif text-3xl font-bold leading-none text-[#1F302B]">
-                    Rs 2299
+                    Rs {selectedPlan ? Number(selectedPlan.price).toLocaleString() : "—"}
                   </span>
                 </span>
               </div>

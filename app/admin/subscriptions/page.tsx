@@ -42,6 +42,7 @@ export default function SubscriptionsPage() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("ALL");
+  const [approvingId, setApprovingId] = useState<string | null>(null);
 
   useEffect(() => {
     fetchSubscriptions();
@@ -59,6 +60,27 @@ export default function SubscriptionsPage() {
       console.error("Failed to fetch subscriptions:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleApprove = async (subscriptionId: string) => {
+    try {
+      setApprovingId(subscriptionId);
+      const res = await fetch(`/api/admin/subscriptions/${subscriptionId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: "APPROVED" }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data?.error || "Failed to approve subscription");
+      }
+      await fetchSubscriptions();
+    } catch (error) {
+      console.error("Approve subscription error:", error);
+      alert(error instanceof Error ? error.message : "Failed to approve subscription");
+    } finally {
+      setApprovingId(null);
     }
   };
 
@@ -172,6 +194,9 @@ export default function SubscriptionsPage() {
                   <th className="pb-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">
                     Auto Renew
                   </th>
+                  <th className="pb-3 text-right text-xs font-medium uppercase tracking-wider text-slate-500">
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
@@ -210,6 +235,23 @@ export default function SubscriptionsPage() {
                         <span className="text-xs text-emerald-600">Yes</span>
                       ) : (
                         <span className="text-xs text-slate-400">No</span>
+                      )}
+                    </td>
+                    <td className="py-4 text-right">
+                      {sub.status === "PENDING_APPROVAL" ? (
+                        <button
+                          onClick={() => handleApprove(sub.id)}
+                          disabled={approvingId === sub.id}
+                          className="inline-flex items-center justify-center rounded-xl bg-emerald-600 px-3 py-2 text-xs font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
+                        >
+                          {approvingId === sub.id ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            "Approve"
+                          )}
+                        </button>
+                      ) : (
+                        <span className="text-xs text-slate-400">—</span>
                       )}
                     </td>
                   </tr>

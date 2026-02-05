@@ -9,10 +9,12 @@ interface SubscriptionPlan {
   name: string;
   description: string | null;
   price: number;
+  originalPrice?: number | null;
   durationDays: number;
   features: string[];
   isRefundable: boolean;
   allowAutoRenew: boolean;
+  isDefault?: boolean;
 }
 
 export default function PricingClient() {
@@ -79,14 +81,14 @@ export default function PricingClient() {
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {plans.map((plan, index) => (
+            {plans.map((plan) => (
               <div
                 key={plan.id}
                 className={`relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden ${
-                  index === 1 ? "lg:scale-105 border-2 border-primary" : "border border-gray-200"
+                  plan.isDefault ? "lg:scale-105 border-2 border-primary" : "border border-gray-200"
                 }`}
               >
-                {index === 1 && (
+                {plan.isDefault && (
                   <div className="absolute top-0 right-0 bg-primary text-white px-4 py-1 text-sm font-medium rounded-bl-lg">
                     Popular
                   </div>
@@ -105,6 +107,11 @@ export default function PricingClient() {
 
                   <div className="mb-6">
                     <div className="flex items-baseline">
+                      {plan.originalPrice ? (
+                        <span className="text-xl text-gray-500 line-through mr-3">
+                          ₹{Number(plan.originalPrice).toLocaleString()}
+                        </span>
+                      ) : null}
                       <span className="text-5xl font-bold text-gray-900">
                         ₹{plan.price.toLocaleString()}
                       </span>
@@ -117,7 +124,7 @@ export default function PricingClient() {
 
                   <Button
                     className={`w-full mb-6 ${
-                      index === 1
+                      plan.isDefault
                         ? "bg-primary hover:bg-primary/90"
                         : "bg-gray-900 hover:bg-gray-800"
                     }`}

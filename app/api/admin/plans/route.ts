@@ -65,8 +65,17 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validatedData = createPlanSchema.parse(body);
 
-    const plan = await prisma.subscriptionPlan.create({
-      data: validatedData,
+    const plan = await prisma.$transaction(async (tx) => {
+      if ((validatedData as any).isDefault === true) {
+        await tx.subscriptionPlan.updateMany({
+          where: { isDefault: true } as any,
+          data: { isDefault: false } as any,
+        });
+      }
+
+      return tx.subscriptionPlan.create({
+        data: validatedData as any,
+      });
     });
 
     return NextResponse.json({

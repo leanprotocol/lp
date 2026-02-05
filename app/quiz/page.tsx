@@ -493,8 +493,8 @@ function QuizPageContent() {
           return;
         }
 
-        const plans = (data?.plans ?? []) as Array<{ id: string; price: number }>;
-        const matched = plans.find((p) => Number(p.price) === 2299) ?? plans[0];
+        const plans = (data?.plans ?? []) as Array<{ id: string; price: number; isDefault?: boolean }>;
+        const matched = plans.find((p) => p.isDefault) ?? plans[0];
         setDefaultPlanId(matched?.id ?? null);
       } catch {
         if (!mounted) return;
