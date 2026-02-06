@@ -15,23 +15,6 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validatedData = createOrderSchema.parse(body);
 
-    const quizSubmission = await prisma.quizSubmission.findFirst({
-      where: {
-        userId: user.userId,
-        status: { in: ['PENDING_REVIEW', 'APPROVED'] },
-      },
-    });
-
-    const canSkipQuizGuard =
-      env.NODE_ENV === 'development' && env.DEV_RAZORPAY_SKIP_QUIZ_GUARD === '1';
-
-    if (!quizSubmission && !canSkipQuizGuard) {
-      return NextResponse.json(
-        { error: 'Quiz submission required before purchasing a subscription' },
-        { status: 403 }
-      );
-    }
-
     const plan = await prisma.subscriptionPlan.findUnique({
       where: { id: validatedData.planId },
     });

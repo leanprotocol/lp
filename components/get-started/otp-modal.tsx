@@ -318,12 +318,13 @@ export default function OTPModal({ isOpen, onClose, onNext, selectedProvider }: 
         sessionStorage.setItem('quiz-full-name', fullName.trim());
       }
 
-      resetState();
       if (onNext) {
         onNext({ mobileNumber });
+        resetState();
         return;
       }
 
+      resetState();
       window.location.href = '/quiz';
     } catch (error: any) {
       console.error('Firebase verify OTP error:', error);
