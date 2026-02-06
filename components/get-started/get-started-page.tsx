@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ArrowRight, ClipboardCheck, Stethoscope, FileHeart } from "lucide-react";
 import Image from "next/image";
 import OTPModal from "./otp-modal";
 
 export default function GetStartedPage() {
+  const router = useRouter();
   const [showOTPModal, setShowOTPModal] = useState(false);
   const [showNextScreen, setShowNextScreen] = useState(false);
 
@@ -16,7 +18,7 @@ export default function GetStartedPage() {
 
   const handleOTPNext = () => {
     setShowOTPModal(false);
-    // setShowNextScreen(true); // Enable when ready
+    router.push("/quiz?flow=get-started");
   };
 
   const benefits = [

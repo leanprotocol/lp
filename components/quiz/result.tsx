@@ -22,6 +22,7 @@ interface ResultProps {
   isPincodeAllowed?: boolean;
   planId?: string | null;
   hasExistingSubscription?: boolean;
+  flow?: string | null;
 }
 
 export default function Result({
@@ -32,11 +33,16 @@ export default function Result({
   isPincodeAllowed = true,
   planId = null,
   hasExistingSubscription = false,
+  flow = null,
 }: ResultProps) {
   const isSuccess = quizSubmitted && !submissionError;
   const hasCoverage = isSuccess && !!coverage;
-  const isFromPurchaseFlow = !!planId;
+  const isGetStartedFlow = flow === "get-started";
   const { isReady: razorpayReady, isLoading: razorpayLoading, openCheckout } = useRazorpayCheckout();
+
+  const [purchasedPlanId, setPurchasedPlanId] = useState<string | null>(null);
+  const effectivePlanId = planId ?? purchasedPlanId;
+  const isFromPurchaseFlow = !!effectivePlanId;
 
   const [defaultPlanId, setDefaultPlanId] = useState<string | null>(null);
   const [selectedPlan, setSelectedPlan] = useState<
@@ -80,7 +86,7 @@ export default function Result({
           originalPrice?: number | null;
           isDefault?: boolean;
         }>;
-        const matched = (planId ? plans.find((p) => p.id === planId) : null) ?? plans.find((p) => p.isDefault) ?? plans[0];
+        const matched = (effectivePlanId ? plans.find((p) => p.id === effectivePlanId) : null) ?? plans.find((p) => p.isDefault) ?? plans[0];
         setDefaultPlanId(matched?.id ?? null);
         setSelectedPlan(matched ?? null);
       } catch {
@@ -99,10 +105,10 @@ export default function Result({
       mounted = false;
       controller.abort();
     };
-  }, [planId]);
+  }, [effectivePlanId]);
 
   useEffect(() => {
-    if (isFromPurchaseFlow) return;
+    if (isFromPurchaseFlow || isGetStartedFlow) return;
     if (!devSkipEnabled) return;
     if (!defaultPlanId) return;
     if (!razorpayReady) return;
@@ -118,10 +124,12 @@ export default function Result({
     razorpayLoading,
     autoCheckoutTriggered,
     openCheckout,
+    isFromPurchaseFlow,
+    isGetStartedFlow,
   ]);
 
   useEffect(() => {
-    if (isFromPurchaseFlow) return;
+    if (isFromPurchaseFlow || isGetStartedFlow) return;
     if (!isSuccess) return;
     if (!defaultPlanId) return;
     if (!razorpayReady) return;
@@ -138,6 +146,7 @@ export default function Result({
     autoCheckoutTriggered,
     openCheckout,
     isFromPurchaseFlow,
+    isGetStartedFlow,
   ]);
 
   const renderStatusBlock = () => {
@@ -154,7 +163,7 @@ export default function Result({
             </p>
             {selectedPlan && (
               <p className="text-sm text-[#5B746F]">
-                Plan: {selectedPlan.id === planId ? "Selected Plan" : "Plan"} - Rs {Number(selectedPlan.price).toLocaleString()}
+                Plan: {selectedPlan.id === effectivePlanId ? "Selected Plan" : "Plan"} - Rs {Number(selectedPlan.price).toLocaleString()}
               </p>
             )}
           </div>
@@ -322,9 +331,18 @@ export default function Result({
               <Button 
                 onClick={() => {
                   if (!defaultPlanId) return;
+                  if (isGetStartedFlow) {
+                    openCheckout(defaultPlanId, {
+                      onSuccess: async () => {
+                        setPurchasedPlanId(defaultPlanId);
+                      },
+                    });
+                    return;
+                  }
+
                   openCheckout(defaultPlanId);
                 }}
-                disabled={!canPay || planLoading || razorpayLoading}
+                disabled={isGetStartedFlow ? !isSuccess || !canPay || planLoading || razorpayLoading : !canPay || planLoading || razorpayLoading}
                 className="w-full md:w-[160px] h-12 bg-[#1F302B] hover:bg-[#2C3E3A] text-white rounded-xl text-base font-medium transition-colors cursor-pointer flex items-center justify-center gap-2"
               >
                 {planLoading || razorpayLoading ? "Starting..." : "Begin Now"}
