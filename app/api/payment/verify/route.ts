@@ -4,12 +4,25 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { verifyPaymentSchema } from '@/lib/validations/payment';
 import { requireAuth } from '@/lib/auth/middleware';
+import { verifyJWT } from '@/lib/auth/jwt';
 import { razorpayService } from '@/services/payment/razorpay.service';
 
 export async function POST(request: NextRequest) {
   try {
     const { authorized, user, response } = await requireAuth(request, ['user']);
-    if (!authorized || !user) return response!;
+    let resolvedUser = user;
+
+    if (!authorized || !resolvedUser) {
+      const tempToken = request.cookies.get('temp-auth-token')?.value;
+      if (!tempToken) return response!;
+
+      const decoded = await verifyJWT(tempToken);
+      if (decoded.type !== 'user') {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      }
+
+      resolvedUser = decoded;
+    }
 
     const body = await request.json();
     const validatedData = verifyPaymentSchema.parse(body);
@@ -39,7 +52,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (payment.userId !== user.userId) {
+    if (payment.userId !== resolvedUser.userId) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 403 }

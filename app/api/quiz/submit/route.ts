@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { quizSubmissionSchema } from '@/lib/validations/quiz';
 import { requireAuth } from '@/lib/auth/middleware';
+import { verifyJWT } from '@/lib/auth/jwt';
 import { notifyAdminsQuizSubmitted } from '@/lib/email/admin-alerts';
 import { verifyFirebaseIdToken } from '@/lib/firebase/admin';
 import { hashPassword } from '@/lib/auth/password';
@@ -53,11 +54,24 @@ export async function POST(request: NextRequest) {
     const user = auth.user;
     const quizSessionId = request.cookies.get('quiz-session')?.value ?? null;
 
+    let tempUserId: string | null = null;
+    if (!authorized || !user) {
+      const tempToken = request.cookies.get('temp-auth-token')?.value;
+      if (tempToken) {
+        const decoded = await verifyJWT(tempToken);
+        if (decoded.type === 'user') {
+          tempUserId = decoded.userId;
+        }
+      }
+    }
+
     const identity = authorized && user
       ? { type: 'user' as const, userId: user.userId }
-      : quizSessionId
-        ? { type: 'session' as const, quizSessionId }
-        : null;
+      : tempUserId
+        ? { type: 'user' as const, userId: tempUserId }
+        : quizSessionId
+          ? { type: 'session' as const, quizSessionId }
+          : null;
 
     if (!identity) {
       return NextResponse.json(

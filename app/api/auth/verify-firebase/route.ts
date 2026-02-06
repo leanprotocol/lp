@@ -4,7 +4,7 @@ import { verifyFirebaseSchema } from '@/lib/validations/auth';
 import { verifyFirebaseIdToken } from '@/lib/firebase/admin';
 import { hashPassword } from '@/lib/auth/password';
 import { signJWT } from '@/lib/auth/jwt';
-import { setAuthCookie } from '@/lib/auth/cookies';
+import { clearAuthCookie, setTempAuthCookie } from '@/lib/auth/cookies';
 import { randomBytes } from 'crypto';
 
 export const runtime = 'nodejs';
@@ -114,7 +114,8 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    setAuthCookie(response, token);
+    clearAuthCookie(response);
+    setTempAuthCookie(response, token);
 
     return response;
 

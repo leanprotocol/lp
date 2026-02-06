@@ -4,13 +4,26 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { createOrderSchema } from '@/lib/validations/payment';
 import { requireAuth } from '@/lib/auth/middleware';
+import { verifyJWT } from '@/lib/auth/jwt';
 import { razorpayService } from '@/services/payment/razorpay.service';
 import { env } from '@/lib/env';
 
 export async function POST(request: NextRequest) {
   try {
     const { authorized, user, response } = await requireAuth(request, ['user']);
-    if (!authorized || !user) return response!;
+    let resolvedUser = user;
+
+    if (!authorized || !resolvedUser) {
+      const tempToken = request.cookies.get('temp-auth-token')?.value;
+      if (!tempToken) return response!;
+
+      const decoded = await verifyJWT(tempToken);
+      if (decoded.type !== 'user') {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      }
+
+      resolvedUser = decoded;
+    }
 
     const body = await request.json();
     const validatedData = createOrderSchema.parse(body);
@@ -28,7 +41,7 @@ export async function POST(request: NextRequest) {
 
     const blockingSubscription = await prisma.subscription.findFirst({
       where: {
-        userId: user.userId,
+        userId: resolvedUser.userId,
         status: { in: ['ACTIVE', 'PENDING_APPROVAL'] },
       },
       include: {
@@ -59,7 +72,7 @@ export async function POST(request: NextRequest) {
       plan.price,
       'INR',
       {
-        userId: user.userId,
+        userId: resolvedUser.userId,
         planId: plan.id,
       }
     );
@@ -73,7 +86,7 @@ export async function POST(request: NextRequest) {
 
     const subscription = await prisma.subscription.create({
       data: {
-        userId: user.userId,
+        userId: resolvedUser.userId,
         planId: plan.id,
         status: 'PENDING_APPROVAL',
       },
@@ -81,7 +94,7 @@ export async function POST(request: NextRequest) {
 
     const payment = await prisma.payment.create({
       data: {
-        userId: user.userId,
+        userId: resolvedUser.userId,
         subscriptionId: subscription.id,
         razorpayOrderId: orderResult.orderId!,
         amount: plan.price,
