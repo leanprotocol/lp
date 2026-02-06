@@ -362,7 +362,6 @@ function QuizPageContent() {
   const [defaultPlanId, setDefaultPlanId] = useState<string | null>(null);
   const [planLoading, setPlanLoading] = useState(false);
 
-  const devSkipPayEnabled = process.env.NODE_ENV === "development";
 
   const steps = [
     { id: "step1", type: "mixed-profile" },
@@ -789,50 +788,6 @@ function QuizPageContent() {
   return (
     <div className="fixed inset-0 overflow-hidden overflow-x-hidden bg-gradient-to-br from-[#F7F1EB] via-white to-[#E8F0ED] text-[#191919] flex flex-col items-center px-4 pt-6 pb-4 z-50">
 
-      {devSkipPayEnabled && (
-        <div className="w-full max-w-lg sm:max-w-2xl lg:max-w-4xl mb-5 bg-white/70 border border-amber-200 rounded-2xl px-5 py-4 shadow-sm backdrop-blur-sm">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-amber-700 mb-1">
-                Dev
-              </p>
-              <p className="text-sm text-[#1F302B] font-medium">
-                Skip quiz and launch Razorpay checkout for the default plan.
-              </p>
-            </div>
-            <Button
-              onClick={() => {
-                if (!razorpayReady) {
-                  toast({
-                    title: "Razorpay not ready",
-                    description: "checkout.js is still loading. Please try again in a moment.",
-                    variant: "destructive",
-                  });
-                  return;
-                }
-
-                if (!defaultPlanId) {
-                  toast({
-                    title: "No plan found",
-                    description:
-                      "No active plans were returned from /api/plans. Create/activate a default SubscriptionPlan and retry.",
-                    variant: "destructive",
-                  });
-                  return;
-                }
-
-                openCheckout(defaultPlanId);
-              }}
-              disabled={planLoading || razorpayLoading}
-              className="h-10 px-4"
-              variant="outline"
-            >
-              {planLoading || razorpayLoading ? "Starting..." : "Skip & Pay"}
-            </Button>
-          </div>
-        </div>
-      )}
-      
       {/* Progress */}
       {activeInsuranceName && (
         <div className="w-full max-w-lg sm:max-w-2xl lg:max-w-4xl mb-6 bg-white/70 border border-[#D4E2DA] rounded-2xl px-5 py-4 shadow-sm backdrop-blur-sm text-center">
