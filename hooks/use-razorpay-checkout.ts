@@ -107,9 +107,23 @@ export function useRazorpayCheckout() {
         if (blocking?.status) {
           const planName = blocking.planName ? ` for ${blocking.planName}` : "";
           const message = `${err}${planName} (status: ${blocking.status}).`;
+          
+          // Show prominent toast with blocking subscription details
+          toast({
+            title: "Subscription Already Exists",
+            description: message,
+            variant: "destructive",
+          });
+          
           throw new Error(message);
         }
 
+        toast({
+          title: "Checkout Error",
+          description: err,
+          variant: "destructive",
+        });
+        
         throw new Error(err);
       }
 
@@ -145,9 +159,9 @@ export function useRazorpayCheckout() {
             await options?.onSuccess?.(verifyData as VerifyPaymentResponse);
 
             toast({
-              title: "Payment successful",
-              description:
-                "Your payment is confirmed. Your subscription is pending admin approval.",
+              title: "Subscription pending approval",
+              description: "You have successfully purchased the subscription. Please wait for admin approval.",
+              variant: "destructive",
             });
           } catch (error: any) {
             options?.onFailure?.(error instanceof Error ? error : new Error(error?.message || 'Payment verification failed'));

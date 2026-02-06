@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertCircle, FileText, Microscope, ArrowRight, Zap, CheckCircle } from "lucide-react";
+import { AlertCircle, FileText, Microscope, ArrowRight, Zap, CheckCircle, Home } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useRazorpayCheckout } from "@/hooks/use-razorpay-checkout";
@@ -21,6 +21,7 @@ interface ResultProps {
   coverage?: CoverageInfo | null;
   isPincodeAllowed?: boolean;
   planId?: string | null;
+  hasExistingSubscription?: boolean;
 }
 
 export default function Result({
@@ -30,9 +31,11 @@ export default function Result({
   coverage,
   isPincodeAllowed = true,
   planId = null,
+  hasExistingSubscription = false,
 }: ResultProps) {
   const isSuccess = quizSubmitted && !submissionError;
   const hasCoverage = isSuccess && !!coverage;
+  const isFromPurchaseFlow = !!planId;
   const { isReady: razorpayReady, isLoading: razorpayLoading, openCheckout } = useRazorpayCheckout();
 
   const [defaultPlanId, setDefaultPlanId] = useState<string | null>(null);
@@ -135,6 +138,27 @@ export default function Result({
   ]);
 
   const renderStatusBlock = () => {
+    if (isFromPurchaseFlow && isSuccess) {
+      return (
+        <>
+          <CheckCircle className="w-8 h-8 text-green-600" />
+          <div className="space-y-2">
+            <p className="text-xl font-semibold text-[#1F302B]">
+              Plan Purchased Successfully!
+            </p>
+            <p className="text-base text-black/70 leading-relaxed max-w-2xl">
+              Quiz submitted successfully. Your submission will be reviewed within 24 hours.
+            </p>
+            {selectedPlan && (
+              <p className="text-sm text-[#5B746F]">
+                Plan: {selectedPlan.id === planId ? "Selected Plan" : "Plan"} - Rs {Number(selectedPlan.price).toLocaleString()}
+              </p>
+            )}
+          </div>
+        </>
+      );
+    }
+
     if (submissionError) {
       return (
         <>
@@ -223,7 +247,7 @@ export default function Result({
             </p>
             <div className="inline-flex flex-col  items-center justify-center gap-3 text-[#2F3A32]">
               <span className="text-sm font-medium tracking-[0.3em] uppercase text-[#8B9384]">
-                Transparent Pricing
+                {isFromPurchaseFlow ? "Purchased Plan" : "Transparent Pricing"}
               </span>
               <div className="flex flex-col sm:flex-row items-center gap-2 text-base font-medium text-[#5B6356]">
                 {selectedPlan?.originalPrice ? (
@@ -237,7 +261,7 @@ export default function Result({
                 <span className="hidden sm:block text-[#CFCABA]">|</span>
                 <span className="inline-flex items-center gap-2 rounded-full  px-5 py-3 shadow-[0_4px_20px_rgba(31,48,43,0.12)]">
                   <span className="text-xs uppercase tracking-[0.25em] text-[#1F302B]">
-                    Our Price
+                    {isFromPurchaseFlow ? "Purchased" : "Our Price"}
                   </span>
                   <span className="font-serif text-3xl font-bold leading-none text-[#1F302B]">
                     Rs {selectedPlan ? Number(selectedPlan.price).toLocaleString() : "—"}
@@ -281,17 +305,29 @@ export default function Result({
           </div>
 
           <div className="mt-12 flex flex-col items-center">
-            <Button 
-              onClick={() => {
-                if (!defaultPlanId) return;
-                openCheckout(defaultPlanId);
-              }}
-              disabled={!canPay || planLoading || razorpayLoading}
-              className="w-full md:w-[160px] h-12 bg-[#1F302B] hover:bg-[#2C3E3A] text-white rounded-xl text-base font-medium transition-colors cursor-pointer flex items-center justify-center gap-2"
-            >
-              {planLoading || razorpayLoading ? "Starting..." : "Begin Now"}
-              <ArrowRight className="w-5 h-5" />
-            </Button>
+            {isFromPurchaseFlow ? (
+              <Button 
+                onClick={() => {
+                  window.location.href = '/';
+                }}
+                className="w-full md:w-[160px] h-12 bg-[#1F302B] hover:bg-[#2C3E3A] text-white rounded-xl text-base font-medium transition-colors cursor-pointer flex items-center justify-center gap-2"
+              >
+                <Home className="w-5 h-5" />
+                Go to Home
+              </Button>
+            ) : (
+              <Button 
+                onClick={() => {
+                  if (!defaultPlanId) return;
+                  openCheckout(defaultPlanId);
+                }}
+                disabled={!canPay || planLoading || razorpayLoading}
+                className="w-full md:w-[160px] h-12 bg-[#1F302B] hover:bg-[#2C3E3A] text-white rounded-xl text-base font-medium transition-colors cursor-pointer flex items-center justify-center gap-2"
+              >
+                {planLoading || razorpayLoading ? "Starting..." : "Begin Now"}
+                <ArrowRight className="w-5 h-5" />
+              </Button>
+            )}
           </div>
 
         </div>
