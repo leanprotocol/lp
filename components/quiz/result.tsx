@@ -102,6 +102,7 @@ export default function Result({
   }, [planId]);
 
   useEffect(() => {
+    if (isFromPurchaseFlow) return;
     if (!devSkipEnabled) return;
     if (!defaultPlanId) return;
     if (!razorpayReady) return;
@@ -120,6 +121,7 @@ export default function Result({
   ]);
 
   useEffect(() => {
+    if (isFromPurchaseFlow) return;
     if (!isSuccess) return;
     if (!defaultPlanId) return;
     if (!razorpayReady) return;
@@ -135,6 +137,7 @@ export default function Result({
     razorpayLoading,
     autoCheckoutTriggered,
     openCheckout,
+    isFromPurchaseFlow,
   ]);
 
   const renderStatusBlock = () => {

@@ -59,6 +59,7 @@ function loadRazorpayScript(): Promise<void> {
 export function useRazorpayCheckout() {
   const [isReady, setIsReady] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const toastCardClass = "bg-white border border-[#E3E3E3] rounded-2xl shadow-lg text-[#1F302B]";
 
   type CheckoutOptions = {
     onSuccess?: (data: VerifyPaymentResponse) => void | Promise<void>;
@@ -112,7 +113,7 @@ export function useRazorpayCheckout() {
           toast({
             title: "Subscription Already Exists",
             description: message,
-            variant: "destructive",
+            className: toastCardClass,
           });
           
           throw new Error(message);
@@ -121,7 +122,7 @@ export function useRazorpayCheckout() {
         toast({
           title: "Checkout Error",
           description: err,
-          variant: "destructive",
+          className: toastCardClass,
         });
         
         throw new Error(err);

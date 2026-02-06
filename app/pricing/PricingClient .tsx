@@ -187,14 +187,14 @@ export default function PricingClient() {
                   )}
 
                   <div className="flex h-full flex-col px-8">
-                    <div className="min-h-[140px] space-y-3 text-left">
+                    <div className="min-h-[170px] space-y-3 text-left">
                       <h3 className="text-[1.65rem] font-semibold text-gray-900">{plan.name}</h3>
                       {plan.description && (
                         <p className="text-sm text-gray-500 leading-relaxed">{plan.description}</p>
                       )}
                     </div>
 
-                    <div className="mt-4 space-y-2">
+                    <div className="mt-4 space-y-2 min-h-[84px]">
                       <div className="flex items-baseline gap-3">
                         {plan.originalPrice ? (
                           <span className="text-base text-gray-400 line-through">

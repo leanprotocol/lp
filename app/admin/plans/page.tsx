@@ -473,6 +473,9 @@ export default function PlansPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Features *
                 </label>
+                <p className="text-xs text-gray-500 mb-2">
+                  {formData.features.filter(f => f.trim()).length} added (recommended: up to 10)
+                </p>
                 <div className="space-y-2">
                   {formData.features.filter(f => f.trim()).map((feature, index) => (
                     <div key={index} className="flex items-center gap-2">

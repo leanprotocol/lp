@@ -10,6 +10,16 @@ export function setAuthCookie(response: NextResponse, token: string): void {
   });
 }
 
+export function setTempAuthCookie(response: NextResponse, token: string): void {
+  response.cookies.set('temp-auth-token', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: 60 * 60 * 2, // 2 hours only - temporary for OTP flow
+    path: '/',
+  });
+}
+
 export function setAdminAuthCookie(response: NextResponse, token: string): void {
   response.cookies.set('admin_token', token, {
     httpOnly: true,
