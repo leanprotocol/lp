@@ -130,6 +130,27 @@ export function useRazorpayCheckout() {
 
       const order = createOrderData as CreateOrderResponse;
 
+      const markPaymentFailed = async (payload: {
+        failureReason?: string;
+        metadata?: any;
+      }) => {
+        try {
+          await fetch("/api/payment/fail", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              razorpayOrderId: order.orderId,
+              failureReason: payload.failureReason,
+              metadata: payload.metadata,
+            }),
+          });
+        } catch {
+          // ignore
+        }
+      };
+
       const razorpay = new window.Razorpay({
         key: order.keyId,
         currency: order.currency,
@@ -176,6 +197,12 @@ export function useRazorpayCheckout() {
         modal: {
           ondismiss: () => {
             options?.onDismiss?.();
+            void markPaymentFailed({
+              failureReason: "Payment cancelled",
+              metadata: {
+                dismissedAt: new Date().toISOString(),
+              },
+            });
             toast({
               title: "Payment cancelled",
               description: "You can complete the payment anytime from this page.",
@@ -189,6 +216,17 @@ export function useRazorpayCheckout() {
 
       razorpay.on("payment.failed", (evt: any) => {
         const description = evt?.error?.description || "Payment failed";
+        void markPaymentFailed({
+          failureReason: description,
+          metadata: {
+            code: evt?.error?.code,
+            source: evt?.error?.source,
+            step: evt?.error?.step,
+            reason: evt?.error?.reason,
+            metadata: evt?.error?.metadata,
+            failedAt: new Date().toISOString(),
+          },
+        });
         toast({
           title: "Payment failed",
           description,
