@@ -340,6 +340,7 @@ function QuizPageContent() {
   const searchParams = useSearchParams();
   const { isReady: razorpayReady, isLoading: razorpayLoading, openCheckout } = useRazorpayCheckout();
   const selectedPlanIdFromQuery = searchParams.get('planId');
+  const flowFromQuery = searchParams.get('flow');
   const [currentStep, setCurrentStep] = useState(0);
   const [direction, setDirection] = useState<1 | -1>(1);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
@@ -780,6 +781,7 @@ function QuizPageContent() {
         coverage={coverage}
         isPincodeAllowed={isPincodeAllowed}
         planId={selectedPlanIdFromQuery}
+        flow={flowFromQuery}
       />
     );
   }
