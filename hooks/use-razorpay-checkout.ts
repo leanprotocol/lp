@@ -13,6 +13,16 @@ type CreateOrderResponse = {
   paymentId: string;
 };
 
+type CreateOrderErrorResponse = {
+  error?: string;
+  blockingSubscription?: {
+    id: string;
+    status: string;
+    planName?: string | null;
+    endDate?: string | null;
+  };
+};
+
 type VerifyPaymentResponse = {
   success: boolean;
   message?: string;
@@ -50,6 +60,12 @@ export function useRazorpayCheckout() {
   const [isReady, setIsReady] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  type CheckoutOptions = {
+    onSuccess?: (data: VerifyPaymentResponse) => void | Promise<void>;
+    onFailure?: (error: Error) => void;
+    onDismiss?: () => void;
+  };
+
   useEffect(() => {
     let mounted = true;
     loadRazorpayScript()
@@ -65,7 +81,7 @@ export function useRazorpayCheckout() {
     };
   }, []);
 
-  const openCheckout = useCallback(async (planId: string) => {
+  const openCheckout = useCallback(async (planId: string, options?: CheckoutOptions) => {
     if (isLoading) return;
     setIsLoading(true);
 
@@ -80,10 +96,20 @@ export function useRazorpayCheckout() {
         body: JSON.stringify({ planId }),
       });
 
-      const createOrderData = (await createOrderRes.json()) as CreateOrderResponse | { error?: string };
+      const createOrderData = (await createOrderRes.json()) as
+        | CreateOrderResponse
+        | CreateOrderErrorResponse;
 
       if (!createOrderRes.ok) {
-        const err = (createOrderData as any)?.error || "Failed to create order";
+        const err = (createOrderData as CreateOrderErrorResponse)?.error || "Failed to create order";
+        const blocking = (createOrderData as CreateOrderErrorResponse)?.blockingSubscription;
+
+        if (blocking?.status) {
+          const planName = blocking.planName ? ` for ${blocking.planName}` : "";
+          const message = `${err}${planName} (status: ${blocking.status}).`;
+          throw new Error(message);
+        }
+
         throw new Error(err);
       }
 
@@ -116,12 +142,15 @@ export function useRazorpayCheckout() {
               throw new Error((verifyData as any)?.error || "Payment verification failed");
             }
 
+            await options?.onSuccess?.(verifyData as VerifyPaymentResponse);
+
             toast({
               title: "Payment successful",
               description:
                 "Your payment is confirmed. Your subscription is pending admin approval.",
             });
           } catch (error: any) {
+            options?.onFailure?.(error instanceof Error ? error : new Error(error?.message || 'Payment verification failed'));
             toast({
               title: "Verification failed",
               description: error?.message || "Payment verification failed",
@@ -131,6 +160,7 @@ export function useRazorpayCheckout() {
         },
         modal: {
           ondismiss: () => {
+            options?.onDismiss?.();
             toast({
               title: "Payment cancelled",
               description: "You can complete the payment anytime from this page.",
@@ -153,6 +183,7 @@ export function useRazorpayCheckout() {
 
       razorpay.open();
     } catch (error: any) {
+      options?.onFailure?.(error instanceof Error ? error : new Error(error?.message || 'Unable to start payment'));
       toast({
         title: "Checkout error",
         description: error?.message || "Unable to start payment",
