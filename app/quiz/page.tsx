@@ -914,7 +914,7 @@ function QuizPageContent() {
         {/* --- STEP 2: GOAL WEIGHT --- */}
         {currentQ.type === "goal-weight" && (
             <div className="space-y-6 text-center animate-in fade-in duration-500 mt-2">
-                <h1 className="font-serif text-3xl text-[#111] mb-4">What is your <span className="border-0 bg-accent2/30 border-dark p-1 px-5 rounded-4xl">goal</span> weight?</h1>
+                <h1 className="font-serif text-3xl text-[#111] mb-4">What is your realistic <span className="border-0 bg-accent2/30 border-dark p-1 px-5 rounded-4xl">goal</span> weight?</h1>
                 <p className="text-[#5B746F] font-medium mb-6">Current Weight: {answers.currentWeight} kg</p>
                 
                 <div className="max-w-xs mx-auto relative">

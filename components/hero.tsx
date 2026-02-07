@@ -101,11 +101,11 @@ export function Hero() {
           </p>
 
           <div className="mb-7 text-white space-y-1 text-[14px] leading-[15px] sm:hidden">
-            <p>Advanced blood test &amp; evaluation</p>
-            <p>1:1 nutritionist consult (60 min)</p>
-            <p>Weight-loss doctor consultation</p>
-            <p>A clear future action plan</p>
-            <p>All for {defaultPlan ? defaultPlan.price : "—"}. No hidden terms</p>
+            <p>- Advanced blood test &amp; evaluation</p>
+            <p>- 1:1 nutritionist consult (60 min)</p>
+            <p>- Weight-loss doctor consultation</p>
+            <p>- A clear future action plan</p>
+            <p>- All for {defaultPlan ? defaultPlan.price : "—"}. No hidden terms</p>
           </div>
 
           <div className="mb-7 flex flex-col sm:flex-row gap-3">
