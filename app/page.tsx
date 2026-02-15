@@ -29,7 +29,7 @@ export default function Page() {
       <BenefitsMarquee />
       <TestimonialsCarousel />
       {/* <StatsSection /> */}
-      <DoctorTestimonial />
+      {/* <DoctorTestimonial /> */}
       <DoctorsSection />
       <Footer />
     </main>
