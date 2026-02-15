@@ -24,6 +24,13 @@ export async function PATCH(
         });
       }
 
+      if ((validatedData as any).isFeatured === true) {
+        await tx.subscriptionPlan.updateMany({
+          where: { id: { not: id }, isFeatured: true } as any,
+          data: { isFeatured: false } as any,
+        });
+      }
+
       return tx.subscriptionPlan.update({
         where: { id },
         data: validatedData,

@@ -9,6 +9,7 @@ export const createPlanSchema = z.object({
   features: z.array(z.string()).min(1, 'At least one feature is required'),
   isActive: z.boolean().optional().default(true),
   isDefault: z.boolean().optional().default(false),
+  isFeatured: z.boolean().optional().default(false),
   displayOrder: z.number().int().optional().default(0),
   allowMultiplePurchase: z.boolean().optional().default(false),
   isRefundable: z.boolean().optional().default(false),
