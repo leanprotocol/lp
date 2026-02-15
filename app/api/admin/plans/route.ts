@@ -73,6 +73,13 @@ export async function POST(request: NextRequest) {
         });
       }
 
+      if ((validatedData as any).isFeatured === true) {
+        await tx.subscriptionPlan.updateMany({
+          where: { isFeatured: true } as any,
+          data: { isFeatured: false } as any,
+        });
+      }
+
       return tx.subscriptionPlan.create({
         data: validatedData as any,
       });

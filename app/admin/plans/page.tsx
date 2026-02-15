@@ -25,6 +25,7 @@ interface SubscriptionPlan {
   features: string[];
   isActive: boolean;
   isDefault?: boolean;
+  isFeatured?: boolean;
   displayOrder: number;
   allowMultiplePurchase: boolean;
   isRefundable: boolean;
@@ -42,6 +43,7 @@ interface PlanFormData {
   features: string[];
   isActive: boolean;
   isDefault: boolean;
+  isFeatured: boolean;
   allowMultiplePurchase: boolean;
   isRefundable: boolean;
   allowAutoRenew: boolean;
@@ -65,6 +67,7 @@ export default function PlansPage() {
     features: [""],
     isActive: true,
     isDefault: false,
+    isFeatured: false,
     allowMultiplePurchase: false,
     isRefundable: false,
     allowAutoRenew: false,
@@ -96,6 +99,7 @@ export default function PlansPage() {
         features: plan.features,
         isActive: plan.isActive,
         isDefault: !!plan.isDefault,
+        isFeatured: !!plan.isFeatured,
         allowMultiplePurchase: plan.allowMultiplePurchase,
         isRefundable: plan.isRefundable,
         allowAutoRenew: plan.allowAutoRenew,
@@ -111,6 +115,7 @@ export default function PlansPage() {
         features: [""],
         isActive: true,
         isDefault: false,
+        isFeatured: false,
         allowMultiplePurchase: false,
         isRefundable: false,
         allowAutoRenew: false,
@@ -132,6 +137,7 @@ export default function PlansPage() {
       features: [""],
       isActive: true,
       isDefault: false,
+      isFeatured: false,
       allowMultiplePurchase: false,
       isRefundable: false,
       allowAutoRenew: false,
@@ -197,6 +203,7 @@ export default function PlansPage() {
         features: validFeatures,
         isActive: formData.isActive,
         isDefault: formData.isDefault,
+        isFeatured: formData.isFeatured,
         allowMultiplePurchase: formData.allowMultiplePurchase,
         isRefundable: formData.isRefundable,
         allowAutoRenew: formData.allowAutoRenew,
@@ -225,6 +232,23 @@ export default function PlansPage() {
       setFormErrors({ submit: err.message });
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleMakeFeatured = async (planId: string) => {
+    try {
+      const res = await fetch(`/api/admin/plans/${planId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isFeatured: true }),
+      });
+      const result = await res.json();
+      if (!res.ok) {
+        throw new Error(result.error || "Failed to set featured plan");
+      }
+      await refresh({ silent: true });
+    } catch (err: any) {
+      alert(err.message);
     }
   };
 
@@ -544,6 +568,16 @@ export default function PlansPage() {
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
+                    checked={formData.isFeatured}
+                    onChange={(e) => setFormData(prev => ({ ...prev, isFeatured: e.target.checked }))}
+                    className="w-4 h-4 text-primary"
+                  />
+                  <span className="text-sm font-medium text-gray-700">Most featured plan (special UI highlight)</span>
+                </label>
+
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
                     checked={formData.isActive}
                     onChange={(e) => setFormData(prev => ({ ...prev, isActive: e.target.checked }))}
                     className="w-4 h-4 text-primary"
@@ -647,6 +681,11 @@ export default function PlansPage() {
                             Default
                           </span>
                         )}
+                        {plan.isFeatured && (
+                          <span className="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded">
+                            Featured
+                          </span>
+                        )}
                         {!plan.isActive && (
                           <span className="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded">
                             Inactive
@@ -697,38 +736,49 @@ export default function PlansPage() {
                     )}
                     {plan.allowMultiplePurchase && (
                       <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">
-                        Multiple Purchase
+                        Multiple Purchases
                       </span>
                     )}
                   </div>
 
-                  <div className="flex gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleOpenForm(plan)}
-                    >
-                      <Edit className="h-4 w-4 mr-1" />
-                      Edit
-                    </Button>
-
-                    {!plan.isDefault && (
+                  <div className="flex flex-wrap gap-2">
+                    {!plan.isDefault && plan.isActive && (
                       <Button
-                        variant="outline"
                         size="sm"
+                        variant="outline"
                         onClick={() => handleMakeDefault(plan.id)}
+                        className="cursor-pointer"
                       >
                         Make Default
                       </Button>
                     )}
+                    {!plan.isFeatured && plan.isActive && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleMakeFeatured(plan.id)}
+                        className="cursor-pointer"
+                      >
+                        Make Featured
+                      </Button>
+                    )}
                     <Button
-                      variant="outline"
                       size="sm"
-                      onClick={() => handleDeleteClick(plan)}
-                      className="text-red-600 hover:text-red-700"
+                      variant="outline"
+                      onClick={() => handleOpenForm(plan)}
+                      className="cursor-pointer"
                     >
-                      <Trash2 className="h-4 w-4 mr-1" />
-                      {plan.isActive ? "Deactivate" : "Deactivate"}
+                      <Edit className="h-4 w-4 mr-2" />
+                      Edit
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleDeleteClick(plan)}
+                      className="cursor-pointer text-red-600 hover:text-red-700"
+                    >
+                      <Trash2 className="h-4 w-4 mr-2" />
+                      Deactivate
                     </Button>
                   </div>
                 </div>

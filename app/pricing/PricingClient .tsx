@@ -19,6 +19,7 @@ interface SubscriptionPlan {
   isRefundable: boolean;
   allowAutoRenew: boolean;
   isDefault?: boolean;
+  isFeatured?: boolean;
 }
 
 export default function PricingClient() {
@@ -177,11 +178,11 @@ export default function PricingClient() {
                 <div
                   key={plan.id}
                   className={`relative flex flex-col rounded-3xl border px-0 pt-10 pb-8 shadow-sm bg-white/95 transition hover:-translate-y-1 hover:shadow-lg ${
-                    plan.isDefault ? "border-primary/70 shadow-primary/10" : "border-gray-200"
+                    plan.isFeatured ? "border-[#6B5B4A] shadow-[#6B5B4A]/10" : "border-gray-200"
                   }`}
                 >
-                  {plan.isDefault && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary text-white text-xs tracking-[0.3em] px-4 py-1 uppercase">
+                  {plan.isFeatured && (
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-[#6B5B4A] text-white text-xs tracking-[0.3em] px-4 py-1 uppercase">
                       Popular
                     </div>
                   )}
@@ -214,8 +215,8 @@ export default function PricingClient() {
                     <div className="mt-6">
                       <Button
                         className={`w-full rounded-2xl py-5 text-base font-semibold ${
-                          plan.isDefault
-                            ? "bg-primary text-white hover:bg-primary/90"
+                          plan.isFeatured
+                            ? "bg-[#6B5B4A] text-white hover:bg-[#5F5144]"
                             : "bg-gray-900 text-white hover:bg-gray-800"
                         }`}
                         onClick={() => handleGetStarted(plan.id)}
