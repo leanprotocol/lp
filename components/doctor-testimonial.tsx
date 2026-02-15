@@ -1,4 +1,44 @@
-import { Quote } from "lucide-react"
+"use client"
+
+import { useCallback, useEffect, useState } from "react"
+import useEmblaCarousel, { EmblaCarouselType } from "embla-carousel-react"
+import { Quote, ChevronLeft, ChevronRight } from "lucide-react"
+
+type DoctorProfile = {
+  name: string
+  role: string
+  imageFilename: string
+}
+
+const parseDoctorFilename = (filename: string): Pick<DoctorProfile, "name" | "role"> => {
+  const base = filename.replace(/\.(png|jpe?g|webp)$/i, "")
+
+  if (base.includes(",")) {
+    const [namePart, ...rest] = base.split(",")
+    return {
+      name: (namePart ?? "").trim(),
+      role: rest.join(",").trim(),
+    }
+  }
+
+  if (base.includes(" - ")) {
+    const [namePart, ...rest] = base.split(" - ")
+    return {
+      name: (namePart ?? "").trim(),
+      role: rest.join(" - ").trim(),
+    }
+  }
+
+  if (base.includes("-")) {
+    const [namePart, ...rest] = base.split("-")
+    return {
+      name: (namePart ?? "").trim(),
+      role: rest.join("-").trim(),
+    }
+  }
+
+  return { name: base.trim(), role: "" }
+}
 
 export function DoctorTestimonial() {
   return (
@@ -55,6 +95,117 @@ export function DoctorTestimonial() {
             </blockquote>
           </div>
 
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export function DoctorsSection() {
+  const doctorImageFilenames = [
+    "Dr Akhil Konduru MD- Internal Medicine.png",
+    "Dr Siddharth Garg MD- Internal Medicine.png",
+    "Richa Singh- Yoga & Fat Loss Expert.png",
+    "Simran Kumawat - Nutritionist and Obesity Expert.png",
+    "Richa Sharma, Expert Nutritionist & Dietitian.png",
+  ]
+
+  const doctors: DoctorProfile[] = doctorImageFilenames.map((imageFilename) => {
+    const parsed = parseDoctorFilename(imageFilename)
+    return {
+      imageFilename,
+      name: parsed.name,
+      role: parsed.role,
+    }
+  })
+
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: doctors.length > 3,
+    align: "start",
+    skipSnaps: false,
+    containScroll: "trimSnaps",
+  })
+  const [canScrollPrev, setCanScrollPrev] = useState(false)
+  const [canScrollNext, setCanScrollNext] = useState(false)
+
+  const updateScrollState = useCallback((api?: EmblaCarouselType) => {
+    if (!api) return
+    setCanScrollPrev(api.canScrollPrev())
+    setCanScrollNext(api.canScrollNext())
+  }, [])
+
+  useEffect(() => {
+    if (!emblaApi) return
+    updateScrollState(emblaApi)
+    emblaApi.on("select", updateScrollState)
+    emblaApi.on("reInit", updateScrollState)
+
+    return () => {
+      emblaApi?.off("select", updateScrollState)
+      emblaApi?.off("reInit", updateScrollState)
+    }
+  }, [emblaApi, updateScrollState])
+
+  return (
+    <section className="py-20 md:py-28 bg-[#F6F1EE]">
+      <div className="container mx-auto px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-12 md:mb-16">
+            <h2 className="heading text-center">Meet the doctors working with us</h2>
+          </div>
+
+          <div className="relative">
+            <div className="overflow-hidden" ref={emblaRef}>
+              <div className="flex gap-6">
+                {doctors.map((doctor) => (
+                  <div
+                    key={doctor.imageFilename}
+                    className="basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4 shrink-0 bg-white rounded-2xl overflow-hidden border border-dark/10 shadow-sm"
+                  >
+                    <div className="w-full h-[320px] bg-[#EDE7E1]">
+                      <img
+                        src={`/doctors/${encodeURIComponent(doctor.imageFilename)}`}
+                        alt={doctor.name}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="p-5">
+                      <p className="text-lg font-serif text-dark leading-tight">{doctor.name}</p>
+                      {doctor.role ? (
+                        <p className="text-sm text-dark/70 mt-2 leading-snug">{doctor.role}</p>
+                      ) : null}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3 mt-8">
+              <button
+                type="button"
+                onClick={() => emblaApi?.scrollPrev()}
+                disabled={!canScrollPrev}
+                className={`w-11 h-11 rounded-full border border-dark/20 flex items-center justify-center text-dark transition-colors cursor-pointer ${
+                  canScrollPrev ? "hover:bg-dark hover:text-white" : "opacity-40 cursor-not-allowed"
+                }`}
+                aria-label="View previous doctors"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                type="button"
+                onClick={() => emblaApi?.scrollNext()}
+                disabled={!canScrollNext}
+                className={`w-11 h-11 rounded-full border border-dark/20 flex items-center justify-center text-dark transition-colors cursor-pointer ${
+                  canScrollNext ? "hover:bg-dark hover:text-white" : "opacity-40 cursor-not-allowed"
+                }`}
+                aria-label="View next doctors"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
