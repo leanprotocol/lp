@@ -4,8 +4,7 @@ import { ParallaxJourney } from "@/components/parallax-journey";
 import { MicrodoseSection } from "@/components/microdose-section";
 import { StatsSection } from "@/components/stats-section";
 import { TestimonialsCarousel } from "@/components/testimonials-carousel";
-import { FAQSection } from "@/components/faq-section";
-import { DoctorTestimonial } from "@/components/doctor-testimonial";
+import { DoctorTestimonial, DoctorsSection } from "@/components/doctor-testimonial";
 import MembersServed from "@/components/members-served";
 import MedicationToolkit from "@/components/medication-toolkit";
 import InsuranceCoverage from "@/components/insurance-coverage";
@@ -28,10 +27,10 @@ export default function Page() {
       <WeightSlider />
       <InsuranceCoverage />
       <BenefitsMarquee />
-      {/* <TestimonialsCarousel /> */}
+      <TestimonialsCarousel />
       {/* <StatsSection /> */}
-      {/* <DoctorTestimonial /> */}
-      <FAQSection />
+      <DoctorTestimonial />
+      <DoctorsSection />
       <Footer />
     </main>
   );

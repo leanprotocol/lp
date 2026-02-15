@@ -1,57 +1,54 @@
 "use client"
 
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { BeforeAfterSlider } from "./before-after-slider"
 
 interface Testimonial {
-  category: string
   name: string
-  weightLost: string
-  beforeImage: string
-  afterImage: string
+  age?: string
+  weightLost?: string
+  duration?: string
+  imageFilename: string
 }
 
 export function TestimonialsCarousel() {
   // 1. Fixed: Set to 0 to show the first card by default
   const [activeIndex, setActiveIndex] = useState(0)
+  const touchStartXRef = useRef<number | null>(null)
+  const touchDeltaXRef = useRef<number>(0)
+
+  const parseTestimonialFilename = (filename: string) => {
+    const name = filename.split(",")[0]?.trim() || ""
+
+    const ageMatch = filename.match(/,\s*(\d+)\s*Lost/i)
+    const weightMatch = filename.match(/Lost\s*([\d.]+)\s*(?:Kgs?|kg|kgs)/i)
+    const durationMatch = filename.match(/\sin\s(.+?)\.(?:jpe?g|png|webp)$/i)
+
+    return {
+      name,
+      age: ageMatch?.[1],
+      weightLost: weightMatch?.[1],
+      duration: durationMatch?.[1]?.trim(),
+    }
+  }
 
   const testimonials: Testimonial[] = [
     {
-      category: "SEMAGLUTIDE",
-      name: "Colleen",
-      weightLost: "280",
-      beforeImage: "/colleen-before.jpg",
-      afterImage: "/colleen-after.jpg",
+      ...parseTestimonialFilename("Kanti, 44 Lost 8.5 Kgs in 3 months.jpeg"),
+      imageFilename: "Kanti, 44 Lost 8.5 Kgs in 3 months.jpeg",
     },
     {
-      category: "TIRZEPATIDE",
-      name: "Jessica",
-      weightLost: "120",
-      beforeImage: "/jessica-before.jpg",
-      afterImage: "/jessica-after.jpg",
+      ...parseTestimonialFilename("Neema, 46 Lost 10.8 kgs in 4 weeks.png"),
+      imageFilename: "Neema, 46 Lost 10.8 kgs in 4 weeks.png",
     },
     {
-      category: "LIRAGLUTIDE",
-      name: "Lupe",
-      weightLost: "43",
-      beforeImage: "/lupe-before.jpg",
-      afterImage: "/lupe-after.jpg",
+      ...parseTestimonialFilename("Pratima, 37 Lost 7Kgs in 2.5 months.jpeg"),
+      imageFilename: "Pratima, 37 Lost 7Kgs in 2.5 months.jpeg",
     },
     {
-      category: "LIRAGLUTIDE",
-      name: "Christie",
-      weightLost: "49",
-      beforeImage: "/christie-before.jpg",
-      afterImage: "/christie-after.jpg",
-    },
-    {
-      category: "LIRAGLUTIDE",
-      name: "Nicole",
-      weightLost: "85",
-      beforeImage: "/nicole-before.jpg",
-      afterImage: "/nicole-after.jpg",
+      ...parseTestimonialFilename("Rohit, 39 Lost 9.1 kg in 15 weeks.png"),
+      imageFilename: "Rohit, 39 Lost 9.1 kg in 15 weeks.png",
     },
   ]
 
@@ -65,7 +62,33 @@ export function TestimonialsCarousel() {
 
         {/* Carousel container */}
         <div className="relative max-w-7xl mx-auto mt-16">
-          <div className="overflow-hidden">
+          <div
+            className="overflow-hidden"
+            onTouchStart={(e) => {
+              touchStartXRef.current = e.touches[0]?.clientX ?? null
+              touchDeltaXRef.current = 0
+            }}
+            onTouchMove={(e) => {
+              if (touchStartXRef.current == null) return
+              const currentX = e.touches[0]?.clientX
+              if (currentX == null) return
+              touchDeltaXRef.current = currentX - touchStartXRef.current
+            }}
+            onTouchEnd={() => {
+              const deltaX = touchDeltaXRef.current
+              touchStartXRef.current = null
+              touchDeltaXRef.current = 0
+
+              const threshold = 50
+              if (Math.abs(deltaX) < threshold) return
+
+              if (deltaX < 0) {
+                setActiveIndex((idx) => Math.min(testimonials.length - 1, idx + 1))
+              } else {
+                setActiveIndex((idx) => Math.max(0, idx - 1))
+              }
+            }}
+          >
             <div
               className="flex transition-transform duration-500 ease-out gap-6"
               // 2. Fixed: Adjusted transform to move 100% per card plus the gap for mobile UX
@@ -78,38 +101,31 @@ export function TestimonialsCarousel() {
                 >
                   <div className="bg-white/20 rounded-2xl overflow-hidden shadow-xl">
                     <div className="p-4">
-                      <BeforeAfterSlider
-                        beforeImage={testimonial.beforeImage}
-                        afterImage={testimonial.afterImage}
-                        beforeLabel="Before"
-                        afterLabel="After"
-                      />
+                      <div className="w-full overflow-hidden rounded-xl bg-white/10 h-[360px] sm:h-[340px] md:h-[280px]">
+                        <img
+                          src={`/before-after/${encodeURIComponent(testimonial.imageFilename)}`}
+                          alt={testimonial.name ? `${testimonial.name} result` : "Testimonial result"}
+                          className="h-full w-full object-contain bg-white"
+                          loading="lazy"
+                        />
+                      </div>
                     </div>
 
                     <div className="p-6 pt-4 flex items-end justify-between gap-4">
   <div className="flex-1 min-w-0">
-    <p className="text-[10px] uppercase text-accent2 mb-1 tracking-[0.1em] font-medium opacity-80">
-      {testimonial.category}
-    </p>
     <h3 className="text-2xl font-serif text-white leading-none mb-2 truncate">
       {testimonial.name}
     </h3>
-    <p className="text-sm text-accent2 flex items-baseline gap-1">
-      <span>lost</span>
-      <span className="text-accent font-bold text-xl leading-none">
-        {testimonial.weightLost}
-      </span>
-      <span>lbs</span>
-    </p>
+    {(testimonial.weightLost || testimonial.duration || testimonial.age) && (
+      <p className="text-sm text-accent2 leading-snug">
+        {testimonial.age ? <span>{testimonial.age} yrs</span> : null}
+        {testimonial.age && (testimonial.weightLost || testimonial.duration) ? <span> · </span> : null}
+        {testimonial.weightLost ? <span>Lost {testimonial.weightLost} kg</span> : null}
+        {testimonial.weightLost && testimonial.duration ? <span> in </span> : null}
+        {testimonial.duration ? <span>{testimonial.duration}</span> : null}
+      </p>
+    )}
   </div>
-
-  <Button
-    variant="outline"
-    size="sm"
-    className="rounded-full font-normal text-[11px] px-4 h-9 border-white/20 text-white hover:bg-white/10 hover:text-white whitespace-nowrap bg-transparent transition-colors flex-shrink-0"
-  >
-    What {testimonial.name} says
-  </Button>
 </div>
                   </div>
                 </div>

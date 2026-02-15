@@ -79,7 +79,7 @@ export default function MedicationToolkit() {
             viewport={{ once: true }}
             className="font-serif max-w-4xl text-[28px] md:text-[50px] leading-[1.1] text-dark tracking-tight"
           >
-           Wish to Choose your own Medications? <span className="italic opacity-70">We Got You!</span>{" "}
+           Below are the doctor-guided weight loss approaches we follow
           </motion.h2>
 
           {/* Navigation Buttons */}
