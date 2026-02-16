@@ -66,8 +66,8 @@ export function TestimonialsCarousel() {
       imageFilename: "Kanti, 44 Lost 8.5 Kgs in 3 months.jpeg",
     },
     {
-      ...parseTestimonialFilename("Neema, 46 Lost 10.8 kgs in 4 weeks.png"),
-      imageFilename: "Neema, 46 Lost 10.8 kgs in 4 weeks.png",
+      ...parseTestimonialFilename("Neema, 46 Lost 10.8 kgs in 4 months.png"),
+      imageFilename: "Neema, 46 Lost 10.8 kgs in 4 months.png",
     },
     {
       ...parseTestimonialFilename("Pratima, 37 Lost 7Kgs in 2.5 months.jpeg"),

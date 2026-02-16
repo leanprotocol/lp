@@ -103,11 +103,11 @@ export function DoctorTestimonial() {
 
 export function DoctorsSection() {
   const doctorImageFilenames = [
-    "Dr Akhil Konduru MD- Internal Medicine.png",
-    "Dr Siddharth Garg MD- Internal Medicine.png",
+    "Dr Akhil Konduru - MD, Internal Medicine.png",
+    "Dr Siddharth Garg - MD, Internal Medicine.png",
     "Richa Singh- Yoga & Fat Loss Expert.png",
     "Simran Kumawat - Nutritionist and Obesity Expert.png",
-    "Richa Sharma, Expert Nutritionist & Dietitian.png",
+    "Richa Sharma - Expert Nutritionist & Dietitian.png",
   ]
 
   const doctors: DoctorProfile[] = doctorImageFilenames.map((imageFilename) => {
@@ -151,7 +151,7 @@ export function DoctorsSection() {
       <div className="container mx-auto px-4">
         <div className="max-w-7xl mx-auto">
           <div className="mb-12 md:mb-16">
-            <h2 className="heading text-center">Meet the doctors working with us</h2>
+            <h2 className="heading text-center">Meet the Experts working with us</h2>
           </div>
 
           <div className="relative">
