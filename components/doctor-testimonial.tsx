@@ -1,43 +1,13 @@
 "use client"
 
 import { useCallback, useEffect, useState } from "react"
-import useEmblaCarousel, { EmblaCarouselType } from "embla-carousel-react"
+import useEmblaCarousel, { UseEmblaCarouselType } from "embla-carousel-react"
 import { Quote, ChevronLeft, ChevronRight } from "lucide-react"
 
 type DoctorProfile = {
-  name: string
-  role: string
+  title: string
+  subtitle: string
   imageFilename: string
-}
-
-const parseDoctorFilename = (filename: string): Pick<DoctorProfile, "name" | "role"> => {
-  const base = filename.replace(/\.(png|jpe?g|webp)$/i, "")
-
-  if (base.includes(",")) {
-    const [namePart, ...rest] = base.split(",")
-    return {
-      name: (namePart ?? "").trim(),
-      role: rest.join(",").trim(),
-    }
-  }
-
-  if (base.includes(" - ")) {
-    const [namePart, ...rest] = base.split(" - ")
-    return {
-      name: (namePart ?? "").trim(),
-      role: rest.join(" - ").trim(),
-    }
-  }
-
-  if (base.includes("-")) {
-    const [namePart, ...rest] = base.split("-")
-    return {
-      name: (namePart ?? "").trim(),
-      role: rest.join("-").trim(),
-    }
-  }
-
-  return { name: base.trim(), role: "" }
 }
 
 export function DoctorTestimonial() {
@@ -84,7 +54,7 @@ export function DoctorTestimonial() {
                 </div>
                 
                 {/* Avatar with a subtle border to match professional medical branding */}
-                <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0 border-2 border-[#F5F3ED]">
+                <div className="w-16 h-16 rounded-full overflow-hidden shrink-0 border-2 border-[#F5F3ED]">
                   <img 
                     src="/dr-kumar-avatar.jpg" 
                     alt="Dr. Kumar" 
@@ -102,22 +72,33 @@ export function DoctorTestimonial() {
 }
 
 export function DoctorsSection() {
-  const doctorImageFilenames = [
-    "Dr Akhil Konduru - MD, Internal Medicine.png",
-    "Dr Siddharth Garg - MD, Internal Medicine.png",
-    "Richa Singh- Yoga & Fat Loss Expert.png",
-    "Simran Kumawat - Nutritionist and Obesity Expert.png",
-    "Richa Sharma - Expert Nutritionist & Dietitian.png",
+  const doctors: DoctorProfile[] = [
+    {
+      title: "Dr Akhil Konduru",
+      subtitle: "MD Internal Medicine",
+      imageFilename: "Dr Akhil Konduru - MD, Internal Medicine.png",
+    },
+    {
+      title: "Dr Siddharth Garg",
+      subtitle: "MD Internal Medicine",
+      imageFilename: "Dr Siddharth Garg - MD, Internal Medicine.png",
+    },
+    {
+      title: "Richa Singh",
+      subtitle: "Yoga & Fat Loss Expert",
+      imageFilename: "Richa Singh- Yoga & Fat Loss Expert.png",
+    },
+    {
+      title: "Simran Kumawat",
+      subtitle: "Nutritionist & Obesity Expert",
+      imageFilename: "Simran Kumawat - Nutritionist and Obesity Expert.png",
+    },
+    {
+      title: "Richa Sharma",
+      subtitle: "Expert Nutritionist & Dietitian",
+      imageFilename: "Richa Sharma - Expert Nutritionist & Dietitian.png",
+    },
   ]
-
-  const doctors: DoctorProfile[] = doctorImageFilenames.map((imageFilename) => {
-    const parsed = parseDoctorFilename(imageFilename)
-    return {
-      imageFilename,
-      name: parsed.name,
-      role: parsed.role,
-    }
-  })
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: doctors.length > 3,
@@ -128,7 +109,7 @@ export function DoctorsSection() {
   const [canScrollPrev, setCanScrollPrev] = useState(false)
   const [canScrollNext, setCanScrollNext] = useState(false)
 
-  const updateScrollState = useCallback((api?: EmblaCarouselType) => {
+  const updateScrollState = useCallback((api?: UseEmblaCarouselType[1]) => {
     if (!api) return
     setCanScrollPrev(api.canScrollPrev())
     setCanScrollNext(api.canScrollNext())
@@ -165,15 +146,15 @@ export function DoctorsSection() {
                     <div className="w-full h-[320px] bg-[#EDE7E1]">
                       <img
                         src={`/doctors/${encodeURIComponent(doctor.imageFilename)}`}
-                        alt={doctor.name}
+                        alt={doctor.title}
                         className="w-full h-full object-cover"
                         loading="lazy"
                       />
                     </div>
                     <div className="p-5">
-                      <p className="text-lg font-serif text-dark leading-tight">{doctor.name}</p>
-                      {doctor.role ? (
-                        <p className="text-sm text-dark/70 mt-2 leading-snug">{doctor.role}</p>
+                      <p className="text-lg font-serif text-dark leading-tight">{doctor.title}</p>
+                      {doctor.subtitle ? (
+                        <p className="text-sm text-dark/70 mt-2 leading-snug">{doctor.subtitle}</p>
                       ) : null}
                     </div>
                   </div>
