@@ -200,7 +200,7 @@ function Footer() {
                 </a>
               </li>
               <li className="inter text-accent2/80 font-light pt-2">
-                9871786353
+                9650491267
                 <br />
                 <span className="text-xs text-accent2/50">Mon-Fri, 9am - 6pm EST</span>
               </li>
