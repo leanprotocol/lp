@@ -84,7 +84,7 @@ export function TestimonialsCarousel() {
       <div className="container mx-auto px-4">
         {/* Section heading */}
         <h2 className="heading-white text-center">
-          Real people. Real stories. <span className="italic text-white">Real results.*</span>
+          Real people. Real stories. <span className="italic text-white">Real results.</span>
         </h2>
 
         {/* Carousel container */}
