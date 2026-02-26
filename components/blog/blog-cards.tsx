@@ -13,6 +13,9 @@ export function PostCard({
   post: BlogListItem;
   showTypeBadge?: boolean;
 }) {
+
+  console.log("POST ----------> ", post)
+
   const imageUrl = post.mainImage
     ? urlFor(post.mainImage).width(1200).height(800).fit("crop").url()
     : null;
@@ -32,6 +35,9 @@ export function PostCard({
     : 0;
   const readingMinutes = Math.max(1, Math.round(wordCount / 200));
 
+  console.log("IMAGE URL ----------> ", imageUrl);
+
+
   return (
 <Link
       href={`/blog/${post.slug}`}
@@ -41,8 +47,7 @@ export function PostCard({
       <div className="relative h-48 overflow-hidden bg-secondary">
         {imageUrl ? (
           <img
-            // src={imageUrl}
-            src="https://images.unsplash.com/photo-1603398938378-e54eab446dde?w=1200&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8bWVkaWNhbHxlbnwwfHwwfHx8MA%3D%3D"
+            src={imageUrl || "https://cdn.prod.website-files.com/65d8ac86401a1ef9f1915fdb/660bdff49b02fc0b5ff75273_CTA%20Ready%20to%20Get%20Started%20Image.webp"}
             alt={post.mainImage?.alt || post.title}
             className="h-full w-full object-cover transform transition-transform duration-[1.5s] ease-out group-hover:scale-105"
           />
