@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Loader2, Search, Filter, Eye, X, RefreshCcw, Check, XCircle, Pause } from "lucide-react";
+import { Loader2, Search, Filter, Eye, X, RefreshCcw, Check, XCircle, Pause, Download } from "lucide-react";
 import { useAdminFetch } from "@/hooks/use-admin-fetch";
 import { toast } from "@/hooks/use-toast";
 
@@ -119,6 +119,13 @@ export default function QuizSubmissionsPage() {
         </div>
         <div className="flex items-center gap-2">
           {error && <span className="text-sm text-red-600">{error}</span>}
+          <a
+            href="/api/admin/quiz/export"
+            className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 disabled:opacity-60"
+          >
+            <Download className="h-4 w-4" />
+            Download Excel
+          </a>
           <button
             onClick={() => refresh()}
             disabled={loading}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Loader2, Search, MessageSquare, Mail, Phone } from "lucide-react";
+import { Loader2, Search, MessageSquare, Mail, Phone, Download } from "lucide-react";
 
 interface ContactQuery {
   id: string;
@@ -58,6 +58,13 @@ export default function ContactQueriesPage() {
             View and manage user inquiries and support requests
           </p>
         </div>
+        <a
+          href="/api/admin/contact/export"
+          className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-700 hover:bg-slate-50"
+        >
+          <Download className="h-4 w-4" />
+          Download Excel
+        </a>
       </div>
 
       <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6">
