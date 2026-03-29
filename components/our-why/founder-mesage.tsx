@@ -6,6 +6,9 @@ import Link from "next/link";
 import { BiSolidQuoteAltRight } from "react-icons/bi";
 
 export default function FounderMessage() {
+  // Section temporarily hidden
+  return null;
+  
   return (
     <section className="py-16 px-4 md:px-8">
       <div className="max-w-4xl mx-auto">

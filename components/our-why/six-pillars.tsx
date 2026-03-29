@@ -190,7 +190,7 @@ export default function SixPillars() {
   }, []);
 
   return (
-    <section className="w-full md:pb-20 px-4 md:px-8 ">
+    <section className="w-full pt-16 md:pt-24 md:pb-20 px-4 md:px-8 ">
       <div className="max-w-[84rem] mx-auto">
         
         <div className="text-center mb-12">
