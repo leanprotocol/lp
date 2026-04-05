@@ -57,11 +57,8 @@
 //       if (node) {
 //         node.scrollLeft += speed;
 
-//         if (posts.length > 1) {
-//           const resetAt = node.scrollWidth / 2;
-//           if (node.scrollLeft >= resetAt) {
-//             node.scrollLeft = 0;
-//           }
+//         if (posts.length > 1 && node.scrollLeft >= node.scrollWidth - node.clientWidth) {
+//           node.scrollLeft = 0;
 //         }
 //       }
 //       raf = requestAnimationFrame(tick);
@@ -146,8 +143,8 @@ export default function BlogFeaturedRail({ posts }: { posts: BlogListItem[] }) {
   const [reduceMotion, setReduceMotion] = useState(false);
 
   const loopPosts = useMemo(() => {
-    if (posts.length <= 1) return posts;
-    return [...posts, ...posts];
+    // Return posts as-is without duplication to prevent repeating blogs
+    return posts;
   }, [posts]);
 
   useEffect(() => {
@@ -186,11 +183,8 @@ export default function BlogFeaturedRail({ posts }: { posts: BlogListItem[] }) {
       if (node) {
         node.scrollLeft += speed;
 
-        if (posts.length > 1) {
-          const resetAt = node.scrollWidth / 2;
-          if (node.scrollLeft >= resetAt) {
-            node.scrollLeft = 0;
-          }
+        if (posts.length > 1 && node.scrollLeft >= node.scrollWidth - node.clientWidth) {
+          node.scrollLeft = 0;
         }
       }
       raf = requestAnimationFrame(tick);

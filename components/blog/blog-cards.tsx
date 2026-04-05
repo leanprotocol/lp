@@ -47,7 +47,7 @@ export function PostCard({
       <div className="relative h-48 overflow-hidden bg-secondary">
         {imageUrl ? (
           <img
-            src={imageUrl || "https://cdn.prod.website-files.com/65d8ac86401a1ef9f1915fdb/660bdff49b02fc0b5ff75273_CTA%20Ready%20to%20Get%20Started%20Image.webp"}
+            src={imageUrl}
             alt={post.mainImage?.alt || post.title}
             className="h-full w-full object-cover transform transition-transform duration-[1.5s] ease-out group-hover:scale-105"
           />
@@ -268,8 +268,7 @@ export function FeaturedRailCard({ post }: { post: BlogListItem }) {
 
         {imageUrl ? (
           <img
-            // src={imageUrl}
-            src="https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?w=1200&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8YmxvZ3xlbnwwfHwwfHx8MA%3D%3D"
+            src={imageUrl}
             alt={post.mainImage?.alt || post.title}
             className="h-full w-full object-cover transform transition-transform duration-[1.5s] ease-out group-hover:scale-105"
           />
