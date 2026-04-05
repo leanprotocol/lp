@@ -15,7 +15,7 @@ import PricingSection from "@/components/medications/pricing-section"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Weight Loss Medications | Zepbound, Mounjaro, Victoza, Wegovy, Ozempic, Orlistat, Metformin | Lean Healthcare",
+  title: "Weight Loss Medications | Zepbound, Mounjaro, Victoza, Wegovy, Ozempic, Orlistat, Metformin | Lean Protocol",
   description: "GLP-1 medications for fat loss: Zepbound®, Wegovy®, Ozempic®. Treat insulin resistance, PCOS, hormonal imbalance. Lean Protocol + doctor monitoring from ₹2,299.",
   openGraph: {
     images: ["/og-image.jpg"],

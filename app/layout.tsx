@@ -15,7 +15,7 @@ const libreBaskerville = Libre_Baskerville({
 })
 
 export const metadata: Metadata = {
-  title: "Lean Healthcare | Clinically Proven Weight Loss for India",
+  title: "Lean Protocol | Clinically Proven Weight Loss for India",
   description: "Advanced blood tests, 1-on-1 doctor & nutritionist care, personalized GLP-1 protocol. Lose 15-22% body weight with Wegovy®, Zepbound®. Starting ₹2,299.",
   openGraph: {
     images: ["/og-image.jpg"],

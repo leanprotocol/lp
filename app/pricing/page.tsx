@@ -4,7 +4,7 @@ import PricingClient from "./PricingClient "
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Pricing | Lean Healthcare Weight Loss Plans from ₹2,299",
+  title: "Pricing | Lean Protocol Weight Loss Plans from ₹2,299",
   description: "Choose your Lean Protocol plan...",
   openGraph: { images: ["/og-image.jpg"] },
 }
