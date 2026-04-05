@@ -7,7 +7,7 @@ import WhyUs from "@/components/our-why/why-us"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Why Lean Healthcare? | Integrated Weight Loss Protocol for India",
+  title: "Why Lean Protocol? | Integrated Weight Loss Protocol for India",
   description: "Discover why Lean Protocol works - medical-first approach connecting doctors, nutritionists & trainers. 6 foundational pillars: Protocol, Prioritisation, Legit Science. Starting ₹2,299.",
   openGraph: {
     images: ["/og-image.jpg"],

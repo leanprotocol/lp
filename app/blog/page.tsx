@@ -8,7 +8,7 @@ import { BlogHero } from "@/components/blog/blog-hero";
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Weight Loss Knowledge Hub | Lean Healthcare Articles & Insights",
+  title: "Weight Loss Knowledge Hub | Lean Protocol Articles & Insights",
   description: "Latest articles on GLP-1 medications, weight loss science, Lean Protocol tips, Indian health insights. Evidence-based content from doctors & nutritionists.",
   openGraph: {
     images: ["/og-image.jpg"],
