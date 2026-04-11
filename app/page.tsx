@@ -12,6 +12,7 @@ import BenefitsMarquee from "@/components/benefits-marquee";
 import Footer from "@/components/footer";
 import CausesSection from "@/components/causes-section";
 import { WeightSlider } from "@/components/weight-slider";
+import { MobileStatsCard } from "@/components/mobile-stats-card";
 
 export default function Page() {
   return (
@@ -19,15 +20,17 @@ export default function Page() {
       <Header />
       <Hero />
       <InsuranceLogos />
-      <CausesSection />
+      {<div className="hidden md:block"><CausesSection /></div>}
       <ParallaxJourney /> 
+      <TestimonialsCarousel />
+      <MobileStatsCard />
       {/* <MembersServed /> */}
-      <MedicationToolkit />
+      {<div className="hidden md:block"><MedicationToolkit /></div>}
       {/* <MicrodoseSection /> */}
       <WeightSlider />
       <InsuranceCoverage />
       <BenefitsMarquee />
-      <TestimonialsCarousel />
+      
       {/* <StatsSection /> */}
       {/* <DoctorTestimonial /> */}
       <DoctorsSection />

@@ -6,13 +6,13 @@ import Link from "next/link"
 
 const journeySteps = [
   {
-    title: "At Home Advanced Blood Panel and Health Evaluation Checkup",
+    title: "At Home Advanced Blood Test",
     description: "Share your goals and history to power your personalized MetabolicPrint™ health assessment",
     image: "/journey/journey1.webp",
     gradient: "from-[#8B8A6F] to-[#A39F88]",
   },
   {
-    title: "Deep Chats with our Expert Doctors & Nutritionists for a Personalised Protocol",
+    title: "Consultation with our Expert Doctors & Nutritionists for a Personalised Protocol",
     description: "We'll find the best medication option for your budget & set goals",
     image: "/journey/journey2.png",
     gradient: "from-[#A39F88] to-[#B8B29E]",
@@ -24,13 +24,13 @@ const journeySteps = [
     gradient: "from-[#8B8A6F] to-[#9B9A80]",
   },
   {
-    title: "Get your accountability partner & expert-designed workouts",
+    title: "Get an accountability partner & expert-designed workouts",
     description: "Monitor your weight loss journey with our app and regular check-ins",
     image: "/journey/journey4.webp",
     gradient: "from-[#7A7961] to-[#8B8A6F]",
   },
   {
-    title: "Get lighter- lose up to 15-22% of body weight",
+    title: "Get lighter - lose up to 22% of body weight",
     description: "Celebrate your success with ongoing support from our care team",
     image: "/journey/journey5.webp",
     gradient: "from-[#9B9A80] to-[#A39F88]",
