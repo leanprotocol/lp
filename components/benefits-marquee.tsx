@@ -193,7 +193,7 @@ export default function DiseaseMarqueeOverlay() {
         >
           <h2 className="heading-white leading-tight">
             <span className="inline-block md:whitespace-nowrap">
-              Because breaking free from obesity will make you better in every way.
+              Breaking free from obesity will make you better in every way.
             </span>
             <span className="mt-2 block italic text-white">
               And Improve Your.....
