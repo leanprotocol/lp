@@ -201,13 +201,15 @@ export default function InsuranceCoverage() {
           <p className="sub-heading text-[#191919]/70">
             We’ve got affordable options for every journey
           </p>
-          <Link
-            href="/pricing"
+          <a
+            href="https://wa.link/3s1upf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex mt-2 text-sm items-center justify-center gap-2 text-[#2D3319] hover:text-[#2D3319]/70 transition-colors duration-300 font-sans border-b border-[#2D3319]/20 pb-0.5 hover:border-[#2D3319]"
           >
-            Explore our pricing
+            Chat with Experts
             <ArrowRight className="w-4 h-4" />
-          </Link>
+          </a>
         </motion.div>
       </div>
 
