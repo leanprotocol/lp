@@ -14,6 +14,7 @@ import CausesSection from "@/components/causes-section";
 import { WeightSlider } from "@/components/weight-slider";
 import { MobileStatsCard } from "@/components/mobile-stats-card";
 import { PricingCarousel } from "@/components/pricing-carousel";
+import { WeightLossChart } from "@/components/weight-loss-chart";
 
 export default function Page() {
   return (
@@ -31,8 +32,9 @@ export default function Page() {
       {/* <MicrodoseSection /> */}
       <WeightSlider />
       <DoctorsSection />
-      <InsuranceCoverage />
+      <WeightLossChart />
       <BenefitsMarquee />
+      <InsuranceCoverage />
       
       {/* <StatsSection /> */}
       {/* <DoctorTestimonial /> */}
