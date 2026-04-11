@@ -66,7 +66,7 @@ export default function ProgramCalculator() {
             
             {/* Heading */}
             <h2 className="font-serif text-center text-3xl md:text-4xl text-black leading-tight font-normal">
-              Curious about weight loss medications?
+              Your weight in 6 months with Lean Protocol
             </h2>
 
             {/* Calculator Card */}

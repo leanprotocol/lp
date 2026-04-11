@@ -43,7 +43,7 @@ export function WeightSlider() {
               <div className="relative p-14 md:p-28 rounded-full bg-[#D4E5C4] flex flex-col items-center justify-center">
                 <p className="text-sm text-black/70 mb-2">Lose up to</p>
                 <p className="font-sans font-thin tracking-tighter text-[4rem] md:text-[8rem] text-black">22%</p>
-                <p className="text-sm text-center text-black/70 mt-2">of your body weight with Zepbound®</p>
+                <p className="text-sm text-center text-black/70 mt-2">of your body weight with GLP-1®</p>
               </div>
             </div>
             <p className="text-xs text-center text-black/50 mt-12 max-w-4xl mx-auto">
@@ -55,7 +55,7 @@ export function WeightSlider() {
 
           <div className="order-1 lg:order-2">
             <h2 className="font-serif text-[28px] lg:text-5xl text-black mb-10 md:mb-16 text-center">
-              Curious about weight loss medications?
+              Your weight in 6 months with Lean Protocol
             </h2>
             <div className="bg-white border border-black rounded-3xl md:rounded-[3rem] p-6 md:p-12 md:py-16">
               <div className="flex items-center justify-between mb-8">
