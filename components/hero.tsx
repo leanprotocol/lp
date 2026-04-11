@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Check, Zap, ShieldCheck, TrendingDown, Stethoscope, Sun, ArrowRight } from "lucide-react"
-import Link from "next/link"
 
 export function Hero() {
   const [videoSrc, setVideoSrc] = useState<string | null>(null)
@@ -91,7 +90,7 @@ export function Hero() {
         <div className="max-w-4xl">
           
           <h1 className="mb-3 text-4xl font-serif tracking-tight text-balance md:text-[3.2rem] text-white leading-[1.3]">
-            Clinically Proven Fat Loss Made
+            GLP 1 guided Fat Loss Made
             <br />
              <span className="italic font-light text-accent opacity-90">Affordable for India</span>
           </h1>
@@ -100,23 +99,23 @@ export function Hero() {
             Advanced blood test & evaluation · 1:1 nutritionist consult (60 min) · Weight-loss doctor consultation · A clear future action plan · All for Rs {defaultPlan ? defaultPlan.price : "—"}. No hidden terms
           </p>
 
-          <div className="mb-7 text-white space-y-1 text-[14px] leading-[15px] sm:hidden">
+          {/* <div className="mb-7 text-white space-y-1 text-[14px] leading-[15px] sm:hidden">
             <p>- Advanced blood test &amp; evaluation</p>
             <p>- 1:1 nutritionist consult (60 min)</p>
             <p>- Weight-loss doctor consultation</p>
             <p>- A clear future action plan</p>
             <p>- All for Rs {defaultPlan ? defaultPlan.price : "—"}. No hidden terms</p>
-          </div>
+          </div> */}
 
-          <div className="mb-7 flex flex-col sm:flex-row gap-3">
-      <Link href="/get-started">
-            <Button 
-              size="lg" 
-              className="bg-white cursor-pointer text-black hover:bg-white/90 rounded-full text-base w-40 px-10 h-12 font-medium"
+          <div className="mb-7 md:mt-5 mt-20 flex flex-col sm:flex-row gap-3">
+      <a href="https://wa.link/3s1upf" target="_blank" rel="noopener noreferrer">
+            <Button
+              size="lg"
+              className="bg-white cursor-pointer text-black hover:bg-white/90 rounded-full text-base px-8 h-12 font-medium"
             >
-              Book Now <ArrowRight className="ml-2"/>
+              Chat with Experts <ArrowRight className="ml-2"/>
             </Button>
-      </Link>
+      </a>
             {/* <Button
               size="lg"
               variant="outline"
@@ -134,7 +133,7 @@ export function Hero() {
                   <TrendingDown className="w-4 h-4 text-white" />
                 </div>
                 <p className="text-base text-white/90 leading-snug font-medium">
-                  Up to 15%-22% weight loss with GLP 1 Medications and Lean's- "Protocol"
+                  Upto 22% weight loss with our Protocol in 6 months<br />(Ex- 100kg to 78kg)
                 </p>
               </div>
 
@@ -143,7 +142,7 @@ export function Hero() {
                   <Stethoscope className="w-4 h-4 text-white" />
                 </div>
                 <p className="text-base text-white/90 leading-snug font-medium">
-                  Foundation Diagnosis
+                  Root Cause diagnosis
                 </p>
               </div>
 
@@ -152,7 +151,7 @@ export function Hero() {
                   <Sun className="w-4 h-4 text-white" />
                 </div>
                 <p className="text-base text-white/90 leading-snug font-medium">
-                  Lifestyle Changing Approach
+                  Personalised Lifestyle Approach
                 </p>
               </div>
 
@@ -169,7 +168,7 @@ export function InsuranceLogos() {
   return (
     <div className="container mx-auto px-4 py-3 mt-2">
       <p className="mb-8 mt-5 text-[10px] leading-relaxed text-muted-foreground/60 max-w-4xl mx-auto text-center px-4">
-        In large 68–72 week clinical trials, Wegovy (2.4 mg) and Zepbound (15 mg) showed average weight loss of ~15% and ~20% respectively in adults with obesity, when combined with diet and exercise Versus just 2–3% with lifestyle changes alone. Prescriptions are at a doctor’s discretion.
+Clinical trials of semaglutide and tirzepatide over 68–72 weeks showed average weight loss of ~15-22% when combined with diet and exercise, compared to ~2-3% with lifestyle changes alone. With multiple semaglutide-based options, medication choice depends on availability and medical suitability. Medicine will get delivered only if prescribed by our doctors.
       </p>
     </div>
   )
