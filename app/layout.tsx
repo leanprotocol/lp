@@ -3,7 +3,10 @@ import type { Metadata } from "next"
 import { Inter, Libre_Baskerville } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Toaster } from "@/components/ui/toaster"
+import { ClarityInit } from "@/components/clarity"
 import "./globals.css"
+
+const CLARITY_PROJECT_ID = "wa6e7p1xur"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
 
@@ -22,7 +25,6 @@ export const metadata: Metadata = {
   },
 }
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -34,6 +36,7 @@ export default function RootLayout({
         {children}
         <Toaster />
         <Analytics />
+        <ClarityInit projectId={CLARITY_PROJECT_ID} />
       </body>
     </html>
   )
