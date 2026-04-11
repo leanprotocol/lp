@@ -15,6 +15,7 @@ import { WeightSlider } from "@/components/weight-slider";
 import { MobileStatsCard } from "@/components/mobile-stats-card";
 import { PricingCarousel } from "@/components/pricing-carousel";
 import { WeightLossChart } from "@/components/weight-loss-chart";
+import { NewsRibbon } from "@/components/news-ribbon";
 
 export default function Page() {
   return (
@@ -32,6 +33,7 @@ export default function Page() {
       {/* <MicrodoseSection /> */}
       <WeightSlider />
       <DoctorsSection />
+      <NewsRibbon />
       <WeightLossChart />
       <BenefitsMarquee />
       <InsuranceCoverage />
