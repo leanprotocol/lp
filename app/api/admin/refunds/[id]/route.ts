@@ -3,20 +3,20 @@ import { prisma } from '@/lib/prisma';
 import { reviewRefundSchema } from '@/lib/validations/refund';
 import { requireAuth } from '@/lib/auth/middleware';
 import { razorpayService } from '@/services/payment/razorpay.service';
-
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { authorized, response } = await requireAuth(request, ['admin']);
     if (!authorized) return response!;
 
+    const { id } = await params;
     const body = await request.json();
     const validatedData = reviewRefundSchema.parse(body);
 
     const refundRequest = await prisma.refundRequest.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       include: {
         subscription: {
           include: {
@@ -87,7 +87,7 @@ export async function PATCH(
     }
 
     const updatedRefund = await prisma.refundRequest.update({
-      where: { id: params.id },
+      where: { id: id },
       data: updateData,
     });
 

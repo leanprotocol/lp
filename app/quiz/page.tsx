@@ -362,6 +362,40 @@ function QuizPageContent() {
   const [defaultPlanId, setDefaultPlanId] = useState<string | null>(null);
   const [planLoading, setPlanLoading] = useState(false);
 
+  const checkUserAuthentication = async () => {
+    try {
+      const response = await fetch('/api/user/me?optional=1');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.user) {
+          // Pre-fill user data in answers
+          setAnswers(prev => ({ 
+            ...prev, 
+            mobileNumber: data.user.mobileNumber,
+            name: data.user.name || prev.name
+          }));
+          if (data.user.name) {
+            setIsNameLocked(true);
+          }
+
+          // If user already has a submission, show result screen
+          if (data.quizStatus) {
+            setQuizSubmitted(true);
+            setShowResult(true);
+            if (data.quizStatus === 'APPROVED') {
+              setSubmissionMessage("Your medical assessment has been approved! You can now proceed to select your plan and start your treatment.");
+            } else if (data.quizStatus === 'PENDING_REVIEW') {
+              setSubmissionMessage("Your submission is currently under review by our medical team. We'll notify you once it's approved (usually within 24 hours).");
+            } else if (data.quizStatus === 'REJECTED') {
+              setSubmissionError("Unfortunately, based on your assessment, we cannot proceed with the treatment at this time.");
+            }
+          }
+        }
+      }
+    } catch (error) {
+      // ignore
+    }
+  };
 
   const steps = [
     { id: "step1", type: "mixed-profile" },
@@ -537,28 +571,6 @@ function QuizPageContent() {
     setSelectedProviderId(providerIdParam ?? null);
     setProviderDisplayName(providerNameParam ?? null);
   }, [searchParams]);
-
-  const checkUserAuthentication = async () => {
-    try {
-      const response = await fetch('/api/user/me?optional=1');
-      if (response.ok) {
-        const userData = await response.json();
-        if (userData.user) {
-          // Pre-fill user data in answers
-          setAnswers(prev => ({ 
-            ...prev, 
-            mobileNumber: userData.user.mobileNumber,
-            name: userData.user.name || prev.name
-          }));
-          if (userData.user.name) {
-            setIsNameLocked(true);
-          }
-        }
-      }
-    } catch (error) {
-      // ignore
-    }
-  };
 
   const currentQ = steps[currentStep];
   const progress = ((currentStep + 1) / steps.length) * 100;

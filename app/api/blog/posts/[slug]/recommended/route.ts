@@ -16,10 +16,11 @@ function clampInt(value: number, min: number, max: number): number {
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const slug = params?.slug?.trim();
+    const { slug: rawSlug } = await params;
+    const slug = rawSlug?.trim();
     if (!slug) {
       return NextResponse.json({ error: "Missing slug" }, { status: 400 });
     }

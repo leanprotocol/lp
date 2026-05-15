@@ -25,6 +25,9 @@ export const metadata: Metadata = {
   },
 }
 
+import { ReferralTracker } from "@/components/referral-tracker"
+import { Suspense } from "react"
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -33,6 +36,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${libreBaskerville.variable} font-sans antialiased`}>
+        <Suspense fallback={null}>
+          <ReferralTracker />
+        </Suspense>
         {children}
         <Toaster />
         <Analytics />

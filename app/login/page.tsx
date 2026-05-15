@@ -7,6 +7,7 @@ import Image from "next/image";
 import { Eye, EyeOff, Smartphone, AlertCircle, ArrowRight, KeyRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import OTPModal from "@/components/get-started/otp-modal";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -15,6 +16,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showOTPModal, setShowOTPModal] = useState(false);
 
   const handleMobileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, "");
@@ -199,6 +201,25 @@ export default function LoginPage() {
               {isLoading ? "Logging in..." : "Log In"}
               {!isLoading && <ArrowRight className="w-4 h-4 ml-2" />}
             </Button>
+
+            <div className="relative my-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-slate-200"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="bg-[#FAFAF9] px-2 text-[#6B7280]">or</span>
+              </div>
+            </div>
+
+            <Button
+              type="button"
+              onClick={() => setShowOTPModal(true)}
+              variant="outline"
+              className="w-full h-12 rounded-full border-dark/10 bg-white text-dark hover:bg-slate-50 font-medium transition-all cursor-pointer"
+            >
+              <Smartphone className="w-4 h-4 mr-2" />
+              Log In with OTP
+            </Button>
           </form>
 
           {/* Sign Up Link */}
@@ -215,6 +236,13 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
+
+      <OTPModal 
+        isOpen={showOTPModal}
+        onClose={() => setShowOTPModal(false)}
+        onNext={() => router.push('/quiz')}
+        isLogin={true}
+      />
     </div>
   );
 }

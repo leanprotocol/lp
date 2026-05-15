@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
     });
 
     const workbook = new ExcelJS.Workbook();
-    workbook.creator = 'Lean Healthcare Admin';
+    workbook.affiliate = 'Lean Healthcare Admin';
 
     const worksheet = workbook.addWorksheet('Quiz Submissions', {
       views: [{ state: 'frozen', ySplit: 1 }],

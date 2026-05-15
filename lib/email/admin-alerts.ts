@@ -64,14 +64,14 @@ export async function notifyAdminsQuizSubmitted(submissionId: string) {
 
   if (!submission) return;
 
-  const subject = `New quiz submitted (${submission.user.mobileNumber})`;
+  const subject = `New quiz submitted (${submission.user?.mobileNumber ?? 'Unknown'})`;
 
   const text = [
     'A new quiz has been submitted.',
     '',
     `Submission ID: ${submission.id}`,
-    `User: ${submission.user.name ?? submission.user.mobileNumber}`,
-    `Mobile: ${submission.user.mobileNumber}`,
+    `User: ${submission.user?.name ?? submission.user?.mobileNumber ?? 'Unknown'}`,
+    `Mobile: ${submission.user?.mobileNumber ?? 'Unknown'}`,
     `Insurance: ${submission.insuranceProvider?.name ?? '—'}`,
     `Status: ${submission.status}`,
     '',
@@ -104,14 +104,14 @@ export async function notifyAdminsQuizApproved(submissionId: string) {
 
   if (!submission) return;
 
-  const subject = `Quiz approved (${submission.user.mobileNumber})`;
+  const subject = `Quiz approved (${submission.user?.mobileNumber ?? 'Unknown'})`;
 
   const text = [
     'A quiz submission has been approved.',
     '',
     `Submission ID: ${submission.id}`,
-    `User: ${submission.user.name ?? submission.user.mobileNumber}`,
-    `Mobile: ${submission.user.mobileNumber}`,
+    `User: ${submission.user?.name ?? submission.user?.mobileNumber ?? 'Unknown'}`,
+    `Mobile: ${submission.user?.mobileNumber ?? 'Unknown'}`,
     `Insurance: ${submission.insuranceProvider?.name ?? '—'}`,
     `Status: ${submission.status}`,
     '',

@@ -4,11 +4,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { contactQuerySchema } from '@/lib/validations/contact';
 import { authenticate } from '@/lib/auth/middleware';
+import { createLead } from '@/services/lead-service';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const validatedData = contactQuerySchema.parse(body);
+    const affiliateRef = request.cookies.get('affiliate_ref')?.value ?? null;
 
     const { authenticated, user } = await authenticate(request);
 
@@ -21,6 +23,18 @@ export async function POST(request: NextRequest) {
         userId: authenticated && user?.type === 'user' ? user.userId : null,
       },
     });
+
+    // Capture lead for affiliates
+    const names = validatedData.name.split(" ");
+    await createLead({
+        affiliateRef,
+        firstName: names[0] || "User",
+        lastName: names.slice(1).join(" ") || null,
+        mobileNumber: validatedData.mobileNumber,
+        email: validatedData.email || null,
+        source: 'LINK',
+        notes: `Contact query submitted: ${validatedData.message.slice(0, 100)}...`
+    }).catch(err => console.error("Failed to create lead during contact submit:", err));
 
     return NextResponse.json({
       success: true,

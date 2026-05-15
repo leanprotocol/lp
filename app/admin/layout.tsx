@@ -28,6 +28,8 @@ import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip
 
 const navigation = [
   { label: "Overview", href: "/admin", icon: LayoutDashboard, exact: true },
+  { label: "Affiliates", href: "/admin/affiliates", icon: Users },
+  { label: "Leads", href: "/admin/leads", icon: UserCircle },
   { label: "Users", href: "/admin/users", icon: UserCircle },
   { label: "Quiz Submissions", href: "/admin/quiz-submissions", icon: ClipboardList },
   { label: "Subscriptions", href: "/admin/subscriptions", icon: Package },
