@@ -11,10 +11,13 @@ export async function authenticate(request: NextRequest): Promise<{
   error?: string;
 }> {
   try {
-    // Try user token first, then admin token
+    // Try user token first, then admin token, then affiliate token
     let token = request.cookies.get('auth-token')?.value;
     if (!token) {
       token = request.cookies.get('admin_token')?.value;
+    }
+    if (!token) {
+      token = request.cookies.get('affiliate_token')?.value;
     }
     
     if (!token) {
@@ -30,10 +33,11 @@ export async function authenticate(request: NextRequest): Promise<{
 
 export async function requireAuth(
   request: NextRequest,
-  allowedTypes?: ('user' | 'admin')[]
+  allowedTypes?: ('user' | 'admin' | 'affiliate')[]
 ): Promise<{ authorized: boolean; user?: JWTPayload; response?: NextResponse }> {
   const preferAdminToken = allowedTypes?.length === 1 && allowedTypes[0] === 'admin';
   const preferUserToken = allowedTypes?.length === 1 && allowedTypes[0] === 'user';
+  const preferAffiliateToken = allowedTypes?.length === 1 && allowedTypes[0] === 'affiliate';
 
   const { authenticated, user, error } = preferAdminToken
     ? await (async () => {
@@ -61,7 +65,20 @@ export async function requireAuth(
             return { authenticated: false, error: 'Invalid or expired token' };
           }
         })()
-      : await authenticate(request);
+      : preferAffiliateToken
+        ? await (async () => {
+            try {
+              const token = request.cookies.get('affiliate_token')?.value;
+              if (!token) {
+                return { authenticated: false, error: 'No authentication token provided' };
+              }
+              const decoded = await verifyJWT(token);
+              return { authenticated: true, user: decoded };
+            } catch {
+              return { authenticated: false, error: 'Invalid or expired token' };
+            }
+          })()
+        : await authenticate(request);
   
   if (!authenticated || !user) {
     return {

@@ -180,11 +180,8 @@ export function useRazorpayCheckout() {
 
             await options?.onSuccess?.(verifyData as VerifyPaymentResponse);
 
-            toast({
-              title: "Subscription pending approval",
-              description: "You have successfully purchased the subscription. Please wait for admin approval.",
-              variant: "destructive",
-            });
+            // Redirect to welcome page
+            window.location.href = "/welcome";
           } catch (error: any) {
             options?.onFailure?.(error instanceof Error ? error : new Error(error?.message || 'Payment verification failed'));
             toast({

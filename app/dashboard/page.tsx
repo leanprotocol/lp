@@ -21,8 +21,9 @@ interface UserProfile {
 interface ActiveSubscription {
   id: string;
   planName: string;
-  startDate: string;
-  endDate: string;
+  status: string;
+  startDate?: string | null;
+  endDate?: string | null;
   autoRenew: boolean;
 }
 
@@ -175,13 +176,22 @@ export default function DashboardPage() {
                     </p>
                   </div>
                 </div>
-                <div className="rounded-2xl border border-[#E8DBC7] p-4 bg-white">
-                  <p className="text-xs uppercase text-[#9A8570] mb-1">Plan Period</p>
-                  <p className="text-sm text-[#4A3C2F]">
-                    {new Date(activeSubscription.startDate).toLocaleDateString()} –{" "}
-                    {new Date(activeSubscription.endDate).toLocaleDateString()}
-                  </p>
-                </div>
+                {activeSubscription.status === "ACTIVE" && activeSubscription.startDate && activeSubscription.endDate ? (
+                  <div className="rounded-2xl border border-[#E8DBC7] p-4 bg-white">
+                    <p className="text-xs uppercase text-[#9A8570] mb-1">Plan Period</p>
+                    <p className="text-sm text-[#4A3C2F]">
+                      {new Date(activeSubscription.startDate).toLocaleDateString()} –{" "}
+                      {new Date(activeSubscription.endDate).toLocaleDateString()}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="rounded-2xl border border-blue-200 p-4 bg-blue-50">
+                    <p className="text-sm text-blue-800 flex items-center gap-2">
+                      <AlertCircle className="w-4 h-4" />
+                      Your subscription is being set up. This usually takes just a moment.
+                    </p>
+                  </div>
+                )}
                 <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                   <p className="text-sm text-[#4A3C2F]">
                     Need to make changes? Reach out to our care team to adjust your plan or billing

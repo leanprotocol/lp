@@ -14,8 +14,6 @@ export function PostCard({
   showTypeBadge?: boolean;
 }) {
 
-  console.log("POST ----------> ", post)
-
   const imageUrl = post.mainImage
     ? urlFor(post.mainImage).width(1200).height(800).fit("crop").url()
     : null;
@@ -34,8 +32,6 @@ export function PostCard({
     ? post.excerpt.trim().split(/\s+/).filter(Boolean).length
     : 0;
   const readingMinutes = Math.max(1, Math.round(wordCount / 200));
-
-  console.log("IMAGE URL ----------> ", imageUrl);
 
 
   return (

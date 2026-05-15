@@ -139,6 +139,13 @@
   /* --color-dark: #344543; */
   --color-accent2: #A8BEB7 ;
   --color-black: #0E0E0F ;
+  
+  /* Lean Protocol Brief Colors */
+  --color-lp-green: #2D5A4E;
+  --color-lp-light-green: #8DB87A;
+  --color-lp-gold: #C9A84C;
+  --color-lp-dark: #1C2B22;
+  --color-lp-bg: #F9F7F2;
 }
 
 @layer base {

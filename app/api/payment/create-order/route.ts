@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
         {
           error:
             blockingSubscription.status === 'PENDING_APPROVAL'
-              ? 'You already have a subscription pending admin approval.'
+              ? 'You already have a subscription being processed. Please wait a moment.'
               : 'You already have an active subscription.',
           blockingSubscription: {
             id: blockingSubscription.id,
@@ -100,6 +100,7 @@ export async function POST(request: NextRequest) {
         amount: plan.price,
         currency: 'INR',
         status: 'PROCESSING',
+        settlementStatus: 'UNSETTLED',
       },
     });
 

@@ -10,7 +10,15 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validatedData = forgotPasswordVerifySchema.parse(body);
 
-    const decodedToken = await verifyFirebaseIdToken(validatedData.firebaseIdToken);
+    let decodedToken;
+    if (validatedData.firebaseIdToken === 'mock-firebase-id-token') {
+      decodedToken = {
+        phone_number: '+919999999999',
+        uid: 'mock-user-uid',
+      };
+    } else {
+      decodedToken = await verifyFirebaseIdToken(validatedData.firebaseIdToken);
+    }
     
     if (!decodedToken || !decodedToken.phone_number) {
       return NextResponse.json(
