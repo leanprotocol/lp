@@ -30,8 +30,28 @@ export function setAdminAuthCookie(response: NextResponse, token: string): void 
   });
 }
 
+export function setAffiliateAuthCookie(response: NextResponse, token: string): void {
+  response.cookies.set('affiliate_token', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: 60 * 60 * 24 * 7,
+    path: '/',
+  });
+}
+
 export function clearAdminAuthCookie(response: NextResponse): void {
   response.cookies.set('admin_token', '', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: 0,
+    path: '/',
+  });
+}
+
+export function clearAffiliateAuthCookie(response: NextResponse): void {
+  response.cookies.set('affiliate_token', '', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',

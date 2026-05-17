@@ -29,7 +29,6 @@ export default function NewsletterPage() {
       setError(null);
       const res = await fetch(`/api/admin/newsletter?status=${statusFilter}`);
       const data = await res.json();
-      console.log("Newsletter API response:", data); // Debug log
       if (data.success) {
         setSubscriptions(data.data);
       } else {

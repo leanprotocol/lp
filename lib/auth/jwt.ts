@@ -5,7 +5,7 @@ const JWT_SECRET = new TextEncoder().encode(env.JWT_SECRET);
 
 export interface JWTPayload {
   userId: string;
-  type: 'user' | 'admin';
+  type: 'user' | 'admin' | 'affiliate';
   mobileNumber?: string;
   email?: string;
   [key: string]: unknown;

@@ -33,6 +33,11 @@ const envSchema = z.object({
   NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: z.string().optional(),
   NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: z.string().optional(),
   NEXT_PUBLIC_FIREBASE_APP_ID: z.string().optional(),
+  NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID: z.string().optional(),
+  
+  // Sanity CMS
+  NEXT_PUBLIC_SANITY_DATASET: z.string().default("production"),
+  NEXT_PUBLIC_SANITY_PROJECT_ID: z.string().optional(),
   
   // OTP Configuration
   OTP_EXPIRY_MINUTES: z.string().transform(Number).default("5"),

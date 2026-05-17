@@ -3,6 +3,8 @@ export const runtime = 'nodejs';
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { razorpayService } from '@/services/payment/razorpay.service';
+import { calculateAndCreateCommission } from '@/services/commission-service';
+import { CommissionStatus, LeadStatus, PaymentStatus } from '@prisma/client';
 
 export async function POST(request: NextRequest) {
   try {
@@ -36,7 +38,7 @@ export async function POST(request: NextRequest) {
       });
 
       if (payment && payment.status !== 'SUCCESS') {
-        await prisma.payment.update({
+        const updatedPayment = await prisma.payment.update({
           where: { id: payment.id },
           data: {
             razorpayPaymentId: paymentEntity.id,
@@ -48,6 +50,27 @@ export async function POST(request: NextRequest) {
               capturedVia: 'webhook',
             },
           },
+        });
+
+        // Auto-activate subscription (safety net in case client-side verify did not run)
+        if (payment.subscription.status !== 'ACTIVE') {
+          const planData = await prisma.subscriptionPlan.findUnique({
+            where: { id: payment.subscription.planId },
+          });
+          if (planData) {
+            const startDate = new Date();
+            const endDate = new Date();
+            endDate.setDate(endDate.getDate() + planData.durationDays);
+            await prisma.subscription.update({
+              where: { id: payment.subscription.id },
+              data: { status: 'ACTIVE', startDate, endDate, approvedBy: 'system' },
+            });
+          }
+        }
+
+        // Calculate commission for affiliates
+        await calculateAndCreateCommission(updatedPayment.id).catch(err => {
+            console.error('Failed to calculate commission in webhook:', err);
         });
       }
     } else if (event.event === 'payment.failed') {
@@ -83,6 +106,47 @@ export async function POST(request: NextRequest) {
           where: { id: payment.subscriptionId },
           data: { status: 'REJECTED', rejectionReason: 'Payment failed' },
         });
+      }
+    } else if (event.event === 'refund.processed') {
+      const refundEntity = event.payload.refund.entity;
+      const paymentId = refundEntity.payment_id;
+
+      // Find the payment by razorpayPaymentId
+      const payment = await prisma.payment.findUnique({
+        where: { razorpayPaymentId: paymentId },
+        include: { commission: true, user: true }
+      });
+
+      if (payment) {
+        // 1. Update Payment status
+        await prisma.payment.update({
+          where: { id: payment.id },
+          data: { status: PaymentStatus.REFUNDED }
+        });
+
+        // 2. Cancel Commission
+        if (payment.commission) {
+          await prisma.commission.update({
+            where: { id: payment.commission.id },
+            data: { status: CommissionStatus.CANCELLED }
+          });
+        }
+
+        // 3. Update Lead status
+        const lead = await prisma.lead.findFirst({
+          where: {
+            mobileNumber: payment.user.mobileNumber,
+            status: LeadStatus.CONVERTED
+          },
+          orderBy: { convertedAt: 'desc' }
+        });
+
+        if (lead) {
+          await prisma.lead.update({
+            where: { id: lead.id },
+            data: { status: LeadStatus.REFUNDED }
+          });
+        }
       }
     }
 

@@ -15,12 +15,36 @@ JWT_SECRET="your-super-secret-jwt-key-minimum-32-characters-long"
 JWT_EXPIRES_IN="7d"
 
 # ========================================
-# MSG91 - OTP SERVICE (India)
+# FIREBASE - ADMIN (Server-Side)
 # ========================================
-MSG91_AUTH_KEY="your-msg91-auth-key"
-MSG91_SENDER_ID="your-sender-id"
-MSG91_TEMPLATE_ID="your-template-id"
-MSG91_DLT_TE_ID="your-dlt-te-id-optional"
+FIREBASE_PROJECT_ID="your-firebase-project-id"
+FIREBASE_CLIENT_EMAIL="your-firebase-client-email"
+FIREBASE_PRIVATE_KEY="your-firebase-private-key-replace-newlines-with-\n"
+
+# ========================================
+# FIREBASE - CLIENT (Phone Auth)
+# ========================================
+NEXT_PUBLIC_FIREBASE_API_KEY="your-api-key"
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN="your-auth-domain"
+NEXT_PUBLIC_FIREBASE_PROJECT_ID="your-project-id"
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET="your-storage-bucket"
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID="your-sender-id"
+NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"
+NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID="your-measurement-id"
+
+# ========================================
+# SANITY CMS
+# ========================================
+NEXT_PUBLIC_SANITY_PROJECT_ID="your-sanity-project-id"
+NEXT_PUBLIC_SANITY_DATASET="production"
+
+# ========================================
+# AWS SES (Optional Emails)
+# ========================================
+AWS_REGION="your-aws-region"
+AWS_ACCESS_KEY_ID="your-aws-access-key"
+AWS_SECRET_ACCESS_KEY="your-aws-secret-key"
+SES_FROM_EMAIL="noreply@yourdomain.com"
 
 # ========================================
 # RAZORPAY - PAYMENT GATEWAY
@@ -28,6 +52,7 @@ MSG91_DLT_TE_ID="your-dlt-te-id-optional"
 RAZORPAY_KEY_ID="your-razorpay-key-id"
 RAZORPAY_KEY_SECRET="your-razorpay-key-secret"
 RAZORPAY_WEBHOOK_SECRET="your-razorpay-webhook-secret"
+DEV_RAZORPAY_SKIP_QUIZ_GUARD="true" # Optional, used for local testing
 
 # ========================================
 # APPLICATION URLs
@@ -56,12 +81,13 @@ Install PostgreSQL and create a database:
 createdb lean_healthcare
 ```
 
-### 2. MSG91 Setup
+### 2. Firebase Setup (Authentication)
 
-1. Sign up at https://msg91.com/
-2. Get your Auth Key from the dashboard
-3. Create an OTP template
-4. Set up DLT (if required for India)
+1. Go to [Firebase Console](https://console.firebase.google.com/)
+2. Create a new project or select an existing one
+3. Enable **Authentication** and add **Phone Auth** as a sign-in provider
+4. Under **Project Settings > General**, add a web app and copy the `NEXT_PUBLIC_FIREBASE_*` configuration
+5. Under **Project Settings > Service Accounts**, generate a new private key and copy the `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, and `FIREBASE_PRIVATE_KEY`
 
 ### 3. Razorpay Setup
 

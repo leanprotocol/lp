@@ -8,10 +8,11 @@ export const dynamic = "force-dynamic";
 
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const slug = params?.slug?.trim();
+    const { slug: rawSlug } = await params;
+    const slug = rawSlug?.trim();
 
     if (!slug) {
       return NextResponse.json({ error: "Missing slug" }, { status: 400 });

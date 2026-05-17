@@ -2,6 +2,7 @@
 
 import { initializeApp, getApps, type FirebaseApp } from 'firebase/app';
 import { getAuth, type Auth } from 'firebase/auth';
+import { getAnalytics, type Analytics, isSupported } from 'firebase/analytics';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -10,15 +11,15 @@ const firebaseConfig = {
   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
 let app: FirebaseApp | undefined;
 let auth: Auth | undefined;
+let analytics: Analytics | undefined;
 
 export function getFirebaseApp(): FirebaseApp | null {
   if (typeof window === 'undefined') return null;
-  
-  if (!firebaseConfig.apiKey) return null;
   
   if (!app) {
     const apps = getApps();
@@ -37,4 +38,18 @@ export function getFirebaseAuth(): Auth | null {
   }
   
   return auth;
+}
+
+export async function getFirebaseAnalytics(): Promise<Analytics | null> {
+    const firebaseApp = getFirebaseApp();
+    if (!firebaseApp) return null;
+
+    if (!analytics) {
+        const supported = await isSupported();
+        if (supported) {
+            analytics = getAnalytics(firebaseApp);
+        }
+    }
+
+    return analytics;
 }
