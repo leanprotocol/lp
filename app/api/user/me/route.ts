@@ -59,8 +59,11 @@ export async function GET(request: NextRequest) {
     const activeSubscription = await prisma.subscription.findFirst({
       where: {
         userId: user.userId,
-        status: 'ACTIVE',
-        endDate: { gt: new Date() },
+        status: { in: ['ACTIVE', 'PENDING_APPROVAL'] },
+        OR: [
+          { endDate: { gt: new Date() } },
+          { endDate: null }
+        ]
       },
       include: {
         plan: true,
@@ -78,6 +81,7 @@ export async function GET(request: NextRequest) {
       activeSubscription: activeSubscription ? {
         id: activeSubscription.id,
         planName: activeSubscription.plan.name,
+        status: activeSubscription.status,
         startDate: activeSubscription.startDate,
         endDate: activeSubscription.endDate,
         autoRenew: activeSubscription.autoRenew,

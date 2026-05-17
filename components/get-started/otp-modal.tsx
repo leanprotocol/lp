@@ -13,6 +13,7 @@ interface OTPModalProps {
   onClose: () => void;
   onNext?: (context?: { mobileNumber: string }) => void;
   selectedProvider?: { id: string; name: string } | null;
+  isLogin?: boolean;
 }
 
 interface ExistingUserNoticeProps {
@@ -29,7 +30,7 @@ const ExistingUserNotice = ({ message }: ExistingUserNoticeProps) => (
   </p>
 );
 
-export default function OTPModal({ isOpen, onClose, onNext, selectedProvider }: OTPModalProps) {
+export default function OTPModal({ isOpen, onClose, onNext, selectedProvider, isLogin }: OTPModalProps) {
   const [fullName, setFullName] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
   const [otpSent, setOtpSent] = useState(false);
@@ -41,6 +42,7 @@ export default function OTPModal({ isOpen, onClose, onNext, selectedProvider }: 
   const [recaptchaVerifier, setRecaptchaVerifier] = useState<RecaptchaVerifier | null>(null);
   const recaptchaVerifierRef = useRef<RecaptchaVerifier | null>(null);
   const [existingUserNotice, setExistingUserNotice] = useState<string | null>(null);
+  const [isVerifiedSuccessfully, setIsVerifiedSuccessfully] = useState(false);
 
   const ensureRecaptchaVerifier = (auth: ReturnType<typeof getFirebaseAuth>) => {
     if (!auth || typeof window === "undefined") return null;
@@ -105,6 +107,7 @@ export default function OTPModal({ isOpen, onClose, onNext, selectedProvider }: 
     setError("");
     setExistingUserNotice(null);
     setResendTimer(0);
+    setIsVerifiedSuccessfully(false);
     setConfirmationResult(null);
     if (recaptchaVerifierRef.current) {
       try {
@@ -134,17 +137,17 @@ export default function OTPModal({ isOpen, onClose, onNext, selectedProvider }: 
   };
 
   const handleSendOTP = async () => {
-    if (!fullName.trim()) {
+    if (!isLogin && !fullName.trim()) {
       setError("Please enter your name");
       return;
     }
     
-    if (fullName.trim().length < 2) {
+    if (!isLogin && fullName.trim().length < 2) {
       setError("Name must be at least 2 characters");
       return;
     }
     
-    if (!/^[a-zA-Z\s]+$/.test(fullName.trim())) {
+    if (!isLogin && !/^[a-zA-Z\s]+$/.test(fullName.trim())) {
       setError("Name must contain only letters and spaces");
       return;
     }
@@ -159,49 +162,78 @@ export default function OTPModal({ isOpen, onClose, onNext, selectedProvider }: 
     setExistingUserNotice(null);
 
     try {
-      const preRegister = await fetch('/api/auth/pre-register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: fullName.trim(),
-          mobileNumber,
-        }),
-      });
+      if (isLogin) {
+        const registrationCheck = await fetch('/api/auth/check-registration', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ mobileNumber }),
+        });
 
-      if (!preRegister.ok) {
-        const errorData = await preRegister.json().catch(() => null);
-        console.error('Pre-register failed:', errorData?.error);
-        setError(errorData?.error || 'Failed to start signup. Please try again.');
-        setIsVerifying(false);
-        return;
-      }
-
-      const registrationCheck = await fetch('/api/auth/check-registration', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ mobileNumber }),
-      });
-
-      if (registrationCheck.ok) {
-        const registrationData = await registrationCheck.json();
-        if (registrationData?.exists && registrationData?.hasQuizSubmission) {
-          setExistingUserNotice(
-            registrationData.message ||
-              'You are already registered and have submitted the quiz. You can still verify to update your quiz.'
-          );
+        if (registrationCheck.ok) {
+          const registrationData = await registrationCheck.json();
+          if (!registrationData?.exists) {
+            setError("This mobile number is not registered. Please sign up first.");
+            setIsVerifying(false);
+            return;
+          }
         }
       } else {
-        const errorData = await registrationCheck.json();
-        console.error('Registration check failed:', errorData?.error);
+        const preRegister = await fetch('/api/auth/pre-register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: fullName.trim(),
+            mobileNumber,
+          }),
+        });
+
+        if (!preRegister.ok) {
+          const errorData = await preRegister.json().catch(() => null);
+          console.error('Pre-register failed:', errorData?.error);
+          setError(errorData?.error || 'Failed to start signup. Please try again.');
+          setIsVerifying(false);
+          return;
+        }
+
+        const registrationCheck = await fetch('/api/auth/check-registration', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ mobileNumber }),
+        });
+
+        if (registrationCheck.ok) {
+          const registrationData = await registrationCheck.json();
+          if (registrationData?.exists && registrationData?.hasQuizSubmission) {
+            setExistingUserNotice(
+              registrationData.message ||
+                'You are already registered and have submitted the quiz. You can still verify to update your quiz.'
+            );
+          }
+        } else {
+          const errorData = await registrationCheck.json();
+          console.error('Registration check failed:', errorData?.error);
+        }
       }
 
       const auth = getFirebaseAuth();
       if (!auth) {
         setError("Firebase is not configured. Please contact support.");
+        setIsVerifying(false);
+        return;
+      }
+
+      // Bypass Firebase for test number
+      if (mobileNumber === '9999999999') {
+        console.log('Bypassing Firebase for test number');
+        setOtpSent(true);
+        setResendTimer(30);
+        startResendTimer();
         setIsVerifying(false);
         return;
       }
@@ -283,7 +315,7 @@ export default function OTPModal({ isOpen, onClose, onNext, selectedProvider }: 
       return;
     }
 
-    if (!confirmationResult) {
+    if (!confirmationResult && mobileNumber !== '9999999999') {
       setError("Session expired. Please request a new OTP.");
       return;
     }
@@ -292,8 +324,21 @@ export default function OTPModal({ isOpen, onClose, onNext, selectedProvider }: 
     setError("");
 
     try {
-      const credential = await confirmationResult.confirm(otp);
-      const firebaseIdToken = await credential.user.getIdToken();
+      let firebaseIdToken: string;
+
+      if (mobileNumber === '9999999999') {
+        if (otp !== '123456') {
+          setError('Invalid OTP for test number. Use 123456.');
+          setIsVerifying(false);
+          return;
+        }
+        firebaseIdToken = 'mock-firebase-id-token';
+      } else if (confirmationResult) {
+        const credential = await confirmationResult.confirm(otp);
+        firebaseIdToken = await credential.user.getIdToken();
+      } else {
+        throw new Error('Verification failed');
+      }
 
       const verifyResponse = await fetch('/api/auth/verify-firebase', {
         method: 'POST',
@@ -306,10 +351,21 @@ export default function OTPModal({ isOpen, onClose, onNext, selectedProvider }: 
         }),
       });
 
+      let verifyData;
+      const contentType = verifyResponse.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        verifyData = await verifyResponse.json();
+      } else {
+        const text = await verifyResponse.text();
+        console.error("Non-JSON verification response:", text);
+        setError(`Server error (${verifyResponse.status}). Please check if your database is running.`);
+        setIsVerifying(false);
+        return;
+      }
+
       if (!verifyResponse.ok) {
-        const verifyError = await verifyResponse.json().catch(() => null);
-        console.error('Backend verification failed:', verifyError?.error);
-        setError(verifyError?.error || 'Verification failed. Please try again.');
+        console.error('Backend verification failed:', verifyData?.error);
+        setError(verifyData?.error || 'Verification failed. Please try again.');
         return;
       }
 
@@ -319,8 +375,7 @@ export default function OTPModal({ isOpen, onClose, onNext, selectedProvider }: 
       }
 
       if (onNext) {
-        onNext({ mobileNumber });
-        resetState();
+        setIsVerifiedSuccessfully(true);
         return;
       }
 
@@ -389,30 +444,54 @@ export default function OTPModal({ isOpen, onClose, onNext, selectedProvider }: 
 
         <div className="p-6 md:p-8">
           <div id="recaptcha-container" className="hidden" />
-          {!otpSent ? (
+          {isVerifiedSuccessfully ? (
+            <div className="text-center">
+              <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                 <CheckCircle className="w-8 h-8 text-green-600" />
+              </div>
+              <h3 className="font-serif text-2xl text-[#191919] mb-2">
+                Verification Successful!
+              </h3>
+              <p className="text-sm text-[#6B7280] mb-8">
+                Your mobile number has been verified successfully.
+              </p>
+              <Button
+                onClick={() => {
+                   if (onNext) onNext({ mobileNumber });
+                   resetState();
+                }}
+                className="w-full h-12 cursor-pointer bg-[#1F302B] hover:bg-[#2C3E3A] text-white rounded-full text-base font-medium shadow-lg transition-all"
+              >
+                Continue
+                <ArrowRight className="w-4 h-4 ml-2 opacity-80" />
+              </Button>
+            </div>
+          ) : !otpSent ? (
             <>
               <div className="text-center mb-6">
                 <h3 className="font-serif text-2xl text-[#191919] mb-2">
-                  Let's get started
+                  {isLogin ? "Welcome back" : "Let's get started"}
                 </h3>
                 <p className="text-sm text-[#6B7280]">
-                  Enter your details to check your plan options.
+                  {isLogin ? "Enter your mobile number to log in." : "Enter your details to check your plan options."}
                 </p>
               </div>
 
               <div className="space-y-5 mb-6">
                 {/* Name Input */}
-                <div className="relative">
-                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[#5B746F]">
-                        <User className="w-5 h-5" />
-                    </div>
-                    <Input
-                        value={fullName}
-                        onChange={(e) => setFullName(e.target.value)}
-                        placeholder="Full Name"
-                        className="h-12 pl-12 rounded-xl border-[#E3E3E3] bg-[#F9F9F7] text-base placeholder:text-[#6B7280]/60 text-[#191919] transition-all focus:bg-white focus-visible:ring-1 focus-visible:ring-[#1F302B] focus-visible:border-[#1F302B] focus-visible:ring-offset-0"
-                    />
-                </div>
+                {!isLogin && (
+                  <div className="relative">
+                      <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[#5B746F]">
+                          <User className="w-5 h-5" />
+                      </div>
+                      <Input
+                          value={fullName}
+                          onChange={(e) => setFullName(e.target.value)}
+                          placeholder="Full Name"
+                          className="h-12 pl-12 rounded-xl border-[#E3E3E3] bg-[#F9F9F7] text-base placeholder:text-[#6B7280]/60 text-[#191919] transition-all focus:bg-white focus-visible:ring-1 focus-visible:ring-[#1F302B] focus-visible:border-[#1F302B] focus-visible:ring-offset-0"
+                      />
+                  </div>
+                )}
 
                 {/* Mobile Input */}
                 <div className="relative">
@@ -451,9 +530,9 @@ export default function OTPModal({ isOpen, onClose, onNext, selectedProvider }: 
                 onClick={handleSendOTP}
                 className="w-full h-12 cursor-pointer bg-[#1F302B] hover:bg-[#2C3E3A] text-white rounded-full text-base font-medium shadow-lg transition-all border border-[#1F302B] disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={
-                  !fullName.trim() || 
+                  (!isLogin && (!fullName.trim() || 
                   fullName.trim().length < 2 ||
-                  !/^[a-zA-Z\s]+$/.test(fullName.trim()) ||
+                  !/^[a-zA-Z\s]+$/.test(fullName.trim()))) ||
                   mobileNumber.length !== 10 ||
                   isVerifying
                 }

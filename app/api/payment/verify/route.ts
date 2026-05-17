@@ -6,6 +6,7 @@ import { verifyPaymentSchema } from '@/lib/validations/payment';
 import { requireAuth } from '@/lib/auth/middleware';
 import { verifyJWT } from '@/lib/auth/jwt';
 import { razorpayService } from '@/services/payment/razorpay.service';
+import { calculateAndCreateCommission } from '@/services/commission-service';
 
 export async function POST(request: NextRequest) {
   try {
@@ -82,9 +83,29 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    // Auto-activate subscription immediately on payment success
+    const startDate = new Date();
+    const endDate = new Date();
+    endDate.setDate(endDate.getDate() + payment.subscription.plan.durationDays);
+
+    await prisma.subscription.update({
+      where: { id: payment.subscriptionId },
+      data: {
+        status: 'ACTIVE',
+        startDate,
+        endDate,
+        approvedBy: 'system',
+      },
+    });
+
+    // Try calculating commission synchronously so it works even if webhook is delayed or testing locally
+    await calculateAndCreateCommission(payment.id).catch(err => {
+      console.error('Failed to calculate commission in verify:', err);
+    });
+
     return NextResponse.json({
       success: true,
-      message: 'Payment successful. Your subscription is pending admin approval.',
+      message: 'Payment successful. Your subscription is now active.',
       subscriptionId: payment.subscriptionId,
     });
 

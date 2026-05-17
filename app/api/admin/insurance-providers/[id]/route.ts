@@ -14,18 +14,19 @@ const updateProviderSchema = z.object({
 // PUT - Update insurance provider
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { authorized, user, response } = await requireAuth(request, ['admin']);
     if (!authorized) return response!;
 
+    const { id } = await params;
     const body = await request.json();
     const validatedData = updateProviderSchema.parse(body);
 
     // Check if provider exists
     const existing = await prisma.insuranceProvider.findUnique({
-      where: { id: params.id }
+      where: { id: id }
     });
 
     if (!existing) {
@@ -50,7 +51,7 @@ export async function PUT(
     }
 
     const provider = await prisma.insuranceProvider.update({
-      where: { id: params.id },
+      where: { id: id },
       data: validatedData
     });
 
@@ -78,15 +79,17 @@ export async function PUT(
 // DELETE - Remove insurance provider
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { authorized, user, response } = await requireAuth(request, ['admin']);
     if (!authorized) return response!;
 
+    const { id } = await params;
+
     // Check if provider exists
     const existing = await prisma.insuranceProvider.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       include: {
         _count: {
           select: { quizSubmissions: true }
@@ -113,7 +116,7 @@ export async function DELETE(
     }
 
     await prisma.insuranceProvider.delete({
-      where: { id: params.id }
+      where: { id: id }
     });
 
     return NextResponse.json({ 

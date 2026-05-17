@@ -44,6 +44,41 @@ enum RefundStatus {
   REJECTED
 }
 
+enum SettlementStatus {
+  UNSETTLED
+  SETTLED
+}
+
+enum LeadSource {
+  LINK
+  COUPON
+  LANDING_PAGE
+}
+
+enum LeadStatus {
+  PENDING
+  CONVERTED
+  REFUNDED
+}
+
+enum CommissionStatus {
+  PENDING
+  ELIGIBLE
+  PAID
+  CANCELLED
+}
+
+enum AuditAction {
+  CREATED
+  EDITED
+  DELETED
+  MARKED_DUPLICATE
+  MARKED_REFUND
+  MARKED_PAID
+  COMMISSION_CHANGED
+  NOTE_ADDED
+}
+
 // ========================================
 // USER MODEL
 // ========================================
@@ -197,7 +232,7 @@ model Subscription {
   approvedBy        String?
   rejectionReason   String?
   createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
+  updatedAt             DateTime        @updatedAt
   
   // Relations
   user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -226,6 +261,10 @@ model Payment {
   currency            String          @default("INR")
   status              PaymentStatus   @default(PROCESSING)
   failureReason       String?
+  platformFee         Float?
+  affiliateEarnings   Float?
+  settlementStatus    SettlementStatus @default(UNSETTLED)
+  settledAt           DateTime?
   metadata            Json?
   createdAt           DateTime        @default(now())
   updatedAt           DateTime        @updatedAt
@@ -233,11 +272,94 @@ model Payment {
   // Relations
   user                User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   subscription        Subscription    @relation(fields: [subscriptionId], references: [id])
+  commission          Commission?
   
   @@index([userId])
   @@index([subscriptionId])
   @@index([razorpayOrderId])
   @@index([razorpayPaymentId])
+  @@index([status])
+}
+
+// ========================================
+// AFFILIATE MODEL
+// ========================================
+
+model Affiliate {
+  id              String        @id @default(uuid())
+  name            String
+  email           String        @unique
+  mobileNumber    String        @unique
+  password        String
+  referralCode    String        @unique
+  clicks          Int           @default(0)
+  isActive        Boolean       @default(true)
+  isVerified      Boolean       @default(false)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  // Relations
+  leads           Lead[]
+  commissions     Commission[]
+  
+  @@index([referralCode])
+  @@index([email])
+}
+
+// ========================================
+// LEAD MODEL
+// ========================================
+
+model Lead {
+  id              String        @id @default(uuid())
+  affiliateId     String?
+  firstName       String
+  lastName        String?
+  email           String?
+  mobileNumber    String
+  source          LeadSource    @default(LINK)
+  isDuplicate     Boolean       @default(false)
+  status          LeadStatus    @default(PENDING)
+  notes           String?
+  convertedAt     DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  // Relations
+  affiliate       Affiliate?    @relation(fields: [affiliateId], references: [id], onDelete: SetNull)
+  commissions     Commission[]
+  
+  @@index([mobileNumber])
+  @@index([email])
+  @@index([affiliateId])
+  @@index([status])
+}
+
+// ========================================
+// COMMISSION MODEL
+// ========================================
+
+model Commission {
+  id              String            @id @default(uuid())
+  affiliateId     String
+  leadId          String
+  paymentId       String            @unique
+  amount          Float
+  percentage      Float
+  status          CommissionStatus  @default(PENDING)
+  eligibleAt      DateTime
+  paidAt          DateTime?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  
+  // Relations
+  affiliate       Affiliate         @relation(fields: [affiliateId], references: [id], onDelete: Cascade)
+  lead            Lead              @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  payment         Payment           @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+  
+  @@index([affiliateId])
+  @@index([leadId])
+  @@index([paymentId])
   @@index([status])
 }
 
@@ -300,4 +422,24 @@ model NewsletterSubscription {
   @@index([email])
   @@index([subscribedAt])
   @@index([isActive])
+}
+
+// ========================================
+// AUDIT LOG MODEL
+// ========================================
+
+model AuditLog {
+  id              String        @id @default(uuid())
+  actorId         String?       // FK to Admin or User (if applicable)
+  action          AuditAction
+  targetTable     String        // e.g. "Lead", "Commission", "Affiliate"
+  targetId        String        // UUID of the affected record
+  beforeState     Json?
+  afterState      Json?
+  metadata        Json?
+  createdAt       DateTime      @default(now())
+  
+  @@index([actorId])
+  @@index([targetTable, targetId])
+  @@index([createdAt])
 }

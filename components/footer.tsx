@@ -88,15 +88,15 @@ function Footer() {
             {/* <Link href="/" className="font-serif text-4xl tracking-tight text-accent block">
               Lean Healthtech<span className="opacity-50">.</span>
             </Link> */}
-            <Link href="/" className="inline-block mb-6">
-  <Image
-    src="/logo-cropped.png" 
-    alt="Lean Healthtech" 
-    width={140}   
-    height={50} 
-    className="object-contain" 
-  />
-</Link>
+            <Link href="/" className="inline-block mb-6 bg-white p-3 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+              <Image
+                src="/logo-cropped.png" 
+                alt="Lean Protocol" 
+                width={140}   
+                height={50} 
+                className="object-contain" 
+              />
+            </Link>
             <p className="inter text-accent2/60 text-lg max-w-md font-light leading-relaxed">
               Modern weight loss medication, prescribed online and delivered to your door. Science-backed paths to a healthier you.
             </p>

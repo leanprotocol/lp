@@ -50,9 +50,9 @@ function extractToc(body: BlogPost["body"]): TocItem[] {
   return items;
 }
 
-const portableTextComponents = {
+const portableTextComponents: any = {
   block: {
-    normal: ({ children }: { children: React.ReactNode }) => (
+    normal: ({ children }: { children?: React.ReactNode }) => (
       <p className="text-base md:text-lg text-dark/80 leading-relaxed mb-6 font-light">
         {children}
       </p>
@@ -61,7 +61,7 @@ const portableTextComponents = {
       children,
       value,
     }: {
-      children: React.ReactNode;
+      children?: React.ReactNode;
       value?: { _key?: string };
     }) => (
       <h1
@@ -75,7 +75,7 @@ const portableTextComponents = {
       children,
       value,
     }: {
-      children: React.ReactNode;
+      children?: React.ReactNode;
       value?: { _key?: string };
     }) => (
       <h2
@@ -89,7 +89,7 @@ const portableTextComponents = {
       children,
       value,
     }: {
-      children: React.ReactNode;
+      children?: React.ReactNode;
       value?: { _key?: string };
     }) => (
       <h3
@@ -103,7 +103,7 @@ const portableTextComponents = {
       children,
       value,
     }: {
-      children: React.ReactNode;
+      children?: React.ReactNode;
       value?: { _key?: string };
     }) => (
       <h4
@@ -113,21 +113,21 @@ const portableTextComponents = {
         {children}
       </h4>
     ),
-    blockquote: ({ children }: { children: React.ReactNode }) => (
+    blockquote: ({ children }: { children?: React.ReactNode }) => (
       <blockquote className="border-l-4 border-[#798F8B] pl-6 py-2 my-8 italic text-xl text-dark bg-accent/20">
         {children}
       </blockquote>
     ),
   },
   list: {
-    bullet: ({ children }: { children: React.ReactNode }) => (
+    bullet: ({ children }: { children?: React.ReactNode }) => (
       <ul className="list-disc pl-6 space-y-2 mb-6 text-dark/80 marker:text-[#798F8B]">
         {children}
       </ul>
     ),
   },
   listItem: {
-    bullet: ({ children }: { children: React.ReactNode }) => (
+    bullet: ({ children }: { children?: React.ReactNode }) => (
       <li className="leading-relaxed pl-2">{children}</li>
     ),
   },
@@ -136,7 +136,7 @@ const portableTextComponents = {
       children,
       value,
     }: {
-      children: React.ReactNode;
+      children?: React.ReactNode;
       value?: { href?: string };
     }) => (
       <a

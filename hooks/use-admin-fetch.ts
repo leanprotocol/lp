@@ -45,7 +45,15 @@ export function useAdminFetch<T = unknown>(url: string, options: Options<T> = {}
         return;
       }
 
-      const json = await res.json();
+      let json;
+      const contentType = res.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        json = await res.json();
+      } else {
+        const text = await res.text();
+        console.error("Non-JSON response from admin API:", text);
+        throw new Error(`Server returned non-JSON response (${res.status}). Check database connection.`);
+      }
 
       if (!res.ok) {
         throw new Error(json.error || 'Failed to fetch data');

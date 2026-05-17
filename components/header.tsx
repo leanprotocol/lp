@@ -29,6 +29,7 @@ export function Header() {
   const [me, setMe] = useState<MeResponse["user"] | null>(null);
   const [loading, setLoading] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const pathname = usePathname();
 
   const isActive = (href: string) => {
@@ -57,6 +58,10 @@ export function Header() {
       }
     };
     fetchMe();
+  }, []);
+
+  useEffect(() => {
+    setIsMounted(true);
   }, []);
 
   const handleLogout = async () => {
@@ -89,7 +94,7 @@ export function Header() {
           >
             <span className="relative inline-flex pb-4 leading-none">
               Home
-              {isActive("/") && (
+              {isMounted && isActive("/") && (
                 <motion.span
                   layoutId="desktop-nav-underline"
                   className="absolute left-0 right-0 bottom-1 h-0.5 bg-[#1F302B]"
@@ -106,7 +111,7 @@ export function Header() {
           >
             <span className="relative inline-flex pb-4 leading-none">
               Our Why
-              {isActive("/our-why") && (
+              {isMounted && isActive("/our-why") && (
                 <motion.span
                   layoutId="desktop-nav-underline"
                   className="absolute left-0 right-0 bottom-1 h-0.5 bg-[#1F302B]"
@@ -123,7 +128,7 @@ export function Header() {
             >
               <span className="relative inline-flex pb-4 leading-none">
                 Medication
-                {isActive("/medications") && (
+                {isMounted && isActive("/medications") && (
                   <motion.span
                     layoutId="desktop-nav-underline"
                     className="absolute left-0 right-0 bottom-1 h-0.5 bg-[#1F302B]"
@@ -184,7 +189,7 @@ export function Header() {
           >
             <span className="relative inline-flex pb-4 leading-none">
               Knowledge Hub
-              {isActive("/blog") && (
+              {isMounted && isActive("/blog") && (
                 <motion.span
                   layoutId="desktop-nav-underline"
                   className="absolute left-0 right-0 bottom-1 h-0.5 bg-[#1F302B]"

@@ -47,12 +47,15 @@ function buildCoverageMessage(
   }
 }
 
+import { createLead } from '@/services/lead-service';
+
 export async function POST(request: NextRequest) {
   try {
     const auth = await requireAuth(request, ['user']);
     const authorized = auth.authorized;
     const user = auth.user;
     const quizSessionId = request.cookies.get('quiz-session')?.value ?? null;
+    const affiliateRef = request.cookies.get('affiliate_ref')?.value ?? null;
 
     let tempUserId: string | null = null;
     if (!authorized || !user) {
@@ -115,6 +118,27 @@ export async function POST(request: NextRequest) {
           });
           tokenUserId = created.id;
         }
+      }
+    }
+
+    // Capture lead if we have user info and a referral
+    const targetUserId = tokenUserId || user?.userId;
+    if (targetUserId) {
+      const userData = await prisma.user.findUnique({
+        where: { id: targetUserId },
+        select: { name: true, mobileNumber: true }
+      });
+      
+      if (userData) {
+        const names = (userData.name || validatedData.name || "").split(" ");
+        await createLead({
+          affiliateRef,
+          firstName: names[0] || "User",
+          lastName: names.slice(1).join(" ") || null,
+          mobileNumber: userData.mobileNumber,
+          source: 'LINK',
+          notes: `Quiz submitted.`
+        }).catch(err => console.error("Failed to create lead during quiz submit:", err));
       }
     }
 

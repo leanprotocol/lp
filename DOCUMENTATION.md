@@ -72,9 +72,10 @@ External Services:
 
 1. **Registration & Authentication**
    - Mobile number-based registration
-   - OTP verification (MSG91)
-   - Secure password with validation
+   - OTP verification (Firebase Phone Auth)
+   - Secure password with validation (Optional for patients)
    - JWT-based session management
+   - **OTP Login**: Existing patients can log in securely via mobile OTP without needing a password.
 
 2. **Contact/Query Form**
    - Submit inquiries
@@ -83,7 +84,7 @@ External Services:
 
 3. **Quiz System**
    - Eligibility assessment
-   - One-time submission
+   - One-time submission with server-side persistence
    - Admin review required
 
 4. **Subscription Management**
@@ -100,16 +101,36 @@ External Services:
    - Active subscription details
    - Payment history
 
+### 🤝 Affiliate Features
+
+1. **Partner Onboarding**
+   - Dedicated affiliate registration and login (Email/Password)
+   - Unique referral links (e.g., `leanprotocol.in/partner-name`)
+   - 90-day persistence via attribution cookies
+
+2. **Affiliate Dashboard**
+   - Real-time stats: Clicks, Leads, Conversions, and Revenue
+   - Commission Tracking: Pending, Eligible, and Paid states
+   - Masked Lead Data: View referrals with protected PII (First Name + Last Initial, partial phone)
+   - Earnings statement export
+
+3. **Tiered Commissions**
+   - Automated calculation based on plan duration:
+     - 1 Month: 10%
+     - 3 Months: 8%
+     - 6 Months: 6%
+   - 28-day cooling period before commissions become eligible for payout
+
 ### 🧑‍💼 Admin Features
 
 1. **Authentication**
    - Secure email/password login
    - Role-based access control
 
-2. **User Management**
-   - View all users
-   - Search by mobile number
-   - View user subscriptions
+2. **User & Lead Management**
+   - View all users and search by mobile number
+   - **Manual Lead Creation**: Attribute leads to specific affiliates manually
+   - Manage conversion status and affiliate assignments
 
 3. **Plan Management**
    - Create/Edit/Disable plans
@@ -122,11 +143,11 @@ External Services:
    - Approve/Reject with notes
    - Export data
 
-5. **Subscription Management**
-   - View all subscriptions
+5. **Subscription & Commission Management**
+   - View all subscriptions and payouts
    - Approve/Reject subscriptions
    - Set activation dates
-   - Manual overrides
+   - **Manual Commission Overrides**: Adjust payout eligibility or settle payments
 
 6. **Payment Monitoring**
    - View all transactions
@@ -135,18 +156,16 @@ External Services:
 
 7. **Refund Management**
    - Review refund requests
-   - Approve/Reject refunds
-   - Automatic Razorpay processing
+   - **Automated Reversal**: Refunding a payment automatically cancels associated affiliate commissions
 
 8. **Contact Query Management**
    - View all queries
    - Export to CSV
 
 9. **Dashboard Analytics**
-   - Total users
-   - Active subscriptions
-   - Pending approvals
-   - Revenue metrics
+   - Total users, leads, and conversions
+   - Active subscriptions & revenue metrics
+   - **Audit Logs**: Comprehensive trail of all administrative actions (settlements, lead deletions, overrides) for accountability.
 
 ---
 
@@ -168,8 +187,9 @@ External Services:
 - **bcryptjs** - Password hashing
 
 ### External Services
-- **MSG91** - OTP/SMS service (India DLT compliant)
+- **Firebase Auth** - OTP/SMS service for patients
 - **Razorpay** - Payment gateway
+- **Sanity CMS** - Blog and content management
 
 ---
 
@@ -307,6 +327,24 @@ OTP_BLOCK_DURATION_MINUTES="30"
 - Admin user accounts
 - Email-based authentication
 - Role management
+
+#### Affiliate
+- Partner profiles
+- Referral codes and click tracking
+- Earnings and commission totals
+
+#### Lead
+- Potential customer tracking
+- Affiliate attribution and conversion status
+
+#### Commission
+- Payout records linked to payments
+- Tier-based amount calculation
+- Status: PENDING, ELIGIBLE, PAID, CANCELLED
+
+#### AuditLog
+- Records of admin actions
+- Includes actor, action type, and state changes (JSON)
 
 #### QuizSubmission
 - User quiz responses
@@ -697,6 +735,37 @@ Admin Panel → Refund Requests → Review Request & Reason
 → Razorpay API Processes Refund
 → Update Payment Status: REFUNDED
 → Update Subscription Status: EXPIRED
+→ Automated Reversal: Cancel associated Affiliate Commissions
+```
+
+### 4. Affiliate Payout Workflow
+
+```
+Commission Created (PENDING) 
+→ 28-day Cooling Period (Refund Window)
+→ Automated Cron Transition to ELIGIBLE
+→ Admin Settle Payment (Admin Dashboard)
+→ Status: PAID
+```
+
+### 5. Lead Management Workflow
+
+```
+Attribution via URL / [ref] slug 
+→ Lead Created (PENDING)
+→ User Completes Payment 
+→ Lead Status: CONVERTED (Triggers Commission)
+→ User Requests Refund 
+→ Lead Status: REFUNDED (Cancels Commission)
+```
+
+### 6. Audit Oversight
+
+```
+Every administrative action (manual lead creation, 
+refund approval, commission settlement) creates 
+an entry in the AuditLog table with actor details 
+and data snapshots for security.
 ```
 
 ---
@@ -705,6 +774,8 @@ Admin Panel → Refund Requests → Review Request & Reason
 
 ### Authentication Security
 
+- **Role-Based Cookies**: Separate cookies for `admin_token`, `affiliate_token`, and `auth-token` (Patient) to prevent session hijacking across roles.
+- **Firebase Token Verification**: Server-side validation of Firebase ID tokens for OTP security.
 - **Password Hashing**: bcrypt with 12 rounds
 - **JWT Tokens**: Signed with HS256 algorithm
 - **HttpOnly Cookies**: Prevents XSS attacks
@@ -754,6 +825,7 @@ Admin Panel → Refund Requests → Review Request & Reason
    - Subscribe to events:
      - `payment.captured`
      - `payment.failed`
+     - `refund.processed`
    - Copy webhook secret
 
 4. **Test Mode**
@@ -785,32 +857,17 @@ Frontend                Backend                 Razorpay
 
 ## OTP System
 
-### MSG91 Setup
+### Firebase Phone Auth
 
-1. **Create MSG91 Account**
-   - Sign up at https://msg91.com
-   - Complete KYC
-
-2. **Get Auth Key**
-   - Dashboard → Settings → Auth Key
-
-3. **Create OTP Template**
-   - SMS → Templates → Create New
-   - Example: "Your OTP for Lean Healthcare is ##OTP##. Valid for 5 minutes."
-   - Get Template ID
-
-4. **DLT Registration (India)**
-   - Register with DLT
-   - Get sender ID approved
-   - Get DLT TE ID
+1. **Authentication**: Patients verify their identity via mobile OTP.
+2. **Session Persistence**: Successful verification issues a full `auth-token` session cookie.
+3. **Login Path**: Existing patients use the OTP path to bypass password entry.
 
 ### OTP Configuration
 
-- **Expiry**: 5 minutes (configurable)
-- **Length**: 6 digits
-- **Max Attempts**: 3 (configurable)
-- **Block Duration**: 30 minutes (configurable)
-- **Storage**: Hashed with bcrypt
+- **Session Expiry**: 7 days (Full `auth-token`)
+- **Temp Session**: 2 hours (Unverified/Partial)
+- **Firebase Auth**: Handled client-side via reCAPTCHA and phone provider.
 
 ---
 
@@ -1037,5 +1094,5 @@ For support or questions, please contact your development team or refer to the p
 
 ---
 
-**Version**: 1.0.0  
-**Last Updated**: January 2026
+**Version**: 1.1.0  
+**Last Updated**: May 2026

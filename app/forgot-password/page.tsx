@@ -104,6 +104,15 @@ export default function ForgotPasswordPage() {
 
       // If user exists, send OTP via Firebase
       const auth = getFirebaseAuth();
+      
+      // Bypass Firebase for test number
+      if (mobileNumber === '9999999999') {
+        setCurrentStep("otp");
+        startResendTimer();
+        setIsLoading(false);
+        return;
+      }
+
       if (!auth || !recaptchaVerifier) {
         setError("Firebase is not configured. Please refresh and try again.");
         setIsLoading(false);
@@ -171,7 +180,7 @@ export default function ForgotPasswordPage() {
       return;
     }
 
-    if (!confirmationResult) {
+    if (!confirmationResult && mobileNumber !== '9999999999') {
       setError("Session expired. Please request a new OTP.");
       return;
     }
@@ -180,8 +189,21 @@ export default function ForgotPasswordPage() {
     setError("");
 
     try {
-      const result = await confirmationResult.confirm(otp);
-      const idToken = await result.user.getIdToken();
+      let idToken: string;
+
+      if (mobileNumber === '9999999999') {
+        if (otp !== '123456') {
+          setError('Invalid OTP for test number. Use 123456.');
+          setIsLoading(false);
+          return;
+        }
+        idToken = 'mock-firebase-id-token';
+      } else if (confirmationResult) {
+        const result = await confirmationResult.confirm(otp);
+        idToken = await result.user.getIdToken();
+      } else {
+        throw new Error('Verification failed');
+      }
 
       // Verify OTP with backend
       const response = await fetch('/api/auth/forgot-password/verify', {

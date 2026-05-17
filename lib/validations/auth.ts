@@ -46,6 +46,25 @@ export const adminLoginSchema = z.object({
   password: z.string().min(1, 'Password is required'),
 });
 
+export const affiliateRegisterSchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters').max(50, 'Name is too long'),
+  email: z.string().email('Invalid email address'),
+  mobileNumber: z.string()
+    .min(10, 'Mobile number must be at least 10 digits')
+    .max(15, 'Mobile number must be at most 15 digits')
+    .regex(/^[0-9]+$/, 'Mobile number must contain only digits'),
+  referralCode: z.string()
+    .min(3, 'Referral code must be at least 3 characters')
+    .max(20, 'Referral code is too long')
+    .regex(/^[a-zA-Z0-9_-]+$/, 'Referral code can only contain letters, numbers, underscores and hyphens'),
+  password: registerSchema.shape.password,
+});
+
+export const affiliateLoginSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(1, 'Password is required'),
+});
+
 export const forgotPasswordRequestSchema = z.object({
   mobileNumber: z.string()
     .min(10, 'Mobile number must be at least 10 digits')
