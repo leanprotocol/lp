@@ -76,27 +76,27 @@ export function DoctorsSection() {
     {
       title: "Dr Akhil Konduru",
       subtitle: "MD Internal Medicine",
-      imageFilename: "Dr Akhil Konduru - MD, Internal Medicine.png",
+      imageFilename: "Dr Akhil Konduru- MD Internal Medicine 1.jpeg",
     },
     {
       title: "Dr Siddharth Garg",
       subtitle: "MD Internal Medicine",
-      imageFilename: "Dr Siddharth Garg - MD, Internal Medicine.png",
+      imageFilename: "Dr Siddharth Garg, MD Internal Medicine.jpeg",
     },
     {
       title: "Richa Singh",
       subtitle: "Yoga & Fat Loss Expert",
-      imageFilename: "Richa Singh- Yoga & Fat Loss Expert.png",
+      imageFilename: "Richa Singh- Yoga & Fat Loss Expert.jpeg",
     },
     {
       title: "Simran Kumawat",
-      subtitle: "Nutritionist & Obesity Expert",
-      imageFilename: "Simran Kumawat - Nutritionist and Obesity Expert.png",
+      subtitle: "Weight Loss Dietitian",
+      imageFilename: "Simran Kumawat, Weight Loss Dietitian.jpeg",
     },
     {
       title: "Richa Sharma",
-      subtitle: "Expert Nutritionist & Dietitian",
-      imageFilename: "Richa Sharma - Expert Nutritionist & Dietitian.png",
+      subtitle: "Senior Dietitian",
+      imageFilename: "Richa Sharma, Senior Dietitian.jpeg",
     },
   ]
 

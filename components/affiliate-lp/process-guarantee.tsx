@@ -29,40 +29,40 @@ const secondaryMetrics = [
 
 const steps = [
   { 
-    num: 1, 
+    v: "/journey/step-1-vertical.jpeg", 
+    h: "/journey/step-1-horizontal.jpeg", 
     title: "At home, advanced Blood Test", 
     description: "A comprehensive home blood test to deeply analyze your metabolic profile and biomarkers.",
-    image: "/lp-assets/image27.png" 
   },
   { 
-    num: 2, 
+    v: "/journey/step-2-vertical.jpeg", 
+    h: "/journey/step-2-horizontal.jpeg", 
     title: "Consultation with the doctor", 
     description: "Our specialist reviews your reports to check eligibility and prescribe the exact medical protocol.",
-    image: "/lp-assets/image28.png" 
   },
   { 
-    num: 3, 
+    v: "/journey/step-3-vertical.jpeg", 
+    h: "/journey/step-3-horizontal.jpeg", 
     title: "The dietitian gives a GLP-1-based diet", 
     description: "A customized nutritional plan tailored specifically to complement your GLP-1 protocol.",
-    image: "/lp-assets/image19.png" 
   },
   { 
-    num: 4, 
+    v: "/journey/step-4-vertical.jpeg", 
+    h: "/journey/step-4-horizontal.jpeg", 
     title: "Medications delivered at your doorstep", 
     description: "Your prescribed protocol medication is fulfilled and delivered securely to your home.",
-    image: "/lp-assets/image14.png" 
   },
   { 
-    num: 5, 
+    v: "/journey/step-5-vertical.jpeg", 
+    h: "/journey/step-5-horizontal.jpeg", 
     title: "6 months Cult pass home subscription", 
     description: "Get access to Cult home workouts to build lean muscle and keep your body active.",
-    image: "/lp-assets/image31.png" 
   },
   { 
-    num: 6, 
+    v: "/journey/step-6-vertical.jpeg", 
+    h: "/journey/step-6-horizontal.jpeg", 
     title: "15–22% weight loss in 6 months", 
     description: "Achieve lasting, transformational results with our guaranteed weight loss program.",
-    image: "/lp-assets/image15.png" 
   },
 ];
 
@@ -177,7 +177,7 @@ export function ProcessGuarantee() {
             <div className="w-full md:w-[45%] lg:w-[50%] relative flex justify-center md:justify-end">
               <div className="relative w-full max-w-[500px] aspect-square md:aspect-[4/5]">
                 <Image
-                  src="/lp-assets/guarantee-woman.png"
+                  src="/lp-assets/riya-new.png"
                   alt="Confident woman representing Lean Protocol results"
                   fill
                   className="object-contain object-bottom mix-blend-darken"
@@ -212,21 +212,21 @@ export function ProcessGuarantee() {
               const isEven = i % 2 === 0;
               return (
                 <div key={i} className={`relative flex flex-col md:flex-row items-center justify-between gap-8 md:gap-0 w-full group ${isEven ? '' : 'md:flex-row-reverse'}`}>
-                  
-                  {/* Badge */}
-                  <div className="absolute left-4 md:left-1/2 top-0 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 w-14 h-14 rounded-full bg-lp-green text-white flex items-center justify-center font-bold text-2xl shadow-[0_0_0_8px_rgba(255,255,255,1)] z-10 transition-transform duration-300 group-hover:scale-110">
-                    {step.num}
-                  </div>
 
                   {/* Image Side */}
                   <div className="w-full md:w-[42%] pl-24 md:pl-0 pt-2 md:pt-0">
-                    <div className="relative aspect-video md:aspect-[4/3] rounded-3xl overflow-hidden shadow-xl border border-gray-100 group-hover:shadow-2xl group-hover:shadow-lp-green/20 transition-all duration-500">
-                      <Image 
-                        src={step.image} 
+                    <div className="relative aspect-auto md:aspect-[4/3] rounded-3xl overflow-hidden shadow-xl border border-gray-100 group-hover:shadow-2xl group-hover:shadow-lp-green/20 transition-all duration-500">
+                      {/* Mobile Vertical Image */}
+                      <img 
+                        src={step.v} 
                         alt={step.title} 
-                        fill 
-                        className="object-cover transition-transform duration-700 group-hover:scale-105" 
-                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                        className="md:hidden w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105" 
+                      />
+                      {/* Desktop Horizontal Image */}
+                      <img 
+                        src={step.h} 
+                        alt={step.title} 
+                        className="hidden md:block w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105" 
                       />
                       <div className="absolute inset-0 bg-lp-green/0 group-hover:bg-lp-green/5 transition-colors duration-500" />
                     </div>
@@ -269,18 +269,6 @@ export function ProcessGuarantee() {
                   className="object-cover transition-transform duration-700 group-hover:scale-105" 
                   onError={(e) => { e.currentTarget.style.display = 'none'; }}
                 />
-                {/* Dark Overlay for overall text legibility */}
-                <div className="absolute inset-0 bg-black/50 pointer-events-none transition-colors duration-500 group-hover:bg-black/60" />
-                
-                {/* Subtle Top & Bottom Gradients for edge contrast */}
-                <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-black/60 to-transparent pointer-events-none" />
-                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
-                
-                {/* Top Left Text */}
-                <div className="absolute top-0 left-0 p-5 md:p-8 w-full">
-                  <h3 className="font-serif text-xl md:text-3xl lg:text-4xl text-white mb-2 leading-tight drop-shadow-md pr-4">{card.title}</h3>
-                  <p className="hidden md:block text-white/90 text-xs md:text-sm font-medium drop-shadow-md max-w-[95%] md:max-w-[85%] leading-relaxed">{card.subtitle}</p>
-                </div>
               </div>
             ))}
           </div>

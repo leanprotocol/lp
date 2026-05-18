@@ -103,11 +103,8 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans }: HeroSectio
         {/* Left Side: Copy & Selection */}
         <div className="space-y-8 flex flex-col justify-center order-2 lg:order-1">
           <div className="space-y-4">
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-green-50 text-lp-green text-sm font-bold border border-green-100">
-              Obesema (Torrent Pharma)
-            </div>
             <h1 className="text-2xl md:text-3xl lg:text-4xl font-serif text-lp-dark leading-tight">
-              Semaglutide GLP-1 Pen Shot – A Complete Transformation Plan
+              Obesema (<span className="text-lp-green">Alkem</span>) – Semaglutide GLP-1 Pen Shot – A Complete Transformation Plan
             </h1>
             
             <div className="flex items-center gap-5 mt-6">

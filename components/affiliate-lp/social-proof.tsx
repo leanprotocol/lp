@@ -12,7 +12,8 @@ const metricsTabs = [
     label: "Avg Weight Loss",
     title: "18-22% Average Weight Loss",
     description: "Our GLP-1 protocol is clinically proven to help you lose up to 22% of your body weight safely and sustainably.",
-    image: "/lp-assets/metric_weight_loss.png"
+    image: "/lp-assets/image10.jpg",
+    objectPosition: "object-center"
   },
   {
     id: "success-rate",
@@ -20,7 +21,8 @@ const metricsTabs = [
     label: "Success Rate",
     title: "98% Success Rate",
     description: "Join thousands of successful members who have transformed their lives, reversed chronic conditions, and maintained their results.",
-    image: "/lp-assets/metric_success_rate.png"
+    image: "/lp-assets/metric_success_rate.png",
+    objectPosition: "object-top"
   },
   {
     id: "hba1c",
@@ -28,7 +30,8 @@ const metricsTabs = [
     label: "Avg. HbA1c Drop",
     title: "2.6% Avg. HbA1c Drop",
     description: "Beyond weight loss, our protocol significantly improves metabolic health, reversing insulin resistance and lowering blood sugar.",
-    image: "/lp-assets/metric_hba1c.png"
+    image: "/lp-assets/metric_hba1c.png",
+    objectPosition: "object-top"
   },
   {
     id: "guarantee",
@@ -36,7 +39,8 @@ const metricsTabs = [
     label: "Results Guaranteed",
     title: "6 Months Guaranteed Results",
     description: "We are so confident in our science-backed approach that we offer a results guarantee. Achieve your goals or get your money back.",
-    image: "/lp-assets/metric_guarantee.png"
+    image: "/lp-assets/metric_guarantee.png",
+    objectPosition: "object-center"
   }
 ];
 
@@ -74,12 +78,12 @@ export function SocialProof() {
             </div>
             
             <div className="space-y-2 p-6 md:p-8 border-b md:border-b-0 md:border-r border-white/20 flex flex-col justify-center items-center">
-              <div className="flex text-lp-gold mb-2">
+              <div className="flex gap-1 text-lp-gold mb-2">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-6 h-6 fill-current" />
+                  <Star key={i} className="w-4 h-4 md:w-5 md:h-5 fill-current" />
                 ))}
               </div>
-              <p className="text-lg md:text-xl font-bold leading-tight">4.8 Rating 1,200+<br/>Reviews</p>
+              <p className="text-base md:text-lg font-bold leading-tight text-white/90">4.8 Rating 1,200+<br/>Reviews</p>
             </div>
             
             <div className="space-y-2 p-6 md:p-8 border-r border-white/20 flex flex-col justify-center">
@@ -157,14 +161,47 @@ export function SocialProof() {
 
           <div className="grid grid-cols-2 gap-4 md:gap-6">
             {metricsTabs.map(card => (
-              <div key={card.id} className="relative aspect-square md:aspect-[4/3] rounded-[1.5rem] md:rounded-[2rem] overflow-hidden group shadow-md border border-gray-100">
-                <Image 
-                  src={card.image} 
-                  alt={card.title} 
-                  fill 
-                  className="object-cover transition-transform duration-700 group-hover:scale-105" 
-                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                />
+              <div key={card.id} className="relative aspect-[4/5] md:aspect-square rounded-[1.5rem] md:rounded-[2rem] overflow-hidden group shadow-md border border-gray-100">
+                {card.id === "hba1c" ? (
+                  <div className="absolute inset-0 bg-[#0c1810]">
+                    {/* Blurred background image */}
+                    <Image 
+                      src={card.image} 
+                      alt="" 
+                      fill 
+                      className="object-cover blur-3xl opacity-35 scale-125 pointer-events-none"
+                    />
+                    {/* Contained foreground image */}
+                    <Image 
+                      src={card.image} 
+                      alt={card.title} 
+                      fill 
+                      className="object-contain p-4 md:p-6 transition-transform duration-700 group-hover:scale-[1.03]" 
+                      onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                    />
+                  </div>
+                ) : card.id === "guarantee" ? (
+                  <div className="absolute inset-0 bg-[#0d1610]">
+                    {/* Contained Guarantee Seal */}
+                    <Image 
+                      src={card.image} 
+                      alt={card.title} 
+                      fill 
+                      className="object-contain p-10 md:p-12 transition-transform duration-700 group-hover:scale-105" 
+                      onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                    />
+                  </div>
+                ) : (
+                  <Image 
+                    src={card.image} 
+                    alt={card.title} 
+                    fill 
+                    className={`object-cover transition-transform duration-700 group-hover:scale-105 ${
+                      card.objectPosition === "object-top" ? "object-top" : "object-center"
+                    }`} 
+                    onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                  />
+                )}
                 {/* Dark Overlay for overall text legibility */}
                 <div className="absolute inset-0 bg-black/50 pointer-events-none transition-colors duration-500 group-hover:bg-black/60" />
                 
