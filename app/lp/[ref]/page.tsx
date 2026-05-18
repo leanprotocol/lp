@@ -6,7 +6,7 @@ import { prisma } from "@/lib/prisma";
 export const metadata: Metadata = {
   title: "Lean Protocol | India's #1 GLP-1 Medical Weight Loss Program",
   description:
-    "Semaglutide GLP-1 Pen Shot backed by Torrent Pharma. Doctor-led, science-based weight loss. Guaranteed 10% weight loss in 6 months or full refund. Plans from ₹5,999.",
+    "Semaglutide GLP-1 Pen Shot backed by Alkem. Doctor-led, science-based weight loss. Guaranteed 10% weight loss in 6 months or full refund. Plans from ₹5,999.",
 };
 
 interface Props {
