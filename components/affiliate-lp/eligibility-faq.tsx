@@ -68,6 +68,7 @@ export function EligibilityFAQ() {
   };
 
   const scrollToPlans = () => {
+    window.dispatchEvent(new CustomEvent('selectDoctorPlan'));
     const plansSection = document.getElementById('plans');
     if (plansSection) {
       plansSection.scrollIntoView({ behavior: 'smooth' });
