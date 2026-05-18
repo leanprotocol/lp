@@ -177,7 +177,7 @@ export function ProcessGuarantee() {
             <div className="w-full md:w-[45%] lg:w-[50%] relative flex justify-center md:justify-end">
               <div className="relative w-full max-w-[500px] aspect-square md:aspect-[4/5]">
                 <Image
-                  src="/lp-assets/riya-new.png"
+                  src="/lp-assets/metric_success_rate.png"
                   alt="Confident woman representing Lean Protocol results"
                   fill
                   className="object-contain object-bottom mix-blend-darken"
@@ -261,12 +261,13 @@ export function ProcessGuarantee() {
 
           <div className="grid grid-cols-2 gap-4 md:gap-6">
             {secondaryMetrics.map(card => (
-              <div key={card.id} className="relative aspect-square md:aspect-[4/3] rounded-[1.5rem] md:rounded-[2rem] overflow-hidden group shadow-md border border-gray-100">
+              <div key={card.id} className="relative rounded-[1.5rem] md:rounded-[2rem] overflow-hidden group shadow-md border border-gray-100 bg-white">
                 <Image 
                   src={card.image} 
                   alt={card.title} 
-                  fill 
-                  className="object-cover transition-transform duration-700 group-hover:scale-105" 
+                  width={800}
+                  height={800}
+                  className="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-105" 
                   onError={(e) => { e.currentTarget.style.display = 'none'; }}
                 />
               </div>
