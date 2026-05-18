@@ -8,55 +8,55 @@ const experts = [
     id: 1,
     name: "Dr. Gautam Kumar",
     role: "MD, DM (Endocrinology)",
-    image: "/lp-assets/experts/gautam.png",
+    image: "/lp-assets/experts/gautam.jpeg",
   },
   {
     id: 2,
-    name: "Dr. Akhil",
-    role: "MD, Medicine",
-    image: "/lp-assets/experts/akhil.png",
+    name: "Dr. Akhil Konduru",
+    role: "MD, Internal Medicine",
+    image: "/lp-assets/experts/akhil.jpeg",
   },
   {
     id: 3,
-    name: "Dr. Siddharth",
+    name: "Dr. Siddharth Garg",
     role: "MD, Internal Medicine",
-    image: "/lp-assets/experts/siddharth.png",
+    image: "/lp-assets/experts/siddharth.jpeg",
   },
   {
     id: 4,
     name: "Alisha Gupta",
     role: "GLP 1 Expert Dietitian",
-    image: "/lp-assets/experts/alisha.png",
+    image: "/lp-assets/experts/alisha.jpeg",
   },
   {
     id: 5,
     name: "Simran Kumawat",
-    role: "GLP 1 Expert Dietitian",
-    image: "/lp-assets/experts/simran.png",
+    role: "Weight Loss Dietitian",
+    image: "/lp-assets/experts/simran.jpeg",
   },
   {
     id: 6,
     name: "Richa Sharma",
-    role: "Expert Nutritionist",
-    image: "/lp-assets/experts/richa-sharma.png",
+    role: "Senior Dietitian",
+    image: "/lp-assets/experts/richa-sharma.jpeg",
   },
   {
     id: 7,
     name: "Aparna Tandon",
-    role: "Dietitian & Weight Loss Expert",
-    image: "/lp-assets/experts/aparna.png",
+    role: "Weight Loss Expert Dietitian",
+    image: "/lp-assets/experts/aparna.jpeg",
   },
   {
     id: 8,
     name: "Richa Singh",
     role: "Yoga & Fat Loss Expert",
-    image: "/lp-assets/experts/richa-singh.png",
+    image: "/lp-assets/experts/richa-singh.jpeg",
   },
   {
     id: 9,
     name: "Alka Bharti",
-    role: "Dietitian",
-    image: "/lp-assets/experts/alka.jpg",
+    role: "GLP 1 Dietitian",
+    image: "/lp-assets/experts/alka.jpeg",
   },
 ];
 
@@ -194,11 +194,10 @@ export function SocialTrust() {
                 {story.type === "video" ? (
                   <video
                     src={story.src}
-                    autoPlay
-                    loop
-                    muted
+                    controls
                     playsInline
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    preload="metadata"
+                    className="absolute inset-0 w-full h-full object-cover"
                   />
                 ) : (
                   <Image
@@ -314,16 +313,14 @@ export function SocialTrust() {
                 src="/lp-assets/logo-cult.png" 
                 alt="Cult" 
                 fill 
-                className="object-contain brightness-0" 
+                className="object-contain" 
               />
             </div>
           </div>
         </div>
       </section>
 
-      {/* SECTION 14 – Automatic Testimonial Slider */}
-      <section className="bg-lp-green text-white py-24 px-4 overflow-hidden relative">
-        {/* Background decorative blob */}
+      {/* <section className="bg-lp-green text-white py-24 px-4 overflow-hidden relative">
         <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
         
         <div className="max-w-5xl mx-auto">
@@ -359,7 +356,6 @@ export function SocialTrust() {
             ))}
           </div>
           
-          {/* Slider Dots */}
           <div className="flex justify-center gap-2 mt-12 relative z-10">
             {testimonials.map((_, idx) => (
               <button
@@ -373,7 +369,7 @@ export function SocialTrust() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
     </>
   );
 }
