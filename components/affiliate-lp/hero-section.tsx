@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Info } from "lucide-react";
@@ -28,11 +28,11 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans }: HeroSectio
   const [activeVisualTab, setActiveVisualTab] = useState("plan");
 
   // Map DB plans to the UI format
-  const displayPlans = dbPlans.length > 0 ? dbPlans.map(plan => {
+  const basePlans = dbPlans.length > 0 ? dbPlans.map(plan => {
     let durationLabel = "1 Month";
     if (plan.durationDays >= 180) durationLabel = "6 Months";
     else if (plan.durationDays >= 90) durationLabel = "3 Months";
-    else if (plan.durationDays <= 1) durationLabel = "Doctor Consultation";
+    else if (plan.durationDays <= 15 || plan.name.toLowerCase().includes("doctor")) durationLabel = "Doctor Consultation";
 
     let image = "/lp-assets/1-month-plan.jpeg";
     if (durationLabel === "3 Months") image = "/lp-assets/3-months-plan.jpeg";
@@ -78,7 +78,25 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans }: HeroSectio
     },
   ];
 
+  const displayPlans = [...basePlans].sort((a, b) => {
+    if (a.durationLabel === "Doctor Consultation") return 1;
+    if (b.durationLabel === "Doctor Consultation") return -1;
+    return 0; // maintain relative order of others
+  });
+
   const activePlan = displayPlans[selectedPlanIdx] || displayPlans[0];
+
+  useEffect(() => {
+    const handleSelectDoctorPlan = () => {
+      const docIdx = displayPlans.findIndex(p => p.durationLabel === "Doctor Consultation");
+      if (docIdx !== -1) {
+        setSelectedPlanIdx(docIdx);
+        setActiveVisualTab("plan");
+      }
+    };
+    window.addEventListener('selectDoctorPlan', handleSelectDoctorPlan);
+    return () => window.removeEventListener('selectDoctorPlan', handleSelectDoctorPlan);
+  }, [displayPlans]);
 
   // Figure out which image source is active
   const tabInfo = EXPLORER_TABS.find(t => t.id === activeVisualTab);
@@ -113,12 +131,28 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans }: HeroSectio
       </header>
 
       {/* SECTION 2 – Hero / Plan Selector */}
-      <section className="pt-8 md:pt-12 pb-16 px-4 max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 md:gap-12" id="plans">
+      <section className="pt-8 md:pt-12 pb-16 px-4 max-w-7xl mx-auto flex flex-col lg:grid lg:grid-cols-2 gap-8 md:gap-12" id="plans">
         
+        {/* MOBILE HEADLINE (Shown only on mobile, placed at the top) */}
+        <div className="lg:hidden space-y-3 order-first">
+          <h1 className="text-2xl md:text-3xl font-serif text-lp-dark leading-tight">
+            Obesema (<span className="text-lp-green">Alkem</span>) – Semaglutide GLP-1 Pen Shot – A Complete Transformation Plan
+          </h1>
+          
+          <div className="flex items-center gap-3">
+            <span className="text-3xl font-bold text-lp-dark">₹{activePlan.price.toLocaleString()}</span>
+            <span className="text-lg text-gray-400 line-through">₹{activePlan.originalPrice.toLocaleString()}</span>
+            <div className="bg-lp-green text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-sm uppercase tracking-wider">
+              {Math.round((1 - activePlan.price / activePlan.originalPrice) * 100)}% OFF
+            </div>
+          </div>
+        </div>
+
         {/* Left Side: Copy & Selection */}
         <div className="space-y-8 flex flex-col justify-center order-2 lg:order-1">
-          <div className="space-y-4">
-            <h1 className="text-2xl md:text-3xl lg:text-4xl font-serif text-lp-dark leading-tight">
+          {/* DESKTOP HEADLINE (Hidden on mobile) */}
+          <div className="hidden lg:block space-y-4">
+            <h1 className="text-3xl lg:text-4xl font-serif text-lp-dark leading-tight">
               Obesema (<span className="text-lp-green">Alkem</span>) – Semaglutide GLP-1 Pen Shot – A Complete Transformation Plan
             </h1>
             

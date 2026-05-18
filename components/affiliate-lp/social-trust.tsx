@@ -241,12 +241,15 @@ export function SocialTrust() {
       </section>
 
       {/* SECTION 12 – Meet the Experts */}
-      <section className="bg-white py-24 px-4 border-t border-gray-100">
+      <section className="bg-white pt-12 pb-24 md:pt-16 md:pb-24 px-4 border-t border-gray-100">
         <div className="max-w-6xl mx-auto text-center">
-          <div className="max-w-3xl mx-auto mb-16 space-y-4">
+          <div className="max-w-3xl mx-auto mb-16 flex flex-col gap-4 md:gap-6">
             <h2 className="font-serif text-3xl md:text-4xl text-lp-dark">
-              People ask how we do it?<br/>We say it's only because of our expertise and partners.
+              People ask how we do it?
             </h2>
+            <h3 className="font-serif text-2xl md:text-3xl text-lp-dark">
+              It is only possible because of our Experts!
+            </h3>
           </div>
           
           <div 
