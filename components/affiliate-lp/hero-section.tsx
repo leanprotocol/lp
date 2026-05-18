@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { MessageCircle, Info, ChevronDown } from "lucide-react";
+import { Info } from "lucide-react";
 import { WhatsappIcon } from "@/components/whatsapp-icon";
 import { Button } from "@/components/ui/button";
 
@@ -13,9 +13,19 @@ interface HeroSectionProps {
   dbPlans: any[];
 }
 
+const EXPLORER_TABS = [
+  { id: "plan", label: "Plan Details" },
+  { id: "difference", label: "Lean Difference", image: "/lp-assets/lean-protocol-weight-loss-difference.jpeg" },
+  { id: "comparison", label: "Comparison", image: "/lp-assets/comparison-lean-protocol.jpeg" },
+  { id: "benefits", label: "Core Benefits", image: "/lp-assets/benefits-lean-protocol-weight-loss.jpeg" },
+  { id: "nutrition", label: "Nutrition Guide", image: "/lp-assets/nutrition-importance-lean-protocol.jpeg" },
+  { id: "doctor", label: "Doctor Support", image: "/lp-assets/doctor-lean-protocol.jpeg" },
+  { id: "total", label: "Transformation Plan", image: "/lp-assets/total.jpeg" },
+];
+
 export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans }: HeroSectionProps) {
   const [selectedPlanIdx, setSelectedPlanIdx] = useState(0);
-  const [isTermsOpen, setIsTermsOpen] = useState(false);
+  const [activeVisualTab, setActiveVisualTab] = useState("plan");
 
   // Map DB plans to the UI format
   const displayPlans = dbPlans.length > 0 ? dbPlans.map(plan => {
@@ -24,10 +34,10 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans }: HeroSectio
     else if (plan.durationDays >= 90) durationLabel = "3 Months";
     else if (plan.durationDays <= 1) durationLabel = "Doctor Consultation";
 
-    let image = "/lp-assets/image15.png";
-    if (durationLabel === "3 Months") image = "/lp-assets/image4.png";
-    else if (durationLabel === "6 Months") image = "/lp-assets/image28.png";
-    else if (durationLabel === "Doctor Consultation") image = "/lp-assets/image17.png";
+    let image = "/lp-assets/1-month-plan.jpeg";
+    if (durationLabel === "3 Months") image = "/lp-assets/3-months-plan.jpeg";
+    else if (durationLabel === "6 Months") image = "/lp-assets/6-months-plan.jpeg";
+    else if (durationLabel === "Doctor Consultation") image = "/lp-assets/doctor-lean-protocol.jpeg";
 
     return {
       id: plan.id,
@@ -43,32 +53,37 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans }: HeroSectio
       title: "Lean Start – Beginner Plan",
       price: 5999,
       originalPrice: 9229,
-      image: "/lp-assets/image15.png",
+      image: "/lp-assets/1-month-plan.jpeg",
     },
     {
-        durationLabel: "3 Months",
-        title: "Lean Pro – Comprehensive Plan",
-        price: 19999,
-        originalPrice: 28778,
-        image: "/lp-assets/image4.png",
-      },
-      {
-        durationLabel: "6 Months",
-        title: "Lean Champion – Guaranteed Weight Loss",
-        price: 39998,
-        originalPrice: 58667,
-        image: "/lp-assets/image28.png",
-      },
-      {
-        durationLabel: "Doctor Consultation",
-        title: "For Prescription / Eligibility",
-        price: 449,
-        originalPrice: 1500,
-        image: "/lp-assets/image17.png",
-      },
+      durationLabel: "3 Months",
+      title: "Lean Pro – Comprehensive Plan",
+      price: 19999,
+      originalPrice: 28778,
+      image: "/lp-assets/3-months-plan.jpeg",
+    },
+    {
+      durationLabel: "6 Months",
+      title: "Lean Champion – Guaranteed Weight Loss",
+      price: 39998,
+      originalPrice: 58667,
+      image: "/lp-assets/6-months-plan.jpeg",
+    },
+    {
+      durationLabel: "Doctor Consultation",
+      title: "For Prescription / Eligibility",
+      price: 449,
+      originalPrice: 1500,
+      image: "/lp-assets/doctor-lean-protocol.jpeg",
+    },
   ];
 
   const activePlan = displayPlans[selectedPlanIdx] || displayPlans[0];
+
+  // Figure out which image source is active
+  const tabInfo = EXPLORER_TABS.find(t => t.id === activeVisualTab);
+  const activeImageSrc = tabInfo && tabInfo.image ? tabInfo.image : activePlan.image;
+  const activeImageAlt = tabInfo && tabInfo.id !== "plan" ? tabInfo.label : activePlan.title;
 
   return (
     <>
@@ -121,7 +136,10 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans }: HeroSectio
             {displayPlans.map((plan, idx) => (
               <button
                 key={idx}
-                onClick={() => setSelectedPlanIdx(idx)}
+                onClick={() => {
+                  setSelectedPlanIdx(idx);
+                  setActiveVisualTab("plan");
+                }}
                 className={`flex items-center gap-4 border-2 rounded-2xl p-4 text-left transition-all duration-300 ${
                   idx === selectedPlanIdx 
                     ? "border-lp-green bg-[#F0F7F4] shadow-md" 
@@ -176,27 +194,57 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans }: HeroSectio
           </div>
         </div>
 
-        {/* Right Side: Dynamic Image */}
-        <div className="order-1 lg:order-2 rounded-[2.5rem] bg-[#F8F9F8] aspect-[4/5] lg:aspect-[3/4] flex items-center justify-center relative overflow-hidden border-8 border-white shadow-2xl">
-           <div className="absolute inset-0 z-10 p-6 md:p-10 flex items-center justify-center">
-             <Image 
-                src={activePlan.image} 
-                alt={activePlan.title}
+        {/* Right Side: Dynamic Image & Info Explorer */}
+        <div className="order-1 lg:order-2 flex flex-col gap-6">
+          {/* Visual Card */}
+          <div className="rounded-[2.5rem] bg-[#F8F9F8] aspect-[4/5] lg:aspect-[3/4] flex items-center justify-center relative overflow-hidden border-8 border-white shadow-2xl w-full">
+            <div className="absolute inset-0 z-10 p-4 md:p-6 flex items-center justify-center">
+              <Image 
+                key={activeImageSrc} // Key forces re-render for smooth transition on source change
+                src={activeImageSrc} 
+                alt={activeImageAlt}
                 fill
-                className="object-contain object-center z-10 transition-transform duration-700 hover:scale-105"
+                className="object-contain object-center z-10 transition-all duration-500 hover:scale-102"
                 priority
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
                 }}
-             />
-           </div>
-           {/* Fallback placeholder */}
-           <div className="absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-400 z-0">
-             <span className="font-bold text-xl text-center px-4 opacity-50">
-               {activePlan.durationLabel} Plan Image<br/>
-               <span className="text-sm font-normal">Building your protocol...</span>
-             </span>
-           </div>
+              />
+            </div>
+            {/* Fallback placeholder */}
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-400 z-0">
+              <span className="font-bold text-xl text-center px-4 opacity-50">
+                {activeImageAlt}<br/>
+                <span className="text-sm font-normal">Loading visualization...</span>
+              </span>
+            </div>
+          </div>
+
+          {/* Horizontal Tabs Explorer */}
+          <div className="w-full">
+            <p className="text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider text-center lg:text-left">
+              Interactive Transformation Explorer
+            </p>
+            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-lp-green/20 scrollbar-track-transparent snap-x snap-mandatory">
+              {EXPLORER_TABS.map((tab) => {
+                // Determine if active
+                const isActive = activeVisualTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveVisualTab(tab.id)}
+                    className={`px-4 py-2.5 rounded-full text-xs font-bold whitespace-nowrap snap-center transition-all duration-300 ${
+                      isActive
+                        ? "bg-lp-green text-white shadow-md scale-105"
+                        : "bg-white text-lp-dark border border-gray-100 hover:border-green-200 hover:bg-[#F0F7F4]"
+                    }`}
+                  >
+                    {tab.id === "plan" ? `${activePlan.durationLabel} Plan Details` : tab.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
       </section>
