@@ -8,6 +8,7 @@ type DoctorProfile = {
   title: string
   subtitle: string
   imageFilename: string
+  objectPosition?: string
 }
 
 export function DoctorTestimonial() {
@@ -58,7 +59,7 @@ export function DoctorTestimonial() {
                   <img 
                     src="/dr-kumar-avatar.jpg" 
                     alt="Dr. Kumar" 
-                    className="w-full h-full object-cover" 
+                    className="w-full h-full object-cover object-top" 
                   />
                 </div>
               </div>
@@ -74,29 +75,51 @@ export function DoctorTestimonial() {
 export function DoctorsSection() {
   const doctors: DoctorProfile[] = [
     {
-      title: "Dr Akhil Konduru",
-      subtitle: "MD Internal Medicine",
-      imageFilename: "Dr Akhil Konduru- MD Internal Medicine 1.jpeg",
+      title: "Dr. Akhil Konduru",
+      subtitle: "MD, Internal Medicine",
+      imageFilename: "/lp-assets/experts/akhil.jpeg",
     },
     {
-      title: "Dr Siddharth Garg",
-      subtitle: "MD Internal Medicine",
-      imageFilename: "Dr Siddharth Garg, MD Internal Medicine.jpeg",
+      title: "Dr. Siddharth Garg",
+      subtitle: "MD, Internal Medicine",
+      imageFilename: "/lp-assets/experts/siddharth.jpeg",
     },
     {
-      title: "Richa Singh",
-      subtitle: "Yoga & Fat Loss Expert",
-      imageFilename: "Richa Singh- Yoga & Fat Loss Expert.jpeg",
+      title: "Dr. Gautam Kumar",
+      subtitle: "MD, DM (Endocrinology)",
+      imageFilename: "/lp-assets/experts/gautam.jpeg",
+      objectPosition: "object-top",
+    },
+    {
+      title: "Alisha Gupta",
+      subtitle: "GLP 1 Expert Dietitian",
+      imageFilename: "/lp-assets/experts/alisha.jpeg",
     },
     {
       title: "Simran Kumawat",
       subtitle: "Weight Loss Dietitian",
-      imageFilename: "Simran Kumawat, Weight Loss Dietitian.jpeg",
+      imageFilename: "/lp-assets/experts/simran.jpeg",
+      objectPosition: "object-top",
     },
     {
       title: "Richa Sharma",
       subtitle: "Senior Dietitian",
-      imageFilename: "Richa Sharma, Senior Dietitian.jpeg",
+      imageFilename: "/lp-assets/experts/richa-sharma.jpeg",
+    },
+    {
+      title: "Aparna Tandon",
+      subtitle: "Weight Loss Expert Dietitian",
+      imageFilename: "/lp-assets/experts/aparna.jpeg",
+    },
+    {
+      title: "Richa Singh",
+      subtitle: "Yoga & Fat Loss Expert",
+      imageFilename: "/lp-assets/experts/richa-singh.jpeg",
+    },
+    {
+      title: "Alka Bharti",
+      subtitle: "GLP 1 Dietitian",
+      imageFilename: "/lp-assets/experts/alka.jpeg",
     },
   ]
 
@@ -145,9 +168,9 @@ export function DoctorsSection() {
                   >
                     <div className="w-full h-[320px] bg-[#EDE7E1]">
                       <img
-                        src={`/doctors/${encodeURIComponent(doctor.imageFilename)}`}
+                        src={doctor.imageFilename}
                         alt={doctor.title}
-                        className="w-full h-full object-cover"
+                        className={`w-full h-full object-cover ${doctor.objectPosition || ""}`}
                         loading="lazy"
                       />
                     </div>

@@ -6,21 +6,22 @@ import Image from "next/image";
 const experts = [
   {
     id: 1,
-    name: "Dr. Gautam Kumar",
-    role: "MD, DM (Endocrinology)",
-    image: "/lp-assets/experts/gautam.jpeg",
-  },
-  {
-    id: 2,
     name: "Dr. Akhil Konduru",
     role: "MD, Internal Medicine",
     image: "/lp-assets/experts/akhil.jpeg",
   },
   {
-    id: 3,
+    id: 2,
     name: "Dr. Siddharth Garg",
     role: "MD, Internal Medicine",
     image: "/lp-assets/experts/siddharth.jpeg",
+  },
+  {
+    id: 3,
+    name: "Dr. Gautam Kumar",
+    role: "MD, DM (Endocrinology)",
+    image: "/lp-assets/experts/gautam.jpeg",
+    objectPosition: "object-top",
   },
   {
     id: 4,
@@ -33,6 +34,7 @@ const experts = [
     name: "Simran Kumawat",
     role: "Weight Loss Dietitian",
     image: "/lp-assets/experts/simran.jpeg",
+    objectPosition: "object-top",
   },
   {
     id: 6,
@@ -265,14 +267,13 @@ export function SocialTrust() {
                   <div className="absolute inset-0 flex items-center justify-center text-gray-400 text-6xl font-serif z-0 bg-gray-100">
                     {expert.name.charAt(0)}
                   </div>
-                  <Image 
+                  <Image
                     src={expert.image}
                     alt={expert.name}
                     fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105 z-10"
+                    className={`object-cover transition-transform duration-700 group-hover:scale-105 z-10 ${expert.objectPosition || ""}`}
                     onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                  />
-                </div>
+                  />                </div>
                 
                 <div className="bg-white p-6 relative z-10 rounded-t-[2rem] -mt-6">
                   <h3 className="font-bold text-xl text-lp-dark mb-1 pr-8">{expert.name}</h3>
