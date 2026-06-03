@@ -232,7 +232,7 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans }: HeroSectio
         <div className="order-1 lg:order-2 flex flex-col gap-6">
           {/* Visual Card with swipe support */}
           <div
-            className="rounded-[2.5rem] bg-[#F8F9F8] aspect-[4/5] lg:aspect-[3/4] flex items-center justify-center relative overflow-hidden border-8 border-white shadow-2xl w-full"
+            className="rounded-[2.5rem] bg-[#F8F9F8] flex items-center justify-center relative overflow-hidden border-8 border-white shadow-2xl w-full"
             onTouchStart={(e) => {
               (e.currentTarget as any)._touchStartX = e.touches[0].clientX;
             }}
@@ -253,13 +253,14 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans }: HeroSectio
               }
             }}
           >
-            <div className="absolute inset-0 z-10 p-4 md:p-6 flex items-center justify-center">
+            <div className="relative w-full z-10 flex items-center justify-center">
               <Image
                 key={activeImageSrc}
                 src={activeImageSrc}
                 alt={activeImageAlt}
-                fill
-                className="object-contain object-center z-10 transition-all duration-500 hover:scale-102"
+                width={1024}
+                height={1280}
+                className="w-full h-auto object-contain z-10 transition-all duration-500"
                 priority
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
