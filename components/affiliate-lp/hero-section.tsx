@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Info } from "lucide-react";
@@ -230,12 +230,33 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans }: HeroSectio
 
         {/* Right Side: Dynamic Image & Info Explorer */}
         <div className="order-1 lg:order-2 flex flex-col gap-6">
-          {/* Visual Card */}
-          <div className="rounded-[2.5rem] bg-[#F8F9F8] aspect-[4/5] lg:aspect-[3/4] flex items-center justify-center relative overflow-hidden border-8 border-white shadow-2xl w-full">
+          {/* Visual Card with swipe support */}
+          <div
+            className="rounded-[2.5rem] bg-[#F8F9F8] aspect-[4/5] lg:aspect-[3/4] flex items-center justify-center relative overflow-hidden border-8 border-white shadow-2xl w-full"
+            onTouchStart={(e) => {
+              (e.currentTarget as any)._touchStartX = e.touches[0].clientX;
+            }}
+            onTouchEnd={(e) => {
+              const startX = (e.currentTarget as any)._touchStartX;
+              if (startX === undefined) return;
+              const diff = startX - e.changedTouches[0].clientX;
+              const allTabs = EXPLORER_TABS;
+              const currentIdx = allTabs.findIndex(t => t.id === activeVisualTab);
+              if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                  const nextIdx = (currentIdx + 1) % allTabs.length;
+                  setActiveVisualTab(allTabs[nextIdx].id);
+                } else {
+                  const prevIdx = (currentIdx - 1 + allTabs.length) % allTabs.length;
+                  setActiveVisualTab(allTabs[prevIdx].id);
+                }
+              }
+            }}
+          >
             <div className="absolute inset-0 z-10 p-4 md:p-6 flex items-center justify-center">
-              <Image 
-                key={activeImageSrc} // Key forces re-render for smooth transition on source change
-                src={activeImageSrc} 
+              <Image
+                key={activeImageSrc}
+                src={activeImageSrc}
                 alt={activeImageAlt}
                 fill
                 className="object-contain object-center z-10 transition-all duration-500 hover:scale-102"
@@ -251,6 +272,17 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans }: HeroSectio
                 {activeImageAlt}<br/>
                 <span className="text-sm font-normal">Loading visualization...</span>
               </span>
+            </div>
+            {/* Dot indicators */}
+            <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 z-20">
+              {EXPLORER_TABS.map((tab, i) => (
+                <div
+                  key={tab.id}
+                  className={`rounded-full transition-all duration-300 ${
+                    tab.id === activeVisualTab ? "w-4 h-1.5 bg-lp-green" : "w-1.5 h-1.5 bg-gray-300"
+                  }`}
+                />
+              ))}
             </div>
           </div>
 
