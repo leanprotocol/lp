@@ -253,13 +253,13 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans }: HeroSectio
               }
             }}
           >
-            <div className="relative w-full z-10 flex items-center justify-center">
+            <div className="relative w-full z-10">
               <Image
                 key={activeImageSrc}
                 src={activeImageSrc}
                 alt={activeImageAlt}
-                width={1024}
-                height={1280}
+                width={1054}
+                height={1492}
                 className="w-full h-auto object-contain z-10 transition-all duration-500"
                 priority
                 onError={(e) => {
