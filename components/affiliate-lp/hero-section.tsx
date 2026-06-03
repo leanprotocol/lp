@@ -15,12 +15,12 @@ interface HeroSectionProps {
 
 const EXPLORER_TABS = [
   { id: "plan", label: "Plan Details" },
-  { id: "difference", label: "Lean Difference", image: "/lp-assets/lean-protocol-weight-loss-difference.png" },
-  { id: "comparison", label: "Comparison", image: "/lp-assets/comparison-lean-protocol.png" },
+  { id: "difference", label: "Lean Difference", image: "/lp-assets/lean-protocol-weight-loss-difference.jpeg" },
+  { id: "comparison", label: "Comparison", image: "/lp-assets/comparison-lean-protocol.jpeg" },
   { id: "benefits", label: "Core Benefits", image: "/lp-assets/benefits-lean-protocol-weight-loss.jpeg" },
   { id: "nutrition", label: "Nutrition Guide", image: "/lp-assets/nutrition-importance-lean-protocol.jpeg" },
-  { id: "doctor", label: "Doctor Support", image: "/lp-assets/doctor-lean-protocol.png" },
-  { id: "total", label: "Transformation Plan", image: "/lp-assets/total.png" },
+  { id: "doctor", label: "Doctor Support", image: "/lp-assets/doctor-lean-protocol.jpeg" },
+  { id: "total", label: "Transformation Plan", image: "/lp-assets/total.jpeg" },
 ];
 
 export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans }: HeroSectionProps) {
@@ -34,9 +34,9 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans }: HeroSectio
     else if (plan.durationDays >= 90) durationLabel = "3 Months";
     else if (plan.durationDays <= 15 || plan.name.toLowerCase().includes("doctor")) durationLabel = "Doctor Consultation";
 
-    let image = "/lp-assets/1-month-plan.png";
-    if (durationLabel === "3 Months") image = "/lp-assets/3-months-plan.png";
-    else if (durationLabel === "6 Months") image = "/lp-assets/6-months-plan.png";
+    let image = "/lp-assets/1-month-plan.jpeg";
+    if (durationLabel === "3 Months") image = "/lp-assets/3-months-plan.jpeg";
+    else if (durationLabel === "6 Months") image = "/lp-assets/6-months-plan.jpeg";
     else if (durationLabel === "Doctor Consultation") image = "/lp-assets/doctor-lean-protocol.jpeg";
 
     return {
