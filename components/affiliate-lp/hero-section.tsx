@@ -136,7 +136,7 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans }: HeroSectio
         {/* MOBILE HEADLINE (Shown only on mobile, placed at the top) */}
         <div className="lg:hidden space-y-3 order-first">
           <h1 className="text-2xl md:text-3xl font-serif text-lp-dark leading-tight">
-            Obesema (<span className="text-lp-green">Alkem</span>) – Semaglutide GLP-1 Pen Shot – A Complete Transformation Plan
+            Semaglutide GLP-1 Pen Shot – A Complete Transformation Plan
           </h1>
           
           <div className="flex items-center gap-3">
@@ -153,7 +153,7 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans }: HeroSectio
           {/* DESKTOP HEADLINE (Hidden on mobile) */}
           <div className="hidden lg:block space-y-4">
             <h1 className="text-3xl lg:text-4xl font-serif text-lp-dark leading-tight">
-              Obesema (<span className="text-lp-green">Alkem</span>) – Semaglutide GLP-1 Pen Shot – A Complete Transformation Plan
+             Semaglutide GLP-1 Pen Shot – A Complete Transformation Plan
             </h1>
             
             <div className="flex items-center gap-5 mt-6">
