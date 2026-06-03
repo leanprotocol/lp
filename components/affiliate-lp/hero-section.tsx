@@ -232,7 +232,7 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans }: HeroSectio
         <div className="order-1 lg:order-2 flex flex-col gap-6">
           {/* Visual Card with swipe support */}
           <div
-            className="rounded-[2.5rem] bg-[#F8F9F8] flex items-center justify-center relative overflow-hidden border-8 border-white shadow-2xl w-full"
+           className="rounded-[2.5rem] bg-[#F8F9F8] aspect-[1054/1492] lg:aspect-[3/4] flex items-center justify-center relative overflow-hidden border-8 border-white shadow-2xl w-full"
             onTouchStart={(e) => {
               (e.currentTarget as any)._touchStartX = e.touches[0].clientX;
             }}
