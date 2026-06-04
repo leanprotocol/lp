@@ -1,7 +1,6 @@
 "use client";
 
-import { RefreshCcw, Calendar, Mail, ShieldCheck, CheckCircle2, AlertTriangle } from "lucide-react";
-import Link from "next/link";
+import { Calendar } from "lucide-react";
 
 export default function RefundPolicy() {
   return (
@@ -40,9 +39,9 @@ export default function RefundPolicy() {
             <section>
               <h2 className="font-serif text-2xl text-[#1F302B] mb-4">The Results We Promise</h2>
               <p className="text-[#57534E] leading-relaxed mb-4">
-                Lose <b>at least 6% of your starting body weight within the first 3 months</b> of your Lean Protocol program.
+                Lose <b>at least 10% of your starting body weight by the end of our 6 months</b> program of your Lean Protocol program.
               </p>
-              <p className="text-[#57534E] leading-relaxed mb-4">This promise applies to both <b>3-month and 6-month GLP-1 based programs.</b></p>
+              <p className="text-[#57534E] leading-relaxed mb-4">This promise applies to <b>6-months GLP-1 based programs only.</b></p>
               <p className="text-[#57534E] leading-relaxed">The promise does not apply to 1-month or short-duration programs.</p>
             </section>
 
@@ -76,22 +75,22 @@ export default function RefundPolicy() {
               <div className="space-y-5">
                   <section>
                     <h3 className="font-bold text-[#1F302B] mb-1">Weight Tracking</h3>
-                    <p className="text-[#57534E]">Your body weight must be recorded using the Lean Protocol smart scale in <b>at least 75% of the weeks</b> during your program.(Eg 9 of 12 weeks) <br /> 
-                    The final weight must be recorded <b>within 15 days</b> of the completion of the 3-month results window.</p>
+                    <p className="text-[#57534E]">Your body weight must be recorded using the Lean Protocol smart scale in <b>at least 70% of the weeks</b> during your program. (Eg around 9 of 12 weeks) <br /> 
+                    The final weight must be recorded <b>within 15 days</b> of the completion of the 6-month results window.</p>
                 </section>
                 <section>
                     <h3 className="font-bold text-[#1F302B] mb-1">Medication Adherence</h3>
-                    <p className="text-[#57534E]">You must take prescribed medication strictly as directed by your Lean Protocol doctor, unless medically advised otherwise.</p>
+                    <p className="text-[#57534E]">You must take prescribed medication strictly as directed by your Lean Protocol doctor, unless medically advised otherwise live on a video call with one of Lean Protocol reps.</p>
                 </section>
                 <section>
                     <h3 className="font-bold text-[#1F302B] mb-1">Consultation Attendance</h3>
                     <p className="text-[#57534E]">Doctor consultations must be attended <b>at least once per month</b> throughout the program duration. <br />
                     Nutritionist consultations must be attended <b>at least twice per month</b> throughout the program duration.
-</p>
+                    </p>
                 </section>
                 <section>
                     <h3 className="font-bold text-[#1F302B] mb-1">Meal Logging</h3>
-                    <p className="text-[#57534E]">You must log meals or share meal details with your assigned nutritionist for <b>at least 4 days per week</b>, in <b>at least 75% of the weeks</b> of your program.</p>
+                    <p className="text-[#57534E]">You must log meals or share meal details with your assigned nutritionist for <b>at least 4 days per week</b>, in <b>at least 70% of the weeks</b> of your program either directly or over the official WhatsApp group.</p>
                 </section>
               </div>
             </section>
@@ -103,7 +102,7 @@ export default function RefundPolicy() {
               <h2 className="font-serif text-2xl text-[#1F302B] mb-4">How Results Are Measured</h2>
               <ul className="space-y-1 mb-4 text-[#57534E] pl-2 list-disc">
                 <li className="ml-3">
-                    Your <b>starting weight</b> is the first valid smart-scale reading recorded during onboarding
+                    Your <b>starting weight</b> is the first valid smart-scale reading recorded during onboarding.
                 </li>
                 <li className="ml-3">
                     Your <b>final weight</b> is the last valid smart-scale reading recorded within the allowed completion window.
@@ -119,32 +118,33 @@ export default function RefundPolicy() {
 
             {/* Calculation */}
             <section>
-              <h2 className="font-serif text-2xl text-[#1F302B] mb-4">Refund Eligibility & Calculation</h2>
+              <h2 className="font-serif text-2xl text-[#1F302B] mb-4">Refund Eligibility &amp; Calculation</h2>
               <p className="text-[#57534E] mb-4">
-                If you meet <b>all eligibility and adherence criteria</b> and do not achieve at least <b>6% weight loss within 3 months</b>, your case will be reviewed for a refund.
+                If you meet <b>all eligibility and adherence criteria</b> and do not achieve at least <b>10% weight loss by the end of 6 months</b>, your case will be reviewed for a refund.
                 <br />
-                Approved refunds are calculated on a <b>pro-rata basis</b>, considering:
+                Approved refunds may be approved, considering:
               </p>
               <ul className="space-y-1 mb-4 text-[#57534E] pl-2 list-disc">
                 <li className="ml-3">The remaining unused portion of the program</li>
                 <li className="ml-3">Services already delivered (consultations, coaching, diagnostics)</li>
                 <li className="ml-3">Medications already dispensed or delivered</li>
-                <li className="ml-3">Any complimentary kits or program resources already provided</li>
+                <li className="ml-3">The adherence and attendance in the program</li>
               </ul>
               <p className="text-[#57534E] mt-4 text-sm italic">
-              The final refund amount may be <b>partial</b>, and Lean Protocol reserves the right to deduct the value of services and products already consumed.
+                The final refund amount may be <b>full if the person showed attendance and adherence as per the T&amp;C</b>.
               </p>
             </section>
 
-            {/* Medical Override - Warning Block */}
+            {/* Medical Override */}
             <section>
               <h2 className="font-serif text-2xl text-[#1F302B] mb-4">Medical Safety Overrides</h2>
               <p className="text-[#57534E] leading-relaxed mb-4">Your health always comes first.</p>
               <p className="text-[#57534E] leading-relaxed mb-4">If the Lean Protocol doctor determines that GLP-1 therapy must be discontinued due to <b>clinically significant side effects or safety concerns</b>, your eligibility for a refund will be reviewed separately under medical grounds.</p>
-              <p className="text-[#57534E] leading-relaxed mb-4">In such cases: <br />
-- Medicines already dispensed or delivered are generally <b>non-refundable</b> for safety and regulatory reasons. 
-<br />
-- Unused program components may be eligible for a <b>pro-rata refund</b>, subject to review.</p>
+              <p className="text-[#57534E] leading-relaxed mb-4">In such cases:</p>
+              <ul className="space-y-1 text-[#57534E] pl-2 list-disc">
+                <li className="ml-3">Medicines already dispensed or delivered are generally <b>non-refundable</b> for safety and regulatory reasons.</li>
+                <li className="ml-3">Unused program components may be eligible for a <b>pro-rata refund</b>, subject to review.</li>
+              </ul>
             </section>
 
             {/* Exclusions */}
@@ -170,8 +170,6 @@ export default function RefundPolicy() {
               </ul>
             </section>
 
-            {/* <div className="w-full h-px bg-[#E5E5E5]"></div> */}
-
             {/* How to Request */}
             <section>
                 <h2 className="font-serif text-2xl text-[#1F302B] mb-4">How to Request a Refund Review</h2>
@@ -179,24 +177,26 @@ export default function RefundPolicy() {
                     <p className="text-[#57534E] mb-4">If you believe you qualify under this Results Promise, you must email:</p>
                     <div className="font-mono text-sm bg-white p-4 rounded border border-[#E5E5E5] text-[#1F302B] mb-4">
                         To: <b>support@leanprotocol.in</b> <br />
-                        Subject: <b>“Lean Protocol - Refund Request”</b>
+                        Subject: <b>&ldquo;Lean Protocol - Refund Request&rdquo;</b>
                     </div>
-                    <ul className="space-y-1 mb-4 text-[#57534E] pl-2 list-disc">
-                        <li className="ml-3">Requests must be submitted <b>within 15 days</b> of the end of the applicable results period.</li>
-                        <li className="ml-3">Our team will review your program data, adherence records, and clinical notes before issuing a decision.</li>
+                    <ul className="space-y-1 text-[#57534E] pl-2 list-disc">
+                      <li className="ml-3">Requests must be submitted <b>within 15 days</b> of the end of the applicable results period.</li>
+                      <li className="ml-3">Our team will review your program data, adherence records, and clinical notes before issuing a decision.</li>
                     </ul>
                 </div>
             </section>
 
-            <div className="w-full h-px bg-[#E5E5E5]"></div>
-
             {/* Final Authority */}
-            <section >
-                <h2 className="font-serif text-2xl text-[#1F302B] mb-4">Final Authority & Policy Updates</h2>
-                <p className="text-[#57534E] mb-4">All refund decisions under this policy are made by Lean Protocol and are final, subject to applicable law.
-</p>
-<p className="text-[#57534E] mb-4">Lean Protocol reserves the right to update or modify this policy. The version applicable to you will generally be the one in effect at the time of purchase unless a change is required by law.</p>
+            <section>
+                <h2 className="font-serif text-2xl text-[#1F302B] mb-4">Final Authority &amp; Policy Updates</h2>
+                <p className="text-[#57534E] leading-relaxed mb-4">
+                  All refund decisions under this policy are made by Lean Protocol and are final, subject to applicable law.
+                </p>
+                <p className="text-[#57534E] leading-relaxed">
+                  Lean Protocol reserves the right to update or modify this policy. The version applicable to you will generally be the one in effect at the time of purchase unless a change is required by law.
+                </p>
             </section>
+
           </div>
         </div>
       </div>
