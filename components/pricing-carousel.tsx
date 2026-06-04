@@ -57,7 +57,24 @@ export function PricingCarousel() {
       </div>
 
       {/* Card */}
-      <div className="relative">
+      <div
+        className="relative"
+        onTouchStart={(e) => {
+          (e.currentTarget as any)._touchStartX = e.touches[0].clientX;
+        }}
+        onTouchEnd={(e) => {
+          const startX = (e.currentTarget as any)._touchStartX;
+          if (startX === undefined) return;
+          const diff = startX - e.changedTouches[0].clientX;
+          if (Math.abs(diff) > 50) {
+            if (diff > 0) {
+              next();
+            } else {
+              prev();
+            }
+          }
+        }}
+      >
         <div className="rounded-3xl overflow-hidden bg-dark">
           {/* Plan header */}
           <div className="px-6 pt-6 pb-4">
