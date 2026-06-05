@@ -75,6 +75,12 @@ export function DoctorTestimonial() {
 export function DoctorsSection() {
   const doctors: DoctorProfile[] = [
     {
+      title: "Dr. Nishant Jain",
+      subtitle: "MD, DM (Endocrinology)",
+      imageFilename: "/lp-assets/experts/nishant.jpeg",
+      objectPosition: "object-top",
+    },
+    {
       title: "Dr. Akhil Konduru",
       subtitle: "MD, Internal Medicine",
       imageFilename: "/lp-assets/experts/akhil.jpeg",

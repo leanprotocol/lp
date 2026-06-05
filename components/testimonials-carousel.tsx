@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react"
 import useEmblaCarousel from "embla-carousel-react"
 import type { EmblaCarouselType } from "embla-carousel"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import { FormCallbacksContext } from "sanity/_singletons"
 
 interface Testimonial {
   name: string
@@ -15,7 +16,7 @@ interface Testimonial {
 
 export function TestimonialsCarousel() {
   const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: true,
+    loop: false,
     align: "start",
     containScroll: "trimSnaps",
     skipSnaps: false,
@@ -77,6 +78,11 @@ export function TestimonialsCarousel() {
       ...parseTestimonialFilename("Rohit, 39 Lost 9.1 kg in 15 weeks.png"),
       imageFilename: "Rohit, 39 Lost 9.1 kg in 15 weeks.png",
     },
+    {
+      ...parseTestimonialFilename("Simran, 29 Lost 8 kg in 12 weeks.jpg"),
+      imageFilename: "Simran, 29 Lost 8 kg in 12 weeks.jpg",
+    }
+   
   ]
 
   return (

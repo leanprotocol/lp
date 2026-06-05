@@ -75,6 +75,7 @@ export function BeforeAfter() {
       afterImage: "/before-after/beforeafter7b.png",
       quote: "Consistency finally paid off with this protocol. Healthier, happier, and stronger."
     },
+  
   ]
 
   const nextMobile = () => {

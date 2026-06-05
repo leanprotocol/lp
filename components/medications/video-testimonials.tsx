@@ -51,6 +51,14 @@ const testimonials: Testimonial[] = [
     quote: "Taking care of myself, so I can be a better example for my toddler",
     highlight: "and so far",
   },
+  {
+  id: "4",
+  name: "New Person Name",
+  image: "/testimonial-newperson.jpg",
+  videoUrl: "#",
+  quote: "biggest change of my from fat to fit",
+  highlight: "biggest change",
+},
 ]
 
 export function VideoTestimonials() {
