@@ -37,6 +37,13 @@ export function PricingCarousel() {
       })
       .catch(() => {})
   }, [])
+  
+  useEffect(() => {
+    ;(window as any).__lpActivePlan = active
+    window.dispatchEvent(
+      new CustomEvent("lpPlanChanged", { detail: { index: active } })
+    )
+  }, [active])
 
   if (plans.length === 0) return null
 

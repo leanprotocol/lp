@@ -16,18 +16,24 @@ import { MobileStatsCard } from "@/components/mobile-stats-card";
 import { PricingCarousel } from "@/components/pricing-carousel";
 import { WeightLossChart } from "@/components/weight-loss-chart";
 import { NewsRibbon } from "@/components/news-ribbon";
+import { LimitedOffersSection } from "@/components/limited-offers-section"; 
+import { ScratchCardPopup } from "@/components/scratch-card-popup"
 
 export default function Page() {
   return (
     <main className="min-h-screen bg-background">
       <Header />
+      <ScratchCardPopup />
       <Hero />
       <InsuranceLogos />
       {<div className="hidden md:block"><CausesSection /></div>}
       <ParallaxJourney /> 
       <TestimonialsCarousel />
       <MobileStatsCard />
-      <PricingCarousel />
+      <div id="pricing">
+        <PricingCarousel />
+      </div>
+      <LimitedOffersSection />
       <section className="py-10 px-4 text-center bg-[#E8F0D8] md:bg-white">
         <h3 className="font-extrabold text-black uppercase tracking-widest text-sm mb-8">Our Engagement Partners</h3>
         <div className="flex flex-wrap justify-center items-center gap-8">
