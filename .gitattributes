@@ -1,6 +1,5 @@
 * text=auto
-*.mp4 binary
+*.mp4 filter=lfs diff=lfs merge=lfs -text
 *.png binary
 *.jpg binary
 *.jpeg binary
-*.mp4 filter=lfs diff=lfs merge=lfs -text
