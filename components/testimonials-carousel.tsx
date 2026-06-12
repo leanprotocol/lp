@@ -11,7 +11,8 @@ interface Testimonial {
   age?: string
   weightLost?: string
   duration?: string
-  imageFilename: string
+  imageFilename?: string
+  videoFilename?: string
 }
 
 export function TestimonialsCarousel() {
@@ -79,11 +80,48 @@ export function TestimonialsCarousel() {
       imageFilename: "Rohit, 39 Lost 9.1 kg in 15 weeks.png",
     },
     {
-      ...parseTestimonialFilename("Simran, 29 Lost 8 kg in 12 weeks.jpg"),
-      imageFilename: "Simran, 29 Lost 8 kg in 12 weeks.jpg",
-    }
-   
+      name: "Manav",
+      age: "24",
+      weightLost: "20",
+      duration: "5 months",
+      videoFilename: "manav.mp4",
+    },
+    {
+      name: "Uday",
+      age: "20",
+      weightLost: "10",
+      duration: "6 months",
+      videoFilename: "uday.mp4",
+    },{
+      name: "Ayushi",
+      age: "22",
+      weightLost: "15",
+      duration: "6 months",
+      videoFilename: "ayushi.mp4",
+    },
+    {
+      name: "Ananya",
+      age: "20",
+      weightLost: "14",
+      duration: "7 months",
+      videoFilename: "ananya.mp4",
+    },
+    {
+      name: "Aditya",
+      age: "21",
+      weightLost: "8",
+      duration: "3 months",
+      videoFilename: "Aditya .mp4",
+    },
+    {
+      name: "Roshni",
+      age: "23",
+      weightLost: "15",
+      duration: "6 months",
+      videoFilename: "roshni.mp4",
+    },
   ]
+   
 
   return (
     <section className="pb-20 pt-20 md:pb-20 bg-dark">
@@ -105,12 +143,23 @@ export function TestimonialsCarousel() {
                   <div className="bg-white/20 rounded-2xl overflow-hidden shadow-xl">
                     <div className="p-4">
                       <div className="w-full overflow-hidden rounded-xl bg-white/10 h-[360px] sm:h-[340px] md:h-[280px]">
-                        <img
-                          src={`/before-after/${encodeURIComponent(testimonial.imageFilename)}`}
-                          alt={testimonial.name ? `${testimonial.name} result` : "Testimonial result"}
-                          className="h-full w-full object-cover bg-white"
-                          loading="lazy"
-                        />
+                        {testimonial.videoFilename ? (
+                          <video
+                            src={`/before-after/${testimonial.videoFilename}`}
+                            className="h-full w-full object-cover"
+                            controls
+                            loop
+                            playsInline
+                            preload="metadata"
+                          />
+                        ) : (
+                          <img
+                            src={`/before-after/${encodeURIComponent(testimonial.imageFilename ?? "")}`}
+                            alt={testimonial.name ? `${testimonial.name} result` : "Testimonial result"}
+                            className="h-full w-full object-cover bg-white"
+                            loading="lazy"
+                          />
+                        )}
                       </div>
                     </div>
 

@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import OTPModal from "@/components/get-started/otp-modal";
 import { useRazorpayCheckout } from "@/hooks/use-razorpay-checkout";
-import { SpinToWin } from "@/components/spin-to-win";
 
 // Section Components
 import { HeroSection } from "./hero-section";
@@ -91,11 +90,13 @@ export function AffiliateLandingPage({ affiliateRef }: AffiliateLandingPageProps
 
   return (
     <div className="min-h-screen bg-lp-bg">
-      <HeroSection 
-        onBuyNow={handleBuyNow} 
-        isCheckoutLoading={isCheckoutLoading} 
-        dbPlans={dbPlans} 
-      />
+      <div id="pricing">
+        <HeroSection 
+          onBuyNow={handleBuyNow} 
+          isCheckoutLoading={isCheckoutLoading} 
+          dbPlans={dbPlans} 
+        />
+      </div>
       
       <SocialProof />
       
@@ -113,9 +114,6 @@ export function AffiliateLandingPage({ affiliateRef }: AffiliateLandingPageProps
         onClose={() => setShowOTP(false)} 
         onNext={handleAuthSuccess}
       />
-
-      {/* Spin to win - Disabled */}
-      <SpinToWin enabled={false} />
     </div>
   );
 }

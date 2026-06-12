@@ -138,7 +138,7 @@ export function PricingCarousel() {
 
           {/* CTA */}
           <div className="px-6 pb-6">
-            <a href="https://wa.link/3s1upf" target="_blank" rel="noopener noreferrer">
+            <a href="/lp/ABHI">
               <Button
                 className={`w-full rounded-full text-sm font-semibold h-11 cursor-pointer ${
                   plan.isFeatured
@@ -146,7 +146,7 @@ export function PricingCarousel() {
                     : "bg-white/10 text-white hover:bg-white/20"
                 }`}
               >
-                Chat with Experts
+                Learn More
               </Button>
             </a>
           </div>

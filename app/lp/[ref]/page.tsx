@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AffiliateLandingPage } from "@/components/affiliate-lp/page";
+import { ScratchCardPopup } from "@/components/scratch-card-popup"
 import { prisma } from "@/lib/prisma";
 
 export const metadata: Metadata = {
@@ -26,5 +27,10 @@ export default async function LPAffiliatePage({ params }: Props) {
     notFound();
   }
 
-  return <AffiliateLandingPage affiliateRef={ref} />;
+  return (
+    <>
+      <ScratchCardPopup />
+      <AffiliateLandingPage affiliateRef={ref} />
+    </>
+  );
 }

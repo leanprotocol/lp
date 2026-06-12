@@ -8,8 +8,8 @@ import { useState, useEffect } from "react"
 // Plan 2 → 3 months         → 56% OFF
 // Plan 3 → 6 months         → 53% OFF
 const OFFERS = [
-  { pct: "62", title: "1-month GLP-1 program",    tag: "Most popular", featured: true  },
-  { pct: "70", title: "Doctor consultation plan", tag: "Limited seats", featured: false },
+  { pct: "70", title: "Doctor consultation plan", tag: "Limited seats", featured: true  },
+  { pct: "62", title: "1-month GLP-1 program",    tag: "Most popular", featured: false },
   { pct: "56", title: "3-month GLP-1 program",    tag: "",             featured: false },
   { pct: "53", title: "6-month GLP-1 program",    tag: "Best value",   featured: false },
 ]

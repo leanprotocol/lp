@@ -17,17 +17,18 @@ import { PricingCarousel } from "@/components/pricing-carousel";
 import { WeightLossChart } from "@/components/weight-loss-chart";
 import { NewsRibbon } from "@/components/news-ribbon";
 import { LimitedOffersSection } from "@/components/limited-offers-section"; 
-import { ScratchCardPopup } from "@/components/scratch-card-popup"
-
+import { VideoPopup } from "@/components/video-popup"
+import { VideoSection } from "@/components/video-section"
 export default function Page() {
   return (
     <main className="min-h-screen bg-background">
       <Header />
-      <ScratchCardPopup />
+      <VideoPopup />
       <Hero />
       <InsuranceLogos />
       {<div className="hidden md:block"><CausesSection /></div>}
       <ParallaxJourney /> 
+      <VideoSection />
       <TestimonialsCarousel />
       <MobileStatsCard />
       <div id="pricing">

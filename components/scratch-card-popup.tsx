@@ -17,7 +17,7 @@ export function ScratchCardPopup() {
   useEffect(() => {
     if (sessionStorage.getItem("lpScratchShown")) return
     isMobile.current = window.innerWidth < 768
-    const t = setTimeout(() => setVisible(true), 2500)
+    const t = setTimeout(() => setVisible(true), 1500)
     return () => clearTimeout(t)
   }, [])
 
