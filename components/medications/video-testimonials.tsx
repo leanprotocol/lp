@@ -51,14 +51,7 @@ const testimonials: Testimonial[] = [
     quote: "Taking care of myself, so I can be a better example for my toddler",
     highlight: "and so far",
   },
-  {
-  id: "4",
-  name: "New Person Name",
-  image: "/testimonial-newperson.jpg",
-  videoUrl: "#",
-  quote: "biggest change of my from fat to fit",
-  highlight: "biggest change",
-},
+
 ]
 
 export function VideoTestimonials() {
@@ -187,7 +180,7 @@ export function VideoTestimonials() {
           *Real users, paid for appearance. Individual results may vary. In 1 year, Lean Protocol users lost an average of 12%
           body weight. Results based on data from 1,773 users who reported their weight at least 1 time/week on avg. for
           1 year. Prescriptions are up to a medical provider's discretion. See risk information{" "}
-          <a href="#" className="underline hover:text-gray-700">
+          <a href="#" aria-label="View risk information" className="underline hover:text-gray-700">
             here
           </a>
           .

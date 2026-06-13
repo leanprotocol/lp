@@ -195,7 +195,7 @@ function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start gap-3 inter text-accent2/80 font-light">
                 <Mail className="w-5 h-5 shrink-0 text-accent2/50" />
-                <a href="mailto:support@leanprotocol.in" className="hover:text-accent2 transition-colors">
+                <a href="mailto:support@leanprotocol.in" className="hover:text-accent2 transition-colors" aria-label="Email Lean Protocol support">
                   support@leanprotocol.in
                 </a>
               </li>

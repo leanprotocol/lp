@@ -108,7 +108,7 @@ export function Hero() {
           </div> */}
 
           <div className="mb-7 md:mt-5 mt-20 flex flex-col sm:flex-row gap-3">
-      <a href="https://wa.link/3s1upf" target="_blank" rel="noopener noreferrer">
+      <a href="https://wa.link/3s1upf" target="_blank" rel="noopener noreferrer" aria-label="Chat with Lean Protocol experts on WhatsApp">
             <Button
               size="lg"
               className="bg-white cursor-pointer text-black hover:bg-white/90 rounded-full text-base px-8 h-12 font-medium"

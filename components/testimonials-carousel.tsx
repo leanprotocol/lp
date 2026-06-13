@@ -231,7 +231,7 @@ export function TestimonialsCarousel() {
           *Individual results may vary. In 1 year, GLP-1 users lost an avg. of 13% to 15% body weight. Results based on data
           from 1,773 users who reported their weight at least 1 time/week, on avg. for 1 year. Rx are up to a medical provider's
           discretion. See below for risk info{" "}
-          <a href="#" className="underline">
+          <a href="#" aria-label="View disclaimer information" className="underline">
             here
           </a>
           .

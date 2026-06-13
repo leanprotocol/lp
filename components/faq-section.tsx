@@ -94,7 +94,7 @@ export function FAQSection() {
             </h2>
             
             <div className="inline-flex flex-col gap-2">
-              <a href="#" className="text-dark text-sm border-b border-dark pb-1 hover:opacity-70 transition-opacity">
+              <a href="#" aria-label="Get in touch with Lean Protocol" className="text-dark text-sm border-b border-dark pb-1 hover:opacity-70 transition-opacity">
                 Get in touch with us here →
               </a>
             </div>

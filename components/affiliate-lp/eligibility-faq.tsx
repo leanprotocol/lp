@@ -325,7 +325,9 @@ export function EligibilityFAQ() {
               <ul className="space-y-3">
                 <li className="flex items-start gap-2 text-white/70 text-sm">
                   <Mail className="w-4 h-4 shrink-0 mt-0.5 text-white/40" />
-                  <a href="mailto:support@leanprotocol.in" className="hover:text-white transition-colors">support@leanprotocol.in</a>
+                 <a href="mailto:support@leanprotocol.in" className="hover:text-white transition-colors" aria-label="Email Lean Protocol support team">
+                  support@leanprotocol.in
+                </a>
                 </li>
                 <li className="text-white/70 text-sm">9650491267</li>
                 <li className="pt-1">

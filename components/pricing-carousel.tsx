@@ -138,7 +138,7 @@ export function PricingCarousel() {
 
           {/* CTA */}
           <div className="px-6 pb-6">
-            <a href="/lp/ABHI">
+            <a href="/lp/ABHI" aria-label="Learn more about Lean Protocol GLP-1 weight loss plans">
               <Button
                 className={`w-full rounded-full text-sm font-semibold h-11 cursor-pointer ${
                   plan.isFeatured

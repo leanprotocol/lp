@@ -47,7 +47,7 @@ export function StatsSection() {
           *Real members[1], paid for appearance. Individual results may vary. †In 1 year, Lean Protocol users lost on avg. of
           13% body weight. Results based on data from 1,773 users who reported their weight at least 1 time/week, on
           avg. for 1 year. Rx are up to a medical provider's discretion. See below for risk info{" "}
-          <a href="#" className="underline">
+          <a href="#" aria-label="View risk information" className="underline">
             here
           </a>
           .
