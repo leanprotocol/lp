@@ -75,7 +75,7 @@ export function VideoPopup() {
           ) : (
             <video
               ref={videoRef}
-              src={VIDEO_SRC}
+              src={visible ? VIDEO_SRC : undefined}
               className="absolute inset-0 w-full h-full object-contain"
               controls
               autoPlay
