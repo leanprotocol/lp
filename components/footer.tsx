@@ -116,19 +116,21 @@ function Footer() {
             <h3 className="forum text-2xl mb-4">Stay updated with health tips</h3>
             <form onSubmit={handleSubscribe} className="relative max-w-md">
               <input 
-                type="email" 
-                placeholder="Enter your email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={loading}
+  type="email"
+  aria-label="Email address for newsletter subscription"
+  placeholder="Enter your email address"
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+  disabled={loading}
                 className="w-full bg-white/5 border border-accent2/40 rounded-2xl py-4 pl-6 pr-14 text-accent placeholder:text-accent2/30 focus:outline-none focus:border-accent2/30 transition-colors font-light inter disabled:opacity-50"
               />
               <button 
-                type="submit"
-                disabled={loading}
-                className="absolute right-2 top-2 bottom-2 w-12 bg-white/10 text-accent2 rounded-xl flex items-center justify-center hover:bg-white transition-colors disabled:opacity-50 cursor-pointer"
-              >
-                <ArrowRight className="w-5 h-5" />
+  type="submit"
+  disabled={loading}
+  aria-label="Subscribe to newsletter"
+  className="absolute right-2 top-2 bottom-2 w-12 bg-white/10 text-accent2 rounded-xl flex items-center justify-center hover:bg-white transition-colors disabled:opacity-50 cursor-pointer"
+>
+  <ArrowRight className="w-5 h-5" />
               </button>
             </form>
             {message && (

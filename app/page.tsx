@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic"
 import { Header } from "@/components/header";
 import { Hero, InsuranceLogos } from "@/components/hero";
 import { ParallaxJourney } from "@/components/parallax-journey";
@@ -6,15 +7,15 @@ import { StatsSection } from "@/components/stats-section";
 import { TestimonialsCarousel } from "@/components/testimonials-carousel";
 import { DoctorTestimonial, DoctorsSection } from "@/components/doctor-testimonial";
 import MembersServed from "@/components/members-served";
-import MedicationToolkit from "@/components/medication-toolkit";
-import InsuranceCoverage from "@/components/insurance-coverage";
-import BenefitsMarquee from "@/components/benefits-marquee";
+const MedicationToolkit = dynamic(() => import("@/components/medication-toolkit"))
+const InsuranceCoverage = dynamic(() => import("@/components/insurance-coverage"))
+const BenefitsMarquee = dynamic(() => import("@/components/benefits-marquee"))
 import Footer from "@/components/footer";
 import CausesSection from "@/components/causes-section";
-import { WeightSlider } from "@/components/weight-slider";
+const WeightSlider = dynamic(() => import("@/components/weight-slider").then(m => ({ default: m.WeightSlider })))
 import { MobileStatsCard } from "@/components/mobile-stats-card";
 import { PricingCarousel } from "@/components/pricing-carousel";
-import { WeightLossChart } from "@/components/weight-loss-chart";
+const WeightLossChart = dynamic(() => import("@/components/weight-loss-chart").then(m => ({ default: m.WeightLossChart })))
 import { NewsRibbon } from "@/components/news-ribbon";
 import { LimitedOffersSection } from "@/components/limited-offers-section"; 
 import { VideoPopup } from "@/components/video-popup"

@@ -64,11 +64,12 @@ export function WeightSlider() {
               </div>
 
               <input
-                type="range"
-                min="50"
-                max="250"
-                value={weight}
-                onChange={(e) => setWeight(Number(e.target.value))}
+               type="range"
+               min="50"
+               max="250"
+               value={weight}
+               aria-label="Weight slider in kilograms"
+               onChange={(e) => setWeight(Number(e.target.value))}
                 className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mb-12 
                 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#14532d] 
                 [&::-moz-range-thumb]:w-6 [&::-moz-range-thumb]:h-6 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-[#14532d]

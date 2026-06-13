@@ -242,9 +242,11 @@ export function Header() {
           )}
 
           {/* Mobile Menu Toggle */}
+          {/* Mobile Menu Toggle */}
           <button
             className="lg:hidden p-2 text-foreground hover:bg-black/5 rounded-md transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label={isMobileMenuOpen ? "Close mobile menu" : "Open mobile menu"}
           >
             {isMobileMenuOpen ? (
               <X className="w-6 h-6" />

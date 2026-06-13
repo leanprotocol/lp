@@ -85,16 +85,18 @@ export default function MedicationToolkit() {
           {/* Navigation Buttons */}
           <div className="flex gap-2">
             <button
-              onClick={() => scroll("left")}
-              className="w-12 h-12 cursor-pointer rounded-full border border-dark/20 flex items-center justify-center text-dark hover:bg-dark hover:text-white transition-colors duration-300 disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-dark disabled:cursor-not-allowed"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <button
-              onClick={() => scroll("right")}
-              className="w-12 h-12 cursor-pointer rounded-full border border-dark/20 flex items-center justify-center text-dark hover:bg-dark hover:text-white transition-colors duration-300 disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-dark disabled:cursor-not-allowed"
-            >
-              <ChevronRight className="w-5 h-5" />
+  onClick={() => scroll("left")}
+  aria-label="Scroll medication toolkit left"
+  className="w-12 h-12 cursor-pointer rounded-full border border-dark/20 flex items-center justify-center text-dark hover:bg-dark hover:text-white transition-colors duration-300 disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-dark disabled:cursor-not-allowed"
+>
+  <ChevronLeft className="w-5 h-5" />
+</button>
+<button
+  onClick={() => scroll("right")}
+  aria-label="Scroll medication toolkit right"
+  className="w-12 h-12 cursor-pointer rounded-full border border-dark/20 flex items-center justify-center text-dark hover:bg-dark hover:text-white transition-colors duration-300 disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-dark disabled:cursor-not-allowed"
+>
+  <ChevronRight className="w-5 h-5" />
             </button>
           </div>
         </div>
