@@ -97,7 +97,8 @@ export function ExpertTeamCarousel() {
             <button
               key={index}
               onClick={() => setActiveIndex(index)}
-              className={`w-2 h-2 rounded-full transition-all ${
+              aria-label={`Go to expert ${index + 1}`}
+              className={`p-2 w-2 h-2 rounded-full transition-all ${
                 index === activeIndex ? "bg-[#2C3E3A] w-6" : "bg-[#2C3E3A]/30"
               }`}
             />

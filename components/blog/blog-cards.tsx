@@ -171,8 +171,7 @@ export function HeroPostCard({ post }: { post: BlogListItem }) {
       <div className="relative min-h-75 md:min-h-95 overflow-hidden bg-secondary">
         {imageUrl ? (
           <img
-            // src={imageUrl}
-            src="https://cdn.prod.website-files.com/65d8ac86401a1ef9f1915fdb/660bdff49b02fc0b5ff75273_CTA%20Ready%20to%20Get%20Started%20Image.webp"
+            src={imageUrl}
             alt={post.mainImage?.alt || post.title}
             className="h-full w-full object-cover transform transition-transform duration-[1.5s] ease-out group-hover:scale-105"
           />

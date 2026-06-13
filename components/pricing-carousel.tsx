@@ -181,7 +181,7 @@ export function PricingCarousel() {
               key={i}
               onClick={() => setActive(i)}
               aria-label={`Go to plan ${i + 1}`}
-              className={`rounded-full transition-all duration-200 ${
+              className={`rounded-full transition-all duration-200 p-2 ${
                 i === active
                   ? "w-5 h-2 bg-dark"
                   : "w-2 h-2 bg-dark/25"

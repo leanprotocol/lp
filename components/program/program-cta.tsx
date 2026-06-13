@@ -9,7 +9,7 @@ export default function ProgramCTA() {
         {/* Image */}
         <div className="mb-12">
           <img
-            src="https://cdn.prod.website-files.com/65d8ac86401a1ef9f1915fdb/660bdff49b02fc0b5ff75273_CTA%20Ready%20to%20Get%20Started%20Image.webp"
+            src="/lp-assets/benefits-lean-protocol-weight-loss.jpeg"
             alt="Two women sitting together and smiling"
             className="w-full h-[500px] rounded-[3rem] object-cover"
           />

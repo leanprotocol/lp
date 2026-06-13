@@ -167,7 +167,7 @@ export function VideoTestimonials() {
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
-              className={`w-2 h-2 rounded-full transition-all ${
+              className={`p-2 w-2 h-2 rounded-full transition-all ${
                 index === currentIndex ? "bg-[#2C3E3C] w-8" : "bg-gray-300"
               }`}
               aria-label={`Go to testimonial ${index + 1}`}
