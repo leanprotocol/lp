@@ -315,7 +315,7 @@ export default async function BlogPostPage({
               {imageUrl ? (
                 <div className="mb-12 h-130 rounded-2xl overflow-hidden border border-dark/5">
                   <img
-                    src={imageUrl || "https://cdn.prod.website-files.com/65d8ac86401a1ef9f1915fdb/660bdff49b02fc0b5ff75273_CTA%20Ready%20to%20Get%20Started%20Image.webp"} 
+                    src={imageUrl || "/lp-assets/benefits-lean-protocol-weight-loss.jpeg"} 
                     alt={post.mainImage?.alt || post.title}
                     className="block w-full h-full object-cover"
                   />
