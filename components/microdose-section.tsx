@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 
@@ -21,7 +22,7 @@ export function MicrodoseSection() {
           {/* Right column - image with hexagonal overlay */}
           <div className="relative">
             <div className="relative rounded-3xl overflow-hidden">
-              <img
+              <Image
                 src="/woman-stretching-medication.jpg"
                 alt="Woman stretching with Lean medication"
                 className="w-full h-[300px] object-cover"

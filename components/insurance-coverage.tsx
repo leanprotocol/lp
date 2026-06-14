@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image"
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -85,7 +86,7 @@ export default function InsuranceCoverage() {
           <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
             
             <div className="relative h-[300px] md:h-[450px] w-full rounded-[2rem] overflow-hidden ">
-               <img 
+               <Image
                  src="/india-map.png" 
                  alt="Insurance Coverage"
                  className="w-full h-full object-cover"

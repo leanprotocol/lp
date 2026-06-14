@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useCallback, useEffect, useState } from "react"
 import useEmblaCarousel from "embla-carousel-react"
 import type { EmblaCarouselType } from "embla-carousel"
@@ -153,10 +154,11 @@ export function TestimonialsCarousel() {
                             preload="metadata"
                           />
                         ) : (
-                          <img
+                          <Image
                             src={`/before-after/${encodeURIComponent(testimonial.imageFilename ?? "")}`}
                             alt={testimonial.name ? `${testimonial.name} result` : "Testimonial result"}
-                            className="h-full w-full object-cover bg-white"
+                            fill
+                            className="object-cover bg-white"
                             loading="lazy"
                           />
                         )}

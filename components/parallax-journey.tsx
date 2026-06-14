@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
@@ -71,7 +72,7 @@ export function ParallaxJourney() {
                 >
                   <div className="relative h-[300px] md:h-[450px] w-full">
                     {/* Image with Zoom Effect */}
-                    <img
+                    <Image
                       src={step.image || "/placeholder.svg"}
                       alt={step.title}
                       className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"

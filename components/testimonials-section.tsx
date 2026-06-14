@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -63,7 +64,7 @@ export function TestimonialsSection() {
                   <div className="absolute top-4 left-4 bg-background px-3 py-1 rounded-full text-sm font-medium">
                     Before
                   </div>
-                  <img
+                  <Image
                     src={testimonials[activeIndex].beforeImage || "/placeholder.svg"}
                     alt={`${testimonials[activeIndex].name} before`}
                     className="w-full h-full object-cover"
@@ -73,7 +74,7 @@ export function TestimonialsSection() {
                   <div className="absolute top-4 left-4 bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-medium">
                     After
                   </div>
-                  <img
+                  <Image
                     src={testimonials[activeIndex].afterImage || "/placeholder.svg"}
                     alt={`${testimonials[activeIndex].name} after`}
                     className="w-full h-full object-cover"

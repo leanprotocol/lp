@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useCallback, useEffect, useState } from "react"
 import useEmblaCarousel, { UseEmblaCarouselType } from "embla-carousel-react"
 import { Quote, ChevronLeft, ChevronRight } from "lucide-react"
@@ -55,12 +56,13 @@ export function DoctorTestimonial() {
                 </div>
                 
                 {/* Avatar with a subtle border to match professional medical branding */}
-                <div className="w-16 h-16 rounded-full overflow-hidden shrink-0 border-2 border-[#F5F3ED]">
-                  <img 
-                    src="/dr-kumar-avatar.jpg" 
-                    alt="Dr. Kumar" 
-                    className="w-full h-full object-cover object-top" 
-                  />
+                <div className="w-16 h-16 rounded-full overflow-hidden shrink-0 border-2 border-[#F5F3ED] relative">
+                 <Image 
+                 src="/dr-kumar-avatar.jpg" 
+                 alt="Dr. Kumar" 
+                 fill
+                 className="object-cover object-top" 
+                   />
                 </div>
               </div>
             </blockquote>
@@ -172,11 +174,12 @@ export function DoctorsSection() {
                     key={doctor.imageFilename}
                     className="basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4 shrink-0 bg-white rounded-2xl overflow-hidden border border-dark/10 shadow-sm"
                   >
-                    <div className="w-full h-[320px] bg-[#EDE7E1]">
-                      <img
+                    <div className="w-full h-[320px] bg-[#EDE7E1] relative">
+                      <Image
                         src={doctor.imageFilename}
                         alt={doctor.title}
-                        className={`w-full h-full object-cover ${doctor.objectPosition || ""}`}
+                        fill
+                        className={`object-cover ${doctor.objectPosition || ""}`}
                         loading="lazy"
                       />
                     </div>

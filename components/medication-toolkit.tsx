@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image"
 import { useRef } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -129,7 +130,7 @@ export default function MedicationToolkit() {
 
                 {/* Card Image */}
                 <div className="h-50 w-full relative flex items-center justify-center bg-card">
-                  <img
+                  <Image
                     src={med.image}
                     alt={med.name}
                     className="w-full h-full object-cover opacity-90 transition-transform duration-700"

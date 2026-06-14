@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useEffect, useRef } from "react"
 import { motion, useMotionValue, useAnimationFrame } from "framer-motion"
 
@@ -57,7 +58,7 @@ function Ribbon() {
         {items.map((outlet, i) => (
           <div key={i} className="shrink-0 flex items-center gap-3 select-none">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={outlet.logo}
               alt={outlet.name}
               className="h-10 w-10 md:h-12 md:w-12 object-contain rounded-lg"
