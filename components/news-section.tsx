@@ -28,7 +28,7 @@ const NEWS_FEATURES: { name: string; logo: string; article: string; className?: 
   },
   {
     name: "The Tribune",
-    logo: "/news/the-tribune.png",
+    logo: "/news/the-tribune.webp",
     article: "https://www.tribuneindia.com/partner-exclusives/is-lean-protocol-building-a-sustainable-weight-loss-ecosystem-or-another-weight-loss-hype/",
     className: "scale-[1.9]",
   },
