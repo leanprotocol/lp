@@ -143,7 +143,7 @@ export function TestimonialsCarousel() {
                 >
                   <div className="bg-white/20 rounded-2xl overflow-hidden shadow-xl">
                     <div className="p-4">
-                      <div className="w-full overflow-hidden rounded-xl bg-white/10 h-[360px] sm:h-[340px] md:h-[280px]">
+                      <div className="w-full overflow-hidden rounded-xl bg-white/10 h-[360px] sm:h-[340px] md:h-[280px] relative">
                         {testimonial.videoFilename ? (
                           <video
                             src={`/before-after/${testimonial.videoFilename}`}

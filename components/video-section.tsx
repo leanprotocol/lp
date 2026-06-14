@@ -56,6 +56,7 @@ export function VideoSection() {
             <video
               ref={videoRef}
               src={VIDEO_SRC}
+              preload="none"
               className="absolute inset-0 w-full h-full object-contain"
               controls
               muted

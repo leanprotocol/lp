@@ -89,6 +89,7 @@ export default function InsuranceCoverage() {
                <Image
                  src="/india-map.png" 
                  alt="Insurance Coverage"
+                 fill
                  className="w-full h-full object-cover"
                />
                

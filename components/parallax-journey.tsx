@@ -75,6 +75,7 @@ export function ParallaxJourney() {
                     <Image
                       src={step.image || "/placeholder.svg"}
                       alt={step.title}
+                      fill
                       className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     />
 

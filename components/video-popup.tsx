@@ -76,10 +76,10 @@ export function VideoPopup() {
             <video
               ref={videoRef}
               src={visible ? VIDEO_SRC : undefined}
+              poster="/lp-assets/video-thumbnail.jpg"
+              preload="none"
               className="absolute inset-0 w-full h-full object-contain"
               controls
-              autoPlay
-              muted
               playsInline
             />
           )}

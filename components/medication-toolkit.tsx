@@ -133,6 +133,7 @@ export default function MedicationToolkit() {
                   <Image
                     src={med.image}
                     alt={med.name}
+                    fill
                     className="w-full h-full object-cover opacity-90 transition-transform duration-700"
                   />
                 </div>
