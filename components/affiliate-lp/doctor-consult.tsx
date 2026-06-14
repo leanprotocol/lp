@@ -18,13 +18,12 @@ export function DoctorConsult() {
         <div className="bg-[#EAE5DA] rounded-3xl overflow-hidden shadow-2xl border border-[#D5D0C5] flex flex-col">
           
           {/* Top Image Area (Full poster except pricing) */}
-          <div className="w-full relative">
+          <div className="w-full relative h-[300px] md:h-[400px] overflow-hidden">
             <Image 
-              src="/lp-assets/doctor-cropped.png"
+              src="/lp-assets/doctor-lean-protocol.jpeg"
               alt="Consult a GLP 1 Doctor Now"
-              width={1024}
-              height={1280}
-              className="w-full h-auto object-contain block"
+              fill
+              className="object-cover object-top scale-110"
               priority
             />
           </div>

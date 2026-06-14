@@ -103,8 +103,12 @@ function Footer() {
             
             {/* Socials */}
             <div className="flex gap-4 pt-2">
-              {[Instagram, Twitter, Facebook].map((Icon, i) => (
-                <a key={i} href="#" className="w-10 h-10 rounded-full border border-accent2 text-accent2 flex items-center justify-center hover:bg-acc2text-accent2 hover:text-dark transition-all duration-300 group">
+              {[
+                { Icon: Instagram, href: "https://www.instagram.com/leanprotocol.og?igsh=MXBsbzV6djhtcDFyMg==" },
+                { Icon: Twitter,   href: "#" },
+                { Icon: Facebook,  href: "#" },
+              ].map(({ Icon, href }, i) => (
+                <a key={i} href={href} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-accent2 text-accent2 flex items-center justify-center hover:bg-acc2text-accent2 hover:text-dark transition-all duration-300 group">
                   <Icon className="w-5 h-5" strokeWidth={1.5} />
                 </a>
               ))}

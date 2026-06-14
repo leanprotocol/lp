@@ -16,10 +16,10 @@ const WeightSlider = dynamic(() => import("@/components/weight-slider").then(m =
 import { MobileStatsCard } from "@/components/mobile-stats-card";
 import { PricingCarousel } from "@/components/pricing-carousel";
 const WeightLossChart = dynamic(() => import("@/components/weight-loss-chart").then(m => ({ default: m.WeightLossChart })))
-import { NewsRibbon } from "@/components/news-ribbon";
 import { LimitedOffersSection } from "@/components/limited-offers-section"; 
 import { VideoPopup } from "@/components/video-popup"
 import { VideoSection } from "@/components/video-section"
+import { NewsSection } from "@/components/news-section";
 export default function Page() {
   return (
     <main className="min-h-screen bg-background">
@@ -51,11 +51,11 @@ export default function Page() {
         </div>
       </section>
       {/* <MembersServed /> */}
+      <NewsSection />
       {<div className="hidden md:block"><MedicationToolkit /></div>}
       {/* <MicrodoseSection /> */}
       <WeightSlider />
       <DoctorsSection />
-      <NewsRibbon />
       <WeightLossChart />
       <BenefitsMarquee />
       <InsuranceCoverage />

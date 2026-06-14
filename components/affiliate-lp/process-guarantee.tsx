@@ -215,12 +215,12 @@ export function ProcessGuarantee() {
 
                   {/* Image Side */}
                   <div className="w-full md:w-[42%] pl-24 md:pl-0 pt-2 md:pt-0">
-                    <div className="relative aspect-auto md:aspect-[4/3] rounded-3xl overflow-hidden shadow-xl border border-gray-100 group-hover:shadow-2xl group-hover:shadow-lp-green/20 transition-all duration-500">
+                    <div className="relative aspect-[3/4] md:aspect-[4/3] rounded-3xl overflow-hidden shadow-xl border border-gray-100 group-hover:shadow-2xl group-hover:shadow-lp-green/20 transition-all duration-500">
                       {/* Mobile Vertical Image */}
                       <img 
                         src={step.v} 
                         alt={step.title} 
-                        className="md:hidden w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105" 
+                        className="md:hidden w-full h-full absolute inset-0 object-contain transition-transform duration-700 group-hover:scale-105" 
                       />
                       {/* Desktop Horizontal Image */}
                       <img 

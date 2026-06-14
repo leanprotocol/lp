@@ -5,13 +5,13 @@ import { useState, useEffect } from "react"
 // Matches PricingCarousel plan order exactly:
 // Plan 0 → 1 month          → 62% OFF
 // Plan 1 → Doctor consult   → 70% OFF
-// Plan 2 → 3 months         → 56% OFF
+// Plan 2 → 3 months         → 20% OFF
 // Plan 3 → 6 months         → 53% OFF
 const OFFERS = [
   { pct: "70", title: "Doctor consultation plan", tag: "Limited seats", featured: true  },
   { pct: "62", title: "1-month GLP-1 program",    tag: "Most popular", featured: false },
-  { pct: "56", title: "3-month GLP-1 program",    tag: "",             featured: false },
-  { pct: "53", title: "6-month GLP-1 program",    tag: "Best value",   featured: false },
+  { pct: "20", title: "3-month GLP-1 program",    tag: "",             featured: false },
+  { pct: "33", title: "6-month GLP-1 program",    tag: "Best value",   featured: false },
 ]
 
 function rand(min: number, max: number) {
