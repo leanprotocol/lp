@@ -1,12 +1,16 @@
-  export const runtime = 'nodejs';
+export const runtime = 'nodejs';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
 export async function GET(request: NextRequest) {
   try {
+    const type = request.nextUrl.searchParams.get("type") || "SEMAGLUTIDE";
     const plans = await prisma.subscriptionPlan.findMany({
-      where: { isActive: true },
+      where: { 
+        isActive: true,
+        medicationType: type,
+      },
       orderBy: [{ displayOrder: 'asc' }] as any,
     });
 
@@ -24,6 +28,7 @@ export async function GET(request: NextRequest) {
         isFeatured: plan.isFeatured,
         isRefundable: plan.isRefundable,
         allowAutoRenew: plan.allowAutoRenew,
+        medicationType: plan.medicationType,
       })),
     });
 

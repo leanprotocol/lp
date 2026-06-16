@@ -14,6 +14,7 @@ export const createPlanSchema = z.object({
   allowMultiplePurchase: z.boolean().optional().default(false),
   isRefundable: z.boolean().optional().default(false),
   allowAutoRenew: z.boolean().optional().default(false),
+  medicationType: z.string().optional().default("SEMAGLUTIDE"),
 });
 
 export const updatePlanSchema = createPlanSchema.partial();

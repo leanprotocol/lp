@@ -10,7 +10,7 @@ import { SocialProof } from "./social-proof";
 import { ProcessGuarantee } from "./process-guarantee";
 import { SocialTrust } from "./social-trust";
 import { EligibilityFAQ } from "./eligibility-faq";
-import { NewsRibbon } from "@/components/news-ribbon";
+import { NewsSection } from "@/components/news-section";
 
 interface AffiliateLandingPageProps {
   affiliateRef: string;
@@ -90,6 +90,11 @@ export function AffiliateLandingPage({ affiliateRef }: AffiliateLandingPageProps
 
   return (
     <div className="min-h-screen bg-lp-bg">
+      {/* Cross-link banner — Mounjaro */}
+      <a href="/mounjaro" className="w-full bg-[#0A2422] text-white py-3 px-4 flex items-center justify-center gap-3 text-sm hover:bg-[#0d2e2b] transition-colors">
+        <span className="text-white/70">Exploring Mounjaro plans?</span>
+        <span className="font-semibold text-[#14B8A6]">Click here →</span>
+      </a>
       <div id="pricing">
         <HeroSection 
           onBuyNow={handleBuyNow} 
@@ -98,13 +103,13 @@ export function AffiliateLandingPage({ affiliateRef }: AffiliateLandingPageProps
         />
       </div>
       
+      <NewsSection />
       <SocialProof />
       
       <ProcessGuarantee />
       
       <SocialTrust />
 
-      <NewsRibbon />
 
       <EligibilityFAQ />
 

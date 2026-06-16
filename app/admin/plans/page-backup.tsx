@@ -201,7 +201,6 @@ export default function PlansPage() {
 
     try {
       const validFeatures = formData.features.filter(f => f.trim());
-      console.log("medicationType being sent:", formData.medicationType);
       const payload = {
         name: formData.name.trim(),
         description: formData.description.trim() || undefined,
@@ -475,6 +474,19 @@ export default function PlansPage() {
                 </select>
               </div>
 
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Medication Type *
+                </label>
+                <select
+                  value={formData.medicationType}
+                  onChange={(e) => setFormData(prev => ({ ...prev, medicationType: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                  <option value="SEMAGLUTIDE">Semaglutide</option>
+                  <option value="MOUNJARO">Mounjaro</option>
+                </select>
+              </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">

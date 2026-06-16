@@ -11,6 +11,7 @@ interface HeroSectionProps {
   onBuyNow: (planTitle: string) => void;
   isCheckoutLoading: boolean;
   dbPlans: any[];
+  pageTitle?: string;
 }
 
 const EXPLORER_TABS = [
@@ -23,7 +24,7 @@ const EXPLORER_TABS = [
   { id: "total", label: "Transformation Plan", image: "/lp-assets/total.jpeg" },
 ];
 
-export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans }: HeroSectionProps) {
+export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans, pageTitle }: HeroSectionProps) {
   const [selectedPlanIdx, setSelectedPlanIdx] = useState(0);
   const [activeVisualTab, setActiveVisualTab] = useState("plan");
 
@@ -136,10 +137,10 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans }: HeroSectio
         {/* MOBILE HEADLINE (Shown only on mobile, placed at the top) */}
         <div className="lg:hidden space-y-3 order-first">
           <h1 className="text-2xl md:text-3xl font-serif text-lp-dark leading-tight">
-            Semaglutide GLP-1 Pen Shot – A Complete Transformation Plan
+            GLP-1 (Semaglutide) Based Complete{pageTitle || "GLP-1 (Semaglutide) Based Complete Weight Loss Program"}
           </h1>
           
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3"> Weight Loss Program
             <span className="text-3xl font-bold text-lp-dark">₹{activePlan.price.toLocaleString()}</span>
             <span className="text-lg text-gray-400 line-through">₹{activePlan.originalPrice.toLocaleString()}</span>
             <div className="bg-lp-green text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-sm uppercase tracking-wider">
@@ -153,7 +154,7 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans }: HeroSectio
           {/* DESKTOP HEADLINE (Hidden on mobile) */}
           <div className="hidden lg:block space-y-4">
             <h1 className="text-3xl lg:text-4xl font-serif text-lp-dark leading-tight">
-             Semaglutide GLP-1 Pen Shot – A Complete Transformation Plan
+             {pageTitle || "GLP-1 (Semaglutide) Based Complete Weight Loss Program"}
             </h1>
             
             <div className="flex items-center gap-5 mt-6">
