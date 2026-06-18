@@ -51,15 +51,8 @@ export function VideoPopup() {
 
         {/* Header */}
         <div className="px-4 pt-4 pb-2 md:px-6 md:pt-6 md:pb-3 flex-shrink-0">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#14B8A6] animate-pulse flex-shrink-0" />
-            <span className="text-[#14B8A6] text-[10px] md:text-xs font-semibold uppercase tracking-widest">
-              Watch Now
-            </span>
-          </div>
           <h2 className="text-white font-serif text-sm md:text-2xl leading-snug pr-8">
-            Understand How Lean Protocol Works —{" "}
-            <span className="italic text-[#14B8A6]">In Under 60 Seconds</span>
+            Understand The Process That Let Us Deliver Amazing Results!
           </h2>
         </div>
 

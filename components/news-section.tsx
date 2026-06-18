@@ -5,10 +5,9 @@ import Image from "next/image"
 // ─── News channels (6 total → 3 per row) ─────────────────────────────────────
 const NEWS_FEATURES: { name: string; logo: string; article: string; className?: string }[] = [
   {
-    name: "DailyHunt",
-    logo: "/news/daily-hunt.png",
-    article: "https://dhunt.in/149NDA",
-    className: "scale-150",
+    name: "Zee News",
+    logo: "/news/zee-news.svg",
+    article: "https://zeenews.india.com/consumer-connect/the-glp-1-hype-how-lean-protocol-is-building-a-sustainable-weight-loss-ecosystem-3055350.html",
   },
   {
     name: "News24",

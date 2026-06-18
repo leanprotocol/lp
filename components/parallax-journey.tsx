@@ -27,7 +27,7 @@ const journeySteps = [
   {
     title: "Get an accountability partner & expert-designed workouts",
     description: "Monitor your weight loss journey with our app and regular check-ins",
-    image: "/journey/journey4.webp",
+    image: "/journey/journey4.png",
     gradient: "from-[#7A7961] to-[#8B8A6F]",
   },
   {
@@ -47,7 +47,7 @@ export function ParallaxJourney() {
           {/* Sticky Text Content */}
           <div className="lg:sticky lg:top-1/2 lg:-translate-y-1/2 md:mt-30">
             <h2 className="heading">
-              The weight-loss secret of celebrities <span className="font-serif opacity-70 italic">made safer and accessible</span> 
+              Weight-loss secret of celebrities <span className="font-serif opacity-70 italic">made safer and accessible</span> 
             </h2>
             <Link href="/get-started">
               <Button 

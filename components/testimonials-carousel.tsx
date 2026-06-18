@@ -65,16 +65,16 @@ export function TestimonialsCarousel() {
 
   const testimonials: Testimonial[] = [
     {
-      ...parseTestimonialFilename("Kanti, 44 Lost 8.5 Kgs in 3 months.jpeg"),
-      imageFilename: "Kanti, 44 Lost 8.5 Kgs in 3 months.jpeg",
+      ...parseTestimonialFilename("Pratima, 37 Lost 7Kgs in 2.5 months.jpeg"),
+      imageFilename: "Pratima, 37 Lost 7Kgs in 2.5 months.jpeg",
+    },
+    {
+      ...parseTestimonialFilename("Kanti, 44 Lost 8.5 Kgs in 3 months.png"),
+      imageFilename: "Kanti, 44 Lost 8.5 Kgs in 3 months.png",
     },
     {
       ...parseTestimonialFilename("Neema, 46 Lost 10.8 kgs in 4 months.png"),
       imageFilename: "Neema, 46 Lost 10.8 kgs in 4 months.png",
-    },
-    {
-      ...parseTestimonialFilename("Pratima, 37 Lost 7Kgs in 2.5 months.jpeg"),
-      imageFilename: "Pratima, 37 Lost 7Kgs in 2.5 months.jpeg",
     },
     {
       ...parseTestimonialFilename("Rohit, 39 Lost 9.1 kg in 15 weeks.png"),

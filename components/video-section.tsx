@@ -35,19 +35,9 @@ export function VideoSection() {
 
         {/* Header */}
         <div className="text-center mb-6 md:mb-12">
-          <div className="flex items-center justify-center gap-2 mb-2 md:mb-3">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#14B8A6] animate-pulse" />
-            <span className="text-[#14B8A6] text-[10px] md:text-xs font-semibold uppercase tracking-widest">
-              Watch Now
-            </span>
-          </div>
           <h2 className="font-serif text-xl md:text-4xl text-white leading-snug px-2">
-            Understand How Lean Protocol Works —{" "}
-            <span className="italic text-[#14B8A6]">In Under 60 Seconds</span>
+            Understand The Process That Let Us Deliver Amazing Results!
           </h2>
-          <p className="text-white/50 text-xs md:text-base mt-2 md:mt-3 max-w-xl mx-auto px-2">
-            Doctor-guided weight loss. See exactly how our programme takes you from your first blood test to your transformation.
-          </p>
         </div>
 
         {/* Video player */}
