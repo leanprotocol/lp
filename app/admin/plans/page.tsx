@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useAdminFetch } from "@/hooks/use-admin-fetch";
 import { Loader2, Plus, Edit, Trash2, GripVertical, Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -81,6 +81,7 @@ export default function PlansPage() {
   const [planToDelete, setPlanToDelete] = useState<SubscriptionPlan | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const draggedIndexRef = React.useRef<number | null>(null);
   const [reordering, setReordering] = useState(false);
   const [featureInput, setFeatureInput] = useState("");
   const [activeTab, setActiveTab] = useState<"SEMAGLUTIDE" | "MOUNJARO">("SEMAGLUTIDE");
@@ -311,21 +312,28 @@ export default function PlansPage() {
 
   const handleDragStart = (e: React.DragEvent, index: number) => {
     setDraggedIndex(index);
+    draggedIndexRef.current = index;
     e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", index.toString());
   };
 
-  const handleDragOver = (e: React.DragEvent, index: number) => {
+ const handleDragOver = (e: React.DragEvent, index: number) => {
     e.preventDefault();
-    if (draggedIndex === null || draggedIndex === index) return;
-
-    const newPlans = [...plans];
-    const draggedPlan = newPlans[draggedIndex];
-    newPlans.splice(draggedIndex, 1);
-    newPlans.splice(index, 0, draggedPlan);
-
-    setPlans(newPlans);
+    const currentDraggedIndex = draggedIndexRef.current;
+    if (currentDraggedIndex === null || currentDraggedIndex === index) return;
+    const filteredPlans = plans.filter(p => (p.medicationType || "SEMAGLUTIDE") === activeTab);
+    const fullPlans = [...plans];
+    const draggedPlan = filteredPlans[currentDraggedIndex];
+    const targetPlan = filteredPlans[index];
+    const draggedFullIndex = fullPlans.findIndex(p => p.id === draggedPlan.id);
+    const targetFullIndex = fullPlans.findIndex(p => p.id === targetPlan.id);
+    fullPlans.splice(draggedFullIndex, 1);
+    fullPlans.splice(targetFullIndex, 0, draggedPlan);
+    setPlans(fullPlans);
     setDraggedIndex(index);
+    draggedIndexRef.current = index;
   };
+
 
   const handleDragEnd = async () => {
     if (draggedIndex === null) return;
@@ -333,11 +341,13 @@ export default function PlansPage() {
     setReordering(true);
 
     try {
-      const planIds = plans.map(p => p.id);
+      const filteredIds = plans.filter(p => (p.medicationType || "SEMAGLUTIDE") === activeTab).map(p => p.id);
+      const otherIds = plans.filter(p => (p.medicationType || "SEMAGLUTIDE") !== activeTab).map(p => p.id);
+      const allIds = [...filteredIds, ...otherIds];
       const res = await fetch("/api/admin/plans/reorder", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ planIds }),
+        body: JSON.stringify({ planIds: allIds }),
       });
 
       const result = await res.json();
@@ -790,6 +800,54 @@ export default function PlansPage() {
                   </div>
 
                   <div className="flex flex-wrap gap-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={async () => {
+                        const filtered = plans.filter(p => (p.medicationType || "SEMAGLUTIDE") === activeTab);
+                        const idx = filtered.findIndex(p => p.id === plan.id);
+                        if (idx <= 0) return;
+                        const newFiltered = [...filtered];
+                        [newFiltered[idx - 1], newFiltered[idx]] = [newFiltered[idx], newFiltered[idx - 1]];
+                        const others = plans.filter(p => (p.medicationType || "SEMAGLUTIDE") !== activeTab);
+                        const newPlans = [...newFiltered, ...others];
+                        setPlans(newPlans);
+                        const res = await fetch("/api/admin/plans/reorder", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({ planIds: newPlans.map(p => p.id) }),
+                        });
+                        if (!res.ok) alert("Failed to reorder");
+                        else await refresh({ silent: true });
+                      }}
+                      className="cursor-pointer"
+                    >
+                      ↑ Up
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={async () => {
+                        const filtered = plans.filter(p => (p.medicationType || "SEMAGLUTIDE") === activeTab);
+                        const idx = filtered.findIndex(p => p.id === plan.id);
+                        if (idx >= filtered.length - 1) return;
+                        const newFiltered = [...filtered];
+                        [newFiltered[idx], newFiltered[idx + 1]] = [newFiltered[idx + 1], newFiltered[idx]];
+                        const others = plans.filter(p => (p.medicationType || "SEMAGLUTIDE") !== activeTab);
+                        const newPlans = [...newFiltered, ...others];
+                        setPlans(newPlans);
+                        const res = await fetch("/api/admin/plans/reorder", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({ planIds: newPlans.map(p => p.id) }),
+                        });
+                        if (!res.ok) alert("Failed to reorder");
+                        else await refresh({ silent: true });
+                      }}
+                      className="cursor-pointer"
+                    >
+                      ↓ Down
+                    </Button>
                     {!plan.isDefault && plan.isActive && (
                       <Button
                         size="sm"

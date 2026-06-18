@@ -82,6 +82,7 @@ export function MounjaroLandingPage() {
           isCheckoutLoading={isCheckoutLoading}
           dbPlans={dbPlans}
           pageTitle="Mounjaro Based Complete Transformation Plan"
+          medicationType="MOUNJARO"
         />
       </div>
       <NewsSection />

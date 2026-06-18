@@ -12,6 +12,7 @@ interface HeroSectionProps {
   isCheckoutLoading: boolean;
   dbPlans: any[];
   pageTitle?: string;
+  medicationType?: string;
 }
 
 const EXPLORER_TABS = [
@@ -24,7 +25,7 @@ const EXPLORER_TABS = [
   { id: "total", label: "Transformation Plan", image: "/lp-assets/total.jpeg" },
 ];
 
-export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans, pageTitle }: HeroSectionProps) {
+export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans, pageTitle, medicationType }: HeroSectionProps) {
   const [selectedPlanIdx, setSelectedPlanIdx] = useState(0);
   const [activeVisualTab, setActiveVisualTab] = useState("plan");
 
@@ -35,9 +36,9 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans, pageTitle }:
     else if (plan.durationDays >= 90) durationLabel = "3 Months";
     else if (plan.durationDays <= 15 || plan.name.toLowerCase().includes("doctor")) durationLabel = "Doctor Consultation";
 
-    let image = "/lp-assets/1-month-plan.jpeg";
-    if (durationLabel === "3 Months") image = "/lp-assets/3-months-plan.jpeg";
-    else if (durationLabel === "6 Months") image = "/lp-assets/6-months-plan.jpeg";
+    let image = medicationType === "MOUNJARO" ? "/lp-assets/mounjaro-1-month-plan.png" : "/lp-assets/1-month-plan.jpeg";
+    if (durationLabel === "3 Months") image = medicationType === "MOUNJARO" ? "/lp-assets/mounjaro-3-months-plan.png" : "/lp-assets/3-months-plan.jpeg";
+    else if (durationLabel === "6 Months") image = medicationType === "MOUNJARO" ? "/lp-assets/mounjaro-6-months-plan.png" : "/lp-assets/6-months-plan.jpeg";
     else if (durationLabel === "Doctor Consultation") image = "/lp-assets/doctor-lean-protocol.jpeg";
 
     return {
