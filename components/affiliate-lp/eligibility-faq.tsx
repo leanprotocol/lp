@@ -290,8 +290,11 @@ export function EligibilityFAQ() {
                 Modern weight loss medication, prescribed online and delivered to your door. Science-backed paths to a healthier you.
               </p>
               <div className="flex gap-3 pt-1">
-                {[Instagram, Facebook].map((Icon, i) => (
-                  <a key={i} href="#" className="w-9 h-9 rounded-full border border-white/20 text-white/60 flex items-center justify-center hover:bg-white/10 hover:text-white transition-all">
+                {[
+                  { Icon: Instagram, href: "https://www.instagram.com/leanprotocol.og?igsh=MXBsbzV6djhtcDFyMg==" },
+                  { Icon: Facebook, href: "#" },
+                ].map(({ Icon, href }, i) => (
+                  <a key={i} href={href} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full border border-white/20 text-white/60 flex items-center justify-center hover:bg-white/10 hover:text-white transition-all">
                     <Icon className="w-4 h-4" strokeWidth={1.5} />
                   </a>
                 ))}
