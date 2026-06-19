@@ -35,31 +35,31 @@ const steps = [
     description: "A comprehensive home blood test to deeply analyze your metabolic profile and biomarkers.",
   },
   { 
-    v: "/journey/step-2-vertical.jpeg", 
+    v: "/journey/step-2-vertical.png", 
     h: "/journey/step-2-horizontal.jpeg", 
     title: "Consultation with the doctor", 
     description: "Our specialist reviews your reports to check eligibility and prescribe the exact medical protocol.",
   },
   { 
-    v: "/journey/step-3-vertical.jpeg", 
+    v: "/journey/step-3-vertical.png", 
     h: "/journey/step-3-horizontal.jpeg", 
     title: "The dietitian gives a GLP-1-based diet", 
     description: "A customized nutritional plan tailored specifically to complement your GLP-1 protocol.",
   },
   { 
-    v: "/journey/step-4-vertical.jpeg", 
+    v: "/journey/step-4-vertical.png", 
     h: "/journey/step-4-horizontal.jpeg", 
     title: "Medications delivered at your doorstep", 
     description: "Your prescribed protocol medication is fulfilled and delivered securely to your home.",
   },
   { 
-    v: "/journey/step-5-vertical.jpeg", 
+    v: "/journey/step-5-vertical.png", 
     h: "/journey/step-5-horizontal.jpeg", 
     title: "6 months Cult pass home subscription", 
     description: "Get access to Cult home workouts to build lean muscle and keep your body active.",
   },
   { 
-    v: "/journey/step-6-vertical.jpeg", 
+    v: "/journey/step-6-vertical.png", 
     h: "/journey/step-6-horizontal.jpeg", 
     title: "15–22% weight loss in 6 months", 
     description: "Achieve lasting, transformational results with our guaranteed weight loss program.",
@@ -215,7 +215,7 @@ export function ProcessGuarantee() {
 
                   {/* Image Side */}
                   <div className="w-full md:w-[42%] pl-24 md:pl-0 pt-2 md:pt-0">
-                    <div className="relative aspect-[3/4] md:aspect-[4/3] rounded-3xl overflow-hidden shadow-xl border border-gray-100 group-hover:shadow-2xl group-hover:shadow-lp-green/20 transition-all duration-500">
+                    <div className="relative aspect-[2/3] md:aspect-[4/3] rounded-3xl overflow-hidden shadow-xl border border-gray-100 group-hover:shadow-2xl group-hover:shadow-lp-green/20 transition-all duration-500">
                       {/* Mobile Vertical Image */}
                       <img 
                         src={step.v} 

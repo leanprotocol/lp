@@ -39,8 +39,8 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans, pageTitle, m
     else if (plan.durationDays <= 15 || plan.name.toLowerCase().includes("doctor")) durationLabel = "Doctor Consultation";
 
     let image = medicationType === "MOUNJARO" ? "/lp-assets/mounjaro-1-month-plan.png" : "/lp-assets/1-month-plan.jpeg";
-    if (durationLabel === "3 Months") image = medicationType === "MOUNJARO" ? "/lp-assets/mounjaro-3-months-plan.png" : "/lp-assets/3-months-plan.jpeg";
-    else if (durationLabel === "6 Months") image = medicationType === "MOUNJARO" ? "/lp-assets/mounjaro-6-months-plan.png" : "/lp-assets/6-months-plan.jpeg";
+    if (durationLabel === "3 Months") image = medicationType === "MOUNJARO" ? "/lp-assets/mounjaro-3-months-plan.png" : "/lp-assets/3-months-plan.png";
+    else if (durationLabel === "6 Months") image = medicationType === "MOUNJARO" ? "/lp-assets/mounjaro-6-months-plan.png" : "/lp-assets/6-months-plan.png";
     else if (durationLabel === "Doctor Consultation") image = "/lp-assets/doctor-lean-protocol.jpeg";
 
     return {
@@ -182,10 +182,10 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans, pageTitle, m
         {/* MOBILE HEADLINE (Shown only on mobile, placed at the top) */}
         <div className="lg:hidden space-y-3 order-first">
           <h1 className="text-2xl md:text-3xl font-serif text-lp-dark leading-tight">
-            GLP-1 (Semaglutide) Based Complete{pageTitle || "GLP-1 (Semaglutide) Based Complete Weight Loss Program"}
+            {pageTitle || "GLP-1 (Semaglutide) Based Complete Weight Loss Program"}
           </h1>
           
-          <div className="flex items-center gap-3"> Weight Loss Program
+          <div className="flex items-center gap-3">
             <span className="text-3xl font-bold text-lp-dark">₹{activePlan.price.toLocaleString()}</span>
             <span className="text-lg text-gray-400 line-through">₹{activePlan.originalPrice.toLocaleString()}</span>
             <div className="bg-lp-green text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-sm uppercase tracking-wider">

@@ -106,8 +106,8 @@ export function SocialProof() {
             {/* Image Side */}
             <div className="relative w-full md:w-[45%] aspect-square md:aspect-auto md:min-h-[600px] bg-gray-100">
               <Image 
-                src="/lp-assets/riya-new.png" 
-                alt="Riya's Transformation"
+                src="/lp-assets/atreyee-transformation.jpeg" 
+                alt="Atreyee's Transformation"
                 fill
                 className="object-cover object-top"
                 priority
@@ -119,7 +119,7 @@ export function SocialProof() {
             <div className="w-full md:w-[55%] flex flex-col">
               {/* Primary Stat Banner */}
               <div className="bg-lp-green text-white p-8 md:p-12 flex flex-col justify-center space-y-2">
-                <h3 className="font-serif text-3xl md:text-4xl leading-tight">Lost 10 Kg<br/><span className="text-lp-light-green italic font-light">in 3 months</span></h3>
+                <h3 className="font-serif text-3xl md:text-4xl leading-tight">Lost 6 Kgs<br/><span className="text-lp-light-green italic font-light">in 1 month</span></h3>
               </div>
 
               {/* Detailed Testimonial Block */}
@@ -130,9 +130,9 @@ export function SocialProof() {
                     <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.896 3.456-8.352 9.12-8.352 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
                   </svg>
                   <p className="text-gray-700 text-lg md:text-xl leading-relaxed font-medium relative z-10 pl-2">
-                    For the first time after my marriage, I feel in control of my health. Lean Protocol not just gave me weight loss but also self confidence and a lifestyle to maintain.
+                    I was about to buy a GLP 1 program that would cost me a bit less and thank god I did not. My wedding approached and I wanted to lose weight quickly. Thanks to their constant motivation and nudging I lost more than I thought I would.
                   </p>
-                  <p className="mt-4 font-bold text-lp-dark pl-2">— Riya S.</p>
+                  <p className="mt-4 font-bold text-lp-dark pl-2">— Atreyee</p>
                 </div>
                 
                 <div className="pt-4 flex justify-center md:justify-start">

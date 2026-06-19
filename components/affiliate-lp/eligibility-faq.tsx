@@ -283,7 +283,7 @@ export function EligibilityFAQ() {
                   alt="Lean Protocol"
                   width={120}
                   height={44}
-                  className="object-contain brightness-0 invert"
+                  className="object-contain"
                 />
               </Link>
               <p className="text-white/50 text-sm max-w-xs leading-relaxed">
