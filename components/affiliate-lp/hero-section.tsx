@@ -13,6 +13,7 @@ interface HeroSectionProps {
   dbPlans: any[];
   pageTitle?: string;
   medicationType?: string;
+  plansLoading?: boolean;
 }
 
 const EXPLORER_TABS = [
@@ -25,10 +26,11 @@ const EXPLORER_TABS = [
   { id: "total", label: "Transformation Plan", image: "/lp-assets/total.jpeg" },
 ];
 
-export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans, pageTitle, medicationType }: HeroSectionProps) {
+export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans, pageTitle, medicationType, plansLoading }: HeroSectionProps) {
   const [selectedPlanIdx, setSelectedPlanIdx] = useState(0);
   const [activeVisualTab, setActiveVisualTab] = useState("plan");
 
+  
   // Map DB plans to the UI format
   const basePlans = dbPlans.length > 0 ? dbPlans.map(plan => {
     let durationLabel = "1 Month";
@@ -104,6 +106,48 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans, pageTitle, m
   const tabInfo = EXPLORER_TABS.find(t => t.id === activeVisualTab);
   const activeImageSrc = tabInfo && tabInfo.image ? tabInfo.image : activePlan.image;
   const activeImageAlt = tabInfo && tabInfo.id !== "plan" ? tabInfo.label : activePlan.title;
+ 
+  if (plansLoading) {
+    return (
+      <section className="min-h-[600px] flex flex-col items-center justify-center gap-4">
+        <svg className="w-[120px] h-[120px] md:w-[200px] md:h-[200px]" viewBox="0 0 120 120" role="img" aria-label="Loading">
+          <g className="lp-loader-char" style={{ transformOrigin: "60px 70px" }}>
+            <ellipse cx="60" cy="100" rx="22" ry="5" fill="#04342C" opacity="0.1" />
+            <rect x="38" y="35" width="44" height="50" rx="22" fill="#1D9E75" />
+            <circle cx="48" cy="55" r="5" fill="white" />
+            <circle cx="72" cy="55" r="5" fill="white" />
+            <circle cx="48" cy="55" r="2.5" fill="#04342C" />
+            <circle cx="72" cy="55" r="2.5" fill="#04342C" />
+            <path d="M55 68 Q60 73 65 68" stroke="#04342C" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+            <rect x="20" y="80" width="14" height="6" rx="3" fill="#0F6E56" />
+            <rect x="86" y="80" width="14" height="6" rx="3" fill="#0F6E56" />
+          </g>
+        </svg>
+        <p className="text-base font-medium text-lp-dark">Preparing your plan...</p>
+        <div className="flex gap-1.5">
+          <span className="lp-loader-dot w-2 h-2 rounded-full bg-[#1D9E75]" style={{ animationDelay: "0s" }} />
+          <span className="lp-loader-dot w-2 h-2 rounded-full bg-[#1D9E75]" style={{ animationDelay: "0.2s" }} />
+          <span className="lp-loader-dot w-2 h-2 rounded-full bg-[#1D9E75]" style={{ animationDelay: "0.4s" }} />
+        </div>
+        <style jsx>{`
+          @keyframes lp-bounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(4deg); }
+          }
+          .lp-loader-char {
+            animation: lp-bounce 1.2s ease-in-out infinite;
+          }
+          @keyframes lp-dot-pulse {
+            0%, 100% { opacity: 0.4; transform: scale(0.6); }
+            50% { opacity: 1; transform: scale(1.2); }
+          }
+          .lp-loader-dot {
+            animation: lp-dot-pulse 1.2s ease-in-out infinite;
+          }
+        `}</style>
+      </section>
+    );
+  }
 
   return (
     <>

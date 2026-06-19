@@ -23,6 +23,7 @@ export function MounjaroLandingPage() {
   const [pendingCheckoutPlanId, setPendingCheckoutPlanId] = useState<string | null>(null);
   const { openCheckout, isLoading: isCheckoutLoading } = useRazorpayCheckout();
   const [dbPlans, setDbPlans] = useState<any[]>([]);
+  const [plansLoading, setPlansLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
 
@@ -34,7 +35,8 @@ export function MounjaroLandingPage() {
           setDbPlans(data.plans);
         }
       })
-      .catch(console.error);
+      .catch(console.error)
+      .finally(() => setPlansLoading(false));
 
     fetch("/api/user/me?optional=1")
       .then(res => res.json())
@@ -83,6 +85,7 @@ export function MounjaroLandingPage() {
           dbPlans={dbPlans}
           pageTitle="Mounjaro Based Complete Transformation Plan"
           medicationType="MOUNJARO"
+          plansLoading={plansLoading}
         />
       </div>
       <NewsSection />
