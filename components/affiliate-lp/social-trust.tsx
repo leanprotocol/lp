@@ -197,6 +197,30 @@ export function SocialTrust() {
                 result: "Lost 9.1 kg in 15 weeks",
                 src: "/testimonials/rohit.png",
               },
+              {
+                type: "video",
+                name: "Ananya",
+                result: "Transformation Journey",
+                src: "/testimonials/ananya.mp4",
+              },
+              {
+                type: "video",
+                name: "Aditya",
+                result: "Transformation Journey",
+                src: "/testimonials/aditya.mp4",
+              },
+              {
+                type: "video",
+                name: "Roshni",
+                result: "Transformation Journey",
+                src: "/testimonials/roshni.mp4",
+              },
+              {
+                type: "image",
+                name: "Neema, 46",
+                result: "Lost 10.8 kgs in 4 months",
+                src: "/testimonials/neema.png",
+              },
             ].map((story, i) => (
               <div key={i} className={`break-inside-avoid rounded-2xl overflow-hidden relative shadow-lg group cursor-default bg-black mb-6 w-full ${story.type === 'video' ? 'aspect-[9/16]' : 'aspect-square'}`}>
                 {/* Media */}
