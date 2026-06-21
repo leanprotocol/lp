@@ -52,7 +52,7 @@ export default function Page() {
       </section>
       {/* <MembersServed /> */}
       <NewsSection />
-      {<div className="hidden md:block"><MedicationToolkit /></div>}
+      {/* {<div className="hidden md:block"><MedicationToolkit /></div>} */}
       {/* <MicrodoseSection /> */}
       <WeightSlider />
       <DoctorsSection />
