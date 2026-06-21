@@ -120,6 +120,7 @@ export function Header() {
               )}
             </span>
           </Link>
+          <div className="hidden">
           <DropdownMenu>
             <DropdownMenuTrigger
               className={`text-base transition-colors leading-none outline-none inline-flex items-baseline gap-1 ${
@@ -181,6 +182,7 @@ export function Header() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          </div>
           <Link
             href="/blog"
             className={`text-base transition-colors ${
