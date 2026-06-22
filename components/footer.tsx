@@ -153,8 +153,8 @@ function Footer() {
         {/* MIDDLE SECTION: Links */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-8 border-t border-accent2/20 pt-12 mb-14">
           
-          {/* Column 1: Medications */}
-          <div>
+          {/* Column 1: Medications - Hidden */}
+          <div className="hidden">
             <h4 className="inter text-sm font-semibold uppercase tracking-widest text-accent2/40 mb-6">Medications</h4>
             <ul className="space-y-4">
               {links.medications.map((link) => (

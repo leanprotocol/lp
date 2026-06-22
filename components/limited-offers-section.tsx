@@ -8,10 +8,10 @@ import { useState, useEffect } from "react"
 // Plan 2 → 3 months         → 20% OFF
 // Plan 3 → 6 months         → 53% OFF
 const OFFERS = [
-  { pct: "70", title: "Doctor consultation plan", tag: "Limited seats", featured: true  },
   { pct: "62", title: "1-month GLP-1 program",    tag: "Most popular", featured: false },
   { pct: "20", title: "3-month GLP-1 program",    tag: "",             featured: false },
   { pct: "33", title: "6-month GLP-1 program",    tag: "Best value",   featured: false },
+  { pct: "70", title: "Doctor consultation plan", tag: "Limited seats", featured: true  },
 ]
 
 function rand(min: number, max: number) {
@@ -26,7 +26,7 @@ export function LimitedOffersSection() {
   // Init random values on mount
   useEffect(() => {
     setViews(rand(1500, 6000))
-    setTimer(rand(16 * 3600, 30 * 3600))
+    setTimer(rand(8 * 3600, 15 * 3600))
     const current = (window as any).__lpActivePlan ?? 0
     setActiveOffer(current % OFFERS.length)
   }, [])

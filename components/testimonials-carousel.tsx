@@ -18,7 +18,7 @@ interface Testimonial {
 
 export function TestimonialsCarousel() {
   const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: false,
+    loop: true,
     align: "start",
     containScroll: "trimSnaps",
     skipSnaps: false,
