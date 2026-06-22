@@ -172,7 +172,7 @@ export function DoctorsSection() {
                 {doctors.map((doctor) => (
                   <div
                     key={doctor.imageFilename}
-                    className="basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4 shrink-0 bg-white rounded-2xl overflow-hidden border border-dark/10 shadow-sm"
+                    className="basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4 shrink-0 bg-white rounded-2xl overflow-hidden border border-dark/10 shadow-xl transition-all duration-300 [transform-style:preserve-3d] [transform:perspective(1000px)_rotateX(2deg)_rotateY(-2deg)]"
                   >
                     <div className="w-full h-[320px] bg-[#EDE7E1] relative">
                       <Image

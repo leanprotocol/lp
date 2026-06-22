@@ -141,7 +141,7 @@ export function TestimonialsCarousel() {
                   key={index}
                   className="basis-full sm:basis-3/4 md:basis-1/2 lg:basis-1/3 xl:basis-1/4 shrink-0"
                 >
-                  <div className="bg-white/20 rounded-2xl overflow-hidden shadow-xl">
+                  <div className="bg-white/20 rounded-2xl overflow-hidden shadow-xl transition-all duration-300 [transform-style:preserve-3d] hover:[transform:perspective(1000px)_rotateX(2deg)_rotateY(-2deg)_translateY(-8px)] hover:shadow-2xl">
                     <div className="p-4">
                       <div className="w-full overflow-hidden rounded-xl bg-white/10 h-[360px] sm:h-[340px] md:h-[280px] relative">
                         {testimonial.videoFilename ? (
