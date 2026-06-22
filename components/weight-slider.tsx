@@ -48,7 +48,7 @@ export function WeightSlider() {
             </div>
             <p className="text-xs text-center text-black/50 mt-12 max-w-4xl mx-auto">
               *average weight loss in 1 year is 22% (compared to 3.1% with diet and exercise alone). Based on a 72-week
-              clinical trial studying the highest doses of Zepbound in non-diabetic patients with obesity, or with
+              clinical trial studying the highest doses of Mounjaro in non-diabetic patients with obesity, or with
               overweight plus a weight-related condition, when paired with healthy lifestyle changes.
             </p>
           </div>

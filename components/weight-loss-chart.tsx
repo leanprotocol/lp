@@ -60,9 +60,7 @@ export function WeightLossChart() {
           <h2 className="font-serif text-3xl md:text-4xl text-dark leading-snug">
             Your weight over 6 months
           </h2>
-          <p className="text-sm text-muted-foreground mt-2 italic">
-            Flagship protocol with Ozempic / Mounjaro / Semaglutide-based products
-          </p>
+          
         </div>
 
         {/* Chart */}

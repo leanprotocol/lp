@@ -19,7 +19,7 @@ const journeySteps = [
     gradient: "from-[#A39F88] to-[#B8B29E]",
   },
   {
-    title: "Medications & Allied Supplements Delivered to your place",
+    title: "Supplements Delivered to your place",
     description: "Fast, discreet shipping right to your door within days",
     image: "/journey/journey3.png",
     gradient: "from-[#8B8A6F] to-[#9B9A80]",

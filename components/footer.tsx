@@ -98,7 +98,7 @@ function Footer() {
               />
             </Link>
             <p className="inter text-accent2/60 text-lg max-w-md font-light leading-relaxed">
-              Modern weight loss medication, prescribed online and delivered to your door. Science-backed paths to a healthier you.
+              Modern weight loss solutions
             </p>
             
             {/* Socials */}
