@@ -221,6 +221,12 @@ export function SocialTrust() {
                 result: "Lost 10.8 kgs in 4 months",
                 src: "/testimonials/neema.png",
               },
+              {
+                type: "video",
+                name: "Atreyee, 28",
+                result: "Lost 6 kgs in 1 month",
+                src: "/testimonials/atreyee.mp4",
+              },
             ].map((story, i) => (
               <div key={i} className={`break-inside-avoid rounded-2xl overflow-hidden relative shadow-lg group cursor-default bg-black mb-6 w-full ${story.type === 'video' ? 'aspect-[9/16]' : 'aspect-square'}`}>
                 {/* Media */}

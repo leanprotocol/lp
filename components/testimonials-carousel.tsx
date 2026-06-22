@@ -121,6 +121,13 @@ export function TestimonialsCarousel() {
       duration: "6 months",
       videoFilename: "roshni.mp4",
     },
+    {
+      name: "Atreyee",
+      age: "28",
+      weightLost: "6",
+      duration: "1 month",
+      videoFilename: "atreyee.mp4",
+    },
   ]
    
 
