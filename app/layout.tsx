@@ -38,7 +38,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <Script
-  src="https://www.googletagmanager.com/gtag/js?id=G-6PBFWK2ZMK"
+  src="https://www.googletagmanager.com/gtag/js?id= G-SN2P6LQBHW"
   strategy="afterInteractive"
 />
 <Script id="google-analytics" strategy="afterInteractive">
@@ -47,7 +47,7 @@ export default function RootLayout({
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
 
-    gtag('config', 'G-6PBFWK2ZMK');
+    gtag('config', ' G-SN2P6LQBHW');
   `}
 </Script>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
