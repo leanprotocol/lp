@@ -205,7 +205,7 @@
 .challenge-page .divider { width: 54px; height: 3px; background: var(--gold); margin: 0 auto; border-radius: 3px; }
 
 .challenge-page .stage { position: relative; perspective: 1700px; margin: 0 auto; }
-.challenge-page .stage.testi-stage { height: 564px; max-width: 1080px; }
+.challenge-page .stage.testi-stage { height: 720px; max-width: 1140px; }
 .challenge-page .stage.plan-stage { height: 680px; max-width: 1080px; }
 .challenge-page .ring { position: absolute; inset: 0; transform-style: preserve-3d; }
 .challenge-page .c3d {
@@ -216,7 +216,7 @@
 .challenge-page .c3d .inner { display: block; }
 
 .challenge-page .tcard {
-  width: 300px; height: 486px; border-radius: 20px; padding: 28px 26px;
+  width: 340px; height: 640px; border-radius: 20px; padding: 28px 26px;
   background: linear-gradient(165deg, var(--green-700), var(--green-800)); border: 1px solid var(--line);
   box-shadow: 0 30px 60px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .06);
   display: flex; flex-direction: column; position: relative; overflow: hidden;
@@ -252,9 +252,10 @@
 .challenge-page .pcard .btn { width: 100%; }
 
 .challenge-page .tmedia {
-  position: relative; width: 100%; aspect-ratio: 16/10; border-radius: 14px; overflow: hidden; margin-bottom: 15px;
+  position: relative; width: 100%; aspect-ratio: 4/4.2; border-radius: 14px; overflow: hidden; margin-bottom: 15px;
   background: linear-gradient(135deg, var(--green-600), var(--green-900)); border: 1px solid var(--line); flex: none;
 }
+.challenge-page .tmedia-fill { width: 100%; height: 100%; object-fit: cover; display: block; }
 .challenge-page .tmedia img, .challenge-page .tmedia video { width: 100%; height: 100%; object-fit: cover; display: block; }
 .challenge-page .tmedia-ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px; color: var(--sage); }
 .challenge-page .tmedia-ph .play { width: 46px; height: 46px; border-radius: 50%; background: rgba(201, 162, 75, .92); color: #15241e; display: grid; place-items: center; font-size: 16px; padding-left: 3px; }
@@ -430,3 +431,118 @@
 .challenge-page .gtop small { font-size: 12px; color: #FBBC05; letter-spacing: 1px; }
 .challenge-page .greview p { font-size: 14px; color: var(--sage); line-height: 1.55; }
 .challenge-page .promo-code { font-family: var(--display); font-size: 30px; letter-spacing: .1em; color: var(--gold); background: var(--green-900); border: 2px dashed var(--gold); border-radius: 12px; padding: 14px; text-align: center; margin: 4px 0 6px; }
+
+/* hero tagline + animation panel + injection shot (added in v2) */
+.challenge-page .hero-tag { font-family: var(--display); text-transform: uppercase; color: var(--gold-light); font-size: clamp(14px, 2vw, 19px); letter-spacing: .03em; line-height: 1.15; margin: 12px 0 0; max-width: 470px; }
+.challenge-page .hero-anim { background: linear-gradient(160deg, var(--green-700), var(--green-800)); border: 1px solid var(--line); border-radius: 22px; padding: 24px; box-shadow: 0 20px 50px rgba(0, 0, 0, .4); }
+.challenge-page .tx-shot { position: absolute; left: 44%; top: 42%; width: 74px; opacity: 0; z-index: 4; pointer-events: none; }
+.challenge-page .tx-shot.fire { animation: challenge-shot 1.1s ease; }
+@keyframes challenge-shot { 0% { opacity: 0; transform: translate(60px,-34px) scale(.7); } 28% { opacity: 1; transform: translate(8px,0) scale(1); } 52% { transform: translate(-4px,3px) scale(1); } 68% { transform: translate(6px,-1px) scale(1); } 100% { opacity: 0; transform: translate(60px,-34px) scale(.8); } }
+.challenge-page .shot-flash { position: absolute; left: 40%; top: 40%; width: 20px; height: 20px; border-radius: 50%; background: radial-gradient(circle, #fff, rgba(255,255,255,0)); opacity: 0; z-index: 5; pointer-events: none; }
+.challenge-page .shot-flash.fire { animation: challenge-flash .55s ease; }
+@keyframes challenge-flash { 0% { opacity: 0; transform: scale(.4); } 40% { opacity: 1; transform: scale(1.3); } 100% { opacity: 0; transform: scale(1.9); } }
+.challenge-page .shot-label { position: absolute; top: 8px; right: 8px; background: var(--red-bright); color: #fff; font-family: var(--display); font-size: 11px; letter-spacing: .04em; padding: 4px 9px; border-radius: 6px; opacity: 0; z-index: 6; text-transform: uppercase; }
+.challenge-page .shot-label.fire { animation: challenge-shotlab 1.5s ease; }
+@keyframes challenge-shotlab { 0% { opacity: 0; transform: translateY(-6px); } 15% { opacity: 1; transform: none; } 80% { opacity: 1; } 100% { opacity: 0; } }
+
+/* lead-success toggling on the standalone lead-form section (v2) */
+.challenge-page .form-card.sent form { display: none; }
+.challenge-page .form-card.sent .lead-success { display: block; }
+.challenge-page .lead-success { display: none; }
+
+/* ===================== CHECKOUT PAGE (added) ===================== */
+.challenge-page .page-h { text-align: center; padding: 40px 0 8px; }
+.challenge-page .page-h h1 { font-size: clamp(30px, 5vw, 46px); }
+.challenge-page .page-h h1 .g { color: var(--gold); }
+.challenge-page .page-h p { color: var(--sage); margin-top: 10px; }
+
+.challenge-page .secure { font-size: 12px; color: var(--sage); display: flex; align-items: center; gap: 7px; }
+
+.challenge-page .checkout-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 26px; padding: 24px 0 80px; align-items: start; }
+@media (max-width: 860px) { .challenge-page .checkout-grid { grid-template-columns: 1fr; } }
+.challenge-page .card { background: linear-gradient(160deg, var(--green-700), var(--green-800)); border: 1px solid var(--line); border-radius: 18px; padding: 28px; }
+.challenge-page .card.summary { border-color: var(--gold); box-shadow: 0 0 0 1px rgba(201, 162, 75, .2), 0 20px 50px rgba(0, 0, 0, .4); }
+.challenge-page .card h2 { font-size: 21px; color: var(--cream); margin-bottom: 18px; }
+
+.challenge-page .plan-row { display: flex; gap: 14px; align-items: flex-start; padding: 16px; border: 1px solid var(--gold); border-radius: 14px; background: var(--green-900); position: relative; }
+.challenge-page .plan-row .radio { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--gold); flex: none; margin-top: 2px; display: grid; place-items: center; }
+.challenge-page .plan-row .radio:after { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--gold); }
+.challenge-page .plan-row .pinfo b { font-size: 16px; color: var(--cream); display: block; }
+.challenge-page .plan-row .pinfo small { font-size: 13px; color: var(--sage); }
+.challenge-page .plan-row .pprice { margin-left: auto; text-align: right; }
+.challenge-page .plan-row .pprice .amt { font-family: var(--display); font-size: 26px; color: var(--gold); }
+.challenge-page .free-badge { display: none; background: var(--green-glow); color: #06210f; font-family: var(--display); font-size: 11px; font-weight: 700; letter-spacing: .05em; padding: 3px 9px; border-radius: 6px; margin-top: 6px; text-transform: uppercase; }
+.challenge-page .free-badge.show { display: inline-block; }
+.challenge-page .default-tag { position: absolute; top: -10px; left: 14px; background: var(--gold); color: #15241e; font-family: var(--display); font-size: 10px; font-weight: 700; letter-spacing: .08em; padding: 3px 9px; border-radius: 5px; text-transform: uppercase; }
+
+.challenge-page .promo { margin: 18px 0; }
+.challenge-page .promo-label { font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--sage); margin-bottom: 7px; display: block; }
+.challenge-page .promo-in { display: flex; gap: 8px; }
+.challenge-page .promo-in input { flex: 1; background: var(--green-900); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; color: var(--cream); font-family: var(--display); letter-spacing: .06em; font-size: 15px; text-transform: uppercase; outline: none; }
+.challenge-page .promo-in input:focus { border-color: var(--gold); }
+.challenge-page .promo-in button { padding: 12px 18px; }
+.challenge-page .promo-msg { font-size: 13px; margin-top: 8px; min-height: 18px; }
+.challenge-page .promo-msg.ok { color: var(--green-glow); }
+.challenge-page .promo-msg.bad { color: var(--red-bright); }
+
+.challenge-page .checkout-totals { border-top: 1px solid var(--line); margin-top: 18px; padding-top: 16px; }
+.challenge-page .checkout-totals .line { display: flex; justify-content: space-between; font-size: 14px; color: var(--sage); margin-bottom: 8px; }
+.challenge-page .checkout-totals .line.grand { font-size: 18px; color: var(--cream); font-weight: 700; border-top: 1px solid var(--line); padding-top: 12px; margin-top: 6px; }
+.challenge-page .checkout-totals .grand .amt { font-family: var(--display); font-size: 28px; color: var(--gold); }
+
+.challenge-page .spin-box { margin-top: 18px; border: 1px dashed var(--line); border-radius: 14px; padding: 18px; text-align: center; }
+.challenge-page .spin-box h3 { font-size: 16px; color: var(--gold-light); margin-bottom: 6px; letter-spacing: .03em; }
+.challenge-page .spin-box p { font-size: 13px; color: var(--sage); margin-bottom: 14px; }
+.challenge-page .mini-stage { position: relative; width: 200px; height: 200px; margin: 0 auto 14px; display: none; }
+.challenge-page .mini-stage.show { display: block; }
+.challenge-page .mwheel { width: 200px; height: 200px; border-radius: 50%; border: 6px solid var(--gold); box-shadow: 0 0 0 4px var(--green-900); position: relative; overflow: hidden; transition: transform 4.4s cubic-bezier(.12, .85, .25, 1); background: conic-gradient(#22392F 0 60deg, #C9A24B 60deg 120deg, #22392F 120deg 180deg, #C9A24B 180deg 240deg, #22392F 240deg 300deg, #C9A24B 300deg 360deg); }
+.challenge-page .mwheel .sl { position: absolute; left: 50%; top: 50%; width: 58px; text-align: center; font-family: var(--display); font-size: 8.5px; line-height: 1; color: #fff; font-weight: 700; white-space: normal; text-shadow: 0 1px 2px rgba(0, 0, 0, .65); }
+.challenge-page .mpointer { position: absolute; top: -3px; left: 50%; transform: translateX(-50%); z-index: 3; width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 18px solid var(--red-bright); }
+
+.challenge-page .checkout-success { text-align: center; padding: 30px 0; }
+.challenge-page .checkout-success .ic { width: 70px; height: 70px; border-radius: 50%; background: rgba(55, 200, 113, .15); border: 2px solid var(--green-glow); color: var(--green-glow); font-size: 34px; display: grid; place-items: center; margin: 0 auto 18px; }
+.challenge-page .checkout-success h2 { color: var(--cream); margin-bottom: 10px; }
+.challenge-page .checkout-success p { color: var(--sage); max-width: 420px; margin: 0 auto 18px; }
+
+.challenge-page .trust-line { font-size: 12px; color: var(--sage); text-align: center; margin-top: 14px; opacity: .8; }
+
+/* Single wide plan card (replaces 3-card carousel) */
+.challenge-page .pcard-single {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  border-radius: 24px;
+  padding: 40px 44px;
+  background: linear-gradient(165deg, var(--green-700), var(--green-800));
+  border: 1px solid var(--gold);
+  box-shadow: 0 0 0 1px rgba(201, 162, 75, .2), 0 40px 80px rgba(0, 0, 0, .55);
+  position: relative;
+  overflow: hidden;
+}
+.challenge-page .pcard-single .pmedia { aspect-ratio: 16/7; margin-bottom: 22px; }
+.challenge-page .pcard-single .ptag { position: absolute; top: 22px; right: -34px; background: var(--gold); color: #15241e; font-family: var(--display); font-size: 12px; font-weight: 700; letter-spacing: .08em; padding: 6px 42px; transform: rotate(38deg); }
+.challenge-page .pcard-single h3 { font-size: 30px; color: var(--cream); margin-bottom: 6px; }
+.challenge-page .pcard-single .for { font-size: 14px; color: var(--sage); margin-bottom: 18px; }
+.challenge-page .pcard-single .price { font-family: var(--display); font-size: 54px; color: var(--gold); line-height: 1; }
+.challenge-page .pcard-single .price small { font-family: var(--body); font-size: 15px; color: var(--sage); font-weight: 500; }
+.challenge-page .pcard-single .was { font-size: 14px; color: var(--sage); margin-bottom: 22px; }
+.challenge-page .pcard-single ul { list-style: none; display: flex; flex-direction: column; gap: 12px; margin: 10px 0 26px; }
+.challenge-page .pcard-single li { font-size: 15px; color: var(--cream); display: flex; gap: 10px; align-items: flex-start; }
+.challenge-page .pcard-single li::before { content: '✓'; color: var(--gold); font-weight: 700; flex: none; }
+.challenge-page .pcard-single .btn { width: 100%; font-size: 18px; padding: 16px; }
+@media (max-width: 600px) { .challenge-page .pcard-single { padding: 28px 24px; } }
+
+/* Real Google review screenshots */
+.challenge-page .greview-ss {
+  background: #fff;
+  border-radius: 14px;
+  padding: 4px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+  overflow: hidden;
+}
+.challenge-page .greview-ss img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 10px;
+}
