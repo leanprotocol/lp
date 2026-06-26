@@ -15,13 +15,25 @@ async function pushToCRM(fields: Record<string, any>) {
     return { ok: true };
   }
   try {
+    const cleanFields = Object.fromEntries(
+      Object.entries(fields).filter(([, v]) => v !== '' && v !== null && v !== undefined)
+    );
+
     const res = await fetch(TELECRM_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${TELECRM_API_TOKEN}`,
       },
-      body: JSON.stringify({ fields }),
+      body: JSON.stringify({
+        fields: cleanFields,
+        actions: [
+          {
+            type: 'SYSTEM_NOTE',
+            text: `✅ Payment confirmed\nPlan: ${cleanFields.plan || '30 Days Hard Challenge'}\nAmount: ₹${cleanFields.amount || 3999}\nRazorpay Order: ${cleanFields.razorpay_order_id}\nPayment ID: ${cleanFields.razorpay_payment_id}\nSubmitted: ${new Date().toISOString()}`,
+          },
+        ],
+      }),
     });
     if (!res.ok) {
       const errBody = await res.text().catch(() => '');

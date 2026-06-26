@@ -14,13 +14,26 @@ async function pushToCRM(fields: Record<string, any>) {
     return { ok: true };
   }
   try {
+    // Remove empty strings — only send fields that have values
+    const cleanFields = Object.fromEntries(
+      Object.entries(fields).filter(([, v]) => v !== '' && v !== null && v !== undefined)
+    );
+
     const res = await fetch(TELECRM_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${TELECRM_API_TOKEN}`,
       },
-      body: JSON.stringify({ fields }),
+      body: JSON.stringify({
+        fields: cleanFields,
+        actions: [
+          {
+            type: 'SYSTEM_NOTE',
+            text: `Lead Source: ${cleanFields.source || 'challenge-landing-page'}\nSubmitted: ${new Date().toISOString()}`,
+          },
+        ],
+      }),
     });
     if (!res.ok) {
       const errBody = await res.text().catch(() => '');
