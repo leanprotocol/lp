@@ -2,25 +2,34 @@ export const runtime = 'nodejs';
 
 import { NextRequest, NextResponse } from 'next/server';
 
-// ─── Paste your CRM webhook URL here when ready ──────────────────────────────
-// This should be the SAME endpoint used in /api/challenge/verify/route.ts
-const CRM_ENDPOINT = ""; // e.g. "https://your-crm.example.com/api/leads"
-// ───────────────────────────────────────────────────────────────────────────
+const TELECRM_ENTERPRISE_ID = process.env.TELECRM_ENTERPRISE_ID;
+const TELECRM_API_TOKEN = process.env.TELECRM_API_TOKEN;
+const TELECRM_URL = TELECRM_ENTERPRISE_ID
+  ? `https://next-api.telecrm.in/enterprise/${TELECRM_ENTERPRISE_ID}/autoupdatelead`
+  : null;
 
-async function pushToCRM(payload: Record<string, any>) {
-  if (!CRM_ENDPOINT) {
-    console.log('[Challenge Lead] CRM_ENDPOINT not set. Payload:', payload);
+async function pushToCRM(fields: Record<string, any>) {
+  if (!TELECRM_URL || !TELECRM_API_TOKEN) {
+    console.log('[Challenge Lead] TeleCRM not configured. Payload:', fields);
     return { ok: true };
   }
   try {
-    const res = await fetch(CRM_ENDPOINT, {
+    const res = await fetch(TELECRM_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${TELECRM_API_TOKEN}`,
+      },
+      body: JSON.stringify({ fields }),
     });
-    return { ok: res.ok };
+    if (!res.ok) {
+      const errBody = await res.text().catch(() => '');
+      console.error('[Challenge Lead] TeleCRM rejected request:', res.status, errBody);
+      return { ok: false };
+    }
+    return { ok: true };
   } catch (err) {
-    console.error('[Challenge Lead] CRM push failed:', err);
+    console.error('[Challenge Lead] TeleCRM push failed:', err);
     return { ok: false };
   }
 }
@@ -48,13 +57,14 @@ export async function POST(request: NextRequest) {
     } = body as Record<string, string>;
 
     const cleanPhone = (phone || '').replace(/\D/g, '');
-    if (!name?.trim() || !/^[6-9]\d{9}$/.test(cleanPhone.replace(/^91/, ''))) {
+    const phoneDigitsOnly = cleanPhone.replace(/^91/, '');
+    if (!name?.trim() || !/^[6-9]\d{9}$/.test(phoneDigitsOnly)) {
       return NextResponse.json({ error: 'A valid name and 10-digit mobile number are required' }, { status: 400 });
     }
 
     const result = await pushToCRM({
       name: name.trim(),
-      phone: phone || `+91${cleanPhone}`,
+      phone: cleanPhone.startsWith('91') ? cleanPhone : `91${phoneDigitsOnly}`,
       email: email || '',
       city: city || '',
       goal: goal || '',
@@ -62,8 +72,6 @@ export async function POST(request: NextRequest) {
       prize: prize || '',
       promo: promo || '',
       source: source || 'challenge-landing-page',
-      lead_status: 'new',
-      team: 'sales',
       utm_source: utm_source || '',
       utm_medium: utm_medium || '',
       utm_campaign: utm_campaign || '',
@@ -71,7 +79,6 @@ export async function POST(request: NextRequest) {
       fbclid: fbclid || '',
       page_url: page_url || '',
       referrer: referrer || '',
-      submitted_at: new Date().toISOString(),
     });
 
     if (!result.ok) {

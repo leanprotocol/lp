@@ -33,6 +33,7 @@ export function ChallengeFooter() {
 
           <div className="foot-col">
             <h5>Contact</h5>
+            <a href="tel:+919650401267">+91 96504 01267</a>
             <a href="mailto:support@leanprotocol.in">support@leanprotocol.in</a>
             <a href="https://wa.link/3s1upf">WhatsApp our experts</a>
             <a href="https://www.instagram.com/leanprotocol.og">Instagram</a>

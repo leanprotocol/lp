@@ -3,23 +3,35 @@ export const runtime = 'nodejs';
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 
-// ─── Paste your CRM webhook URL here when ready ──────────────────────────────
-const CRM_ENDPOINT = ""; // e.g. "https://your-crm.example.com/api/leads"
-// ───────────────────────────────────────────────────────────────────────────
+const TELECRM_ENTERPRISE_ID = process.env.TELECRM_ENTERPRISE_ID;
+const TELECRM_API_TOKEN = process.env.TELECRM_API_TOKEN;
+const TELECRM_URL = TELECRM_ENTERPRISE_ID
+  ? `https://next-api.telecrm.in/enterprise/${TELECRM_ENTERPRISE_ID}/autoupdatelead`
+  : null;
 
-async function pushToCRM(payload: Record<string, any>) {
-  if (!CRM_ENDPOINT) {
-    console.log('[Challenge] CRM_ENDPOINT not set. Payload:', payload);
-    return;
+async function pushToCRM(fields: Record<string, any>) {
+  if (!TELECRM_URL || !TELECRM_API_TOKEN) {
+    console.log('[Challenge Verify] TeleCRM not configured. Payload:', fields);
+    return { ok: true };
   }
   try {
-    await fetch(CRM_ENDPOINT, {
+    const res = await fetch(TELECRM_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${TELECRM_API_TOKEN}`,
+      },
+      body: JSON.stringify({ fields }),
     });
+    if (!res.ok) {
+      const errBody = await res.text().catch(() => '');
+      console.error('[Challenge Verify] TeleCRM rejected request:', res.status, errBody);
+      return { ok: false };
+    }
+    return { ok: true };
   } catch (err) {
-    console.error('[Challenge] CRM push failed:', err);
+    console.error('[Challenge Verify] TeleCRM push failed:', err);
+    return { ok: false };
   }
 }
 
@@ -55,7 +67,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Payment gateway not configured' }, { status: 500 });
     }
 
-    // Verify signature: HMAC-SHA256(order_id + "|" + payment_id, key_secret)
     const expectedSignature = crypto
       .createHmac('sha256', keySecret)
       .update(`${razorpayOrderId}|${razorpayPaymentId}`)
@@ -65,10 +76,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Payment verification failed' }, { status: 400 });
     }
 
-    // Push the confirmed order to CRM
+    const cleanPhone = (phone || '').replace(/\D/g, '');
+
     await pushToCRM({
       name: name || '',
-      phone: phone ? `+91${phone.replace(/\D/g, '')}` : '',
+      phone: cleanPhone ? (cleanPhone.startsWith('91') ? cleanPhone : `91${cleanPhone}`) : '',
       email: email || '',
       city: city || '',
       plan: '30 Days Hard Challenge',
@@ -77,10 +89,8 @@ export async function POST(request: NextRequest) {
       promo: promoApplied ? '30+15HARD' : '',
       source: 'challenge-checkout',
       lead_status: 'paid',
-      team: 'sales',
       razorpay_order_id: razorpayOrderId,
       razorpay_payment_id: razorpayPaymentId,
-      submitted_at: new Date().toISOString(),
     });
 
     return NextResponse.json({ success: true, message: 'Payment verified' });
