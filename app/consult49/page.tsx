@@ -386,6 +386,23 @@ function CheckoutModal({ onClose, prefillName = "", prefillPhone = "", prefillBm
     if (!consent) { alert("Please accept the Terms & Privacy Policy to continue."); return; }
     setPaying(true); setPayError(null);
     try {
+      // Fire-and-forget lead capture — so even if payment is abandoned, lead is in CRM
+      fetch("/api/consult49/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim(),
+          phone: `+91${phone.replace(/\D/g, "")}`,
+          email: email.trim(),
+          city: city.trim(),
+          preferred_time: preferredTime,
+          bmi: prefillBmi,
+          source: "consult49-checkout-intent",
+          page_url: window.location.href,
+          referrer: document.referrer,
+        }),
+      }).catch(() => {});
+
       const createRes = await fetch("/api/consult49/create-order", {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: name.trim(), phone: phone.replace(/\D/g, ""), email: email.trim(), city: city.trim(), preferred_time: preferredTime, bmi: prefillBmi }),
