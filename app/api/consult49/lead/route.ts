@@ -25,15 +25,7 @@ async function pushToCRM(fields: Record<string, any>) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${TELECRM_API_TOKEN}`,
       },
-      body: JSON.stringify({
-        fields: cleanFields,
-        actions: [
-          {
-            type: 'SYSTEM_NOTE',
-            text: `Lead Source: ${cleanFields.source || 'consult49-bmi-calculator'}\nBMI: ${cleanFields.bmi || 'n/a'} (${cleanFields.bmi_category || 'n/a'})\nEligible: ${cleanFields.eligible ?? 'n/a'}\nSubmitted: ${new Date().toISOString()}`,
-          },
-        ],
-      }),
+      body: JSON.stringify({ fields: cleanFields }),
     });
     if (!res.ok) {
       const errBody = await res.text().catch(() => '');

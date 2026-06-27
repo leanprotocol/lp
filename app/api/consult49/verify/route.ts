@@ -25,15 +25,7 @@ async function pushToCRM(fields: Record<string, any>) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${TELECRM_API_TOKEN}`,
       },
-      body: JSON.stringify({
-        fields: cleanFields,
-        actions: [
-          {
-            type: 'SYSTEM_NOTE',
-            text: `✅ Payment confirmed\nProduct: ${cleanFields.product || 'GLP-1 Doctor Consultation'}\nAmount: ₹${cleanFields.amount || 49}\nRazorpay Order: ${cleanFields.razorpay_order_id}\nPayment ID: ${cleanFields.razorpay_payment_id}\nSubmitted: ${new Date().toISOString()}`,
-          },
-        ],
-      }),
+      body: JSON.stringify({ fields: cleanFields }),
     });
     if (!res.ok) {
       const errBody = await res.text().catch(() => '');

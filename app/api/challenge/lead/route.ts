@@ -14,26 +14,13 @@ async function pushToCRM(fields: Record<string, any>) {
     return { ok: true };
   }
   try {
-    // Remove empty strings — only send fields that have values
-    const cleanFields = Object.fromEntries(
-      Object.entries(fields).filter(([, v]) => v !== '' && v !== null && v !== undefined)
-    );
-
     const res = await fetch(TELECRM_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${TELECRM_API_TOKEN}`,
       },
-      body: JSON.stringify({
-        fields: cleanFields,
-        actions: [
-          {
-            type: 'SYSTEM_NOTE',
-            text: `Lead Source: ${cleanFields.source || 'challenge-landing-page'}\nSubmitted: ${new Date().toISOString()}`,
-          },
-        ],
-      }),
+      body: JSON.stringify({ fields }),
     });
     if (!res.ok) {
       const errBody = await res.text().catch(() => '');
@@ -75,6 +62,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'A valid name and 10-digit mobile number are required' }, { status: 400 });
     }
 
+    // TeleCRM's lead identifier is matched against these fields — see
+    // https://docs.telecrm.in/concepts/lead-identifier. "name" + "phone"
+    // are standard fields; everything else here is a candidate custom
+    // field and will be silently dropped by TeleCRM unless it already
+    // exists in the workspace under Settings → Custom Fields.
     const result = await pushToCRM({
       name: name.trim(),
       phone: cleanPhone.startsWith('91') ? cleanPhone : `91${phoneDigitsOnly}`,

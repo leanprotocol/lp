@@ -15,25 +15,13 @@ async function pushToCRM(fields: Record<string, any>) {
     return { ok: true };
   }
   try {
-    const cleanFields = Object.fromEntries(
-      Object.entries(fields).filter(([, v]) => v !== '' && v !== null && v !== undefined)
-    );
-
     const res = await fetch(TELECRM_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${TELECRM_API_TOKEN}`,
       },
-      body: JSON.stringify({
-        fields: cleanFields,
-        actions: [
-          {
-            type: 'SYSTEM_NOTE',
-            text: `✅ Payment confirmed\nPlan: ${cleanFields.plan || '30 Days Hard Challenge'}\nAmount: ₹${cleanFields.amount || 3999}\nRazorpay Order: ${cleanFields.razorpay_order_id}\nPayment ID: ${cleanFields.razorpay_payment_id}\nSubmitted: ${new Date().toISOString()}`,
-          },
-        ],
-      }),
+      body: JSON.stringify({ fields }),
     });
     if (!res.ok) {
       const errBody = await res.text().catch(() => '');
@@ -79,6 +67,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Payment gateway not configured' }, { status: 500 });
     }
 
+    // Verify signature: HMAC-SHA256(order_id + "|" + payment_id, key_secret)
     const expectedSignature = crypto
       .createHmac('sha256', keySecret)
       .update(`${razorpayOrderId}|${razorpayPaymentId}`)
@@ -90,6 +79,8 @@ export async function POST(request: NextRequest) {
 
     const cleanPhone = (phone || '').replace(/\D/g, '');
 
+    // Push the confirmed paid lead to TeleCRM, including a PAYMENT action
+    // on the timeline — see https://docs.telecrm.in/concepts/actions
     await pushToCRM({
       name: name || '',
       phone: cleanPhone ? (cleanPhone.startsWith('91') ? cleanPhone : `91${cleanPhone}`) : '',
