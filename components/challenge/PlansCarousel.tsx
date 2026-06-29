@@ -21,10 +21,10 @@ const PLAN: Plan = {
   was: "+ spin to unlock your bonus offer",
   features: [
     "Doctor consult + eligibility review",
-    "At-home advanced blood test",
+    "GLP-1 medications (in cold chain delivery)",
     "Personalised GLP-1 protocol",
-    "Weekly progress tracking",
-    "Chat support",
+    "Expert GLP-1 dietitian support",
+    "24×7 health coach",
   ],
   ctaLabel: "Join the Challenge",
   ctaClass: "btn-primary",
@@ -56,7 +56,7 @@ export function PlansCarousel() {
               <li key={fi}>{f}</li>
             ))}
           </ul>
-          <a href="/challenge/checkout" className={`btn ${PLAN.ctaClass}`}>
+          <a href="/challenge/unlock" className={`btn ${PLAN.ctaClass}`}>
             {PLAN.ctaLabel} <span className="arrow">›</span>
           </a>
         </div>

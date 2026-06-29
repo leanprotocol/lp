@@ -1,18 +1,54 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+const COHORT_FLOOR = 4;        // never drops below this
+const COHORT_TICK_MS = 20_000; // one popup + one decrement every 20s
 
+function getCohortMeta() {
+  const now = new Date();
+  const cohortDate = new Date(now);
+  cohortDate.setDate(cohortDate.getDate() + 4); // 4 days ahead, rolls daily
+  const dateLabel = cohortDate.toLocaleDateString("en-IN", { day: "numeric", month: "short" });
+  const key = `lp-cohort-${cohortDate.getFullYear()}-${cohortDate.getMonth() + 1}-${cohortDate.getDate()}`;
+  const seed = cohortDate.getFullYear() * 10000 + (cohortDate.getMonth() + 1) * 100 + cohortDate.getDate();
+  const start = 24 + (seed % 5); // per-cohort start, 24–28
+  return { dateLabel, key, start };
+}
 export function Hero() {
-  const [viewers, setViewers] = useState(79);
+const [cohort, setCohort] = useState<{ slots: number; dateLabel: string } | null>(null);
   const [day, setDay] = useState(0);
   const [shotFiring, setShotFiring] = useState(false);
   const lastShotRef = useRef(-1);
   const firedConfettiRef = useRef(false);
+  const slotsRef = useRef(0);
 
   useEffect(() => {
+    const { dateLabel, key, start } = getCohortMeta();
+
+    // Read any saved value; never let it climb back up (descending across refreshes)
+    let slots = start;
+    try {
+      const saved = localStorage.getItem(key);
+      if (saved !== null) slots = Math.min(start, Math.max(COHORT_FLOOR, parseInt(saved, 10)));
+    } catch {}
+    const persist = (v: number) => { try { localStorage.setItem(key, String(v)); } catch {} };
+
+    slotsRef.current = slots;
+    persist(slots);
+    setCohort({ slots, dateLabel });
+
+    if (slots <= COHORT_FLOOR) return; // already at floor → no popups
+
     const interval = setInterval(() => {
-      setViewers((v) => Math.min(124, Math.max(58, v + Math.floor(Math.random() * 7) - 3)));
-    }, 3200);
+      if (slotsRef.current <= COHORT_FLOOR) { clearInterval(interval); return; }
+      const nextSlots = slotsRef.current - 1;
+      slotsRef.current = nextSlots;
+      persist(nextSlots);
+      setCohort((c) => (c ? { ...c, slots: nextSlots } : c));
+      window.dispatchEvent(new CustomEvent("lp-cohort-joiner")); // tell JoinerToasts to pop
+      if (nextSlots <= COHORT_FLOOR) clearInterval(interval);    // reached floor → stop
+    }, COHORT_TICK_MS);
+
     return () => clearInterval(interval);
   }, []);
 
@@ -54,17 +90,24 @@ export function Hero() {
             <span className="pill">GLP-1 backed</span>
           </div>
           <h1>
-            The <span className="pct">30 Days</span>
+             <span className="pct">30 Days</span>
             <br />
             Hard Challenge
           </h1>
           <p className="hero-tag">
-            Transform your body in 30 days — doctor-led, GLP-1 powered, results that last.
-          </p>
-          <p className="sub">
-            Lose up to <b>22% body weight</b> with a personalised GLP-1 protocol — advanced blood tests, 1-on-1
-            expert care, and medicines delivered to your door.
-          </p>
+           With GLP-1 medicines, doctors, dietitians and health coaches for your transformation in next 30 days.
+           </p>
+          <ul className="sub" style={{ listStyle: "none", padding: 0 }}>
+             <li style={{ display: "flex", alignItems: "flex-start", gap: "10px", marginBottom: "10px" }}>
+              <span>💪</span> No mandatory workouts
+             </li>
+             <li style={{ display: "flex", alignItems: "flex-start", gap: "10px", marginBottom: "10px" }}>
+             <span>💪</span> No strict diets
+             </li>
+             <li style={{ display: "flex", alignItems: "flex-start", gap: "10px" }}>
+              <span>💪</span> A community that keeps pushing you forward
+           </li>
+          </ul>
           <div className="hero-trust">
             <div className="avatars">
               <span></span>
@@ -75,9 +118,9 @@ export function Hero() {
             Joined by <b style={{ color: "var(--cream)", margin: "0 3px" }}>10,000+</b> people across India
           </div>
           <div className="viewing">
-            <span className="dot"></span> <b>{viewers}</b>&nbsp;people joined the challenge today
+            <span className="dot"></span> Only&nbsp;<b>{cohort ? cohort.slots : "—"}</b>&nbsp;slots left for the {cohort ? cohort.dateLabel : "upcoming"} cohort
           </div>
-          <a href="#lead" className="btn btn-primary" style={{ marginTop: "22px", fontSize: "17px", padding: "15px 30px" }}>
+          <a href="/challenge/unlock" className="btn btn-primary" style={{ marginTop: "22px", fontSize: "17px", padding: "15px 30px" }}>
             Begin the Challenge <span className="arrow">›</span>
           </a>
         </div>

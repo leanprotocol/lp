@@ -27,7 +27,7 @@ export function GoogleReviews() {
           </svg>
           <div style={{ textAlign: "left" }}>
             <div style={{ fontFamily: "var(--display)", fontSize: "40px", color: "var(--gold)", lineHeight: 1 }}>
-              5.0 <span style={{ color: "#FBBC05", fontSize: "24px" }}>★★★★★</span>
+              4.8 <span style={{ color: "#FBBC05", fontSize: "24px" }}>★★★★★</span>
             </div>
           </div>
         </div>

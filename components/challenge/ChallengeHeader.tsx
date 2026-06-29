@@ -9,9 +9,7 @@ export function ChallengeHeader() {
             <span>DOCTOR-LED · SCIENCE-BACKED</span>
           </div>
         </div>
-        <a href="#lead" className="btn btn-primary">
-          Join the Challenge <span className="arrow">›</span>
-        </a>
+        
       </div>
     </header>
   );

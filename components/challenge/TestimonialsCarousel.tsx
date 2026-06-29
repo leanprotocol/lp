@@ -103,17 +103,7 @@ const TESTIMONIALS: Testimonial[] = [
     type: "video",
     src: "/before-after/roshni.mp4",
   },
-  {
-    initial: "N",
-    name: "Neema",
-    meta: "46 yrs",
-    badge: "Before & After",
-    quote: "At 46 I thought it was too late. The personalised plan proved me wrong — sustainable and safe.",
-    result: "−10.8 kg",
-    when: "in 4 months",
-    type: "image",
-    src: "/before-after/Neema, 46 Lost 10.8 kgs in 4 months.png",
-  },
+  
   {
     initial: "R",
     name: "Rohit",
@@ -141,7 +131,7 @@ const TESTIMONIALS: Testimonial[] = [
 export function TestimonialsCarousel() {
   const { idx, goTo, next, prev, stageRef, getCardStyle } = useCoverflow({
     count: TESTIMONIALS.length,
-    cardWidth: 340,
+    cardWidth: 390,
     intervalMs: 4400,
   });
 

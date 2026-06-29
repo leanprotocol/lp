@@ -1,21 +1,16 @@
-import { UrgencyBar } from "@/components/challenge/UrgencyBar";
 import { ChallengeHeader } from "@/components/challenge/ChallengeHeader";
 import { Hero } from "@/components/challenge/Hero";
 import { Stats } from "@/components/challenge/Stats";
-import { Press } from "@/components/challenge/Press";
-import { LeadFormSection } from "@/components/challenge/LeadFormSection";
 import { TestimonialsCarousel } from "@/components/challenge/TestimonialsCarousel";
+import { Press } from "@/components/challenge/Press";
+import { ExpertsMini } from "@/components/challenge/ExpertsMini";
+import { GoogleReviews } from "@/components/challenge/GoogleReviews";
 import { PlansCarousel } from "@/components/challenge/PlansCarousel";
 import { Partners } from "@/components/challenge/Partners";
-import { GoogleReviews } from "@/components/challenge/GoogleReviews";
-import { ExpertsMini } from "@/components/challenge/ExpertsMini";
-import { SpinWheel } from "@/components/challenge/SpinWheel";
 import { FinalCTA } from "@/components/challenge/FinalCTA";
 import { ChallengeFooter } from "@/components/challenge/ChallengeFooter";
 import { Confetti } from "@/components/challenge/Confetti";
-import { Mascot } from "@/components/challenge/Mascot";
 import { JoinerToasts } from "@/components/challenge/JoinerToasts";
-import { ExitIntentModal } from "@/components/challenge/ExitIntentModal";
 import { StickyCTA } from "@/components/challenge/StickyCTA";
 import { ScrollReveal } from "@/components/challenge/ScrollReveal";
 
@@ -27,26 +22,21 @@ import { ScrollReveal } from "@/components/challenge/ScrollReveal";
 export default function ChallengePage() {
   return (
     <>
-      <UrgencyBar />
       <ChallengeHeader />
       <Hero />
       <Stats />
-      <Press />
-      <LeadFormSection />
       <TestimonialsCarousel />
+      <Press />
+      <ExpertsMini />
+      <GoogleReviews />
       <PlansCarousel />
       <Partners />
-      <GoogleReviews />
-      <ExpertsMini />
-      <SpinWheel />
       <FinalCTA />
       <ChallengeFooter />
 
       {/* Fixed/overlay UI — rendered once, positioned via CSS */}
       <Confetti />
-      <Mascot />
-      <JoinerToasts />
-      <ExitIntentModal />
+      {/* <JoinerToasts /> */}
       <StickyCTA />
 
       {/* Watches all .reveal sections and fades them in on scroll —

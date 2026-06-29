@@ -17,13 +17,10 @@ interface CardStyle {
   isActive: boolean;
 }
 
-/**
- * Faithful port of the original Coverflow() vanilla-JS engine:
- * same spacing/depth/rotation math, same autoplay interval, same
- * swipe/drag thresholds (45px touch, 55px pointer) and pause-on-hover.
- */
 export function useCoverflow({ count, cardWidth, intervalMs = 4400 }: CoverflowOptions) {
   const [idx, setIdx] = useState(0);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const stageRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const downRef = useRef(false);
@@ -58,7 +55,6 @@ export function useCoverflow({ count, cardWidth, intervalMs = 4400 }: CoverflowO
     return stop;
   }, [start, stop]);
 
-  // Swipe / drag handling on the stage element
   useEffect(() => {
     const stage = stageRef.current;
     if (!stage) return;
@@ -129,8 +125,8 @@ export function useCoverflow({ count, cardWidth, intervalMs = 4400 }: CoverflowO
   }, [next, prev, start, stop]);
 
   function getDims() {
-    const vw = typeof window !== "undefined" ? window.innerWidth : 1200;
-    const s = vw < 560 ? 0.6 : vw < 900 ? 0.8 : 1;
+    const vw = mounted && typeof window !== "undefined" ? window.innerWidth : 1200;
+    const s = vw < 560 ? 0.82 : vw < 900 ? 0.9 : 1;
     return { spacing: cardWidth * 0.6 * s, depth: 240 * s, rot: 42, scale: s };
   }
 
