@@ -262,8 +262,26 @@ function Confetti() {
 }
 
 function ViewingCounter({ extra = 0 }: { extra?: number }) {
-  
-  return (<div className="viewing"><span className="dot"></span> <b>{Math.min(60 + extra, 120)}</b>&nbsp;people booked a consultation today</div>);
+  const KEY = "lp_consult49_booked";
+  const [base, setBase] = useState(72); // stable value for the server render
+  useEffect(() => {
+    // a baseline that grows through the day, so first-time visitors see a live number
+    const now = new Date();
+    const dayTarget = 60 + Math.floor((now.getHours() * 60 + now.getMinutes()) / 12);
+    let stored = 0;
+    try { stored = parseInt(localStorage.getItem(KEY) || "0", 10) || 0; } catch {}
+    const next = Math.min(Math.max(dayTarget, stored), 110); // never below what was seen before
+    setBase(next);
+    try { localStorage.setItem(KEY, String(next)); } catch {}
+  }, []);
+  const shown = Math.min(base + extra, 110);
+  useEffect(() => {
+    try {
+      const stored = parseInt(localStorage.getItem(KEY) || "0", 10) || 0;
+      if (shown > stored) localStorage.setItem(KEY, String(shown)); // remember the new high
+    } catch {}
+  }, [shown]);
+  return (<div className="viewing"><span className="dot"></span> <b>{shown}</b>&nbsp;people booked a consultation today</div>);
 }
 
 

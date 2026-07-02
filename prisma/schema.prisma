@@ -352,3 +352,18 @@ enum AuditAction {
   COMMISSION_CHANGED
   NOTE_ADDED
 }
+model CourseUser {
+  id                String   @id @default(uuid())
+  email             String   @unique
+  password          String
+  name              String?
+  purchased         Boolean  @default(false)
+  activeModule      Int      @default(0)
+  completed         Json     @default("[]")
+  razorpayOrderId   String?
+  razorpayPaymentId String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([email])
+}
