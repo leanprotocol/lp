@@ -534,6 +534,52 @@ function CheckoutModal({ onClose, prefillName = "", prefillPhone = "", prefillBm
   );
 }
 
+/* ─── 10-minute offer timer (persists across refresh) ─────────────────── */
+function CountdownTimer({ minutes = 10 }: { minutes?: number }) {
+  const KEY = "lp_consult49_offer_deadline";
+  const [remaining, setRemaining] = useState(minutes * 60);
+  useEffect(() => {
+    let deadline = 0;
+    try {
+      const stored = parseInt(localStorage.getItem(KEY) || "0", 10);
+      if (stored && stored > Date.now()) deadline = stored; // resume the same countdown
+    } catch {}
+    if (!deadline) {
+      const mins = 7 + Math.floor(Math.random() * 4); // random 7, 8, 9, or 10 minutes
+      deadline = Date.now() + mins * 60 * 1000;
+      try { localStorage.setItem(KEY, String(deadline)); } catch {}
+    }
+    const tick = () => setRemaining(Math.max(0, Math.round((deadline - Date.now()) / 1000)));
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, [minutes]);
+  const mm = String(Math.floor(remaining / 60)).padStart(2, "0");
+  const ss = String(remaining % 60).padStart(2, "0");
+  const over = remaining <= 0;
+  return (
+    <div style={{ width: "100%", boxSizing: "border-box", maxWidth: "520px", margin: "16px auto 0" }}>
+      <div style={{
+        width: "100%", boxSizing: "border-box",
+        background: "linear-gradient(135deg,#E2574B,#B5202C)",
+        borderRadius: "18px", padding: "18px 16px",
+        display: "flex", flexDirection: "column", alignItems: "center", gap: "6px",
+        boxShadow: "0 14px 30px -12px rgba(226,87,75,.7)",
+      }}>
+        <div style={{ fontSize: "12.5px", fontWeight: 800, letterSpacing: ".05em", textTransform: "uppercase", color: "#fff" }}>
+          ⏰ Hurry! This ₹49 offer ends soon 🔥
+        </div>
+        <div style={{ fontFamily: "var(--display)", fontSize: "38px", fontWeight: 800, color: "#fff", fontVariantNumeric: "tabular-nums", lineHeight: 1, letterSpacing: "1px" }}>
+          {over ? "00:00" : `${mm}:${ss}`}
+        </div>
+        <div style={{ fontSize: "11.5px", color: "#FCE4E1", fontWeight: 600 }}>
+          {over ? "😔 Slot released — book now to check availability" : "⚡ Your slot is reserved — don't lose it!"}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ─── Main page ────────────────────────────────────────────────── */
 function Consult49Content() {
   const [extraCount, setExtraCount] = useState(0);
@@ -589,7 +635,7 @@ function Consult49Content() {
             <div className="tagline">ONE SMALL STEP. TO A LEANER YOU.</div>
             <button className="btn btn-primary" onClick={() => openModal()}>Book Now at Just <span className="pill49">₹49</span></button>
           </div>
-          <ViewingCounter extra={extraCount} />
+          <CountdownTimer minutes={10} />
         </div>
       </section>
 
