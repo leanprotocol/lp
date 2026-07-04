@@ -56,30 +56,29 @@ const STATS: { end: number; prefix?: string; suffix?: string; label: string }[] 
 ];
 
 const BENEFITS = [
-  { no: "01", t: "Real fat & weight loss", d: "A doctor-guided GLP-1 protocol that targets stored fat — not crash dieting — so the loss is real and visible." },
-  { no: "02", t: "Faster metabolism", d: "Root-cause diagnostics fix what slows you down, so your body keeps burning long after the wedding." },
-  { no: "03", t: "Glowing skin", d: "Better metabolic health, hydration and nutrition show up where it matters most — your face, on camera." },
-  { no: "04", t: "Tighter skin", d: "Gradual, supervised loss plus targeted support helps skin firm and tighten as you transform." },
+  { no: "01", t: "Doctor guided", d: "A GLP-1 protocol designed and supervised by qualified doctors — mapped to your body and your wedding date." },
+  { no: "02", t: "Metabolic reset", d: "Root-cause diagnostics fix what slows you down, so your body keeps burning fat long after the wedding." },
+  { no: "03", t: "Skin glow & tightening", d: "Better metabolic health, hydration and nutrition brighten your skin and help it firm as you transform." },
+  { no: "04", t: "Accountability & side-effect management", d: "Weekly check-ins with your dietitian and 24×7 support keep you on track and any side effects handled." },
 ];
 
 const STEPS = [
-  { w: "Week 1", t: "Test & map", d: "At-home blood test + doctor and dietitian consult to build your protocol." },
-  { w: "Week 2", t: "Protocol begins", d: "GLP-1 (if prescribed) delivered home; glow nutrition starts." },
-  { w: "Week 3", t: "Visible shift", d: "Inches drop, energy lifts, skin starts to brighten." },
-  { w: "Week 4", t: "Camera-ready", d: "Peak glow check-in and final tweaks before your big day." },
+  { w: "Step 1", t: "Book your ₹449 consult", d: "Reserve your slot and share a few details — a GLP-1 doctor reviews them before your call." },
+  { w: "Step 2", t: "1:1 doctor consultation", d: "A live video consult: eligibility & safety review and your personalised bridal protocol." },
+  { w: "Step 3", t: "Tests & protocol", d: "At-home blood test, GLP-1 (if prescribed) delivered home, and your glow nutrition plan begins." },
+  { w: "Step 4", t: "Support to your big day", d: "Weekly check-ins with your dietitian and 24×7 coach, with tweaks right up to the wedding." },
 ];
 
 const BRIDES = [
   { n: "Atreyee", loss: "−8.2 kg", m: "in 1 month", q: "My lehenga fitting felt like a different person. The glow was unreal in every photo.", video: "/brides/atreyee.mp4" },
-  { n: "Ananya", loss: "−7.4 kg", m: "in 1 month", q: "Started 5 weeks before the wedding. Tighter face, zero bloat, all my candids look editorial.", video: "/brides/ananya.mp4" },
-  { n: "Roshni", loss: "−9.1 kg", m: "in 5 weeks", q: "The doctor-led plan made me feel safe — and the metabolism change has lasted past the honeymoon.", video: "/brides/roshni.mp4" },
+  
 ];
 
 const EXPERTS = [
   { n: "Dr. Nishant Jain", r: "MD, DM (Endocrinology)", img: "/brides/doctors/nishant.jpeg" },
   { n: "Dr. Akhil Konduru", r: "MD, Internal Medicine", img: "/brides/doctors/akhil.jpeg" },
-  { n: "Dr. Siddharth Garg", r: "Physician", img: "/brides/doctors/siddharth.jpeg" },
-  { n: "Dr. Gautam Kumar", r: "Physician", img: "/brides/doctors/gautam.jpeg" },
+  { n: "Dr. Siddharth Garg", r: "MD, Internal Medicine", img: "/brides/doctors/siddharth.jpeg" },
+  { n: "Dr. Gautam Kumar", r: "MD, DM (Endocrinology)", img: "/brides/doctors/gautam.jpeg" },
   { n: "Alisha Gupta", r: "GLP-1 Expert Dietitian", img: "/brides/doctors/alisha.jpeg" },
   { n: "Simran Kumawat", r: "Weight Loss Dietitian", img: "/brides/doctors/simran.jpeg" },
   { n: "Richa Sharma", r: "Senior Dietitian", img: "/brides/doctors/richa-sharma.jpeg" },
@@ -134,7 +133,7 @@ export default function BridesEditPage() {
         @import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap');
         @keyframes meblink { 0%,100%{opacity:.35} 50%{opacity:1} }
         .lp-page{ background:#FDF6EA; min-height:100vh; font-family:'Jost',sans-serif; color:#2A2020; padding:0; }
-        .lp-card{ position:relative; background:#fff; width:100%; max-width:460px; margin:0 auto; overflow:hidden; }
+        .lp-card{ position:relative; background:#fff; width:100%; max-width:460px; margin:0 auto; overflow:visible; }
         .lp-card input::placeholder{ color:#C2B6A6; }
         .hdr{ padding-left:22px; padding-right:22px; }
         .sec{ padding:48px 22px; }
@@ -183,7 +182,7 @@ export default function BridesEditPage() {
             <div style={css("font-family:'Playfair Display',serif;font-size:20px;font-weight:600;letter-spacing:.01em")}>Lean Protocol</div>
             <div style={css("font-family:'Jost',sans-serif;font-size:9px;letter-spacing:.4em;color:#C9A24B;text-transform:uppercase;margin-top:3px")}>Brides Edit</div>
           </div>
-          <button onClick={openFunnel} style={css("border:none;cursor:pointer;background:#B5202C;color:#fff;font-family:'Jost',sans-serif;font-weight:500;font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:2px;white-space:nowrap")}>Claim 62% off</button>
+          <button onClick={openFunnel} style={css("border:none;cursor:pointer;background:#B5202C;color:#fff;font-family:'Jost',sans-serif;font-weight:600;font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:2px;white-space:nowrap")}>Consult @ ₹449</button>
         </header>
 
         {/* HERO */}
@@ -195,7 +194,7 @@ export default function BridesEditPage() {
                 <span style={css("font-family:'Jost',sans-serif;font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:#7A6F66")}>Doctor-guided GLP-1 · made for the aisle</span>
               </div>
               <h1 style={css("font-family:'Playfair Display',serif;font-weight:500;font-size:46px;line-height:1.04;letter-spacing:-.01em;margin:0 0 22px")}>Glow into the most <span style={css("font-style:italic;color:#B5202C")}>photographed</span> day of your life.</h1>
-              <p style={css("font-size:15px;line-height:1.65;color:#5F574F;margin:0 0 30px;font-weight:300")}>A doctor-designed GLP-1 program mapped to your wedding timeline — real fat &amp; weight loss, a faster metabolism, and visibly tighter, glowing skin. Engineered to peak on your big day.</p>
+              
               <div style={css("display:flex;align-items:center;gap:18px;flex-wrap:wrap")}>
                 <button onClick={openFunnel} style={css("border:none;cursor:pointer;background:#B5202C;color:#fff;font-family:'Jost',sans-serif;font-weight:500;font-size:14px;letter-spacing:.06em;text-transform:uppercase;padding:15px 28px;border-radius:2px")}>Build my bridal plan</button>
                 <div style={css("font-size:12px;color:#7A6F66;line-height:1.4;font-weight:300")}><strong style={css("color:#2A2020;font-weight:600")}>1,000+ brides</strong><sup style={css("color:#C9A24B")}>*</sup><br />transformed before the aisle</div>
@@ -204,7 +203,7 @@ export default function BridesEditPage() {
             <div style={css("position:relative")}>
               <img src="/brides/bridal-1.png" alt="Lean Protocol bride" style={css("display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center 30%;border-radius:3px;border:1px solid #FFFDF9")} />
               <div style={css("position:absolute;left:18px;bottom:18px;right:18px;background:#fff;border:1px solid #FFFDF9;border-radius:3px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center")}>
-                <div style={css("text-align:left")}><div style={css("font-family:'Playfair Display',serif;font-size:26px;font-weight:600;color:#B5202C;line-height:1")}>7–9 kg<sup style={css("font-size:11px;color:#C9A24B")}>*</sup></div><div style={css("font-family:'Jost',sans-serif;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#7A6F66;margin-top:5px")}>typical loss / 1-month</div></div>
+                <div style={css("text-align:left")}><div style={css("font-family:'Playfair Display',serif;font-size:26px;font-weight:600;color:#B5202C;line-height:1")}>17 kg<sup style={css("font-size:11px;color:#C9A24B")}>*</sup></div><div style={css("font-family:'Jost',sans-serif;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#7A6F66;margin-top:5px")}>typical loss / 5 months</div></div>
                 <div style={css("width:1px;align-self:stretch;background:#FFFDF9")} />
                 <div style={css("text-align:right")}><div style={css("font-family:'Playfair Display',serif;font-size:26px;font-weight:600;color:#B5202C;line-height:1")}>98%<sup style={css("font-size:11px;color:#C9A24B")}>*</sup></div><div style={css("font-family:'Jost',sans-serif;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#7A6F66;margin-top:5px")}>felt camera-ready</div></div>
               </div>
@@ -213,11 +212,11 @@ export default function BridesEditPage() {
         </section>
 
         {/* TRUST STRIP */}
-        <div style={css("border-top:1px solid #FFFDF9;border-bottom:1px solid #FFFDF9;padding:16px;text-align:center;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#7A6F66;font-weight:400;line-height:2")}>Doctor-Guided &nbsp;·&nbsp; GLP-1 Backed &nbsp;·&nbsp; At-Home Blood Test &nbsp;·&nbsp; 1,000+ Transformations &nbsp;·&nbsp; Personalised</div>
+        <div style={css("background:#B5202C;padding:16px;text-align:center;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#fff;font-weight:600;line-height:2")}>Doctor-Guided &nbsp;·&nbsp; GLP-1 Backed &nbsp;·&nbsp; At-Home Blood Test &nbsp;·&nbsp; 1,000+ Transformations &nbsp;·&nbsp; Personalised</div>
 
         {/* STATS */}
         <section className="sec">
-          <div style={css("text-align:center;font-family:'Jost',sans-serif;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:#C9A24B;margin-bottom:28px")}>Clinically proven</div>
+          <div style={css("text-align:center;font-family:'Jost',sans-serif;font-size:11.5px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#7D5E1F;margin-bottom:28px")}>Results that set us apart</div>
           <div className="g-stats" style={css("border-top:1px solid #FFFDF9;border-left:1px solid #FFFDF9")}>
             {STATS.map((s) => (
               <div key={s.label} style={css("padding:22px 14px;text-align:center;border-right:1px solid #FFFDF9;border-bottom:1px solid #FFFDF9")}>
@@ -236,22 +235,31 @@ export default function BridesEditPage() {
             <h3 style={css("font-family:'Playfair Display',serif;font-size:23px;font-weight:500;margin:0 0 16px;line-height:1.1")}>How many months left in your special day?</h3>
             <div className="g-months">
               {[1, 2, 3, 4, 5, 6].map((v) => (
-                <button key={v} onClick={() => openFunnelWithMonths(v)} style={css("cursor:pointer;background:#fff;border:1px solid #ECE0C8;color:#B5202C;font-family:'Jost',sans-serif;font-size:14px;font-weight:500;padding:14px 4px;border-radius:3px")}>{v === 6 ? "6+" : String(v)}</button>
+                <button key={v} onClick={() => openFunnelWithMonths(v)} style={css("cursor:pointer;background:#B5202C;border:1px solid #B5202C;color:#fff;font-family:'Playfair Display',serif;font-size:20px;font-weight:600;padding:14px 4px;border-radius:3px")}>{v === 6 ? "6+" : String(v)}</button>
               ))}
             </div>
-            <div style={css("font-family:'Jost',sans-serif;font-size:11px;color:#7A6F66;margin-top:14px;font-weight:300;text-align:center")}>Tap your timeline — we&rsquo;ll build your plan &amp; unlock your offer.</div>
+            <div style={css("font-family:'Jost',sans-serif;font-size:11px;color:#7A6F66;margin-top:14px;font-weight:300;text-align:center")}>Tap on your timeline and we&rsquo;ll give you the bridal transformation strategy.</div>
           </div>
         </section>
 
         {/* EDITORIAL */}
         <section className="sec">
           <div className="editorial">
-            <img src="/brides/bridal-2.jpg" alt="Bride getting ready" style={css("display:block;width:100%;aspect-ratio:5/4;object-fit:cover;border-radius:3px;border:1px solid #FFFDF9")} />
+            <img src="/brides/bridal-2.png" alt="Bride getting ready" style={css("display:block;width:100%;aspect-ratio:5/4;object-fit:cover;border-radius:3px;border:1px solid #FFFDF9")} />
             <div>
-              <div style={css("font-family:'Jost',sans-serif;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:#C9A24B;margin-bottom:14px")}>The day you&rsquo;ll relive for decades</div>
-              <h2 style={css("font-family:'Playfair Display',serif;font-weight:500;font-size:31px;line-height:1.08;margin:0 0 18px")}>Let&rsquo;s make these photos ones you love.</h2>
-              <p style={css("font-size:14.5px;line-height:1.68;color:#5F574F;margin:0 0 16px;font-weight:300")}>Crash diets leave you drained, dull and bloated for the very week you can&rsquo;t afford it. The Brides Edit is the opposite — a calm, doctor-led protocol that has you looking and feeling your most radiant the moment the cameras come out.</p>
-              <p style={css("font-size:14.5px;line-height:1.68;color:#5F574F;margin:0;font-weight:300")}>No starving. No guesswork. Just a protocol mapped to your date, your body, and your big entrance.</p>
+              <div style={css("font-family:'Jost',sans-serif;font-size:11.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#7D5E1F;margin-bottom:14px")}>Start with a doctor, not a guess</div>
+              <h2 style={css("font-family:'Playfair Display',serif;font-weight:500;font-size:31px;line-height:1.08;margin:0 0 10px")}>Your bridal doctor consultation</h2>
+              <div style={css("display:flex;align-items:baseline;gap:10px;margin-bottom:16px;flex-wrap:wrap")}>
+                <span style={css("font-family:'Playfair Display',serif;font-size:38px;font-weight:600;color:#B5202C;line-height:1")}>₹449</span>
+                <span style={css("font-family:'Jost',sans-serif;font-size:12px;letter-spacing:.03em;color:#7A6F66;font-weight:300")}>one-time · fully redeemable against your plan</span>
+              </div>
+              <ul style={css("list-style:none;margin:0 0 22px;padding:0;display:flex;flex-direction:column;gap:11px")}>
+                <li style={css("display:flex;gap:10px;font-size:14px;color:#5F574F;line-height:1.4;font-weight:300")}><span style={css("color:#B5202C;font-weight:600")}>✓</span>1:1 video consultation with a GLP-1 doctor</li>
+                <li style={css("display:flex;gap:10px;font-size:14px;color:#5F574F;line-height:1.4;font-weight:300")}><span style={css("color:#B5202C;font-weight:600")}>✓</span>Personalised eligibility &amp; safety review</li>
+                <li style={css("display:flex;gap:10px;font-size:14px;color:#5F574F;line-height:1.4;font-weight:300")}><span style={css("color:#B5202C;font-weight:600")}>✓</span>Your bridal glow protocol &amp; next steps</li>
+                <li style={css("display:flex;gap:10px;font-size:14px;color:#5F574F;line-height:1.4;font-weight:300")}><span style={css("color:#B5202C;font-weight:600")}>✓</span>Prescription guidance, if medically suitable</li>
+              </ul>
+              <button onClick={openFunnel} style={css("border:none;cursor:pointer;background:#B5202C;color:#fff;font-family:'Jost',sans-serif;font-weight:500;font-size:14px;letter-spacing:.06em;text-transform:uppercase;padding:15px 30px;border-radius:3px")}>Book my ₹449 consultation</button>
             </div>
           </div>
         </section>
@@ -259,8 +267,8 @@ export default function BridesEditPage() {
         {/* BENEFITS */}
         <section className="sec">
           <div style={css("text-align:center;margin-bottom:34px")}>
-            <div style={css("font-family:'Jost',sans-serif;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:#C9A24B;margin-bottom:12px")}>The Bridal Glow Protocol</div>
-            <h2 style={css("font-family:'Playfair Display',serif;font-weight:500;font-size:30px;line-height:1.06;margin:0")}>Four shifts your mirror will notice</h2>
+            <div style={css("font-family:'Jost',sans-serif;font-size:11.5px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#7D5E1F;margin-bottom:12px")}>The Bridal Glow Protocol</div>
+            <h2 style={css("font-family:'Playfair Display',serif;font-weight:500;font-size:30px;line-height:1.06;margin:0")}>4 Ways We Make This Happen</h2>
           </div>
           <div className="g-benefits" style={css("border-top:1px solid #FFFDF9")}>
             {BENEFITS.map((b) => (
@@ -275,15 +283,15 @@ export default function BridesEditPage() {
         {/* COMPARISON */}
         <section className="sec">
           <div style={css("text-align:center;margin-bottom:30px")}>
-            <div style={css("font-family:'Jost',sans-serif;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:#C9A24B;margin-bottom:12px")}>Why brides choose us</div>
-            <h2 style={css("font-family:'Playfair Display',serif;font-weight:500;font-size:28px;margin:0 0 6px")}>Bridal package vs other GLP-1</h2>
+            <div style={css("font-family:'Jost',sans-serif;font-size:11.5px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#7D5E1F;margin-bottom:12px")}>Why brides choose us</div>
+            <h2 style={css("font-family:'Playfair Display',serif;font-weight:500;font-size:28px;margin:0 0 6px")}>Bridal package vs other GLP-1 programs</h2>
             <p style={css("font-size:12.5px;color:#7A6F66;font-weight:300;margin:0")}>An honest look at what sets the Brides Edit apart.</p>
           </div>
           <div className="narrow" style={css("border:1px solid #FFFDF9;border-radius:4px;overflow:hidden")}>
             <div style={css("display:grid;grid-template-columns:1.6fr 1fr 1fr;background:#FAF3E6;border-bottom:1px solid #FFFDF9")}>
               <div style={css("padding:13px 14px;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:.06em;color:#7A6F66;text-transform:uppercase;font-weight:500")}>What you get</div>
               <div style={css("font-family:'Playfair Display',serif;padding:13px 6px;text-align:center;font-size:13px;font-weight:600;color:#B5202C;line-height:1.1")}>Lean Protocol<br /><span style={css("font-family:'Jost',sans-serif;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:500")}>Bridal</span></div>
-              <div style={css("padding:13px 6px;text-align:center;font-family:'Jost',sans-serif;font-size:11px;color:#9A8F84;font-weight:500;line-height:1.2")}>Other<br />GLP-1</div>
+              <div style={css("padding:13px 6px;text-align:center;font-family:'Jost',sans-serif;font-size:11px;color:#9A8F84;font-weight:500;line-height:1.2")}>Other GLP-1<br />programs</div>
             </div>
             {COMPARE_RAW.map((r) => (
               <div key={r.l} style={css("display:grid;grid-template-columns:1.6fr 1fr 1fr;border-bottom:1px solid #FDF6EA;align-items:center")}>
@@ -301,9 +309,9 @@ export default function BridesEditPage() {
         {/* TIMELINE */}
         <section className="sec">
           <div style={css("text-align:center;margin-bottom:34px")}>
-            <div style={css("font-family:'Jost',sans-serif;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:#C9A24B;margin-bottom:12px")}>Your 30 days to the aisle</div>
-            <h2 style={css("font-family:'Playfair Display',serif;font-weight:500;font-size:29px;line-height:1.08;margin:0 0 10px")}>Results that move fast, because your date won&rsquo;t.</h2>
-            <p style={css("font-size:13px;color:#7A6F66;font-weight:300;margin:0")}>Most brides start the 1-Month Program 4–8 weeks out.</p>
+            <div style={css("font-family:'Jost',sans-serif;font-size:11.5px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#7D5E1F;margin-bottom:12px")}>Your 30 days to the aisle</div>
+            <h2 style={css("font-family:'Playfair Display',serif;font-weight:500;font-size:29px;line-height:1.08;margin:0 0 10px")}>From consult to camera-ready.</h2>
+            <p style={css("font-size:13px;color:#7A6F66;font-weight:300;margin:0")}>It all starts with one ₹449 doctor consultation.</p>
           </div>
           <div className="g-timeline">
             {STEPS.map((s) => (
@@ -318,7 +326,7 @@ export default function BridesEditPage() {
         {/* TESTIMONIALS */}
         <section className="sec">
           <div style={css("text-align:center;margin-bottom:34px")}>
-            <div style={css("font-family:'Jost',sans-serif;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:#C9A24B;margin-bottom:12px")}>Real brides · Real results</div>
+            <div style={css("font-family:'Jost',sans-serif;font-size:11.5px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#7D5E1F;margin-bottom:12px")}>Real brides · Real results</div>
             <h2 style={css("font-family:'Playfair Display',serif;font-weight:500;font-size:30px;margin:0")}>1,000+ transformations<sup style={css("font-size:16px;color:#C9A24B")}>*</sup></h2>
           </div>
           <div className="g-testi">
@@ -342,7 +350,7 @@ export default function BridesEditPage() {
         {/* EXPERTS */}
         <section className="sec">
           <div style={css("text-align:center;margin-bottom:32px")}>
-            <div style={css("font-family:'Jost',sans-serif;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:#C9A24B;margin-bottom:12px")}>Your team, not an app</div>
+            <div style={css("font-family:'Jost',sans-serif;font-size:11.5px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#7D5E1F;margin-bottom:12px")}>Your team, not an app</div>
             <h2 style={css("font-family:'Playfair Display',serif;font-weight:500;font-size:28px;margin:0")}>Doctors &amp; dietitians in your corner</h2>
           </div>
           <div className="g-experts">
@@ -358,12 +366,12 @@ export default function BridesEditPage() {
 
         {/* PRESS */}
         <section className="sec" style={css("padding-bottom:0")}>
-          <div style={css("text-align:center;font-family:'Jost',sans-serif;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:#9A8F84;margin-bottom:8px")}>Featured across India&rsquo;s leading publications</div>
+          <h2 style={css("text-align:center;font-family:'Playfair Display',serif;font-weight:500;font-size:28px;line-height:1.1;margin:0 0 6px")}>Lean Protocol — Featured across India&rsquo;s leading publications</h2>
           <p style={css("text-align:center;font-size:12.5px;color:#7A6F66;font-weight:300;margin:0 0 20px")}>Click any publication to read the full coverage.</p>
           <div style={css("display:flex;flex-wrap:wrap;justify-content:center;gap:10px")}>
             {PRESS.map((pr) => (
-              <a key={pr.name} href={pr.url || "#"} target="_blank" rel="noopener noreferrer" style={css("text-decoration:none;display:flex;align-items:center;justify-content:center;background:#B5202C;border:1px solid #B5202C;border-radius:3px;padding:11px 16px")}>
-                <span style={css("font-family:'Playfair Display',serif;font-size:15px;font-weight:500;color:#fff")}>{pr.name}</span>
+              <a key={pr.name} href={pr.url || "#"} target="_blank" rel="noopener noreferrer" style={css("text-decoration:none;display:flex;align-items:center;justify-content:center;background:#fff;border:1.5px solid #B5202C;border-radius:3px;padding:11px 16px")}>
+                <span style={css("font-family:'Playfair Display',serif;font-size:15px;font-weight:500;color:#B5202C")}>{pr.name}</span>
               </a>
             ))}
           </div>
@@ -391,7 +399,7 @@ export default function BridesEditPage() {
         {/* FAQ */}
         <section className="sec">
           <div style={css("text-align:center;margin-bottom:30px")}>
-            <div style={css("font-family:'Jost',sans-serif;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:#C9A24B;margin-bottom:12px")}>Before you say yes</div>
+            <div style={css("font-family:'Jost',sans-serif;font-size:11.5px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#7D5E1F;margin-bottom:12px")}>Before you say yes</div>
             <h2 style={css("font-family:'Playfair Display',serif;font-weight:500;font-size:29px;margin:0")}>Bride&rsquo;s questions, answered</h2>
           </div>
           <div className="narrow" style={css("border-top:1px solid #FFFDF9")}>
@@ -407,8 +415,8 @@ export default function BridesEditPage() {
         {/* FINAL CTA */}
         <section className="sec" style={css("text-align:center")}>
           <div className="boxed" style={css("background:#FAF3E6;border-radius:4px;padding:40px 22px 48px")}>
-            <img src="/brides/bridal-3.jpg" alt="Radiant bride" style={css("display:block;width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:3px;margin:0 0 28px")} />
-            <div style={css("font-family:'Jost',sans-serif;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#C9A24B;margin-bottom:18px")}>Limited seats</div>
+            <img src="/brides/bridal-3.png" alt="Radiant bride" style={css("display:block;width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:3px;margin:0 0 28px")} />
+            <div style={css("font-family:'Jost',sans-serif;font-size:11.5px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#7D5E1F;margin-bottom:18px")}>Limited seats</div>
             <h2 style={css("font-family:'Playfair Display',serif;font-weight:500;font-size:30px;line-height:1.06;margin:0 0 14px")}>Your glow has a deadline.<br />So does this offer.</h2>
             <p style={css("font-size:14px;color:#5F574F;max-width:300px;margin:0 auto 26px;font-weight:300")}>Lock your bridal seat before this month&rsquo;s 50 fill up.</p>
             <button onClick={openFunnel} style={css("border:none;cursor:pointer;background:#B5202C;color:#fff;font-family:'Jost',sans-serif;font-weight:500;font-size:14px;letter-spacing:.06em;text-transform:uppercase;padding:16px 32px;border-radius:3px")}>Build my bridal plan</button>
