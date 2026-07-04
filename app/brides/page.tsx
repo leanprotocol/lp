@@ -56,10 +56,10 @@ const STATS: { end: number; prefix?: string; suffix?: string; label: string }[] 
 ];
 
 const BENEFITS = [
-  { no: "01", t: "Doctor guided", d: "A GLP-1 protocol designed and supervised by qualified doctors — mapped to your body and your wedding date." },
-  { no: "02", t: "Metabolic reset", d: "Root-cause diagnostics fix what slows you down, so your body keeps burning fat long after the wedding." },
-  { no: "03", t: "Skin glow & tightening", d: "Better metabolic health, hydration and nutrition brighten your skin and help it firm as you transform." },
-  { no: "04", t: "Accountability & side-effect management", d: "Weekly check-ins with your dietitian and 24×7 support keep you on track and any side effects handled." },
+  { no: "01", t: "Doctor guided", d: "GLP-1 — Ozempic or Mounjaro — on a protocol designed by doctors from top institutions." },
+  { no: "02", t: "Metabolic reset", d: "Root-cause diagnostics identify exactly what's slowing you down, so we can hit the nail on the head." },
+  { no: "03", t: "Skin glow & tightening", d: "Supplements and at-home essentials that keep your skin bright and glowing as you transform." },
+  { no: "04", t: "Accountability & side-effect management", d: "24×7 health-coach support plus weekly detailed consults with a registered dietitian — so there's always accountability." },
 ];
 
 const STEPS = [
@@ -255,9 +255,9 @@ export default function BridesEditPage() {
               </div>
               <ul style={css("list-style:none;margin:0 0 22px;padding:0;display:flex;flex-direction:column;gap:11px")}>
                 <li style={css("display:flex;gap:10px;font-size:14px;color:#5F574F;line-height:1.4;font-weight:300")}><span style={css("color:#B5202C;font-weight:600")}>✓</span>1:1 video consultation with a GLP-1 doctor</li>
-                <li style={css("display:flex;gap:10px;font-size:14px;color:#5F574F;line-height:1.4;font-weight:300")}><span style={css("color:#B5202C;font-weight:600")}>✓</span>Personalised eligibility &amp; safety review</li>
-                <li style={css("display:flex;gap:10px;font-size:14px;color:#5F574F;line-height:1.4;font-weight:300")}><span style={css("color:#B5202C;font-weight:600")}>✓</span>Your bridal glow protocol &amp; next steps</li>
-                <li style={css("display:flex;gap:10px;font-size:14px;color:#5F574F;line-height:1.4;font-weight:300")}><span style={css("color:#B5202C;font-weight:600")}>✓</span>Prescription guidance, if medically suitable</li>
+                <li style={css("display:flex;gap:10px;font-size:14px;color:#5F574F;line-height:1.4;font-weight:300")}><span style={css("color:#B5202C;font-weight:600")}>✓</span>Personalised fat-loss plan</li>
+                <li style={css("display:flex;gap:10px;font-size:14px;color:#5F574F;line-height:1.4;font-weight:300")}><span style={css("color:#B5202C;font-weight:600")}>✓</span>Skin glow protocol &amp; next steps</li>
+                <li style={css("display:flex;gap:10px;font-size:14px;color:#5F574F;line-height:1.4;font-weight:300")}><span style={css("color:#B5202C;font-weight:600")}>✓</span>Valid prescription straight in your inbox</li>
               </ul>
               <button onClick={openFunnel} style={css("border:none;cursor:pointer;background:#B5202C;color:#fff;font-family:'Jost',sans-serif;font-weight:500;font-size:14px;letter-spacing:.06em;text-transform:uppercase;padding:15px 30px;border-radius:3px")}>Book my ₹449 consultation</button>
             </div>
@@ -383,7 +383,7 @@ export default function BridesEditPage() {
             <div style={css("font-family:'Jost',sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#F3E6C8;margin-bottom:14px")}>Personalised in 60 seconds</div>
             <h2 style={css("font-family:'Playfair Display',serif;font-weight:500;font-size:29px;line-height:1.08;margin:0 0 12px")}>Build your bridal plan &amp; spin for a bonus</h2>
             <p style={css("font-size:13.5px;line-height:1.6;color:#F3E6C8;font-weight:300;margin:0 0 22px")}>Tell us your timeline and a few details — we&rsquo;ll check your eligibility, recommend your plan, and let you spin the wheel for an exclusive bridal bonus.</p>
-            <button onClick={openFunnel} style={css("border:none;cursor:pointer;background:#fff;color:#B5202C;font-family:'Jost',sans-serif;font-weight:600;font-size:14px;letter-spacing:.06em;text-transform:uppercase;padding:16px 30px;border-radius:3px")}>Start &amp; unlock my offer</button>
+            <button onClick={openFunnel} style={css("border:none;cursor:pointer;background:#fff;color:#B5202C;font-family:'Jost',sans-serif;font-weight:600;font-size:14px;letter-spacing:.06em;text-transform:uppercase;padding:16px 30px;border-radius:3px")}>Unlock my offers</button>
           </div>
         </section>
 
