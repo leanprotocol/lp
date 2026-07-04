@@ -601,16 +601,46 @@ function Consult49Content() {
             <div className="name">LEAN <b>PROTOCOL</b><span>DOCTOR-LED · SCIENCE-BACKED</span></div>
           </div>
           <button className="btn btn-primary" style={{ flexShrink: 0, whiteSpace: "nowrap", fontSize: "13px", padding: "10px 16px" }} onClick={() => openModal()}>
-            Book ₹49 <span className="pill49" style={{ fontSize: "12px", padding: "2px 8px" }}>₹49</span>
+            Consult @₹49
           </button>
         </div>
       </header>
 
       {/* Doctor carousel */}
-      <section className="docs-first">
+      <section className="docs-first" style={{ background: "linear-gradient(180deg, #EAF3EE 0%, #F4F9F6 45%, #FFFFFF 100%)" }}>
         <div className="wrap">
-          <div className="sec-head" style={{ marginBottom: "22px" }}><div className="divider"></div><h2>Your GLP-1 Fat-Loss Doctors</h2><p>Consult certified doctors (Internal Medicine &amp; Endocrinologist) — live 1:1.</p></div>
-          <DoctorCarousel />
+          <div className="sec-head" style={{ marginBottom: "22px" }}><div className="divider"></div><h2>Talk to real GLP-1 doctors before you spend ₹15,000 on medication</h2><p>Live 1:1 video consult with certified endocrinologists &amp; internal medicine doctors for just ₹49.</p></div>
+          <style>{`
+            .doc-row { display:flex; justify-content:center; align-items:flex-end; gap:6px; flex-wrap:nowrap; width:100%; }
+            .doc-col { display:flex; flex-direction:column; align-items:center; flex:1 1 0; min-width:0; }
+            .doc-cutout { width:100%; height:auto; max-height:230px; object-fit:contain; }
+            .doc-name { margin-top:2px !important; }
+            @media (min-width:768px){
+              .doc-row { gap:32px; }
+              .doc-col { flex:1 1 0; min-width:0; }
+              .doc-cutout { width:100%; height:auto; max-height:460px; }
+              .doc-name { margin-top:4px !important; }
+            }
+          `}</style>
+          <div className="doc-row">
+            {[
+              { img: "/consult49/doctor-1.png", name: "Dr. Nishant Jain", role: "MD, DM · Endocrinologist" },
+              { img: "/consult49/doctor-2.png", name: "Dr. Akhil Konduru", role: "MD · Internal Medicine" },
+              { img: "/consult49/doctor-3.png", name: "Dr. Siddharth Garg", role: "MD · Internal Medicine" },
+            ].map((d, i) => (
+              <div key={i} className="doc-col">
+                <img
+                  src={d.img}
+                  alt={d.name}
+                  loading="lazy"
+                  className="doc-cutout"
+                  style={{ display: "block" }}
+                />
+                <div className="doc-name" style={{ fontFamily: "var(--display)", fontSize: "clamp(13px, 2vw, 20px)", fontWeight: 700, color: "var(--green)", textAlign: "center", lineHeight: 1.2 }}>{d.name}</div>
+                <div style={{ fontSize: "clamp(11px, 1.4vw, 13px)", color: "var(--sage)", marginTop: "4px", textAlign: "center", lineHeight: 1.3 }}>{d.role}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -664,6 +694,22 @@ function Consult49Content() {
         </div>
       </section>
 
+      {/* How it works */}
+      <section id="how">
+        <div className="wrap">
+          <div className="sec-head reveal"><div className="divider"></div><h2>How it works</h2><p>From booking to your personalised prescription — four simple steps.</p></div>
+          <div className="steps reveal">
+            {[
+              { ic: "📱", h: "Book your consultation", p: "Reserve your ₹49 consultation slot (50 slots a day)." },
+              { ic: "🩺", h: "Talk to GLP-1 Expert Doctors", p: "1-to-1 live video consultation with reputed doctors." },
+              { ic: "🔬", h: "Root Cause Analysis", p: "Get root cause analysis and a GLP-1 / Mounjaro roadmap." },
+              { ic: "📝", h: "Get your Prescription", p: "A personalised plan with a prescription." },
+            ].map((s, i) => (<div className="step" key={i}><div className="step-num">{i + 1}</div><div className="ic">{s.ic}</div><h4>{s.h}</h4><p>{s.p}</p></div>))}
+          </div>
+        </div>
+      </section>
+
+
       {/* Google Reviews — real screenshots */}
       <section id="reviews" className="alt">
         <div className="wrap">
@@ -680,33 +726,7 @@ function Consult49Content() {
         </div>
       </section>
 
-      {/* Press / Publications */}
-      <section className="press reveal">
-        <div className="wrap">
-          <div className="label">Lean Protocol — Featured across India&apos;s leading publications</div>
-          <p style={{ fontSize: "11px", color: "var(--sage)", marginBottom: "18px", textAlign: "center" }}>(click to read)</p>
-          <div className="press-logos">
-            {PRESS_LOGOS.map((logo, i) => (
-              <a key={i} className={`plogo ${logo.className}`} href={logo.href} target="_blank" rel="noopener noreferrer">{logo.content}</a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* How it works */}
-      <section id="how">
-        <div className="wrap">
-          <div className="sec-head reveal"><div className="divider"></div><h2>How it works</h2><p>From booking to your personalised prescription — four simple steps.</p></div>
-          <div className="steps reveal">
-            {[
-              { ic: "📱", h: "Book your consultation", p: "Reserve your ₹49 consultation slot (150 consultations a day)." },
-              { ic: "🩺", h: "Talk to GLP-1 Expert Doctors", p: "1-to-1 live video consultation with reputed doctors." },
-              { ic: "🔬", h: "Root Cause Analysis", p: "Get root cause analysis and a GLP-1 / Mounjaro roadmap." },
-              { ic: "📝", h: "Get your Prescription", p: "A personalised plan with a prescription." },
-            ].map((s, i) => (<div className="step" key={i}><div className="step-num">{i + 1}</div><div className="ic">{s.ic}</div><h4>{s.h}</h4><p>{s.p}</p></div>))}
-          </div>
-        </div>
-      </section>
+      
 
       {/* Partners */}
       <section className="alt" style={{ padding: "40px 0 22px" }}>
@@ -736,6 +756,19 @@ function Consult49Content() {
                 <h4>{e.name}</h4>
                 <p>{e.title}</p>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Press / Publications */}
+      <section className="press reveal">
+        <div className="wrap">
+          <div className="label">Lean Protocol — Featured across India&apos;s leading publications</div>
+          <p style={{ fontSize: "11px", color: "var(--sage)", marginBottom: "18px", textAlign: "center" }}>(click to read)</p>
+          <div className="press-logos">
+            {PRESS_LOGOS.map((logo, i) => (
+              <a key={i} className={`plogo ${logo.className}`} href={logo.href} target="_blank" rel="noopener noreferrer">{logo.content}</a>
             ))}
           </div>
         </div>
@@ -778,10 +811,9 @@ function Consult49Content() {
         <div className="wrap">
           <div className="final-inner">
             <div className="final-text">
-              <span className="eyebrow">One Small Step. A Leaner You</span>
               <h2 style={{ marginTop: "14px" }}>Now or Never Deal</h2>
-              <p>Live 1:1 video call with a GLP-1 expert doctor, root cause analysis, and a personalised prescription.</p>
               <button className="btn btn-primary zoom" style={{ fontSize: "18px", padding: "17px 40px", marginTop: "8px" }} onClick={() => openModal()}>Book Now <span className="pill49">₹49</span></button>
+              <span className="eyebrow">One Small Step. A Leaner You</span>
             </div>
             <div className="final-img">
               <img
