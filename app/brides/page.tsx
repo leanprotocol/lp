@@ -88,12 +88,12 @@ const EXPERTS = [
 ];
 
 const PRESS = [
-  { name: "Zee News", url: "https://zeenews.india.com/consumer-connect/the-glp-1-hype-how-lean-protocol-is-building-a-sustainable-weight-loss-ecosystem-3055350.html" },
-  { name: "News24", url: "https://news24online.com/information/the-entrepreneurial-journey-behind-a-glp-1-startup-lean-protocol/860995/" },
-  { name: "The Tribune", url: "https://www.tribuneindia.com/partner-exclusives/is-lean-protocol-building-a-sustainable-weight-loss-ecosystem-or-another-weight-loss-hype/" },
-  { name: "The Startup Story", url: "https://thestartupstory.co.in/why-india-needs-a-new-approach-to-weight-loss-the-lean-protocol-perspective/" },
-  { name: "News Today 24x7", url: "https://www.newstoday24x7.co.in/2026/04/from-gimmicks-to-ethics-entrepreneurial.html" },
-  { name: "The Republic News", url: "https://www.therepublicnews.co.in/2026/04/from-gimmicks-to-ethics-entrepreneurial.html" },
+  { className: "zee", url: "https://zeenews.india.com/consumer-connect/the-glp-1-hype-how-lean-protocol-is-building-a-sustainable-weight-loss-ecosystem-3055350.html", content: (<><span className="box">ZEE</span><span className="t">NEWS</span></>) },
+  { className: "n24", url: "https://news24online.com/information/the-entrepreneurial-journey-behind-a-glp-1-startup-lean-protocol/860995/", content: (<span className="t">NEWS<b>24</b></span>) },
+  { className: "ntoday", url: "https://www.newstoday24x7.co.in/2026/04/from-gimmicks-to-ethics-entrepreneurial.html", content: (<span className="t">News Today<b> 24x7</b></span>) },
+  { className: "startup", url: "https://thestartupstory.co.in/why-india-needs-a-new-approach-to-weight-loss-the-lean-protocol-perspective/", content: (<span className="t">The <b>Startup</b> Story</span>) },
+  { className: "tribune", url: "https://www.tribuneindia.com/partner-exclusives/is-lean-protocol-building-a-sustainable-weight-loss-ecosystem-or-another-weight-loss-hype/", content: (<span className="t">The Tribune</span>) },
+  { className: "republic", url: "https://www.therepublicnews.co.in/2026/04/from-gimmicks-to-ethics-entrepreneurial.html", content: (<span className="t">The <b>Republic</b> News</span>) },
 ];
 
 const COMPARE_RAW = [
@@ -169,6 +169,20 @@ export default function BridesEditPage() {
           .boxed{ max-width:760px; margin-left:auto; margin-right:auto; }
           .narrow{ max-width:840px; margin-left:auto; margin-right:auto; }
         }
+        .plogo{ display:inline-flex; align-items:center; gap:6px; background:#fff; border-radius:10px; padding:0 18px; height:54px; box-shadow:0 4px 14px rgba(181,32,44,.12); border:1px solid #ece0c8; text-decoration:none; transition:transform .16s ease, box-shadow .16s ease; }
+        .plogo:hover{ transform:translatey(-3px); box-shadow:0 10px 26px rgba(181,32,44,.18); }
+        .plogo .t{ line-height:1; }
+        .plogo.zee .box{ background:#e5202e; color:#fff; font-family:'playfair display',serif; font-weight:700; padding:3px 7px; border-radius:4px; font-size:17px; }
+        .plogo.zee .t{ color:#141414; font-family:'playfair display',serif; font-weight:700; font-size:17px; }
+        .plogo.n24 .t{ color:#0a3d91; font-weight:800; font-size:19px; letter-spacing:-.02em; }
+        .plogo.n24 .t b{ color:#e5202e; }
+        .plogo.ntoday .t{ color:#141414; font-weight:800; font-size:14px; }
+        .plogo.ntoday .t b{ color:#1a8f4c; }
+        .plogo.startup .t{ color:#141414; font-family:georgia,serif; font-weight:700; font-size:14px; font-style:italic; }
+        .plogo.startup .t b{ color:#e5202e; font-style:normal; }
+        .plogo.tribune .t{ color:#141414; font-family:georgia,serif; font-weight:700; font-size:17px; }
+        .plogo.republic .t{ color:#0a3d91; font-family:georgia,serif; font-weight:700; font-size:14px; }
+        .plogo.republic .t b{ color:#e5202e; }
       `}</style>
 
       <div className="lp-card">
@@ -369,10 +383,8 @@ export default function BridesEditPage() {
           <h2 style={css("text-align:center;font-family:'Playfair Display',serif;font-weight:500;font-size:28px;line-height:1.1;margin:0 0 6px")}>Lean Protocol — Featured across India&rsquo;s leading publications</h2>
           <p style={css("text-align:center;font-size:12.5px;color:#7A6F66;font-weight:300;margin:0 0 20px")}>Click any publication to read the full coverage.</p>
           <div style={css("display:flex;flex-wrap:wrap;justify-content:center;gap:10px")}>
-            {PRESS.map((pr) => (
-              <a key={pr.name} href={pr.url || "#"} target="_blank" rel="noopener noreferrer" style={css("text-decoration:none;display:flex;align-items:center;justify-content:center;background:#fff;border:1.5px solid #B5202C;border-radius:3px;padding:11px 16px")}>
-                <span style={css("font-family:'Playfair Display',serif;font-size:15px;font-weight:500;color:#B5202C")}>{pr.name}</span>
-              </a>
+            {PRESS.map((pr, i) => (
+              <a key={i} className={`plogo ${pr.className}`} href={pr.url} target="_blank" rel="noopener noreferrer">{pr.content}</a>
             ))}
           </div>
         </section>
