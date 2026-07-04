@@ -90,7 +90,7 @@ export default function BridesFunnel({ open, initialMonths, onClose }: { open: b
   const validForm = name.trim().length > 0 && validPhone;
 
   // ---- navigation ----
-  const setMonthsNext = (m: number) => { setMonths(m); setStep(3); };
+  const setMonthsNext = (m: number) => { setMonths(m); setStep(2); };
   const next = () => setStep((s) => Math.min(5, s + 1));
   const back = () => { if (step <= 1) onClose(); else setStep((s) => s - 1); };
 
@@ -387,3 +387,4 @@ export default function BridesFunnel({ open, initialMonths, onClose }: { open: b
     </div>
   );
 }
+
