@@ -128,6 +128,7 @@ export default function UnlockFunnel() {
     if (Object.keys(next).length) return;
     go(1);
   };
+  const formValid = name.trim().length > 0 && /^[6-9]\d{9}$/.test(phone.replace(/\D/g, ""));
 
   const spin = () => {
     if (spinning || spun) return;
@@ -576,7 +577,7 @@ export default function UnlockFunnel() {
                 <p style={{ ...big, fontSize: 20, color: C.green, marginTop: 8 }}>Good news!</p>
                 <p style={{ fontSize: 13, color: C.dark, marginTop: 4 }}>You qualify for the challenge plus an exclusive joining offer.</p>
               </div>
-              <button style={sCta} onClick={unlock}>Unlock my plan →</button>
+              <button style={{ ...sCta, opacity: formValid ? 1 : 0.5, cursor: formValid ? "pointer" : "not-allowed" }} onClick={unlock} disabled={!formValid}>Unlock my plan →</button>
             </>
           )}
 
