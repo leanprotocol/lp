@@ -163,6 +163,7 @@ function BMICalculator({ onOpenModal }: { onOpenModal: (name?: string, phone?: s
     setSubmitted(true);
     (window as any).lpConfetti?.(160);
   };
+  const bmiFormValid = formName.trim().length > 0 && /^[6-9]\d{9}$/.test(formPhone.replace(/\D/g, "")) && consent;
 
   function polar(cx: number, cy: number, r: number, deg: number) { const a = (deg - 90) * Math.PI / 180; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; }
   function arcPath(cx: number, cy: number, r: number, a0: number, a1: number) { const s = polar(cx, cy, r, a0), e = polar(cx, cy, r, a1); const large = Math.abs(a1 - a0) > 180 ? 1 : 0; return `M${s[0].toFixed(1)} ${s[1].toFixed(1)} A${r} ${r} 0 ${large} 1 ${e[0].toFixed(1)} ${e[1].toFixed(1)}`; }
@@ -210,7 +211,7 @@ function BMICalculator({ onOpenModal }: { onOpenModal: (name?: string, phone?: s
                     <div className={`bmi-field2 ${nameErr ? "err" : ""}`}><label>Full name</label><input type="text" placeholder="Your name" autoComplete="name" value={formName} onChange={e => { setFormName(e.target.value); setNameErr(false); }} /></div>
                     <div className={`bmi-field2 ${phoneErr ? "err" : ""}`}><label>Phone (WhatsApp)</label><div className="phone-wrap"><span className="cc">+91</span><input type="tel" inputMode="numeric" maxLength={10} placeholder="10-digit mobile" autoComplete="tel-national" value={formPhone} onChange={e => { setFormPhone(e.target.value.replace(/\D/g, "").slice(0, 10)); setPhoneErr(false); }} /></div></div>
                     <label className="bmi-consent"><input type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)} /><span>I agree to be contacted by Lean Protocol and accept the <a href="https://www.leanprotocol.in/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</span></label>
-                    <button type="submit" className="btn btn-primary" style={{ width: "100%" }}>Get my report &amp; book ₹49 consult <span className="arrow">›</span></button>
+                    <button type="submit" className="btn btn-primary" style={{ width: "100%", opacity: bmiFormValid ? 1 : 0.5, cursor: bmiFormValid ? "pointer" : "not-allowed" }} disabled={!bmiFormValid}>Get my report &amp; book ₹49 consult <span className="arrow">›</span></button>
                   </form>
                 </div>
               ) : (
@@ -381,9 +382,6 @@ function CheckoutModal({ onClose, prefillName = "", prefillPhone = "", prefillBm
 }) {
   const [name, setName] = useState(prefillName);
   const [phone, setPhone] = useState(prefillPhone);
-  const [email, setEmail] = useState("");
-  const [city, setCity] = useState("");
-  const [preferredTime, setPreferredTime] = useState("");
   const [consent, setConsent] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [paying, setPaying] = useState(false);
@@ -398,6 +396,7 @@ function CheckoutModal({ onClose, prefillName = "", prefillPhone = "", prefillBm
     setErrors(next);
     return Object.keys(next).length === 0;
   }
+  const formValid = name.trim().length > 0 && /^[6-9]\d{9}$/.test(phone.replace(/\D/g, "")) && consent;
 
   async function handlePay() {
     if (!validate()) return;
@@ -411,9 +410,6 @@ function CheckoutModal({ onClose, prefillName = "", prefillPhone = "", prefillBm
         body: JSON.stringify({
           name: name.trim(),
           phone: `+91${phone.replace(/\D/g, "")}`,
-          email: email.trim(),
-          city: city.trim(),
-          preferred_time: preferredTime,
           bmi: prefillBmi,
           source: "consult49-checkout-intent",
           page_url: window.location.href,
@@ -423,7 +419,7 @@ function CheckoutModal({ onClose, prefillName = "", prefillPhone = "", prefillBm
 
       const createRes = await fetch("/api/consult49/create-order", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name.trim(), phone: phone.replace(/\D/g, ""), email: email.trim(), city: city.trim(), preferred_time: preferredTime, bmi: prefillBmi }),
+        body: JSON.stringify({ name: name.trim(), phone: phone.replace(/\D/g, ""), bmi: prefillBmi }),
       });
       const order = await createRes.json();
       if (!createRes.ok) throw new Error(order?.error || "Could not start payment.");
@@ -440,12 +436,12 @@ function CheckoutModal({ onClose, prefillName = "", prefillPhone = "", prefillBm
         key: order.keyId, currency: order.currency, amount: Math.round(order.amount * 100),
         name: "Lean Protocol — GLP-1 Doctor Consultation", description: "1:1 GLP-1 Doctor Consultation · ₹49",
         order_id: order.orderId,
-        prefill: { name: name.trim(), contact: phone.replace(/\D/g, ""), email: email.trim() || undefined },
+        prefill: { name: name.trim(), contact: phone.replace(/\D/g, "") },
         handler: async (response: any) => {
           try {
             const verifyRes = await fetch("/api/consult49/verify", {
               method: "POST", headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ razorpayOrderId: response.razorpay_order_id, razorpayPaymentId: response.razorpay_payment_id, razorpaySignature: response.razorpay_signature, name: name.trim(), phone: phone.replace(/\D/g, ""), email: email.trim(), city: city.trim(), preferred_time: preferredTime, bmi: prefillBmi }),
+              body: JSON.stringify({ razorpayOrderId: response.razorpay_order_id, razorpayPaymentId: response.razorpay_payment_id, razorpaySignature: response.razorpay_signature, name: name.trim(), phone: phone.replace(/\D/g, ""), bmi: prefillBmi }),
             });
             const verifyData = await verifyRes.json();
             if (!verifyRes.ok || !verifyData.success) throw new Error(verifyData?.error || "Payment verification failed");
@@ -485,26 +481,7 @@ function CheckoutModal({ onClose, prefillName = "", prefillPhone = "", prefillBm
               </div>
               <div className="c-msg">{errors.phone}</div>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
-              <div className="c-field">
-                <label>Email</label>
-                <input type="email" placeholder="you@email.com" value={email} onChange={e => setEmail(e.target.value)} />
-              </div>
-              <div className="c-field">
-                <label>City</label>
-                <input type="text" placeholder="e.g. Delhi" value={city} onChange={e => setCity(e.target.value)} />
-              </div>
-            </div>
-            <div className="c-field">
-              <label>Preferred call time</label>
-              <select value={preferredTime} onChange={e => setPreferredTime(e.target.value)}>
-                <option value="" disabled>Select</option>
-                <option>Morning (9am–12pm)</option>
-                <option>Afternoon (12pm–4pm)</option>
-                <option>Evening (4pm–8pm)</option>
-                <option>Anytime</option>
-              </select>
-            </div>
+            
             <ul className="modal-incl">
               <li><b>✓</b> Live 1:1 video call with a GLP-1 expert</li>
               <li><b>✓</b> Personalised fat-loss plan</li>
@@ -516,7 +493,7 @@ function CheckoutModal({ onClose, prefillName = "", prefillPhone = "", prefillBm
               <span>I agree to the <a href="https://www.leanprotocol.in/terms" target="_blank" rel="noopener noreferrer">Terms</a> &amp; <a href="https://www.leanprotocol.in/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</span>
             </label>
             {payError && <p style={{ color: "var(--danger)", fontSize: "13px", margin: "8px 0" }}>{payError}</p>}
-            <button className="btn btn-primary" style={{ width: "100%", marginTop: "12px", fontSize: "17px" }} onClick={handlePay} disabled={paying}>
+            <button className="btn btn-primary" style={{ width: "100%", marginTop: "12px", fontSize: "17px", opacity: (paying || !formValid) ? 0.5 : 1, cursor: (paying || !formValid) ? "not-allowed" : "pointer" }} onClick={handlePay} disabled={paying || !formValid}>
               {paying ? "Processing…" : "Pay ₹49 & Book"}
             </button>
             <p style={{ fontSize: "11px", color: "var(--sage)", textAlign: "center", marginTop: "10px" }}>🔒 256-bit secure · UPI / Cards / Netbanking</p>
