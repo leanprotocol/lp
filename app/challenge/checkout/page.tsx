@@ -4,7 +4,7 @@ import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 const PROMO_CODE = "30+15HARD";
-const FIXED_PRICE = 3999;
+const FIXED_PRICE = 399;
 
 interface MiniOffer {
   label: string;

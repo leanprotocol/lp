@@ -14,17 +14,18 @@ interface Plan {
 
 const PLAN: Plan = {
   tag: "Popular",
-  title: "30 Days Hard Challenge",
+  title: "30 Days GLP-1 Challenge",
   forText: "The 1-month challenge — start here",
-  price: "₹3,999",
-  priceUnit: "/ 1 month",
+  price: "₹399",
+  priceUnit: "",
   was: "+ spin to unlock your bonus offer",
   features: [
-    "Doctor consult + eligibility review",
-    "GLP-1 medications (in cold chain delivery)",
-    "Personalised GLP-1 protocol",
-    "Expert GLP-1 dietitian support",
-    "24×7 health coach",
+    "Root cause analysis & eligibility check",
+    "GLP-1 prescription (if suitable)",
+    "Dedicated health coach",
+    "Personalised diet chart according to roadmap",
+    "NMC-certified doctor assessment (endocrine & internal medicine)",
+    "Avg. 6 kg weight loss*",
   ],
   ctaLabel: "Join the Challenge",
   ctaClass: "btn-primary",
@@ -59,6 +60,7 @@ export function PlansCarousel() {
           <a href="/challenge/unlock" className={`btn ${PLAN.ctaClass}`}>
             {PLAN.ctaLabel} <span className="arrow">›</span>
           </a>
+          <p style={{ fontSize: "10px", color: "var(--muted, #9DB0A8)", marginTop: "10px", textAlign: "center", fontWeight: 300 }}>*Data calculated based on 1000+ participants. Individual results vary.</p>
         </div>
       </div>
     </section>

@@ -6,7 +6,7 @@ import Razorpay from 'razorpay';
 // ─── Fixed price for the 30 Days Hard Challenge campaign ─────────────────────
 // This is intentionally hardcoded and independent of the SubscriptionPlan
 // table / admin dashboard. Change this number directly when the price changes.
-const CHALLENGE_AMOUNT_INR = 3999;
+const CHALLENGE_AMOUNT_INR = 399;
 // ───────────────────────────────────────────────────────────────────────────
 
 export async function POST(request: NextRequest) {

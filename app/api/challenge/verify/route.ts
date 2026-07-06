@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
       city: city || '',
       plan: '30 Days Hard Challenge',
       duration: promoApplied ? '45 days (30 + 15 free)' : '30 days',
-      amount: 3999,
+      amount: 399,
       promo: promoApplied ? '30+15HARD' : '',
       source: 'challenge-checkout',
       lead_status: 'paid',

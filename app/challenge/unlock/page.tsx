@@ -630,64 +630,51 @@ export default function UnlockFunnel() {
           {/* STEP 7 — offer (roadmap + includes) */}
           {step === 7 && (
             <>
-              <p style={{ ...sEb, marginTop: 18, fontSize: 18 }}>Your roadmap</p>
-              <div style={{ ...sStep, marginTop: 12 }}>
-                <p style={{ fontFamily: display, fontSize: 15, marginBottom: 14 }}>YOUR 30-DAY JOURNEY</p>
-                {[
-                  "1 · Doctor consultation",
-                  "2 · Root cause analysis",
-                  "3 · GLP-1 dietitian consultation",
-                  "4 · GLP-1 medications (cold-chain delivered)",
-                  "5 · Your weight-loss goal achieved",
-                ].map((t, i) => (
-                  <div key={i} style={{ display: "flex", gap: 11, alignItems: "center", borderTop: i ? `1px solid ${C.border}` : "none", paddingTop: i ? 13 : 0, marginTop: i ? 0 : 0, paddingBottom: i === 4 ? 0 : 13 }}>
-                    <span style={{ color: i === 4 ? C.glow : C.green, fontSize: 18 }}>{i === 4 ? "✓" : "●"}</span>
-                    <span style={{ fontSize: 13 }}>{t}</span>
-                  </div>
-                ))}
-              </div>
+              <p style={{ ...sEb, marginTop: 18, fontSize: 18 }}>Your 30 Days GLP-1 Challenge plan</p>
+              
 
               <img
   src="/challenge/plan-poster.png"
-  alt="30 Days Hard Challenge plan"
+  alt="30 Days GLP-1 Challenge plan"
   style={{ width: "100%", borderRadius: 16, display: "block", margin: "10px 0", boxShadow: "0 14px 34px rgba(0,0,0,.3)" }}
 />
+              <p style={{ textAlign: "center", fontFamily: display, fontSize: 12, color: C.dark, margin: "4px 0 2px" }}>Avg. 6 kg weight loss*</p>
+              <p style={{ textAlign: "center", fontSize: 7, color: C.muted, marginBottom: 6 }}>*Data calculated based on 1000+ participants. Individual results vary.</p>
               <div style={{ ...sStep, marginTop: 10 }}>
                 {[
-                  ["GLP-1 medications", "₹3000"],
                   ["Doctor consultation", "₹1500"],
-                  ["Dietitian consultation (₹1000×3)", "₹3000"],
-                  ["24×7 health coach", "₹2000"],
+                  ["Health coach", "₹1000"],
                 ].map(([l, p], i) => (
                   <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "7px 0", borderTop: i ? `1px solid ${C.border}` : "none" }}>
-                    <span style={{ fontSize: 13 }}>{l}</span>
-                    <b style={{ color: C.green }}>{p}</b>
+                    <span style={{ fontSize: 7 }}>{l}</span>
+                    <b style={{ color: C.green, fontSize: 8 }}>{p}</b>
                   </div>
                 ))}
-                <div style={{ display: "flex", justifyContent: "space-between", padding: "9px 0 2px", borderTop: `1px solid ${C.border2}` }}>
-                  <span style={{ fontSize: 12, color: C.muted, textTransform: "uppercase" }}>Total value</span>
-                  <b style={{ color: C.muted, textDecoration: "line-through" }}>₹9500</b>
+                <div style={{ display: "flex", justifyContent: "space-between", padding: "5px 0 1px", borderTop: `1px solid ${C.border2}` }}>
+                  <span style={{ fontSize: 6, color: C.muted, textTransform: "uppercase" }}>Total value</span>
+                  <b style={{ color: C.muted, textDecoration: "line-through", fontSize: 8 }}>₹2500</b>
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", padding: "8px 0 0", borderTop: `1px solid ${C.border2}` }}>
+                  <span style={{ fontSize: 11, color: C.dark, fontWeight: 700, textTransform: "uppercase" }}>Your price</span>
+                  <b style={{ ...big, color: C.dark, fontSize: 24 }}>₹399</b>
                 </div>
               </div>
 
-              <div style={{ ...sPop, marginTop: 12, textAlign: "center", borderColor: C.green, background: C.soft }}>
-                <div style={{ ...big, fontSize: 42, color: C.dark }}>
-                  ₹3999 <span style={{ fontSize: 16, color: C.muted, textDecoration: "line-through" }}>₹9500</span>
-                </div>
-                <span style={{ display: "inline-block", background: C.green, color: "#fff", fontSize: 12, fontWeight: 600, padding: "4px 12px", borderRadius: 100, marginTop: 6 }}>
-                  🎁 Promo applied: 30 + 15 days
+              <div style={{ ...sPop, marginTop: 12, textAlign: "center", borderColor: C.green, background: C.soft, display: "flex", alignItems: "center", justifyContent: "center", gap: 10, flexWrap: "wrap" }}>
+                <span style={{ display: "inline-block", background: C.green, color: "#fff", fontSize: 10, fontWeight: 600, padding: "4px 10px", borderRadius: 100 }}>
+                  🎁 Promo: 30 + 15 days
                 </span>
-                <div style={{ marginTop: 12, background: C.page, border: `1px solid ${C.border2}`, borderRadius: 10, padding: "8px 10px", fontFamily: display }}>
-                  <span style={{ color: C.badText, fontSize: 12, letterSpacing: ".04em" }}>⏱ OFFER ENDS IN </span>
-                  <span style={{ color: secs === 0 ? C.badText : C.dark, fontSize: 20, fontWeight: 600 }}>{mmss}</span>
-                </div>
+                <span style={{ fontFamily: display }}>
+                  <span style={{ color: C.badText, fontSize: 10, letterSpacing: ".04em" }}>⏱ ENDS IN </span>
+                  <span style={{ color: secs === 0 ? C.badText : C.dark, fontSize: 16, fontWeight: 600 }}>{mmss}</span>
+                </span>
               </div>
-              <p style={{ ...sSub, marginTop: 10 }}>🔒 Secure checkout · money-back guarantee</p>
+              
               {payError && (
                 <p style={{ color: C.badText, fontSize: 13, marginTop: 10, textAlign: "center" }}>{payError}</p>
               )}
               <button style={sCta} onClick={claim} disabled={paying}>
-                {paying ? "Processing…" : "Claim my offer & pay ₹3999 →"}
+                {paying ? "Processing…" : "Claim my offer & pay ₹399 →"}
               </button>
             </>
           )}
