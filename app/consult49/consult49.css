@@ -435,3 +435,4 @@
 
 
 
+.consult49-page .modal-overlay { position: fixed; inset: 0; background: rgba(10, 30, 22, 0.55); display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 1000; overflow-y: auto; } .consult49-page .modal-box { position: relative; background: #fff; border-radius: 16px; max-width: 440px; width: 100%; padding: 28px 24px; max-height: 90vh; overflow-y: auto; box-shadow: 0 30px 80px rgba(0,0,0,.4); } .consult49-page .modal-close { position: absolute; top: 12px; right: 14px; background: none; border: none; font-size: 26px; line-height: 1; cursor: pointer; color: #6b7280; padding: 0; }

@@ -786,13 +786,13 @@ function Consult49Content() {
             <div className="final-text">
               <h2 style={{ marginTop: "14px" }}>Now or Never Deal</h2>
               <button className="btn btn-primary zoom" style={{ fontSize: "18px", padding: "17px 40px", marginTop: "8px" }} onClick={() => openModal()}>Book Now <span className="pill49">₹49</span></button>
-              <span className="eyebrow">One Small Step. A Leaner You</span>
+              <span className="eyebrow" style={{ display: "block", marginTop: "14px" }}>One Small Step. A Leaner You</span>
             </div>
             <div className="final-img">
               <img
                 src="/lp-assets/doctor-patient.png"
                 alt="Doctor consultation"
-                style={{ width: "100%", maxWidth: "480px", display: "block", mixBlendMode: "multiply" }}
+                style={{ width: "100%", maxWidth: "480px", display: "block", margin: "0 auto", mixBlendMode: "multiply" }}
               />
             </div>
           </div>
@@ -835,8 +835,6 @@ export default function Consult49Page() {
     </Suspense>
   );
 }
-
-
 
 
 
