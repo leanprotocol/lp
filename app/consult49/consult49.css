@@ -151,12 +151,12 @@
   transition: transform .5s cubic-bezier(.25,.85,.3,1), opacity .5s ease; will-change: transform, opacity;
   cursor: pointer; overflow: hidden;
 }
-.consult49-page .dc-card.active-card { border-color: var(--green); box-shadow: 0 0 0 1px var(--green), 0 20px 50px rgba(21,96,63,.22); }
-.consult49-page .dc-card .ph { width: 100%; height: 280px; overflow: hidden; background: linear-gradient(135deg, var(--green), #0d3d27); flex: none; display: grid; place-items: center; color: #fff; font-family: var(--display); font-size: 28px; letter-spacing: .04em; }
+.consult49-page .dc-card.ative-card { border-color: var(--green); box-shadow: 0 0 0 1px var(--green), 0 20px 50px rgba(21,96,63,.22); }
+.consult49-page .dc-card .ph { width: 100%; height: 200px; overflow: hidden; background: linear-gradient(135deg, var(--green), #0d3d27); flex: none; display: grid; place-items: center; color: #fff; font-family: var(--display); font-size: 28px; letter-spacing: .04em; }
 .consult49-page .dc-card .ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.consult49-page .dc-card .info { padding: 8px 12px 10px; } .consult49-page .dc-card .info b { display: block; font-size: 14px; color: var(--cream); font-weight: 700; }
-.consult49-page .dc-card .info .role { font-size: 12px; color: var(--green); margin-top: 2px; font-weight: 600; padding: 0 10px; }
-.consult49-page .dc-card .info .hosp { font-size: 11px; color: var(--sage); margin-top: 2px; padding: 0 10px 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.consult49-page .dc-card .info { padding: 14px 16px 16px; } .consult49-page .dc-card .info b { display: block; font-size: 15px; color: var(--cream); font-weight: 700; }
+.consult49-page .dc-card .info .role { font-size: 12px; color: var(--green); margin-top: 3px; font-weight: 600; }
+.consult49-page .dc-card .info .hosp { font-size: 11px; color: var(--sage); margin-top: 2px; }
 .consult49-page .dc-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--green); font-size: 22px; cursor: pointer; display: grid; place-items: center; transition: all .15s; z-index: 5; }
 .consult49-page .dc-arrow:hover { background: var(--green); color: #fff; }
 .consult49-page .dc-arrow.prev { left: 0; }
@@ -175,10 +175,12 @@
 @media (max-width: 820px) { .consult49-page .steps { grid-template-columns: 1fr 1fr; } }
 
 /* Partners */
-.consult49-page .partner-logos { display: flex; align-items: center; justify-content: center; gap: 18px; flex-wrap: wrap; }
-.consult49-page .plg { display: inline-flex; align-items: center; gap: 11px; background: #fff; border-radius: 12px; padding: 0 22px; height: 68px; box-shadow: 0 6px 18px rgba(21,96,63,.12); border: 1px solid var(--line); }
-.consult49-page .plg .wm { font-family: var(--body); font-weight: 800; font-size: 21px; line-height: 1; letter-spacing: -.02em; }
-.consult49-page .plg small { display: block; font-size: 10px; color: #6b7280; font-weight: 600; margin-top: 3px; }
+.consult49-page .partner-logos { display: flex; align-items: center; justify-content: center; gap: clamp(10px, 3vw, 24px); flex-wrap: nowrap; }
+.consult49-page .plg { display: inline-flex; align-items: center; gap: clamp(5px, 1.2vw, 11px); background: #fff; border-radius: 12px; padding: 0 clamp(8px, 2vw, 22px); height: 68px; box-shadow: 0 6px 18px rgba(21,96,63,.12); border: 1px solid var(--line); flex: 1 1 0; min-width: 0; justify-content: center; }
+.consult49-page .plg img { height: 24px; width: auto; max-width: clamp(34px, 8vw, 72px); object-fit: contain; flex: none; }
+.consult49-page .plg > div { min-width: 0; display: flex; flex-direction: column; justify-content: center; line-height: 1.1; }
+.consult49-page .plg .wm { display: block; font-family: var(--body); font-weight: 800; font-size: clamp(11px, 2.2vw, 17px); line-height: 1.1; letter-spacing: -.02em; white-space: nowrap; }
+.consult49-page .plg small { display: block; font-size: clamp(7px, 1.4vw, 9px); color: #6b7280; font-weight: 600; margin-top: 2px; white-space: nowrap; }
 
 /* BMI Calculator */
 .consult49-page .bmi-card {
@@ -274,14 +276,6 @@
 .consult49-page .gtop small { font-size: 12px; color: #FBBC05; letter-spacing: 1px; }
 .consult49-page .greview p { font-size: 14px; color: var(--sage); line-height: 1.55; }
 
-/* Roadmap */
-.consult49-page .roadmap { display: flex; flex-direction: column; gap: 0; max-width: 680px; margin: 0 auto; }
-.consult49-page .rm-step { display: flex; gap: 20px; position: relative; padding-bottom: 24px; }
-.consult49-page .rm-step:last-child { padding-bottom: 0; }
-.consult49-page .rm-step:not(:last-child)::before { content: ''; position: absolute; left: 19px; top: 40px; bottom: 0; width: 2px; background: var(--line); }
-.consult49-page .rm-node { width: 40px; height: 40px; border-radius: 50%; background: var(--green); color: #fff; font-family: var(--display); font-size: 18px; font-weight: 700; display: grid; place-items: center; flex: none; }
-.consult49-page .rm-body h4 { font-size: 17px; color: var(--green); margin-bottom: 4px; }
-.consult49-page .rm-body p { font-size: 14px; color: var(--sage); }
 
 /* FAQ */
 .consult49-page .faq-list { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
@@ -402,8 +396,8 @@
 /* Testimonials always visible — no reveal delay on the grid itself */
 .consult49-page .testi-grid { opacity: 1 !important; transform: none !important; }
 
-/* Verified stamp — absolute on doctor photo bottom-right */
-.consult49-page .verified-stamp-img { position: absolute; bottom: 6px; right: 6px; width: 28px; height: 28px; object-fit: contain; mix-blend-mode: multiply; pointer-events: none; }
+/* Verified stamp on doctor cards */
+.consult49-page .verified-stamp { display: inline-flex; align-items: center; gap: 5px; background: rgba(21,96,63,.12); border: 1px solid rgba(21,96,63,.35); color: var(--green); font-size: 10px; font-weight: 700; letter-spacing: .05em; padding: 3px 8px; border-radius: 100px; margin-top: 6px; }
 
 /* Step serial numbers */
 .consult49-page .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--green); color: #fff; font-family: var(--display); font-size: 15px; font-weight: 700; display: grid; place-items: center; margin: 0 auto 8px; }
@@ -420,35 +414,24 @@
 
 /* Stats counter */
 .consult49-page .stat b.counting { display: inline-block; }
+.consult49-page .rmap { max-width: 760px; margin: 8px auto 0; }
+.consult49-page .rmap-step { display: grid; grid-template-columns: auto 1fr; gap: clamp(16px, 4vw, 40px); align-items: start; padding: clamp(22px, 3.5vw, 34px) 0; border-top: 1px solid var(--line); position: relative; }
+.consult49-page .rmap-step:first-child { border-top: none; } .consult49-page .rmap-step::before { content: ""; position: absolute; left: 30px; top: calc(clamp(34px, 7vw, 62px) * 0.8 + 22px); bottom: calc(clamp(34px, 7vw, 62px) * 0.8 - 14px); width: 2px; background: var(--green); opacity: .4; z-index: 0; } .consult49-page .rmap-step:last-child::before { display: none; }
+.consult49-page .rmap-num { font-family: var(--display); font-size: clamp(34px, 7vw, 62px); font-weight: 400; line-height: .8; color: rgba(21,96,63,.28); letter-spacing: -.02em; position: relative; z-index: 1; min-width: 1.4em; text-align: center; } 
 
-/* Final CTA two-column layout with doctor-patient image */
-.consult49-page .final-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; text-align: left; }
-.consult49-page .final-text { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
-.consult49-page .final-text h2 { font-size: clamp(28px, 4vw, 48px); }
-.consult49-page .final-text p { color: var(--sage); font-size: 16px; max-width: 480px; }
-.consult49-page .final-img { display: flex; justify-content: center; align-items: flex-end; }
-@media (max-width: 820px) {
-  .consult49-page .final-inner { grid-template-columns: 1fr; text-align: center; }
-  .consult49-page .final-text { align-items: center; }
-  .consult49-page .final-img { order: -1; }
-}
+.consult49-page .rmap-eyebrow { display: inline-block; font-family: var(--body); font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: #C9A24B; margin-bottom: 9px; }
+.consult49-page .rmap-body h4 { font-family: var(--display); font-size: clamp(19px, 3vw, 27px); font-weight: 600; color: var(--green); line-height: 1.12; margin: 0 0 9px; letter-spacing: -.01em; }
+.consult49-page .rmap-body p { font-size: clamp(13px, 1.6vw, 15px); color: var(--sage); line-height: 1.6; margin: 0; }
 
-/* Stats counter roll-up */
-.consult49-page .stat b.counting { display: inline-block; }
 
-/* Testimonials always visible */
-.consult49-page .testi-grid { opacity: 1 !important; transform: none !important; }
 
-/* Checkout Modal */
-.consult49-page .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 16px; backdrop-filter: blur(4px); animation: consult-fade .25s ease; }
-.consult49-page .modal-box { background: #fff; border-radius: 20px; padding: 28px; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 24px 60px rgba(0,0,0,.25); }
-.consult49-page .modal-close { position: absolute; top: 14px; right: 16px; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--sage); line-height: 1; padding: 0; }
-.consult49-page .modal-close:hover { color: var(--cream); }
-.consult49-page .modal-head { margin-bottom: 18px; }
-.consult49-page .modal-head h3 { font-size: 22px; color: var(--green); margin-bottom: 4px; }
-.consult49-page .modal-price { font-family: var(--display); font-size: 36px; color: var(--green); line-height: 1; }
-.consult49-page .modal-price span { font-size: 16px; color: var(--sage); text-decoration: line-through; margin-left: 8px; font-family: var(--body); }
-.consult49-page .modal-incl { list-style: none; margin: 12px 0; display: flex; flex-direction: column; gap: 6px; }
-.consult49-page .modal-incl li { display: flex; gap: 8px; font-size: 13px; color: var(--cream); }
-.consult49-page .modal-incl li b { color: var(--green); flex: none; }
-.consult49-page .c-success-ic { width: 64px; height: 64px; border-radius: 50%; background: rgba(21,96,63,.1); border: 3px solid var(--green); color: var(--green); display: grid; place-items: center; font-size: 32px; margin: 0 auto; }
+
+
+
+
+
+
+
+
+
+

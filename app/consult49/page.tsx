@@ -328,9 +328,9 @@ function JoinerToast({ onJoin }: { onJoin: () => void }) {
 /* ─── Roll-up stats counter ────────────────────────────────────── */
 function RollupStats() {
   const [vals, setVals] = useState([0, 0, 0, 0]);
-  const targets = [22, 10000, 4.8, 99];
-  const suffixes = ["%", "+", "★", "+"];
-  const labels = ["avg body-weight loss*", "transformations", "rated by members", "countries approved"];
+  const targets = [17, 10000, 4.8, 99];
+  const suffixes = [" kg", "+", "★", "+"];
+  const labels = ["avg fat loss · 6 months*", "transformations", "rated by members", "countries approved"];
   const ref = useRef<HTMLDivElement>(null);
   const started = useRef(false);
 
@@ -574,8 +574,7 @@ function Consult49Content() {
       <header>
         <div className="wrap nav">
           <div className="logo" style={{ flexShrink: 0 }}>
-            <div className="mark">LP</div>
-            <div className="name">LEAN <b>PROTOCOL</b><span>DOCTOR-LED · SCIENCE-BACKED</span></div>
+            <img src="/logo.png" alt="Lean Protocol" style={{ height: "70px", width: "auto", display: "block", alignSelf: "center" }} />
           </div>
           <button className="btn btn-primary" style={{ flexShrink: 0, whiteSpace: "nowrap", fontSize: "13px", padding: "10px 16px" }} onClick={() => openModal()}>
             Consult @₹49
@@ -601,9 +600,9 @@ function Consult49Content() {
           `}</style>
           <div className="doc-row">
             {[
-              { img: "/consult49/doctor-1.png", name: "Dr. Nishant Jain", role: "MD, DM · Endocrinologist" },
-              { img: "/consult49/doctor-2.png", name: "Dr. Akhil Konduru", role: "MD · Internal Medicine" },
-              { img: "/consult49/doctor-3.png", name: "Dr. Siddharth Garg", role: "MD · Internal Medicine" },
+              { img: "/consult49/doctor-1.png", name: "Dr. Nishant Jain", role: "MD, DM · Endocrinologist", hospital: "Kailash Hospital" },
+              { img: "/consult49/doctor-2.png", name: "Dr. Akhil Konduru", role: "MD · Internal Medicine", hospital: "Yashoda Hospital" },
+              { img: "/consult49/doctor-3.png", name: "Dr. Siddharth Garg", role: "MD · Internal Medicine", hospital: "Former Medanta, Gurgaon" },
             ].map((d, i) => (
               <div key={i} className="doc-col">
                 <img
@@ -615,6 +614,7 @@ function Consult49Content() {
                 />
                 <div className="doc-name" style={{ fontFamily: "var(--display)", fontSize: "clamp(13px, 2vw, 20px)", fontWeight: 700, color: "var(--green)", textAlign: "center", lineHeight: 1.2 }}>{d.name}</div>
                 <div style={{ fontSize: "clamp(11px, 1.4vw, 13px)", color: "var(--sage)", marginTop: "4px", textAlign: "center", lineHeight: 1.3 }}>{d.role}</div>
+                <div style={{ fontSize: "clamp(10px, 1.2vw, 12px)", color: "var(--green)", fontWeight: 600, marginTop: "2px", textAlign: "center", lineHeight: 1.3 }}>{d.hospital}</div>
               </div>
             ))}
           </div>
@@ -671,17 +671,27 @@ function Consult49Content() {
         </div>
       </section>
 
-      {/* How it works */}
-      <section id="how">
+       {/* Roadmap */}
+      <section className="alt" id="roadmap">
         <div className="wrap">
-          <div className="sec-head reveal"><div className="divider"></div><h2>How it works</h2><p>From booking to your personalised prescription — four simple steps.</p></div>
-          <div className="steps reveal">
+          <div className="sec-head reveal"><div className="divider"></div><h2>Your program roadmap</h2><p>From your first consultation to lasting results.</p></div>
+          <div className="rmap reveal">
             {[
-              { ic: "📱", h: "Book your consultation", p: "Reserve your ₹49 consultation slot (50 slots a day)." },
-              { ic: "🩺", h: "Talk to GLP-1 Expert Doctors", p: "1-to-1 live video consultation with reputed doctors." },
-              { ic: "🔬", h: "Root Cause Analysis", p: "Get root cause analysis and a GLP-1 / Mounjaro roadmap." },
-              { ic: "📝", h: "Get your Prescription", p: "A personalised plan with a prescription." },
-            ].map((s, i) => (<div className="step" key={i}><div className="step-num">{i + 1}</div><div className="ic">{s.ic}</div><h4>{s.h}</h4><p>{s.p}</p></div>))}
+              { eyebrow: "2 MINUTES", h: "Book your ₹49 consultation", p: "Reserve your ₹49 slot in under a minute — no clinic queues, no waiting rooms." },
+              { eyebrow: "SAME DAY", h: "Talk to a GLP-1 expert doctor", p: "Live 1:1 video call with a certified internal medicine or endocrinology doctor." },
+              { eyebrow: "DURING CONSULT", h: "Root cause analysis", p: "Your doctor reviews your medical history and builds a weight-loss protocol around your goals." },
+              { eyebrow: "WITHIN 24 HRS", h: "Receive your prescription", p: "A custom GLP-1 / Mounjaro prescription delivered straight to your inbox." },
+              { eyebrow: "ONGOING", h: "First step to a leaner you", p: "Regular check-ins with experts, so you lose weight smartly and sustainably." },
+            ].map((rm, i) => (
+              <div className="rmap-step" key={i}>
+                <div className="rmap-num">{String(i + 1).padStart(2, "0")}</div>
+                <div className="rmap-body">
+                  <div className="rmap-eyebrow">{rm.eyebrow}</div>
+                  <h4>{rm.h}</h4>
+                  <p>{rm.p}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -710,7 +720,7 @@ function Consult49Content() {
         <div className="wrap">
           <div style={{ textAlign: "center", fontSize: "11px", letterSpacing: ".2em", textTransform: "uppercase", color: "var(--sage)", fontWeight: 700, marginBottom: "24px" }}>Trusted partners</div>
           <div className="partner-logos reveal">
-            <div className="plg"><img src="/lp-assets/logo-cult.png" alt="Cult" style={{ height: "28px", width: "auto", objectFit: "contain" }} /><div><span className="wm" style={{ color: "#111" }}>cult</span><small>For Cult Pass Home</small></div></div>
+            <div className="plg"><img src="/lp-assets/logo-cult.png" alt="Cult" style={{ height: "28px", width: "auto", objectFit: "contain" }} /><div><small>For Cult Pass Home</small></div></div>
             <div className="plg"><img src="/lp-assets/logo-redcliffe.png" alt="Redcliffe Labs" style={{ height: "28px", width: "auto", objectFit: "contain" }} /><div><span className="wm"><span style={{ color: "#C0202E" }}>Redcliffe</span> <span style={{ color: "#1B9CCB" }}>labs</span></span><small>For Blood Tests</small></div></div>
             <div className="plg"><img src="/lp-assets/logo-mrmed.jpg" alt="Mr.Med" style={{ height: "28px", width: "auto", objectFit: "contain" }} /><div><span className="wm"><span style={{ color: "#16B5C4" }}>mr</span><span style={{ color: "#2E6FB0" }}>med</span><span style={{ color: "#16B5C4" }}>.in</span></span><small>For Medicine Delivery</small></div></div>
           </div>
@@ -723,7 +733,7 @@ function Consult49Content() {
       {/* Experts — full image cards */}
       <section id="experts" className="alt">
         <div className="wrap">
-          <div className="sec-head reveal"><div className="divider"></div><h2>Meet your expert team</h2><p>Endocrinologists, physicians &amp; GLP-1 specialist dietitians guide every plan.</p></div>
+          <div className="sec-head reveal"><div className="divider"></div><h2>Meet your expert team</h2><p>Not general physicians. Not pharmacy counters. Every prescription comes from an NMC-registered endocrinologist or internal medicine doctor who treats metabolic conditions every day.</p></div>
           <div className="docs-grid reveal">
             {EXPERTS.map((e, i) => (
               <div className="doc" key={i}>
@@ -751,21 +761,7 @@ function Consult49Content() {
         </div>
       </section>
 
-      {/* Roadmap */}
-      <section className="alt">
-        <div className="wrap">
-          <div className="sec-head reveal"><div className="divider"></div><h2>Your program roadmap</h2><p>From your first consultation to lasting results.</p></div>
-          <div className="roadmap reveal">
-            {[
-              { h: "Book your ₹49 consultation", p: "Reserve your ₹49 slot in under a minute." },
-              { h: "Talk to a GLP-1 expert doctor", p: "Live 1:1 video call with a certified internal medicine or endocrinology doctor." },
-              { h: "Get your root cause analysis", p: "Doctor understands your medical history and builds a weight-loss protocol based on your future goals." },
-              { h: "Receive your prescription", p: "Get custom GLP-1 / Mounjaro prescription in your inbox." },
-              { h: "First step to a leaner you", p: "Regular check-ins with experts, so you lose weight smartly." },
-            ].map((rm, i) => (<div className="rm-step" key={i}><div className="rm-node">{i + 1}</div><div className="rm-body"><h4>{rm.h}</h4><p>{rm.p}</p></div></div>))}
-          </div>
-        </div>
-      </section>
+     
 
       {/* FAQ */}
       <section id="faq" className="alt">
@@ -839,6 +835,10 @@ export default function Consult49Page() {
     </Suspense>
   );
 }
+
+
+
+
 
 
 
