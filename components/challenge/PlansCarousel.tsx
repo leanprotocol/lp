@@ -38,12 +38,12 @@ export function PlansCarousel() {
         <div className="sec-head">
           <div className="divider"></div>
           <h2>Choose your challenge plan</h2>
-          <p>Every plan is doctor-designed. Start with the 30 Days Hard Challenge.</p>
+          <p>Every plan is doctor-designed. Start with the 30 Days GLP-1 Challenge.</p>
         </div>
 
         <div className="pcard-single">
           <div className="pmedia">
-            <img src="/challenge/plan-poster.png" alt="The 30 Days Hard Challenge" className="pmedia-fill" />
+            <img src="/challenge/plan-poster.png" alt="The 30 Days GLP-1 Challenge" className="pmedia-fill" />
           </div>
           {PLAN.tag && <div className="ptag">{PLAN.tag}</div>}
           <h3>{PLAN.title}</h3>
@@ -66,3 +66,4 @@ export function PlansCarousel() {
     </section>
   );
 }
+

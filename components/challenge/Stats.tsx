@@ -10,7 +10,7 @@ interface StatDef {
 }
 
 const STATS: StatDef[] = [
-  { to: 22, suffix: "%", label: "Avg. weight loss" },
+  { to: 6, suffix: " kg", label: "Avg. weight loss" },
   { to: 98, suffix: "%", label: "Success rate" },
   { to: 2.6, suffix: "%", decimals: 1, label: "Avg. HbA1c drop" },
   { to: 10000, suffix: "+", label: "Transformations" },
@@ -81,3 +81,4 @@ export function Stats() {
     </div>
   );
 }
+

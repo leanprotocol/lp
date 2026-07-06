@@ -50,3 +50,4 @@ export function UrgencyBar() {
     </div>
   );
 }
+

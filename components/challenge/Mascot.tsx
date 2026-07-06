@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 const HOOKS = [
   "Spin to win 🎉",
   "Lose up to 22%! 🔥",
-  "₹3,999 for 30 days",
+  "₹399 for doctor consultation ",
   "10,000+ joined ✨",
   "Tap me to play!",
 ];
@@ -64,3 +64,4 @@ export function Mascot() {
     </div>
   );
 }
+

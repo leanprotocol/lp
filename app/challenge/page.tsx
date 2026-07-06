@@ -15,7 +15,7 @@ import { StickyCTA } from "@/components/challenge/StickyCTA";
 import { ScrollReveal } from "@/components/challenge/ScrollReveal";
 
 /**
- * Lean Protocol — 30 Days Hard Challenge marketing campaign page.
+ * Lean Protocol — 30 Days GLP-1 Challenge marketing campaign page.
  * Standalone, isolated from the rest of leanprotocol.in: no Header,
  * no Footer, no main-site nav (see app/challenge/layout.tsx).
  */

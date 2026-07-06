@@ -19,6 +19,8 @@ const [cohort, setCohort] = useState<{ slots: number; dateLabel: string } | null
   const [day, setDay] = useState(0);
   const [shotFiring, setShotFiring] = useState(false);
   const lastShotRef = useRef(-1);
+  const [showHint, setShowHint] = useState(true);
+  useEffect(() => { try { if (localStorage.getItem("lp_daySliderHintSeen")) setShowHint(false); } catch {} }, []);
   const firedConfettiRef = useRef(false);
   const slotsRef = useRef(0);
 
@@ -84,19 +86,16 @@ const [cohort, setCohort] = useState<{ slots: number; dateLabel: string } | null
     <section className="hero">
       <div className="wrap hero-grid">
         <div>
-          <div className="badge-row">
-            <span className="pill">Doctor-led</span>
-            <span className="pill">Made for India</span>
-            <span className="pill">GLP-1 backed</span>
-          </div>
           <h1>
              <span className="pct">30 Days</span>
             <br />
             Hard Challenge
           </h1>
-          <p className="hero-tag">
-           With GLP-1 medicines, doctors, dietitians and health coaches for your transformation in next 30 days.
-           </p>
+          <div className="badge-row">
+            <span className="pill">Doctor-led</span>
+            <span className="pill">Made for India</span>
+            <span className="pill">GLP-1 backed</span>
+          </div>
           <ul className="sub" style={{ listStyle: "none", padding: 0 }}>
              <li style={{ display: "flex", alignItems: "flex-start", gap: "10px", marginBottom: "10px" }}>
               <span>💪</span> No mandatory workouts
@@ -110,10 +109,9 @@ const [cohort, setCohort] = useState<{ slots: number; dateLabel: string } | null
           </ul>
           <div className="hero-trust">
             <div className="avatars">
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
+              {["atreyee-transformation.jpeg", "image4.png", "member7.png", "member8.jpg"].map((f, i) => (
+                <span key={i} style={{ backgroundImage: `url(/challenge/avatars/${f})`, backgroundSize: "cover", backgroundPosition: "center" }}></span>
+              ))}
             </div>{" "}
             Joined by <b style={{ color: "var(--cream)", margin: "0 3px" }}>10,000+</b> people across India
           </div>
@@ -241,13 +239,18 @@ const [cohort, setCohort] = useState<{ slots: number; dateLabel: string } | null
           </div>
 
           <div className="tx-slider-wrap">
+            {showHint && (
+              <div className="scroll-hint" aria-hidden="true">
+                <span className="scroll-hint-arrow">→</span> Hold &amp; scroll me
+              </div>
+            )}
             <input
               type="range"
               className="tx-slider"
               min={0}
               max={30}
               value={day}
-              onChange={(e) => setDay(Number(e.target.value))}
+              onChange={(e) => { setDay(Number(e.target.value)); if (showHint) { setShowHint(false); try { localStorage.setItem("lp_daySliderHintSeen", "1"); } catch {} } }}
             />
             <div className="lab">
               <span>Day 0</span>
@@ -286,3 +289,4 @@ const [cohort, setCohort] = useState<{ slots: number; dateLabel: string } | null
     </section>
   );
 }
+

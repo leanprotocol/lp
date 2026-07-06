@@ -1,5 +1,5 @@
 const REVIEW_IMAGES = [
-  "/challenge/reviews/review-1-saurav-jha.png",
+  "/challenge/reviews/review-1-ansh-kaushik.png",
   "/challenge/reviews/review-2-saniya-tiwari.png",
   "/challenge/reviews/review-3-paddhati-jha.png",
   "/challenge/reviews/review-4-atharva.png",
@@ -43,3 +43,4 @@ export function GoogleReviews() {
     </section>
   );
 }
+

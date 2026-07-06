@@ -233,3 +233,22 @@
 
   /* Remove old static animation classes - now controlled via inline styles */
 }
+@keyframes hintBounce { 0%,100% { transform: translateX(0); } 50% { transform: translateX(6px); } }
+.scroll-hint {
+  position: absolute;
+  top: -22px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--cream, #F5EFE6);
+  opacity: .9;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 5;
+}
+.scroll-hint-arrow { display: inline-block; animation: hintBounce 1s ease-in-out infinite; }
+@keyframes hintBounce { 0%,100% { transform: translateX(0); } 50% { transform: translateX(6px); } }
+.partner-logos { display: flex; flex-wrap: nowrap; align-items: center; justify-content: center; gap: clamp(16px, 5vw, 48px); }

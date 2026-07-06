@@ -45,7 +45,7 @@ export function ExitIntentModal() {
           ×
         </button>
         <h3>Wait — don&apos;t miss your reward! 🎉</h3>
-        <p>Spin the wheel before you go and unlock an exclusive bonus on your 30 Days Hard Challenge.</p>
+        <p>Spin the wheel before you go and unlock an exclusive bonus on your 30 Days GLP-1 Challenge.</p>
         <button className="btn btn-primary" style={{ width: "100%" }} onClick={goToSpin}>
           Spin &amp; win now <span className="arrow">›</span>
         </button>
@@ -53,3 +53,4 @@ export function ExitIntentModal() {
     </div>
   );
 }
+

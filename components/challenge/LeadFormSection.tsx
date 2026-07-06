@@ -118,13 +118,13 @@ export function LeadFormSection() {
       <div className="wrap" style={{ maxWidth: "560px" }}>
         <div className="sec-head">
           <div className="divider"></div>
-          <h2>Begin the 30 Days Hard Challenge</h2>
+          <h2>Begin the 30 Days GLP-1 Challenge</h2>
           <p>Fill in your details — our medical team will get you started.</p>
         </div>
 
         <div className={`form-card ${submitted ? "sent" : ""}`}>
           <span className="tag">⚡ Limited Seats — Today Only</span>
-          <h3>Join the 30 Days Hard Challenge</h3>
+          <h3>Join the 30 Days GLP-1 Challenge</h3>
           <div className="fsub">Our medical team will call you back within 24 hours.</div>
 
           <form onSubmit={handleSubmit} noValidate style={{ display: submitted ? "none" : "block" }}>
@@ -260,3 +260,4 @@ export function LeadFormSection() {
     </section>
   );
 }
+

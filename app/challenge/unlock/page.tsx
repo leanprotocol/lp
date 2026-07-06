@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Lean Protocol — 30 Days Hard Challenge "unlock" funnel.
+ * Lean Protocol — 30 Days GLP-1 Challenge "unlock" funnel.
  * Standalone 7-step quiz funnel that replaces the old lead form.
  * Reached from every "Begin / Start the Challenge" button via /challenge/unlock.
  *
@@ -185,7 +185,7 @@ export default function UnlockFunnel() {
         key: order.keyId,
         currency: order.currency,
         amount: Math.round(order.amount * 100),
-        name: "Lean Protocol — 30 Days Hard Challenge",
+        name: "Lean Protocol — 30 Days GLP-1 Challenge",
         description: "30 + 15 Days FREE bonus",
         order_id: order.orderId,
         prefill: { name: name.trim(), contact: digits },
@@ -366,7 +366,7 @@ export default function UnlockFunnel() {
             <div style={{ width: 84, height: 84, borderRadius: "50%", background: "#E1F5EA", border: `2px solid ${C.glow}`, color: C.glow, fontSize: 42, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 22px", boxShadow: "0 14px 34px rgba(55,200,113,.32)" }}>✓</div>
             <h2 style={{ ...sH2, fontSize: 30 }}>You&apos;re in! 🎉</h2>
             <p style={{ fontSize: 14, color: C.muted, maxWidth: 320, margin: "10px auto 0", lineHeight: 1.6 }}>
-              Your 30 Days Hard Challenge <b style={{ color: C.dark }}>+ 15 bonus days</b> are confirmed. Our medical team will reach out shortly to get you started.
+              Your 30 Days GLP-1 Challenge <b style={{ color: C.dark }}>+ 15 bonus days</b> are confirmed. Our medical team will reach out shortly to get you started.
             </p>
             <div style={{ ...sPop, marginTop: 24, textAlign: "left" }}>
               <p style={{ fontFamily: display, fontSize: 12, letterSpacing: ".06em", marginBottom: 12, color: C.green }}>WHAT HAPPENS NEXT</p>
@@ -685,3 +685,4 @@ export default function UnlockFunnel() {
     </div>
   );
 }
+

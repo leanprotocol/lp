@@ -158,8 +158,8 @@ function CheckoutContent() {
         key: order.keyId,
         currency: order.currency,
         amount: Math.round(order.amount * 100),
-        name: "Lean Protocol — 30 Days Hard Challenge",
-        description: promoApplied ? "30 + 15 Days FREE bonus" : "30 Days Hard Challenge",
+        name: "Lean Protocol — 30 Days GLP-1 Challenge",
+        description: promoApplied ? "30 + 15 Days FREE bonus" : "30 Days GLP-1 Challenge",
         order_id: order.orderId,
         prefill: {
           name: name.trim(),
@@ -235,7 +235,7 @@ function CheckoutContent() {
       <div className="wrap">
         <div className="page-h">
           <h1>
-            Join the <span className="g">30 Days Hard Challenge</span>
+            Join the <span className="g">30 Days GLP-1 Challenge</span>
           </h1>
           <p>You&apos;re one step away. Complete your details to lock in your spot.</p>
         </div>
@@ -312,7 +312,7 @@ function CheckoutContent() {
                 <span className="default-tag">Default</span>
                 <div className="radio"></div>
                 <div className="pinfo">
-                  <b>30 Days Hard Challenge</b>
+                  <b>30 Days GLP-1 Challenge</b>
                   <small>{promoApplied ? "45 days (30 + 15 days FREE)" : "1 Month · 30 days"}</small>
                   <div style={{ fontSize: "12px", color: "var(--sage)", marginTop: "3px" }}>
                     Includes ₹449 doctor consultation
@@ -419,8 +419,8 @@ function CheckoutContent() {
             <h2>You&apos;re in! 🎉</h2>
             <p>
               {promoApplied
-                ? "Your 30 Days Hard Challenge + 15 bonus days are reserved! Our medical team will reach out shortly to confirm payment and get you started."
-                : "Your spot in the 30 Days Hard Challenge is reserved. Our medical team will reach out shortly to confirm payment and get you started."}
+                ? "Your 30 Days GLP-1 Challenge + 15 bonus days are reserved! Our medical team will reach out shortly to confirm payment and get you started."
+                : "Your spot in the 30 Days GLP-1 Challenge is reserved. Our medical team will reach out shortly to confirm payment and get you started."}
             </p>
             <a href="https://wa.link/3s1upf" className="btn btn-wa" style={{ marginBottom: "10px" }}>
               💬 Message us on WhatsApp
@@ -454,3 +454,4 @@ export default function CheckoutPage() {
     </Suspense>
   );
 }
+

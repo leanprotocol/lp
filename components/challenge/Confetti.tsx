@@ -95,3 +95,4 @@ export function Confetti() {
 
   return <canvas ref={canvasRef} className="confetti-canvas" />;
 }
+

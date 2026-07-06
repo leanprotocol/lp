@@ -98,7 +98,7 @@ export function SpinWheel() {
         <div className="sec-head">
           <div className="divider"></div>
           <h2>🎉 Spin to unlock your challenge offer</h2>
-          <p>Give the wheel a spin and lock in your exclusive joining offer for the 30 Days Hard Challenge!</p>
+          <p>Give the wheel a spin and lock in your exclusive joining offer for the 30 Days GLP-1 Challenge!</p>
         </div>
 
         <div className="spin-card">
@@ -236,3 +236,4 @@ export function SpinWheel() {
     </section>
   );
 }
+
