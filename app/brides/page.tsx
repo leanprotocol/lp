@@ -49,7 +49,7 @@ function CountUp({ end, prefix = "", suffix = "", duration = 1400 }: { end: numb
 }
 
 const STATS: { end: number; prefix?: string; suffix?: string; label: string }[] = [
-  { end: 22, prefix: "18–", suffix: "%", label: "Avg weight loss" },
+  { end: 17, suffix: " kg", label: "Avg fat loss - 6 months*" },
   { end: 98, suffix: "%", label: "Success rate" },
   { end: 88, suffix: "%", label: "Faced natural skin glow" },
   { end: 78, suffix: "%", label: "Got two shades lighter" },
@@ -172,6 +172,12 @@ export default function BridesEditPage() {
         .plogo{ display:inline-flex; align-items:center; gap:6px; background:#fff; border-radius:10px; padding:0 18px; height:54px; box-shadow:0 4px 14px rgba(181,32,44,.12); border:1px solid #ece0c8; text-decoration:none; transition:transform .16s ease, box-shadow .16s ease; }
         .plogo:hover{ transform:translatey(-3px); box-shadow:0 10px 26px rgba(181,32,44,.18); }
         .plogo .t{ line-height:1; }
+        .plartner{ display:inline-flex; flex-direction:column; align-items:center; justify-content:center; gap:9px; background:#fff; border-radius:10px; padding:14px 22px; box-shadow:0 4px 14px rgba(181,32,44,.12); border:1px solid #ece0c8; transition:transform .16s ease, box-shadow .16s ease; }
+        .plartner:hover{ transform:translatey(-3px); box-shadow:0 10px 26px rgba(181,32,44,.18); }
+        .plartner img{ height:26px; width:auto; object-fit:contain; }
+        .plartner .cap{ font-family:'Jost',sans-serif; font-size:8.5px; letter-spacing:.1em; text-transform:uppercase; color:#7A6F66; font-weight:400; }
+        .partners-row{ display:flex; flex-wrap:nowrap; justify-content:center; align-items:stretch; gap:10px; }
+        @media(max-width:520px){ .partners-row{ gap:7px; } .plartner{ padding:11px 12px; } .plartner img{ height:20px; } }
         .plogo.zee .box{ background:#e5202e; color:#fff; font-family:'playfair display',serif; font-weight:700; padding:3px 7px; border-radius:4px; font-size:17px; }
         .plogo.zee .t{ color:#141414; font-family:'playfair display',serif; font-weight:700; font-size:17px; }
         .plogo.n24 .t{ color:#0a3d91; font-weight:800; font-size:19px; letter-spacing:-.02em; }
@@ -205,9 +211,9 @@ export default function BridesEditPage() {
             <div>
               <div style={css("display:flex;align-items:center;gap:10px;margin-bottom:22px")}>
                 <span style={{ ...css("width:6px;height:6px;border-radius:50%;background:#C9A24B"), animation: "meblink 2s ease-in-out infinite" }} />
-                <span style={css("font-family:'Jost',sans-serif;font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:#7A6F66")}>Doctor-guided GLP-1 · made for the aisle</span>
+                <span style={css("font-family:'Jost',sans-serif;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#5F574F;white-space:nowrap")}>Doctor guided GLP 1 · Designed for Brides · Avg 17kg Weight Loss</span>
               </div>
-              <h1 style={css("font-family:'Playfair Display',serif;font-weight:500;font-size:46px;line-height:1.04;letter-spacing:-.01em;margin:0 0 22px")}>Glow into the most <span style={css("font-style:italic;color:#B5202C")}>photographed</span> day of your life.</h1>
+              <h1 style={css("font-family:'Playfair Display',serif;font-weight:500;font-size:46px;line-height:1.04;letter-spacing:-.01em;margin:0 0 22px")}>Meet your <span style={css("font-style:italic;color:#B5202C")}>Bridal Goals</span> with GLP 1</h1>
               
               <div style={css("display:flex;align-items:center;gap:18px;flex-wrap:wrap")}>
                 <button onClick={openFunnel} style={css("border:none;cursor:pointer;background:#B5202C;color:#fff;font-family:'Jost',sans-serif;font-weight:500;font-size:14px;letter-spacing:.06em;text-transform:uppercase;padding:15px 28px;border-radius:2px")}>Build my bridal plan</button>
@@ -320,6 +326,28 @@ export default function BridesEditPage() {
           </div>
         </section>
 
+        {/* PARTNERS */}
+        <section className="sec">
+          <div style={css("text-align:center;margin-bottom:30px")}>
+            <div style={css("font-family:'Jost',sans-serif;font-size:11.5px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#7D5E1F;margin-bottom:12px")}>The company we keep</div>
+            <h2 style={css("font-family:'Playfair Display',serif;font-weight:500;font-size:28px;margin:0 0 6px")}>Our trusted partners</h2>
+            <p style={css("font-size:12.5px;color:#7A6F66;font-weight:300;margin:0")}>Labs, medicines and fitness, handled by names you already trust.</p>
+          </div>
+          <div className="partners-row">
+            <div className="plartner">
+              <img src="/lp-assets/logo-cult.png" alt="Cult" />
+              <div className="cap">For Cult Pass Home</div>
+            </div>
+            <div className="plartner">
+              <img src="/lp-assets/logo-redcliffe.png" alt="Redcliffe Labs" />
+              <div className="cap">For Blood Tests</div>
+            </div>
+            <div className="plartner">
+              <img src="/lp-assets/logo-mrmed.jpg" alt="Mr.Med" />
+              <div className="cap">For Medicine Delivery</div>
+            </div>
+          </div>
+        </section>
         {/* TIMELINE */}
         <section className="sec">
           <div style={css("text-align:center;margin-bottom:34px")}>
@@ -366,6 +394,7 @@ export default function BridesEditPage() {
           <div style={css("text-align:center;margin-bottom:32px")}>
             <div style={css("font-family:'Jost',sans-serif;font-size:11.5px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#7D5E1F;margin-bottom:12px")}>Your team, not an app</div>
             <h2 style={css("font-family:'Playfair Display',serif;font-weight:500;font-size:28px;margin:0")}>Doctors &amp; dietitians in your corner</h2>
+            <p style={css("font-family:'Jost',sans-serif;font-size:13.5px;line-height:1.6;color:#5F574F;font-weight:300;max-width:600px;margin:14px auto 0")}>Not general physicians. Not pharmacy counters. Every prescription comes from an NMC-registered endocrinologist or internal medicine doctor who treats metabolic conditions every day.</p>
           </div>
           <div className="g-experts">
             {EXPERTS.map((e) => (
