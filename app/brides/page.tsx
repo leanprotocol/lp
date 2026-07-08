@@ -211,7 +211,7 @@ export default function BridesEditPage() {
             <div>
               <div style={css("display:flex;align-items:center;gap:10px;margin-bottom:22px")}>
                 <span style={{ ...css("width:6px;height:6px;border-radius:50%;background:#C9A24B"), animation: "meblink 2s ease-in-out infinite" }} />
-                <span style={css("font-family:'Jost',sans-serif;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#5F574F;white-space:nowrap")}>Doctor guided GLP 1 · Designed for Brides · Avg 17kg Weight Loss</span>
+                <span style={css("font-family:'Jost',sans-serif;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#5F574F")}>Doctor guided GLP 1 · Designed for Brides · Avg 17kg Weight Loss</span>
               </div>
               <h1 style={css("font-family:'Playfair Display',serif;font-weight:500;font-size:46px;line-height:1.04;letter-spacing:-.01em;margin:0 0 22px")}>Meet your <span style={css("font-style:italic;color:#B5202C")}>Bridal Goals</span> with GLP 1</h1>
               
@@ -220,13 +220,10 @@ export default function BridesEditPage() {
                 <div style={css("font-size:12px;color:#7A6F66;line-height:1.4;font-weight:300")}><strong style={css("color:#2A2020;font-weight:600")}>1,000+ brides</strong><sup style={css("color:#C9A24B")}>*</sup><br />transformed before the aisle</div>
               </div>
             </div>
-            <div style={css("position:relative")}>
-              <img src="/brides/bridal-1.png" alt="Lean Protocol bride" style={css("display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center 30%;border-radius:3px;border:1px solid #FFFDF9")} />
-              <div style={css("position:absolute;left:18px;bottom:18px;right:18px;background:#fff;border:1px solid #FFFDF9;border-radius:3px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center")}>
-                <div style={css("text-align:left")}><div style={css("font-family:'Playfair Display',serif;font-size:26px;font-weight:600;color:#B5202C;line-height:1")}>17 kg<sup style={css("font-size:11px;color:#C9A24B")}>*</sup></div><div style={css("font-family:'Jost',sans-serif;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#7A6F66;margin-top:5px")}>typical loss / 5 months</div></div>
-                <div style={css("width:1px;align-self:stretch;background:#FFFDF9")} />
-                <div style={css("text-align:right")}><div style={css("font-family:'Playfair Display',serif;font-size:26px;font-weight:600;color:#B5202C;line-height:1")}>98%<sup style={css("font-size:11px;color:#C9A24B")}>*</sup></div><div style={css("font-family:'Jost',sans-serif;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#7A6F66;margin-top:5px")}>felt camera-ready</div></div>
-              </div>
+            <div style={css("position:relative;overflow:hidden;border-radius:3px;border:1px solid #E8D9B8")}>
+              <img src="/brides/bridal-1.png" alt="Lean Protocol bride" style={css("display:block;width:100%;max-width:100%;height:auto;object-fit:contain")} />
+              <div style={css("position:absolute;left:16px;right:16px;bottom:16px;background:#fff;border-radius:4px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 6px 20px rgba(0,0,0,.12)")}><div style={css("text-align:left")}><div style={css("font-family:'Playfair Display',serif;font-size:28px;font-weight:600;color:#B5202C;line-height:1")}>17 kg<sup style={css("font-size:12px;color:#C9A24B")}>*</sup></div><div style={css("font-family:'Jost',sans-serif;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#7A6F66;margin-top:5px")}>Typical loss / 5 months</div></div><div style={css("text-align:right")}><div style={css("font-family:'Playfair Display',serif;font-size:28px;font-weight:600;color:#B5202C;line-height:1")}>98%<sup style={css("font-size:12px;color:#C9A24B")}>*</sup></div><div style={css("font-family:'Jost',sans-serif;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#7A6F66;margin-top:5px")}>Felt camera-ready</div></div></div>
+              
             </div>
           </div>
         </section>
@@ -484,3 +481,7 @@ export default function BridesEditPage() {
     </div>
   );
 }
+
+
+
+
