@@ -467,7 +467,7 @@ function CheckoutModal({ onClose, prefillName = "", prefillPhone = "", prefillBm
           <>
             <div className="modal-head">
               <h3>Book your consultation</h3>
-              <div className="modal-price">₹49 <span>₹1,500</span></div>
+              <div className="modal-price">₹49 <span style={{ textDecoration: "line-through", color: "#9ca3af" }}>₹1,500</span></div>
             </div>
             <div className={`c-field ${errors.name ? "err" : ""}`}>
               <label>Full name</label>
