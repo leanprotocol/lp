@@ -3,7 +3,7 @@ import Image from "next/image";
 const secondaryMetrics = [
   {
     id: "success-stories",
-    title: "10,000+ Success Stories",
+    title: "1,000+ Success Stories",
     subtitle: "Join a thriving community of people who have reclaimed their health",
     image: "/lp-assets/metric_success_stories.png"
   },
@@ -278,3 +278,4 @@ export function ProcessGuarantee() {
     </>
   );
 }
+
