@@ -90,10 +90,10 @@ export function AffiliateLandingPage({ affiliateRef }: AffiliateLandingPageProps
 
   return (
     <div className="min-h-screen bg-lp-bg">
-      {/* Cross-link banner — Mounjaro */}
-      <a href="/mounjaro" className="w-full bg-[#0A2422] text-white py-3 px-4 flex items-center justify-center gap-3 text-sm hover:bg-[#0d2e2b] transition-colors">
+      {/* Cross-link banner - hidden for now */}
+      <a href="/gip" className="hidden w-full bg-[#0A2422] text-white py-3 px-4 flex items-center justify-center gap-3 text-sm hover:bg-[#0d2e2b] transition-colors">
         <span className="text-white/70">Exploring Mounjaro plans?</span>
-        <span className="font-semibold text-[#14B8A6]">Click here →</span>
+        <span className="font-semibold text-[#14B8A6]">Click here</span>
       </a>
       <div id="pricing">
         <HeroSection 

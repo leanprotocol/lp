@@ -61,7 +61,7 @@ const steps = [
   { 
     v: "/journey/step-6-vertical.png", 
     h: "/journey/step-6-horizontal.jpeg", 
-    title: "15–22% weight loss in 6 months", 
+    title: "15–22% weight loss in 6 months*", 
     description: "Achieve lasting, transformational results with our guaranteed weight loss program.",
   },
 ];
@@ -104,92 +104,6 @@ const guaranteeFeatures = [
 export function ProcessGuarantee() {
   return (
     <>
-      {/* SECTION 7 – Guarantee Section */}
-      <section className="bg-[#E8F3EC] py-16 md:py-24 px-4 overflow-hidden">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-12 lg:gap-8">
-            
-            {/* Left Content */}
-            <div className="flex-1 max-w-2xl text-center md:text-left z-10">
-              {/* Logo */}
-              <div className="flex items-center justify-center md:justify-start gap-2 mb-8">
-                <Image src="/logo-cropped.png" alt="Lean Protocol" width={140} height={40} className="object-contain" />
-              </div>
-
-              {/* Main Heading */}
-              <h2 className="font-serif text-[2.5rem] md:text-[3rem] lg:text-[3.5rem] text-lp-dark leading-[1.1] font-bold tracking-tight">
-                India&apos;s only<br /> program guaranteeing
-              </h2>
-
-              {/* Promise 1: Weight Loss */}
-              <div className="mt-8">
-                <p className="text-lp-dark/70 text-lg md:text-xl font-medium">a minimum of</p>
-                <div className="flex items-end justify-center md:justify-start gap-2 mt-1">
-                  <span className="text-lp-green font-bold text-[5rem] md:text-[6.5rem] lg:text-[7.5rem] leading-none tracking-tight" style={{ fontFamily: "'Inter', sans-serif" }}>
-                    10%
-                  </span>
-                </div>
-                <div className="flex items-center justify-center md:justify-start gap-3 mt-1">
-                  <p className="text-lp-dark text-xl md:text-2xl font-bold">
-                    weight loss in 6 months.
-                  </p>
-                  <div className="w-7 h-7 rounded-full bg-lp-green flex items-center justify-center flex-shrink-0">
-                    <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-
-              {/* Promise 2: Refund */}
-              <div className="flex items-center justify-center md:justify-start gap-3 mt-4">
-                <p className="text-lp-dark text-xl md:text-2xl">
-                  or a <span className="font-bold">full refund.</span>
-                </p>
-                <div className="w-7 h-7 rounded-full bg-lp-green flex items-center justify-center flex-shrink-0">
-                  <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-              </div>
-
-              {/* Tagline */}
-              <p className="text-lp-green font-semibold text-base md:text-lg mt-8 italic">
-                Because we have zero doubts about our protocol.
-              </p>
-
-              {/* Feature Icons Row */}
-              <div className="flex flex-wrap justify-center md:justify-start gap-6 md:gap-8 mt-10">
-                {guaranteeFeatures.map((feat, i) => (
-                  <div key={i} className={`flex flex-col items-center gap-3 w-[80px] ${i === 3 ? 'hidden md:flex' : ''}`}>
-                    <div className="w-14 h-14 rounded-full bg-white/60 border border-lp-green/20 shadow-sm flex items-center justify-center text-lp-green">
-                      {feat.icon}
-                    </div>
-                    <p className="text-[11px] md:text-xs text-lp-dark font-semibold text-center leading-tight whitespace-pre-line">
-                      {feat.label}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Right Side - Woman Image */}
-            <div className="w-full md:w-[45%] lg:w-[50%] relative flex justify-center md:justify-end">
-              <div className="relative w-full max-w-[500px] aspect-square md:aspect-[4/5]">
-                <Image
-                  src="/lp-assets/metric_success_rate.png"
-                  alt="Confident woman representing Lean Protocol results"
-                  fill
-                  className="object-contain object-bottom mix-blend-darken"
-                  priority
-                />
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
       {/* SECTION 8 – How We Do It (Step-by-Step) */}
       <section className="bg-white py-24 px-4 overflow-hidden">
         <div className="max-w-6xl mx-auto">
@@ -249,6 +163,7 @@ export function ProcessGuarantee() {
             })}
           </div>
         </div>
+        <p className="text-xs text-gray-400 mt-6 px-4 text-center max-w-3xl mx-auto">*Results vary. Eligibility, treatment and outcomes depend on individual medical assessment. Medication is prescribed only when clinically appropriate.</p>
       </section>
 
       {/* SECTION 8.5 – Secondary Metrics Grid (Image Cards) */}

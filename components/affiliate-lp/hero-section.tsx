@@ -181,8 +181,8 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans, pageTitle, m
         
         {/* MOBILE HEADLINE (Shown only on mobile, placed at the top) */}
         <div className="lg:hidden space-y-3 order-first">
-          <h1 className="text-2xl md:text-3xl font-serif text-lp-dark leading-tight">
-            {pageTitle || "GLP-1 (Semaglutide) Based Complete Weight Loss Program"}
+          <h1 className="text-3xl md:text-4xl font-serif text-lp-dark leading-tight">
+            {pageTitle || "Doctor-Led GLP-1 Weight Management Protocol"}
           </h1>
           
           <div className="flex items-center gap-3">
@@ -198,8 +198,8 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans, pageTitle, m
         <div className="space-y-8 flex flex-col justify-center order-2 lg:order-1">
           {/* DESKTOP HEADLINE (Hidden on mobile) */}
           <div className="hidden lg:block space-y-4">
-            <h1 className="text-3xl lg:text-4xl font-serif text-lp-dark leading-tight">
-             {pageTitle || "GLP-1 (Semaglutide) Based Complete Weight Loss Program"}
+            <h1 className="text-4xl lg:text-5xl font-serif text-lp-dark leading-tight">
+             {pageTitle || "Doctor-Led GLP-1 Weight Management Protocol"}
             </h1>
             
             <div className="flex items-center gap-5 mt-6">
@@ -364,3 +364,7 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans, pageTitle, m
     </>
   );
 }
+
+
+
+

@@ -205,7 +205,7 @@ export function EligibilityFAQ() {
 
             <div className="mt-10 text-center space-y-5">
               <p className="text-base md:text-lg text-gray-600">
-                If you relate to any of these, <span className="font-semibold text-lp-dark">GLP-1 may be right for you.</span>
+                If you relate to any of these, <span className="font-semibold text-lp-dark">GLP-1 may be right for you (only if eligible &amp; prescribed).</span>
               </p>
               <a
                 href="https://wa.link/5btsrr"

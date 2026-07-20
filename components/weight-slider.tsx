@@ -38,24 +38,9 @@ export function WeightSlider() {
       <div className="container mx-auto px-4 lg:px-8">
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center max-w-7xl mx-auto">
-          <div className="order-2 lg:order-1">
-            <div className="flex justify-center">
-              <div className="relative p-14 md:p-28 rounded-full bg-[#D4E5C4] flex flex-col items-center justify-center">
-                <p className="text-sm text-black/70 mb-2">Lose up to</p>
-                <p className="font-sans font-thin tracking-tighter text-[4rem] md:text-[8rem] text-black">22%</p>
-                <p className="text-sm text-center text-black/70 mt-2">of your body weight with GLP-1®</p>
-              </div>
-            </div>
-            <p className="text-xs text-center text-black/50 mt-12 max-w-4xl mx-auto">
-              *average weight loss in 1 year is 22% (compared to 3.1% with diet and exercise alone). Based on a 72-week
-              clinical trial studying the highest doses of Mounjaro in non-diabetic patients with obesity, or with
-              overweight plus a weight-related condition, when paired with healthy lifestyle changes.
-            </p>
-          </div>
-
           <div className="order-1 lg:order-2">
             <h2 className="font-serif text-[28px] lg:text-5xl text-black mb-10 md:mb-16 text-center">
-              Your weight in 6 months with Lean Protocol
+              Your estimated weight in 6 months with Lean Protocol
             </h2>
             <div className="bg-white border border-black rounded-3xl md:rounded-[3rem] p-6 md:p-12 md:py-16">
               <div className="flex items-center justify-between mb-8">
@@ -81,7 +66,7 @@ export function WeightSlider() {
               />
 
               <div className="flex items-center justify-between">
-                <p className="font-semibold text-black text-lg">Estimated new weight</p>
+                <p className="font-semibold text-black text-lg">Estimated new weight*</p>
                 <div className="relative">
                   <p className="font-serif text-2xl md:text-5xl text-[#14532d] transition-transform duration-150" 
                      style={{ transform: isAnimating ? 'scale(1.1)' : 'scale(1)' }}>
@@ -127,6 +112,10 @@ export function WeightSlider() {
         </div>
 
       </div>
+      <p className="text-[11px] text-muted-foreground/60 mt-6 px-4 text-center max-w-3xl mx-auto">*Individual results may vary. The data is on the basis of average results of a Lean Protocol user.</p>
     </section>
   )
 }
+
+
+

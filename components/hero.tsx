@@ -90,7 +90,7 @@ export function Hero() {
         <div className="max-w-4xl">
           
           <h1 className="mb-3 text-4xl font-serif tracking-tight text-balance md:text-[3.2rem] text-white leading-[1.3]">
-            GLP 1 guided Fat Loss Made
+            GLP 1* Guided Fat Loss Made
             <br />
              <span className="italic font-light text-accent opacity-90">Affordable for India</span>
           </h1>
@@ -133,7 +133,7 @@ export function Hero() {
                   <TrendingDown className="w-4 h-4 text-white" />
                 </div>
                 <p className="text-base text-white/90 leading-snug font-medium">
-                  Upto 22% weight loss with our Protocol in 6 months<br />(Ex- 100kg to 78kg)
+                  Root Causes Diagnosis
                 </p>
               </div>
 
@@ -142,16 +142,15 @@ export function Hero() {
                   <Stethoscope className="w-4 h-4 text-white" />
                 </div>
                 <p className="text-base text-white/90 leading-snug font-medium">
-                  Root Cause diagnosis
+                  Personalised Lifestyle Approach
                 </p>
               </div>
-
               <div className="flex flex-row items-start gap-3">
                 <div className="p-1.5 rounded-full bg-white/10 shrink-0">
                   <Sun className="w-4 h-4 text-white" />
                 </div>
                 <p className="text-base text-white/90 leading-snug font-medium">
-                  Personalised Lifestyle Approach
+                  Lose weight optimally with GLP-1 (only if eligible &amp; prescribed)
                 </p>
               </div>
 
@@ -167,9 +166,16 @@ export function Hero() {
 export function InsuranceLogos() {
   return (
     <div className="container mx-auto px-4 py-3 mt-2">
-      <p className="mb-8 mt-5 text-[10px] leading-relaxed text-muted-foreground/60 max-w-4xl mx-auto text-center px-4">
-Clinical trials of semaglutide and tirzepatide over 68–72 weeks showed average weight loss of ~15-22% when combined with diet and exercise, compared to ~2-3% with lifestyle changes alone. With multiple semaglutide-based options, medication choice depends on availability and medical suitability. Medicine will get delivered only if prescribed by our doctors.
-      </p>
+      <p className="mb-8 mt-5 text-[10px] leading-relaxed text-muted-foreground/60 max-w-4xl mx-auto text-center px-4">*GLP-1 only after doctor's evaluation and on the basis of valid prescription</p>
     </div>
   )
 }
+
+
+
+
+
+
+
+
+

@@ -73,21 +73,21 @@ const testimonials = [
   {
     id: 1,
     name: "Riya S.",
-    result: "Lost 10 kg in 3 months",
+    result: "Transformation Journey",
     quote: "For the first time after my marriage, I feel in control of my health. Lean Protocol not just gave me weight loss but also self confidence and a lifestyle to maintain.",
     image: "/lp-assets/image7.jpg"
   },
   {
     id: 2,
     name: "Vikram M.",
-    result: "Lost 14 kg in 5 months",
+    result: "Transformation Journey",
     quote: "The doctor support and dietitian guidance made this journey effortless. I've never felt this energetic in my 40s.",
     image: "/member2.jpg"
   },
   {
     id: 3,
     name: "Priya K.",
-    result: "Lost 8 kg in 2.5 months",
+    result: "Transformation Journey",
     quote: "GLP-1 finally broke through my weight loss plateau. The whole process from home blood test to medication delivery was seamless.",
     image: "/member3.jpg"
   }
@@ -170,7 +170,7 @@ export function SocialTrust() {
               {
                 type: "image",
                 name: "Kanti, 44",
-                result: "Lost 8.5 Kgs in 3 months",
+                result: "Transformation Journey",
                 src: "/testimonials/kanti.png",
               },
               {
@@ -182,7 +182,7 @@ export function SocialTrust() {
               {
                 type: "image",
                 name: "Pratima, 37",
-                result: "Lost 7 kg in 2.5 months",
+                result: "Transformation Journey",
                 src: "/testimonials/pratima.png",
               },
               {
@@ -194,7 +194,7 @@ export function SocialTrust() {
               {
                 type: "image",
                 name: "Rohit, 39",
-                result: "Lost 9.1 kg in 15 weeks",
+                result: "Transformation Journey",
                 src: "/testimonials/rohit.png",
               },
               {
@@ -216,15 +216,9 @@ export function SocialTrust() {
                 src: "/testimonials/roshni.mp4",
               },
               {
-                type: "image",
-                name: "Neema, 46",
-                result: "Lost 10.8 kgs in 4 months",
-                src: "/testimonials/neema.png",
-              },
-              {
                 type: "video",
                 name: "Atreyee, 28",
-                result: "Lost 6 kgs in 1 month",
+                result: "Transformation Journey",
                 src: "/testimonials/atreyee.mp4",
               },
             ].map((story, i) => (

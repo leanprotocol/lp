@@ -58,7 +58,7 @@ export function WeightLossChart() {
             Clinical outcomes
           </p>
           <h2 className="font-serif text-3xl md:text-4xl text-dark leading-snug">
-            Your weight over 6 months
+            Your estimated weight over 6 months
           </h2>
           
         </div>
@@ -137,7 +137,7 @@ export function WeightLossChart() {
         <div className="mt-5 flex flex-col sm:flex-row items-center justify-center gap-3">
           <div className="flex items-center gap-2 bg-dark text-white rounded-full px-5 py-2.5 text-sm font-semibold">
             <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: "#A8BEB7" }} />
-            −22% with Lean Protocol
+            −22% with Lean Protocol*
           </div>
           <div
             className="flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium border"
@@ -150,10 +150,13 @@ export function WeightLossChart() {
 
         {/* Disclaimer */}
         <p className="text-[10px] text-muted-foreground/50 text-center mt-4 leading-relaxed max-w-2xl mx-auto">
-          Results based on clinical trial data. Individual results may vary. Medication is prescribed at a doctor&apos;s discretion.
+          *Individual results may vary. The data is on the basis of average results of a Lean Protocol user.
         </p>
 
       </div>
     </section>
   )
 }
+
+
+

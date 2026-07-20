@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { ChallengeHeader } from "@/components/challenge/ChallengeHeader";
 import { Hero } from "@/components/challenge/Hero";
 import { Stats } from "@/components/challenge/Stats";
@@ -15,11 +16,12 @@ import { StickyCTA } from "@/components/challenge/StickyCTA";
 import { ScrollReveal } from "@/components/challenge/ScrollReveal";
 
 /**
- * Lean Protocol — 30 Days GLP-1 Challenge marketing campaign page.
+ * Lean Protocol â€” 30 Days GLP-1 Challenge marketing campaign page.
  * Standalone, isolated from the rest of leanprotocol.in: no Header,
  * no Footer, no main-site nav (see app/challenge/layout.tsx).
  */
 export default function ChallengePage() {
+  notFound();
   return (
     <>
       <ChallengeHeader />
@@ -34,12 +36,12 @@ export default function ChallengePage() {
       <FinalCTA />
       <ChallengeFooter />
 
-      {/* Fixed/overlay UI — rendered once, positioned via CSS */}
+      {/* Fixed/overlay UI â€” rendered once, positioned via CSS */}
       <Confetti />
       {/* <JoinerToasts /> */}
       <StickyCTA />
 
-      {/* Watches all .reveal sections and fades them in on scroll —
+      {/* Watches all .reveal sections and fades them in on scroll â€”
           without this, sections using the "reveal" class stay at
           opacity:0 forever (see .reveal in challenge.css) */}
       <ScrollReveal />

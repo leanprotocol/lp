@@ -67,13 +67,13 @@ export function VideoSection() {
             </div>
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[#14B8A6]" />
-              <span className="text-white/60 text-xs">GLP-1 backed</span>
+              <span className="text-white/60 text-xs">GLP-1 backed (only if eligible & prescribed)</span>
             </div>
           </div>
 
           {/* Mobile only — single line trust badge */}
           <p className="sm:hidden text-center text-[10px] text-white/40 mt-3">
-            Doctor-guided · Made for India · GLP-1 backed
+            Doctor-guided · Made for India · GLP-1 backed (only if eligible & prescribed)
           </p>
         </div>
 
@@ -81,3 +81,4 @@ export function VideoSection() {
     </section>
   )
 }
+

@@ -73,10 +73,6 @@ export function TestimonialsCarousel() {
       imageFilename: "Kanti, 44 Lost 8.5 Kgs in 3 months.png",
     },
     {
-      ...parseTestimonialFilename("Neema, 46 Lost 10.8 kgs in 4 months.png"),
-      imageFilename: "Neema, 46 Lost 10.8 kgs in 4 months.png",
-    },
-    {
       ...parseTestimonialFilename("Rohit, 39 Lost 9.1 kg in 15 weeks.png"),
       imageFilename: "Rohit, 39 Lost 9.1 kg in 15 weeks.png",
     },
@@ -177,15 +173,6 @@ export function TestimonialsCarousel() {
     <h3 className="text-2xl font-serif text-white leading-none mb-2 truncate">
       {testimonial.name}
     </h3>
-    {(testimonial.weightLost || testimonial.duration || testimonial.age) && (
-      <p className="text-sm text-accent2 leading-snug">
-        {testimonial.age ? <span>{testimonial.age} yrs</span> : null}
-        {testimonial.age && (testimonial.weightLost || testimonial.duration) ? <span> · </span> : null}
-        {testimonial.weightLost ? <span>Lost {testimonial.weightLost} kg</span> : null}
-        {testimonial.weightLost && testimonial.duration ? <span> in </span> : null}
-        {testimonial.duration ? <span>{testimonial.duration}</span> : null}
-      </p>
-    )}
   </div>
 </div>
                   </div>
@@ -236,16 +223,9 @@ export function TestimonialsCarousel() {
         </div>
 
         {/* Disclaimer */}
-        <p className="text-xs text-[#B8CCC5] text-center mt-12 max-w-4xl mx-auto leading-relaxed">
-          *Individual results may vary. In 1 year, GLP-1 users lost an avg. of 13% to 15% body weight. Results based on data
-          from 1,773 users who reported their weight at least 1 time/week, on avg. for 1 year. Rx are up to a medical provider's
-          discretion. See below for risk info{" "}
-          <a href="#" aria-label="View disclaimer information" className="underline">
-            here
-          </a>
-          .
-        </p>
+        <p className="text-xs text-[#B8CCC5] text-center mt-12 max-w-4xl mx-auto leading-relaxed">*Individual results may vary.</p>
       </div>
     </section>
   )
 }
+

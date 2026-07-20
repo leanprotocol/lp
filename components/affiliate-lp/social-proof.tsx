@@ -10,7 +10,7 @@ const metricsTabs = [
     id: "weight-loss",
     value: "18–22%",
     label: "Avg Weight Loss",
-    title: "18-22% Average Weight Loss",
+    title: "18-22% Average Weight Loss*",
     description: "Our GLP-1 protocol is clinically proven to help you lose up to 22% of your body weight safely and sustainably.",
     image: "/lp-assets/image10.jpg",
     objectPosition: "object-center"
@@ -19,7 +19,7 @@ const metricsTabs = [
     id: "success-rate",
     value: "98%",
     label: "Success Rate",
-    title: "98% Success Rate",
+    title: "98% Success Rate*",
     description: "Join thousands of successful members who have transformed their lives, reversed chronic conditions, and maintained their results.",
     image: "/lp-assets/metric_success_rate.png",
     objectPosition: "object-top"
@@ -27,7 +27,7 @@ const metricsTabs = [
   {
     id: "hba1c",
     value: "2.6%",
-    label: "Avg. HbA1c Drop",
+    label: "Avg. HbA1c Drop*",
     title: "2.6% Avg. HbA1c Drop",
     description: "Beyond weight loss, our protocol significantly improves metabolic health, reversing insulin resistance and lowering blood sugar.",
     image: "/lp-assets/metric_hba1c.png",
@@ -37,7 +37,7 @@ const metricsTabs = [
     id: "guarantee",
     value: "6 mo",
     label: "Results Guaranteed",
-    title: "6 Months Guaranteed Results",
+    title: "6 Months Money Back Guarantee",
     description: "We are so confident in our science-backed approach that we offer a results guarantee. Achieve your goals or get your money back.",
     image: "/lp-assets/metric_guarantee.png",
     objectPosition: "object-center"
@@ -73,8 +73,8 @@ export function SocialProof() {
           
           <div className="grid grid-cols-2 md:grid-cols-4 text-center border-y border-white/20 py-4">
             <div className="space-y-2 p-6 md:p-8 border-r border-b md:border-b-0 border-white/20 flex flex-col justify-center">
-              <p className="text-4xl md:text-5xl font-bold">10k+</p>
-              <p className="text-xs md:text-sm font-bold text-white/80 mt-2">GLP-1<br/>Transformations</p>
+              <p className="text-4xl md:text-5xl font-bold">1k+</p>
+              <p className="text-xs md:text-sm font-bold text-white/80 mt-2">Transformations</p>
             </div>
             
             <div className="space-y-2 p-6 md:p-8 border-b md:border-b-0 md:border-r border-white/20 flex flex-col justify-center items-center">
@@ -88,17 +88,17 @@ export function SocialProof() {
             
             <div className="space-y-2 p-6 md:p-8 border-r border-white/20 flex flex-col justify-center">
               <p className="text-4xl md:text-5xl font-bold">6.8<span className="text-2xl ml-1 font-normal opacity-80">Kg</span></p>
-              <p className="text-xs md:text-sm font-bold text-white/80 mt-2">Avg Weight Lost</p>
+              <p className="text-xs md:text-sm font-bold text-white/80 mt-2">Avg Weight Lost*</p>
             </div>
             
             <div className="space-y-2 p-6 md:p-8 flex flex-col justify-center">
               <p className="text-4xl md:text-5xl font-bold">2<span className="text-2xl ml-1 font-normal opacity-80">%</span></p>
-              <p className="text-xs md:text-sm font-bold text-white/80 mt-2">Avg HbA1c Drop</p>
+              <p className="text-xs md:text-sm font-bold text-white/80 mt-2">Avg HbA1c Drop*</p>
             </div>
           </div>
+          <p className="text-xs text-white/50 mt-4 px-4 text-center">*Results vary. Eligibility, treatment and outcomes depend on individual medical assessment. Medication is prescribed only when clinically appropriate.</p>
         </div>
       </section>
-
       {/* SECTION 5 – Testimonial / Transformation Card */}
       <section className="bg-lp-bg py-24 px-4 overflow-hidden">
         <div className="max-w-5xl mx-auto">
@@ -119,7 +119,7 @@ export function SocialProof() {
             <div className="w-full md:w-[55%] flex flex-col">
               {/* Primary Stat Banner */}
               <div className="bg-lp-green text-white p-8 md:p-12 flex flex-col justify-center space-y-2">
-                <h3 className="font-serif text-3xl md:text-4xl leading-tight">Lost 6 Kgs<br/><span className="text-lp-light-green italic font-light">in 1 month</span></h3>
+                <h3 className="font-serif text-3xl md:text-4xl leading-tight">Lost 6 Kgs</h3>
               </div>
 
               {/* Detailed Testimonial Block */}
@@ -217,8 +217,12 @@ export function SocialProof() {
               </div>
             ))}
           </div>
+          <p className="text-xs text-gray-400 mt-6 px-4 text-center max-w-3xl mx-auto">*Results vary. Eligibility, treatment and outcomes depend on individual medical assessment. Medication is prescribed only when clinically appropriate.</p>
         </div>
       </section>
     </>
   );
 }
+
+
+

@@ -31,7 +31,7 @@ const journeySteps = [
     gradient: "from-[#7A7961] to-[#8B8A6F]",
   },
   {
-    title: "Get lighter - lose up to 22% of body weight",
+    title: "Get lighter - lose up to 22% of body weight*",
     description: "Celebrate your success with ongoing support from our care team",
     image: "/journey/journey5.webp",
     gradient: "from-[#9B9A80] to-[#A39F88]",
@@ -108,6 +108,7 @@ export function ParallaxJourney() {
           </div>
         </div>
       </div>
+      <p className="text-[11px] text-muted-foreground/60 mt-4 px-4 text-center max-w-3xl mx-auto">*Results vary. Eligibility, treatment and outcomes depend on individual medical assessment. Medication is prescribed only when clinically appropriate.</p>
       <style jsx>{`
         .journey-card {
           opacity: 0;
@@ -137,3 +138,5 @@ export function ParallaxJourney() {
     </section>
   )
 }
+
+

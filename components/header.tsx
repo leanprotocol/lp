@@ -285,97 +285,6 @@ export function Header() {
             >
               Our Why
             </Link>
-            
-            {/* Mobile Medication Dropdown */}
-            <div className="py-2">
-              <DropdownMenu>
-                <DropdownMenuTrigger
-                  className={`text-base font-medium py-2 px-3 rounded-lg transition-colors flex items-center justify-between w-full outline-none ${
-                    isActive("/medications")
-                      ? "text-[#1F302B] bg-[#1F302B]/10"
-                      : "text-foreground hover:text-foreground/70"
-                  }`}
-                >
-                  Medication
-                  <ChevronDown className="w-4 h-4" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-[calc(100vw-4rem)]">
-                  <DropdownMenuItem asChild>
-                    <Link
-                      href="/medications"
-                      className={`cursor-pointer ${isActive("/medications") ? "font-semibold text-[#1F302B]" : ""}`}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      All medication
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link
-                      href="/medications/zepbound"
-                      className={`cursor-pointer ${isActive("/medications/zepbound") ? "font-semibold text-[#1F302B]" : ""}`}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Zepbound®
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link
-                      href="/medications/mounjaro"
-                      className={`cursor-pointer ${isActive("/medications/mounjaro") ? "font-semibold text-[#1F302B]" : ""}`}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Mounjaro®
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link
-                      href="/medications/saxenda"
-                      className={`cursor-pointer ${isActive("/medications/saxenda") ? "font-semibold text-[#1F302B]" : ""}`}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Saxenda®
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link
-                      href="/medications/victoza"
-                      className={`cursor-pointer ${isActive("/medications/victoza") ? "font-semibold text-[#1F302B]" : ""}`}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Victoza®
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link
-                      href="/medications/wegovy"
-                      className={`cursor-pointer ${isActive("/medications/wegovy") ? "font-semibold text-[#1F302B]" : ""}`}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Wegovy®
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link
-                      href="/medications/ozempic"
-                      className={`cursor-pointer ${isActive("/medications/ozempic") ? "font-semibold text-[#1F302B]" : ""}`}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Ozempic
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link
-                      href="/medications/rybelsus"
-                      className={`cursor-pointer ${isActive("/medications/rybelsus") ? "font-semibold text-[#1F302B]" : ""}`}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Rybelsus
-                    </Link>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-
             <Link
               href="/blog"
               className={`text-base font-medium py-2 px-3 rounded-lg transition-colors ${
@@ -387,7 +296,6 @@ export function Header() {
             >
               Knowledge Hub
             </Link>
-
             {!loading && !me && (
               <Button
                 variant="outline"
@@ -399,7 +307,6 @@ export function Header() {
                 </Link>
               </Button>
             )}
-
             {!loading && me && (
               <>
                 <Button

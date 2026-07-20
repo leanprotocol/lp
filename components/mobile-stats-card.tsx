@@ -3,7 +3,7 @@ export function MobileStatsCard() {
     { value: "18–22%", label: "Average Weight Loss" },
     { value: "98%",    label: "Success Rate" },
     { value: '2.6%',   label: "Avg. HbA1C Drop" },
-    { value: "6 mo",   label: "Guaranteed Results" },
+    { value: "6 mo",   label: "Money Back Guarantee" },
   ]
 
   return (
@@ -25,3 +25,4 @@ export function MobileStatsCard() {
     </div>
   )
 }
+
