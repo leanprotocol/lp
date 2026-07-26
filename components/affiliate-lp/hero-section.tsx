@@ -186,8 +186,8 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans, pageTitle, m
           </h1>
           
           <div className="flex items-center gap-3">
-            <span className="text-3xl font-bold text-lp-dark">â‚¹{activePlan.price.toLocaleString()}</span>
-            <span className="text-lg text-gray-400 line-through">â‚¹{activePlan.originalPrice.toLocaleString()}</span>
+            <span className="text-3xl font-bold text-lp-dark">&#8377;{activePlan.price.toLocaleString()}</span>
+            <span className="text-lg text-gray-400 line-through">&#8377;{activePlan.originalPrice.toLocaleString()}</span>
             <div className="bg-lp-green text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-sm uppercase tracking-wider">
               {Math.round((1 - activePlan.price / activePlan.originalPrice) * 100)}% OFF
             </div>
@@ -203,8 +203,8 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans, pageTitle, m
             </h1>
             
             <div className="flex items-center gap-5 mt-6">
-              <span className="text-4xl font-bold text-lp-dark">â‚¹{activePlan.price.toLocaleString()}</span>
-              <span className="text-xl text-gray-400 line-through">â‚¹{activePlan.originalPrice.toLocaleString()}</span>
+              <span className="text-4xl font-bold text-lp-dark">&#8377;{activePlan.price.toLocaleString()}</span>
+              <span className="text-xl text-gray-400 line-through">&#8377;{activePlan.originalPrice.toLocaleString()}</span>
               <div className="bg-lp-green text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm uppercase tracking-wider">
                 {Math.round((1 - activePlan.price / activePlan.originalPrice) * 100)}% OFF
               </div>
@@ -240,8 +240,8 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans, pageTitle, m
                       {plan.durationLabel}
                     </p>
                     <div className="text-right">
-                       <p className="text-lg font-bold text-lp-dark leading-none">â‚¹{plan.price.toLocaleString()}</p>
-                       <p className="line-through text-gray-400 text-xs mt-1">â‚¹{plan.originalPrice.toLocaleString()}</p>
+                       <p className="text-lg font-bold text-lp-dark leading-none">&#8377;{plan.price.toLocaleString()}</p>
+                       <p className="line-through text-gray-400 text-xs mt-1">&#8377;{plan.originalPrice.toLocaleString()}</p>
                     </div>
                   </div>
                   <p className="font-bold text-lp-dark text-sm pr-8 md:pr-16">{plan.title}</p>
