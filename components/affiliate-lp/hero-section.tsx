@@ -38,7 +38,7 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans, pageTitle, m
     else if (plan.durationDays >= 90) durationLabel = "3 Months";
     else if (plan.durationDays <= 15 || plan.name.toLowerCase().includes("doctor")) durationLabel = "Doctor Consultation";
 
-    let image = medicationType === "MOUNJARO" ? "/lp-assets/mounjaro-1-month-plan.png" : "/lp-assets/1-month-plan.jpeg";
+    let image = medicationType === "MOUNJARO" ? "/lp-assets/mounjaro-1-month-plan.png" : "/lp-assets/1-month-plan.png";
     if (durationLabel === "3 Months") image = medicationType === "MOUNJARO" ? "/lp-assets/mounjaro-3-months-plan.png" : "/lp-assets/3-months-plan.png";
     else if (durationLabel === "6 Months") image = medicationType === "MOUNJARO" ? "/lp-assets/mounjaro-6-months-plan.png" : "/lp-assets/6-months-plan.png";
     else if (durationLabel === "Doctor Consultation") image = "/lp-assets/doctor-lean-protocol.jpeg";
@@ -54,24 +54,24 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans, pageTitle, m
   }) : [
     {
       durationLabel: "1 Month",
-      title: "Lean Start – Beginner Plan",
+      title: "Lean Start â€“ Beginner Plan",
       price: 5999,
       originalPrice: 9229,
-      image: "/lp-assets/1-month-plan.jpeg",
+      image: "/lp-assets/1-month-plan.png",
     },
     {
       durationLabel: "3 Months",
-      title: "Lean Pro – Comprehensive Plan",
+      title: "Lean Pro â€“ Comprehensive Plan",
       price: 19999,
       originalPrice: 28778,
-      image: "/lp-assets/3-months-plan.jpeg",
+      image: "/lp-assets/3-months-plan.png",
     },
     {
       durationLabel: "6 Months",
-      title: "Lean Champion – Guaranteed Weight Loss",
+      title: "Lean Champion â€“ Guaranteed Weight Loss",
       price: 39998,
       originalPrice: 58667,
-      image: "/lp-assets/6-months-plan.jpeg",
+      image: "/lp-assets/6-months-plan.png",
     },
     {
       durationLabel: "Doctor Consultation",
@@ -151,7 +151,7 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans, pageTitle, m
 
   return (
     <>
-      {/* SECTION 1 – Sticky Navbar (matches main site) */}
+      {/* SECTION 1 â€“ Sticky Navbar (matches main site) */}
       <header className="sticky top-0 md:top-3 z-50 mx-auto w-full md:w-[98%] md:max-w-[97%] md:rounded-2xl border border-white/40 bg-white/60 backdrop-blur-xl shadow-[0_12px_30px_rgba(15,23,42,0.12)] ring-1 ring-black/5 transition-all duration-300">
         <div className="container mx-auto flex h-16 md:h-20 items-center justify-between px-4 lg:px-8">
           <Link href="/" className="flex items-center">
@@ -176,7 +176,7 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans, pageTitle, m
         </div>
       </header>
 
-      {/* SECTION 2 – Hero / Plan Selector */}
+      {/* SECTION 2 â€“ Hero / Plan Selector */}
       <section className="pt-8 md:pt-12 pb-16 px-4 max-w-7xl mx-auto flex flex-col lg:grid lg:grid-cols-2 gap-8 md:gap-12" id="plans">
         
         {/* MOBILE HEADLINE (Shown only on mobile, placed at the top) */}
@@ -186,8 +186,8 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans, pageTitle, m
           </h1>
           
           <div className="flex items-center gap-3">
-            <span className="text-3xl font-bold text-lp-dark">₹{activePlan.price.toLocaleString()}</span>
-            <span className="text-lg text-gray-400 line-through">₹{activePlan.originalPrice.toLocaleString()}</span>
+            <span className="text-3xl font-bold text-lp-dark">â‚¹{activePlan.price.toLocaleString()}</span>
+            <span className="text-lg text-gray-400 line-through">â‚¹{activePlan.originalPrice.toLocaleString()}</span>
             <div className="bg-lp-green text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-sm uppercase tracking-wider">
               {Math.round((1 - activePlan.price / activePlan.originalPrice) * 100)}% OFF
             </div>
@@ -203,8 +203,8 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans, pageTitle, m
             </h1>
             
             <div className="flex items-center gap-5 mt-6">
-              <span className="text-4xl font-bold text-lp-dark">₹{activePlan.price.toLocaleString()}</span>
-              <span className="text-xl text-gray-400 line-through">₹{activePlan.originalPrice.toLocaleString()}</span>
+              <span className="text-4xl font-bold text-lp-dark">â‚¹{activePlan.price.toLocaleString()}</span>
+              <span className="text-xl text-gray-400 line-through">â‚¹{activePlan.originalPrice.toLocaleString()}</span>
               <div className="bg-lp-green text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm uppercase tracking-wider">
                 {Math.round((1 - activePlan.price / activePlan.originalPrice) * 100)}% OFF
               </div>
@@ -240,8 +240,8 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans, pageTitle, m
                       {plan.durationLabel}
                     </p>
                     <div className="text-right">
-                       <p className="text-lg font-bold text-lp-dark leading-none">₹{plan.price.toLocaleString()}</p>
-                       <p className="line-through text-gray-400 text-xs mt-1">₹{plan.originalPrice.toLocaleString()}</p>
+                       <p className="text-lg font-bold text-lp-dark leading-none">â‚¹{plan.price.toLocaleString()}</p>
+                       <p className="line-through text-gray-400 text-xs mt-1">â‚¹{plan.originalPrice.toLocaleString()}</p>
                     </div>
                   </div>
                   <p className="font-bold text-lp-dark text-sm pr-8 md:pr-16">{plan.title}</p>
@@ -258,7 +258,7 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans, pageTitle, m
             {isCheckoutLoading ? "Processing..." : `Get Started Now`}
           </Button>
 
-          {/* SECTION 3 – Terms & Conditions Block */}
+          {/* SECTION 3 â€“ Terms & Conditions Block */}
           <div className="mt-6 pt-6 border-t border-gray-100 space-y-4">
             <h3 className="font-bold text-lp-dark text-sm flex items-center gap-2">
               <Info className="w-4 h-4 text-lp-green" />
