@@ -1,0 +1,396 @@
+/* Lean Protocol - Innovation page design tokens.
+   Scoped to .innovation-page so nothing leaks into the rest of the site.
+
+   Palette is taken directly from the Lean Protocol brand tokens in
+   app/globals.css, so this page is unmistakably part of the company:
+
+     --color-lp-dark        #1C2B22   headings
+     --color-lp-green       #2D5A4E   links, accents, safe states
+     --color-dark           #193231   deep teal, prototype states
+     --color-accent2        #A8BEB7   sage grey
+     --accent               #C8D9A7   sage
+     --color-lp-gold        #C9A84C   proposed / planned states
+     --color-lp-bg          #F9F7F2   warm surface
+     --background           #F6F1EE   brand cream
+
+   The page ground stays white and surfaces stay light so the register
+   remains institutional rather than retail, while every accent is a
+   brand colour.
+
+   Type:
+     Display + body : IBM Plex Sans   (enterprise-technical, highly legible)
+     Utility/labels : IBM Plex Mono   (status chips, layer + phase markers)
+   The mono utility face is the signature: every product-stage claim on this
+   page is stamped with a mono status chip, so truthfulness reads as design.
+
+   Note on the status chips: colour is deliberately redundant. Each chip
+   also states its stage in words, so meaning never depends on hue. */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+.innovation-page {
+  --inv-white: #FFFFFF;
+  --inv-blue: #1C2B22;          /* lp-dark - headings */
+  --inv-blue-bright: #2D5A4E;   /* lp-green - links, eyebrows, accents */
+  --inv-teal: #193231;          /* brand dark - prototype states */
+  --inv-navy: #1B241F;          /* green-cast body text */
+  --inv-muted: #5D6A61;         /* green-grey secondary text */
+  --inv-surface: #F1F6EF;       /* sage-tinted surface */
+  --inv-surface-2: #E3EDE0;     /* deeper sage surface */
+  --inv-cream: #F6F1EE;         /* brand cream - used sparingly */
+  --inv-border: #DBE5D7;
+  --inv-border-strong: #C2D0BC;
+  --inv-yellow: #C9A84C;        /* lp-gold */
+  --inv-yellow-ink: #8A6E22;    /* darkened gold for readable text */
+  --inv-yellow-soft: #F7EFD9;
+  --inv-green: #2D5A4E;         /* lp-green - safe / existing */
+  --inv-green-soft: #E4F0DC;    /* sage tint */
+  --inv-teal-soft: #DFEAE4;     /* accent2 tint */
+  --inv-sage: #C8D9A7;
+  --inv-sage-grey: #A8BEB7;
+
+  /* Border tints, so no component needs a hardcoded rgba */
+  --inv-green-border: rgba(45, 90, 78, .28);
+  --inv-teal-border: rgba(25, 50, 49, .20);
+  --inv-gold-border: rgba(201, 168, 76, .45);
+  --inv-shadow: rgba(45, 90, 78, .07);
+  --inv-shadow-lg: rgba(45, 90, 78, .14);
+
+  --inv-sans: 'IBM Plex Sans', -apple-system, 'Segoe UI', sans-serif;
+  --inv-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+  background: var(--inv-white);
+  color: var(--inv-navy);
+  font-family: var(--inv-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.innovation-page *,
+.innovation-page *::before,
+.innovation-page *::after { box-sizing: border-box; }
+
+/* ---------- Type scale ---------- */
+.innovation-page .inv-eyebrow {
+  font-family: var(--inv-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--inv-blue-bright);
+}
+.innovation-page .inv-h1 {
+  font-size: clamp(30px, 5.2vw, 56px);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -.022em;
+  color: var(--inv-blue);
+  text-wrap: balance;
+}
+.innovation-page .inv-h2 {
+  font-size: clamp(24px, 3.4vw, 38px);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -.018em;
+  color: var(--inv-blue);
+  text-wrap: balance;
+}
+.innovation-page .inv-h3 {
+  font-size: clamp(17px, 1.6vw, 20px);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -.01em;
+  color: var(--inv-blue);
+}
+.innovation-page .inv-lead {
+  font-size: clamp(16px, 1.5vw, 19px);
+  color: var(--inv-muted);
+  line-height: 1.65;
+}
+.innovation-page .inv-body { font-size: 15px; color: var(--inv-muted); }
+.innovation-page .inv-small { font-size: 13px; color: var(--inv-muted); }
+
+/* ---------- Layout ---------- */
+.innovation-page .inv-wrap {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding-inline: 20px;
+}
+@media (min-width: 768px)  { .innovation-page .inv-wrap { padding-inline: 32px; } }
+@media (min-width: 1280px) { .innovation-page .inv-wrap { padding-inline: 40px; } }
+
+.innovation-page .inv-section { padding-block: 56px; }
+@media (min-width: 768px)  { .innovation-page .inv-section { padding-block: 80px; } }
+@media (min-width: 1280px) { .innovation-page .inv-section { padding-block: 104px; } }
+
+.innovation-page .inv-section--surface { background: var(--inv-surface); }
+.innovation-page .inv-section--band {
+  background: var(--inv-surface);
+  border-block: 1px solid var(--inv-border);
+  box-shadow: inset 0 3px 0 0 var(--inv-green);
+}
+
+/* ---------- Surfaces ---------- */
+.innovation-page .inv-card {
+  background: var(--inv-white);
+  border: 1px solid var(--inv-border);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 1px 2px var(--inv-shadow);
+}
+@media (min-width: 768px) { .innovation-page .inv-card { padding: 24px; } }
+
+.innovation-page .inv-card--raised {
+  transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease;
+}
+.innovation-page .inv-card--raised:hover {
+  box-shadow: 0 10px 28px var(--inv-shadow-lg);
+  border-color: var(--inv-green);
+  transform: translateY(-2px);
+}
+
+/* ---------- Status chips (the signature element) ---------- */
+.innovation-page .inv-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--inv-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  border-radius: 5px;
+  border: 1px solid;
+  white-space: nowrap;
+}
+.innovation-page .inv-chip::before {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+}
+.innovation-page .inv-chip--existing {
+  color: var(--inv-green);
+  background: var(--inv-green-soft);
+  border-color: var(--inv-green-border);
+}
+.innovation-page .inv-chip--building {
+  color: var(--inv-teal);
+  background: var(--inv-teal-soft);
+  border-color: var(--inv-teal-border);
+}
+.innovation-page .inv-chip--proposed,
+.innovation-page .inv-chip--planned {
+  color: var(--inv-yellow-ink);
+  background: var(--inv-yellow-soft);
+  border-color: var(--inv-gold-border);
+}
+.innovation-page .inv-chip--illustrative {
+  color: var(--inv-muted);
+  background: var(--inv-surface);
+  border-color: var(--inv-border-strong);
+}
+
+/* ---------- Mono utility markers ---------- */
+.innovation-page .inv-marker {
+  font-family: var(--inv-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--inv-blue-bright);
+}
+.innovation-page .inv-num {
+  font-family: var(--inv-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+/* ---------- Buttons ---------- */
+.innovation-page .inv-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 12px 22px;
+  border-radius: 9px;
+  font-size: 15px;
+  font-weight: 500;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color .18s ease, border-color .18s ease, color .18s ease;
+  text-align: center;
+}
+.innovation-page .inv-btn--primary {
+  background: var(--inv-green);
+  color: #fff;
+}
+.innovation-page .inv-btn--primary:hover { background: var(--inv-blue); }
+.innovation-page .inv-btn--secondary {
+  background: #fff;
+  color: var(--inv-blue);
+  border-color: var(--inv-border-strong);
+}
+.innovation-page .inv-btn--secondary:hover {
+  border-color: var(--inv-blue);
+  background: var(--inv-surface);
+}
+.innovation-page .inv-btn--ghost {
+  background: transparent;
+  color: var(--inv-blue-bright);
+  padding-inline: 0;
+}
+.innovation-page .inv-btn:disabled { opacity: .55; cursor: not-allowed; }
+
+/* ---------- Links + focus ---------- */
+.innovation-page a { color: inherit; text-decoration: none; }
+.innovation-page .inv-link {
+  color: var(--inv-blue-bright);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.innovation-page a:focus-visible,
+.innovation-page button:focus-visible,
+.innovation-page input:focus-visible,
+.innovation-page select:focus-visible,
+.innovation-page textarea:focus-visible,
+.innovation-page summary:focus-visible {
+  outline: 2px solid var(--inv-blue-bright);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ---------- Lists ---------- */
+.innovation-page .inv-ticks { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
+.innovation-page .inv-ticks li {
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  gap: 10px;
+  align-items: start;
+  font-size: 14.5px;
+  color: var(--inv-navy);
+}
+.innovation-page .inv-ticks li::before {
+  content: '';
+  margin-top: 7px;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--inv-blue-bright);
+}
+
+/* ---------- Forms ---------- */
+.innovation-page .inv-label {
+  display: block;
+  font-family: var(--inv-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--inv-muted);
+  margin-bottom: 6px;
+}
+.innovation-page .inv-input,
+.innovation-page .inv-select,
+.innovation-page .inv-textarea {
+  width: 100%;
+  min-height: 46px;
+  background: #fff;
+  border: 1px solid var(--inv-border-strong);
+  border-radius: 9px;
+  padding: 11px 13px;
+  font-family: var(--inv-sans);
+  font-size: 15px;
+  color: var(--inv-navy);
+  outline: none;
+}
+.innovation-page .inv-textarea { min-height: 128px; resize: vertical; }
+.innovation-page .inv-input:focus,
+.innovation-page .inv-select:focus,
+.innovation-page .inv-textarea:focus { border-color: var(--inv-blue-bright); }
+.innovation-page .inv-field--error .inv-input,
+.innovation-page .inv-field--error .inv-select,
+.innovation-page .inv-field--error .inv-textarea { border-color: #B3402F; }
+.innovation-page .inv-error { color: #B3402F; font-size: 12.5px; margin-top: 5px; }
+.innovation-page .inv-honey {
+  position: absolute;
+  left: -9999px;
+  width: 1px; height: 1px;
+  overflow: hidden;
+}
+
+/* ---------- Asset placeholder ---------- */
+.innovation-page .inv-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  min-height: 180px;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      var(--inv-surface) 0 10px,
+      var(--inv-surface-2) 10px 20px
+    );
+  border: 1px dashed var(--inv-border-strong);
+  border-radius: 14px;
+  padding: 24px;
+  text-align: center;
+}
+.innovation-page .inv-placeholder__title {
+  font-family: var(--inv-mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--inv-blue);
+}
+.innovation-page .inv-placeholder__file {
+  font-family: var(--inv-mono);
+  font-size: 11px;
+  color: var(--inv-muted);
+  word-break: break-all;
+}
+
+/* ---------- Motion ---------- */
+.innovation-page .inv-reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: inv-fade-up .6s cubic-bezier(.22,1,.36,1) forwards;
+}
+@keyframes inv-fade-up {
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .innovation-page *,
+  .innovation-page *::before,
+  .innovation-page *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .innovation-page .inv-reveal { opacity: 1; transform: none; }
+}
+
+/* ---------- Skip link ---------- */
+.innovation-page .inv-skip {
+  position: absolute;
+  left: -9999px;
+  top: 8px;
+  z-index: 100;
+  background: #fff;
+  border: 1px solid var(--inv-blue);
+  color: var(--inv-blue);
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+.innovation-page .inv-skip:focus { left: 16px; }

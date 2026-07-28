@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { useCallback, useEffect, useRef, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
-/* ─── Data ─────────────────────────────────────────────────────── */
+/* â”€â”€â”€ Data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const DOCTORS = [
   { initials: "NJ", name: "Dr. Nishant Jain", role: "MD, DM · Endocrinologist", hosp: "Kailash Deepak Hospital", img: "https://www.leanprotocol.in/lp-assets/experts/nishant.jpeg" },
   { initials: "AK", name: "Dr. Akhil Konduru", role: "MD · Internal Medicine", hosp: "Medanta (former)", img: "https://www.leanprotocol.in/lp-assets/experts/akhil.jpeg" },
@@ -25,15 +25,15 @@ const EXPERTS = [
 ];
 
 const TESTIMONIALS = [
-  { initial: "P", name: "Pratima", age: "37 yrs", quote: "I finally found a program that understood my body.", result: "−7 kg", when: "in 2.5 months", type: "image" as const, src: "/before-after/Pratima, 37 Lost 7Kgs in 2.5 months.jpeg" },
-  { initial: "M", name: "Manav", age: "24 yrs", quote: "The food noise went quiet. My doctor adjusted my plan every week.", result: "−20 kg", when: "in 5 months", type: "video" as const, src: "/before-after/manav.mp4" },
+  { initial: "P", name: "Pratima", age: "37 yrs", quote: "I finally found a program that understood my body.", result: "âˆ’7 kg", when: "in 2.5 months", type: "image" as const, src: "/before-after/Pratima, 37 Lost 7Kgs in 2.5 months.jpeg" },
+  { initial: "M", name: "Manav", age: "24 yrs", quote: "The food noise went quiet. My doctor adjusted my plan every week.", result: "âˆ’20 kg", when: "in 5 months", type: "video" as const, src: "/before-after/manav.mp4" },
   { initial: "U", name: "Uday", age: "", quote: "Structured, doctor-led, and genuinely effective.", result: "Transformation", when: "journey", type: "video" as const, src: "/before-after/uday.mp4" },
-  { initial: "A", name: "Ayushi", age: "22 yrs", quote: "First plan with actual science behind it. The check-ins kept me going.", result: "−15 kg", when: "in 6 months", type: "video" as const, src: "/before-after/ayushi.mp4" },
-  { initial: "A", name: "Ananya", age: "20 yrs", quote: "The at-home blood test found what years of dieting missed.", result: "−14 kg", when: "in 7 months", type: "video" as const, src: "/before-after/ananya.mp4" },
+  { initial: "A", name: "Ayushi", age: "22 yrs", quote: "First plan with actual science behind it. The check-ins kept me going.", result: "âˆ’15 kg", when: "in 6 months", type: "video" as const, src: "/before-after/ayushi.mp4" },
+  { initial: "A", name: "Ananya", age: "20 yrs", quote: "The at-home blood test found what years of dieting missed.", result: "âˆ’14 kg", when: "in 7 months", type: "video" as const, src: "/before-after/ananya.mp4" },
   { initial: "A", name: "Aditya", age: "", quote: "Doorstep delivery and constant support made this easy.", result: "Transformation", when: "journey", type: "video" as const, src: "/before-after/Aditya .mp4" },
-  { initial: "R", name: "Roshni", age: "23 yrs", quote: "Doctor-led made all the difference.", result: "−15 kg", when: "in 6 months", type: "video" as const, src: "/before-after/roshni.mp4" },
-  { initial: "R", name: "Rohit", age: "39 yrs", quote: "Labs, doctor, dietitian, delivery — everything in one place.", result: "−9.1 kg", when: "in 15 weeks", type: "image" as const, src: "/before-after/Rohit, 39 Lost 9.1 kg in 15 weeks.png" },
-  { initial: "A", name: "Atreyee", age: "28 yrs", quote: "The constant motivation made all the difference.", result: "−6 kg", when: "in 1 month", type: "video" as const, src: "/before-after/atreyee.mp4" },
+  { initial: "R", name: "Roshni", age: "23 yrs", quote: "Doctor-led made all the difference.", result: "âˆ’15 kg", when: "in 6 months", type: "video" as const, src: "/before-after/roshni.mp4" },
+  { initial: "R", name: "Rohit", age: "39 yrs", quote: "Labs, doctor, dietitian, delivery â€” everything in one place.", result: "âˆ’9.1 kg", when: "in 15 weeks", type: "image" as const, src: "/before-after/Rohit, 39 Lost 9.1 kg in 15 weeks.png" },
+  { initial: "A", name: "Atreyee", age: "28 yrs", quote: "The constant motivation made all the difference.", result: "âˆ’6 kg", when: "in 1 month", type: "video" as const, src: "/before-after/atreyee.mp4" },
 ];
 
 const REVIEW_IMAGES = [
@@ -55,7 +55,7 @@ const PRESS_LOGOS = [
   { className: "republic", href: "https://www.therepublicnews.co.in/2026/04/from-gimmicks-to-ethics-entrepreneurial.html", content: (<span className="t">The <b>Republic</b> News</span>) },
 ];
 
-/* ─── Doctor Carousel ──────────────────────────────────────────── */
+/* â”€â”€â”€ Doctor Carousel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function DoctorCarousel() {
   const [active, setActive] = useState(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -99,8 +99,8 @@ function DoctorCarousel() {
             </div>
           ))}
         </div>
-        <button className="dc-arrow prev" onClick={() => go(active - 1)} aria-label="Previous">‹</button>
-        <button className="dc-arrow next" onClick={() => go(active + 1)} aria-label="Next">›</button>
+        <button className="dc-arrow prev" onClick={() => go(active - 1)} aria-label="Previous">â€¹</button>
+        <button className="dc-arrow next" onClick={() => go(active + 1)} aria-label="Next">â€º</button>
       </div>
       <div className="dc-dots">
         {DOCTORS.map((_, i) => (
@@ -112,7 +112,7 @@ function DoctorCarousel() {
   );
 }
 
-/* ─── BMI Calculator ───────────────────────────────────────────── */
+/* â”€â”€â”€ BMI Calculator â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function BMICalculator({ onOpenModal }: { onOpenModal: (name?: string, phone?: string, bmi?: string) => void }) {
   const [height, setHeight] = useState(170);
   const [weight, setWeight] = useState(82);
@@ -185,7 +185,7 @@ function BMICalculator({ onOpenModal }: { onOpenModal: (name?: string, phone?: s
                 <span className="cond-sw"></span>
                 <span className="cond-label">If you have conditions like PCOS, Thyroid, Hypertension or Diabetes?</span>
               </label>
-              <button className="btn btn-primary" style={{ width: "100%", fontSize: "17px" }} onClick={handleCheck}>Check my eligibility <span className="arrow">›</span></button>
+              <button className="btn btn-primary" style={{ width: "100%", fontSize: "17px" }} onClick={handleCheck}>Check my eligibility <span className="arrow">â€º</span></button>
             </div>
             <div className="gauge-wrap">
               <svg viewBox="0 0 300 185" style={{ width: "100%", maxWidth: "300px", margin: "0 auto", display: "block" }} aria-hidden="true">
@@ -201,22 +201,22 @@ function BMICalculator({ onOpenModal }: { onOpenModal: (name?: string, phone?: s
           </div>
           {showResult && (
             <div className="bmi-result show">
-              <div className={`elig ${eligible ? "yes" : "no"}`}>{eligible ? "🎉 You are eligible for the GLP-1 / Mounjaro plan" : "😔 Based on your BMI, you are not eligible yet"}</div>
-              {eligible && (<div className="glp-box show"><h4>You&apos;re eligible for the GLP-1 / Mounjaro plan 🎯</h4><p>A doctor-supervised path shown to deliver up to ~22% body-weight loss. Your ₹49 consultation is the first step.</p></div>)}
+              <div className={`elig ${eligible ? "yes" : "no"}`}>{eligible ? "ðŸŽ‰ You are eligible for the GLP-1 / Mounjaro plan" : "ðŸ˜” Based on your BMI, you are not eligible yet"}</div>
+              {eligible && (<div className="glp-box show"><h4>You&apos;re eligible for the GLP-1 / Mounjaro plan ðŸŽ¯</h4><p>A doctor-supervised path shown to deliver up to ~22% body-weight loss. Your â‚¹49 consultation is the first step.</p></div>)}
               <details className="faq-dropdown" id="dropdown" open={eligible}><summary>What Your BMI Means?</summary><div className="para">BMI above 27 with comorbidities, or above 30 without, makes you eligible for GLP-1 / Mounjaro plans (barring rare cases), with minimal side effects.</div></details>
               {!submitted ? (
                 <div className="lead-mini">
                   <h4>Get your personalised report</h4>
-                  <div className="sub">Enter your details — our team shares your report &amp; books your ₹49 consultation.</div>
+                  <div className="sub">Enter your details â€” our team shares your report &amp; books your â‚¹49 consultation.</div>
                   <form onSubmit={handleBMILead} noValidate>
                     <div className={`bmi-field2 ${nameErr ? "err" : ""}`}><label>Full name</label><input type="text" placeholder="Your name" autoComplete="name" value={formName} onChange={e => { setFormName(e.target.value); setNameErr(false); }} /></div>
                     <div className={`bmi-field2 ${phoneErr ? "err" : ""}`}><label>Phone (WhatsApp)</label><div className="phone-wrap"><span className="cc">+91</span><input type="tel" inputMode="numeric" maxLength={10} placeholder="10-digit mobile" autoComplete="tel-national" value={formPhone} onChange={e => { setFormPhone(e.target.value.replace(/\D/g, "").slice(0, 10)); setPhoneErr(false); }} /></div></div>
                     <label className="bmi-consent"><input type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)} /><span>I agree to be contacted by Lean Protocol and accept the <a href="https://www.leanprotocol.in/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</span></label>
-                    <button type="submit" className="btn btn-primary" style={{ width: "100%", opacity: bmiFormValid ? 1 : 0.5, cursor: bmiFormValid ? "pointer" : "not-allowed" }} disabled={!bmiFormValid}>Get my report &amp; book ₹49 consult <span className="arrow">›</span></button>
+                    <button type="submit" className="btn btn-primary" style={{ width: "100%", opacity: bmiFormValid ? 1 : 0.5, cursor: bmiFormValid ? "pointer" : "not-allowed" }} disabled={!bmiFormValid}>Get my report &amp; book â‚¹49 consult <span className="arrow">â€º</span></button>
                   </form>
                 </div>
               ) : (
-                <div className="lead-mini"><div className="lead-done show"><div className="check-ic">✓</div><h4>You&apos;re all set!</h4><p style={{ color: "var(--sage)", fontSize: "14px", margin: "6px 0 14px" }}>Continue to confirm your ₹49 consultation.</p><button className="btn btn-primary zoom" style={{ width: "100%" }} onClick={() => onOpenModal(formName, formPhone, bmi.toFixed(1))}>Continue to ₹49 checkout →</button></div></div>
+                <div className="lead-mini"><div className="lead-done show"><div className="check-ic">âœ“</div><h4>You&apos;re all set!</h4><p style={{ color: "var(--sage)", fontSize: "14px", margin: "6px 0 14px" }}>Continue to confirm your â‚¹49 consultation.</p><button className="btn btn-primary zoom" style={{ width: "100%" }} onClick={() => onOpenModal(formName, formPhone, bmi.toFixed(1))}>Continue to â‚¹49 checkout â†’</button></div></div>
               )}
             </div>
           )}
@@ -226,7 +226,7 @@ function BMICalculator({ onOpenModal }: { onOpenModal: (name?: string, phone?: s
   );
 }
 
-/* ─── Scroll reveal + Confetti ─────────────────────────────────── */
+/* â”€â”€â”€ Scroll reveal + Confetti â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function ScrollReveal() {
   useEffect(() => {
     const elements = document.querySelectorAll(".consult49-page .reveal");
@@ -287,14 +287,14 @@ function ViewingCounter({ extra = 0 }: { extra?: number }) {
 }
 
 
-/* ─── Joiner Toast ─────────────────────────────────────────────── */
+/* â”€â”€â”€ Joiner Toast â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const JOINERS: [string, string][] = [
   ["Priya", "Delhi"], ["Arjun", "Mumbai"], ["Sneha", "Bengaluru"],
   ["Rohit", "Pune"], ["Ananya", "Hyderabad"], ["Kabir", "Jaipur"],
   ["Meera", "Kolkata"], ["Vikram", "Chennai"], ["Neha", "Lucknow"],
   ["Aditya", "Surat"],
 ];
-const JOINER_ACTIONS = ["booked a ₹49 consultation", "joined the program", "checked their BMI eligibility", "requested a callback"];
+const JOINER_ACTIONS = ["booked a â‚¹49 consultation", "joined the program", "checked their BMI eligibility", "requested a callback"];
 
 function JoinerToast({ onJoin }: { onJoin: () => void }) {
   const [toast, setToast] = useState<{ name: string; city: string; action: string } | null>(null);
@@ -326,11 +326,11 @@ function JoinerToast({ onJoin }: { onJoin: () => void }) {
   );
 }
 
-/* ─── Roll-up stats counter ────────────────────────────────────── */
+/* â”€â”€â”€ Roll-up stats counter â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function RollupStats() {
   const [vals, setVals] = useState([0, 0, 0, 0]);
   const targets = [17, 10000, 4.8, 99];
-  const suffixes = [" kg", "+", "★", "+"];
+  const suffixes = [" kg", "+", "â˜…", "+"];
   const labels = ["avg fat loss · 6 months*", "transformations", "rated by members", "countries approved"];
   const ref = useRef<HTMLDivElement>(null);
   const started = useRef(false);
@@ -374,7 +374,7 @@ function RollupStats() {
 }
 
 
-/* ─── Checkout Modal ───────────────────────────────────────────── */
+/* â”€â”€â”€ Checkout Modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function CheckoutModal({ onClose, prefillName = "", prefillPhone = "", prefillBmi = "" }: {
   onClose: () => void;
   prefillName?: string;
@@ -404,7 +404,7 @@ function CheckoutModal({ onClose, prefillName = "", prefillPhone = "", prefillBm
     if (!consent) { alert("Please accept the Terms & Privacy Policy to continue."); return; }
     setPaying(true); setPayError(null);
     try {
-      // Fire-and-forget lead capture — so even if payment is abandoned, lead is in CRM
+      // Fire-and-forget lead capture â€” so even if payment is abandoned, lead is in CRM
       fetch("/api/consult49/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -463,12 +463,12 @@ function CheckoutModal({ onClose, prefillName = "", prefillPhone = "", prefillBm
   return (
     <div className="modal-overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
       <div className="modal-box">
-        <button className="modal-close" onClick={onClose} aria-label="Close">×</button>
+        <button className="modal-close" onClick={onClose} aria-label="Close">Ã—</button>
         {!success ? (
           <>
             <div className="modal-head">
               <h3>Book your consultation</h3>
-              <div className="modal-price">₹49 <span style={{ textDecoration: "line-through", color: "#9ca3af" }}>₹1,500</span></div>
+              <div className="modal-price">â‚¹49 <span style={{ textDecoration: "line-through", color: "#9ca3af" }}>â‚¹1,500</span></div>
             </div>
             <div className={`c-field ${errors.name ? "err" : ""}`}>
               <label>Full name</label>
@@ -484,10 +484,10 @@ function CheckoutModal({ onClose, prefillName = "", prefillPhone = "", prefillBm
             </div>
             
             <ul className="modal-incl">
-              <li><b>✓</b> Live 1:1 video call with a GLP-1 expert</li>
-              <li><b>✓</b> Personalised fat-loss plan</li>
-              <li><b>✓</b> Root cause analysis</li>
-              <li><b>✓</b> Prescription right at your inbox</li>
+              <li><b>âœ“</b> Live 1:1 video call with a GLP-1 expert</li>
+              <li><b>âœ“</b> Personalised fat-loss plan</li>
+              <li><b>âœ“</b> Root cause analysis</li>
+              <li><b>âœ“</b> Prescription right at your inbox</li>
             </ul>
             <label className="c-consent">
               <input type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)} />
@@ -495,16 +495,16 @@ function CheckoutModal({ onClose, prefillName = "", prefillPhone = "", prefillBm
             </label>
             {payError && <p style={{ color: "var(--danger)", fontSize: "13px", margin: "8px 0" }}>{payError}</p>}
             <button className="btn btn-primary" style={{ width: "100%", marginTop: "12px", fontSize: "17px", opacity: (paying || !formValid) ? 0.5 : 1, cursor: (paying || !formValid) ? "not-allowed" : "pointer" }} onClick={handlePay} disabled={paying || !formValid}>
-              {paying ? "Processing…" : "Pay ₹49 & Book"}
+              {paying ? "Processingâ€¦" : "Pay â‚¹49 & Book"}
             </button>
             <p style={{ fontSize: "11px", color: "var(--sage)", textAlign: "center", marginTop: "10px" }}>ðŸ”’ 256-bit secure · UPI / Cards / Netbanking</p>
           </>
         ) : (
           <div style={{ textAlign: "center", padding: "20px 0" }}>
-            <div className="c-success-ic">✓</div>
+            <div className="c-success-ic">âœ“</div>
             <h3 style={{ marginTop: "14px" }}>Consultation booked!</h3>
             <p style={{ color: "var(--sage)", margin: "8px 0 18px", fontSize: "14px" }}>Our medical team will reach out on WhatsApp shortly to schedule your call.</p>
-            <a href="https://wa.link/3s1upf" className="btn btn-wa" style={{ width: "100%" }}>💬 Message us on WhatsApp</a>
+            <a href="https://wa.link/3s1upf" className="btn btn-wa" style={{ width: "100%" }}>ðŸ’¬ Message us on WhatsApp</a>
           </div>
         )}
       </div>
@@ -512,7 +512,7 @@ function CheckoutModal({ onClose, prefillName = "", prefillPhone = "", prefillBm
   );
 }
 
-/* ─── 10-minute offer timer (persists across refresh) ─────────────────── */
+/* â”€â”€â”€ 10-minute offer timer (persists across refresh) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function CountdownTimer({ minutes = 10 }: { minutes?: number }) {
   const KEY = "lp_consult49_offer_deadline";
   const [remaining, setRemaining] = useState(minutes * 60);
@@ -545,20 +545,20 @@ function CountdownTimer({ minutes = 10 }: { minutes?: number }) {
         boxShadow: "0 14px 30px -12px rgba(226,87,75,.7)",
       }}>
         <div style={{ fontSize: "12.5px", fontWeight: 800, letterSpacing: ".05em", textTransform: "uppercase", color: "#fff" }}>
-          ⏰ Hurry! This ₹49 offer ends soon 🔥
+          â° Hurry! This â‚¹49 offer ends soon ðŸ”¥
         </div>
         <div style={{ fontFamily: "var(--display)", fontSize: "38px", fontWeight: 800, color: "#fff", fontVariantNumeric: "tabular-nums", lineHeight: 1, letterSpacing: "1px" }}>
           {over ? "00:00" : `${mm}:${ss}`}
         </div>
         <div style={{ fontSize: "11.5px", color: "#FCE4E1", fontWeight: 600 }}>
-          {over ? "😔 Slot released — book now to check availability" : "⚡ Your slot is reserved — don't lose it!"}
+          {over ? "ðŸ˜” Slot released â€” book now to check availability" : "âš¡ Your slot is reserved â€” don't lose it!"}
         </div>
       </div>
     </div>
   );
 }
 
-/* ─── Main page ────────────────────────────────────────────────── */
+/* â”€â”€â”€ Main page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function Consult49Content() {
   const [extraCount, setExtraCount] = useState(0);
   const handleJoin = useCallback(() => setExtraCount(c => c + 1), []);
@@ -570,7 +570,7 @@ function Consult49Content() {
 
   return (
     <>
-      <div className="urgency-bar">🔒 GLP-1 Doctor Consultation — Now at Just ₹49 (Was ₹1,500)</div>
+      <div className="urgency-bar">ðŸ”’ GLP-1 Doctor Consultation â€” Now at Just â‚¹49 (Was â‚¹1,500)</div>
 
       <header>
         <div className="wrap nav">
@@ -578,7 +578,7 @@ function Consult49Content() {
             <img src="/logo.png" alt="Lean Protocol" style={{ height: "70px", width: "auto", display: "block", alignSelf: "center" }} />
           </div>
           <button className="btn btn-primary" style={{ flexShrink: 0, whiteSpace: "nowrap", fontSize: "13px", padding: "10px 16px" }} onClick={() => openModal()}>
-            Consult @₹49
+            Consult @â‚¹49
           </button>
         </div>
       </header>
@@ -586,7 +586,7 @@ function Consult49Content() {
       {/* Doctor carousel */}
       <section className="docs-first" style={{ background: "linear-gradient(180deg, #EAF3EE 0%, #F4F9F6 45%, #FFFFFF 100%)" }}>
         <div className="wrap">
-          <div className="sec-head" style={{ marginBottom: "22px" }}><div className="divider"></div><h2>Talk to real GLP-1 doctors before you spend ₹15,000 on medication</h2><p>Live 1:1 video consult with certified endocrinologists &amp; internal medicine doctors for just ₹49.</p></div>
+          <div className="sec-head" style={{ marginBottom: "22px" }}><div className="divider"></div><h2>Talk to real GLP-1 doctors before you spend â‚¹15,000 on medication</h2><p>Live 1:1 video consult with certified endocrinologists &amp; internal medicine doctors for just â‚¹49.</p></div>
           <style>{`
             .doc-row { display:flex; justify-content:center; align-items:flex-end; gap:6px; flex-wrap:nowrap; width:100%; }
             .doc-col { display:flex; flex-direction:column; align-items:center; flex:1 1 0; min-width:0; }
@@ -630,27 +630,27 @@ function Consult49Content() {
             <div className="oc-h">GLP-1 Expert Doctor Consultation</div>
             <div className="price-row">
               <span className="price-at">At Just</span>
-              <span className="price-big">₹49</span>
-              <span className="price-was">₹1,500</span>
+              <span className="price-big">â‚¹49</span>
+              <span className="price-was">â‚¹1,500</span>
               <span className="price-save">97% OFF</span>
             </div>
             <ul>
-              <li><b>✓</b> Live 1:1 Video Call</li>
-              <li><b>✓</b> Personalized Fat Loss Plan</li>
-              <li><b>✓</b> Root Cause Analysis</li>
-              <li><b>✓</b> Prescription right at your inbox</li>
+              <li><b>âœ“</b> Live 1:1 Video Call</li>
+              <li><b>âœ“</b> Personalized Fat Loss Plan</li>
+              <li><b>âœ“</b> Root Cause Analysis</li>
+              <li><b>âœ“</b> Prescription right at your inbox</li>
             </ul>
             <div className="tagline">ONE SMALL STEP. TO A LEANER YOU.</div>
-            <button className="btn btn-primary" onClick={() => openModal()}>Book Now at Just <span className="pill49">₹49</span></button>
+            <button className="btn btn-primary" onClick={() => openModal()}>Book Now at Just <span className="pill49">â‚¹49</span></button>
           </div>
           <CountdownTimer minutes={10} />
         </div>
       </section>
 
-      {/* Stats — roll-up counter */}
+      {/* Stats â€” roll-up counter */}
       <RollupStats />
 
-      {/* Testimonials — real media */}
+      {/* Testimonials â€” real media */}
       <section>
         <div className="wrap">
           <div className="sec-head reveal"><div className="divider"></div><h2>Real transformations</h2><p>10,000+ people have already started. Here are some of them.</p></div>
@@ -678,7 +678,7 @@ function Consult49Content() {
           <div className="sec-head reveal"><div className="divider"></div><h2>Your program roadmap</h2><p>From your first consultation to lasting results.</p></div>
           <div className="rmap reveal">
             {[
-              { eyebrow: "2 MINUTES", h: "Book your ₹49 consultation", p: "Reserve your ₹49 slot in under a minute — no clinic queues, no waiting rooms." },
+              { eyebrow: "2 MINUTES", h: "Book your â‚¹49 consultation", p: "Reserve your â‚¹49 slot in under a minute â€” no clinic queues, no waiting rooms." },
               { eyebrow: "SAME DAY", h: "Talk to a GLP-1 expert doctor", p: "Live 1:1 video call with a certified internal medicine or endocrinology doctor." },
               { eyebrow: "DURING CONSULT", h: "Root cause analysis", p: "Your doctor reviews your medical history and builds a weight-loss protocol around your goals." },
               { eyebrow: "WITHIN 24 HRS", h: "Receive your prescription", p: "A custom GLP-1 / Mounjaro prescription delivered straight to your inbox." },
@@ -698,13 +698,13 @@ function Consult49Content() {
       </section>
 
 
-      {/* Google Reviews — real screenshots */}
+      {/* Google Reviews â€” real screenshots */}
       <section id="reviews" className="alt">
         <div className="wrap">
           <div className="sec-head reveal"><div className="divider"></div><h2>Loved on Google</h2><p>Real ratings from people on their Lean Protocol journey.</p></div>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "16px", marginBottom: "30px", flexWrap: "wrap" }}>
             <svg width="40" height="40" viewBox="0 0 24 24" aria-label="Google"><path d="M22.5 12.2c0-.7-.1-1.4-.2-2H12v3.9h5.9a5 5 0 0 1-2.2 3.3v2.7h3.6c2.1-2 3.2-4.9 3.2-7.9z" fill="#4285F4" /><path d="M12 23c2.9 0 5.4-1 7.2-2.6l-3.6-2.7c-1 .7-2.3 1-3.6 1-2.8 0-5.1-1.9-6-4.4H2.3v2.8A11 11 0 0 0 12 23z" fill="#34A853" /><path d="M6 14.3a6.6 6.6 0 0 1 0-4.2V7.3H2.3a11 11 0 0 0 0 9.8L6 14.3z" fill="#FBBC05" /><path d="M12 5.4c1.6 0 3 .5 4.1 1.6l3.1-3.1A11 11 0 0 0 12 1 11 11 0 0 0 2.3 7.3L6 10.1c.9-2.5 3.2-4.4 6-4.4z" fill="#EA4335" /></svg>
-            <div style={{ fontFamily: "var(--display)", fontSize: "38px", color: "var(--green)", lineHeight: 1 }}>4.8 <span style={{ color: "#FBBC05", fontSize: "22px" }}>★★★★★</span></div>
+            <div style={{ fontFamily: "var(--display)", fontSize: "38px", color: "var(--green)", lineHeight: 1 }}>4.8 <span style={{ color: "#FBBC05", fontSize: "22px" }}>â˜…â˜…â˜…â˜…â˜…</span></div>
           </div>
           <div className="reviews-grid reveal">
             {REVIEW_IMAGES.map((src, i) => (
@@ -731,7 +731,7 @@ function Consult49Content() {
       {/* BMI Calculator */}
       <BMICalculator onOpenModal={openModal} />
 
-      {/* Experts — full image cards */}
+      {/* Experts â€” full image cards */}
       <section id="experts" className="alt">
         <div className="wrap">
           <div className="sec-head reveal"><div className="divider"></div><h2>Meet your expert team</h2><p>Not general physicians. Not pharmacy counters. Every prescription comes from an NMC-registered endocrinologist or internal medicine doctor who treats metabolic conditions every day.</p></div>
@@ -752,7 +752,7 @@ function Consult49Content() {
       {/* Press / Publications */}
       <section className="press reveal">
         <div className="wrap">
-          <div className="label">Lean Protocol — Featured across India&apos;s leading publications</div>
+          <div className="label">Lean Protocol â€” Featured across India&apos;s leading publications</div>
           <p style={{ fontSize: "11px", color: "var(--sage)", marginBottom: "18px", textAlign: "center" }}>(click to read)</p>
           <div className="press-logos">
             {PRESS_LOGOS.map((logo, i) => (
@@ -770,11 +770,11 @@ function Consult49Content() {
           <div className="sec-head reveal"><div className="divider"></div><h2>Everything you wanted to ask</h2><p>Still curious? Here&apos;s the honest detail.</p></div>
           <div className="faq-list reveal">
             {[
-              { q: "Who is eligible for the weight-loss program?", a: "Generally a BMI of 30 or above qualifies — or 27+ with a weight-related condition like PCOS, thyroid, hypertension or diabetes. Final eligibility is always decided by your doctor during the consultation." },
+              { q: "Who is eligible for the weight-loss program?", a: "Generally a BMI of 30 or above qualifies â€” or 27+ with a weight-related condition like PCOS, thyroid, hypertension or diabetes. Final eligibility is always decided by your doctor during the consultation." },
               { q: "Is the program safe?", a: "It's doctor-supervised from day one. Medicines are prescription-only, started after reviewing your health and labs, and adjusted with regular check-ins." },
               { q: "What happens after I book?", a: "You'll get a 1-on-1 video call with a certified doctor, a root-cause assessment, and a personalised plan." },
               { q: "How soon will I see results?", a: "It varies by person, starting point, and consistency. Many members notice changes within the first few weeks." },
-              { q: "Are medicines included in the ₹49?", a: "No — ₹49 covers the consultation and root cause analysis only. If the doctor recommends medicines or tests, you'll see transparent pricing and can decide before anything is dispensed." },
+              { q: "Are medicines included in the â‚¹49?", a: "No â€” â‚¹49 covers the consultation and root cause analysis only. If the doctor recommends medicines or tests, you'll see transparent pricing and can decide before anything is dispensed." },
             ].map((faq, i) => (<details className="faq-item" key={i}><summary>{faq.q}</summary><div className="a">{faq.a}</div></details>))}
           </div>
         </div>
@@ -786,7 +786,7 @@ function Consult49Content() {
           <div className="final-inner">
             <div className="final-text">
               <h2 style={{ marginTop: "14px" }}>Now or Never Deal</h2>
-              <button className="btn btn-primary zoom" style={{ fontSize: "18px", padding: "17px 40px", marginTop: "8px" }} onClick={() => openModal()}>Book Now <span className="pill49">₹49</span></button>
+              <button className="btn btn-primary zoom" style={{ fontSize: "18px", padding: "17px 40px", marginTop: "8px" }} onClick={() => openModal()}>Book Now <span className="pill49">â‚¹49</span></button>
               <span className="eyebrow" style={{ display: "block", marginTop: "14px" }}>One Small Step. A Leaner You</span>
             </div>
             <div className="final-img">
@@ -806,19 +806,19 @@ function Consult49Content() {
           <div className="foot-grid">
             <div style={{ maxWidth: "300px" }}>
               <div className="logo" style={{ marginBottom: "14px" }}><div className="mark">LP</div><div className="name">LEAN <b>PROTOCOL</b><span>DOCTOR-LED · SCIENCE-BACKED</span></div></div>
-              <p style={{ fontSize: "13px", color: "var(--sage)" }}>Doctor-led, science-backed weight care — consultations, prescriptions, and support.</p>
+              <p style={{ fontSize: "13px", color: "var(--sage)" }}>Doctor-led, science-backed weight care â€” consultations, prescriptions, and support.</p>
             </div>
             <div className="foot-col"><h5>Program</h5><a href="#how">How it works</a><a href="#bmi">BMI check</a><a href="#experts">Our doctors</a><a href="#reviews">Reviews</a></div>
             <div className="foot-col"><h5>Contact</h5><a href="mailto:support@leanprotocol.in">support@leanprotocol.in</a><a href="tel:+919650401267">+91 96504 01267</a><a href="https://wa.link/3s1upf">WhatsApp our experts</a><a href="https://www.instagram.com/leanprotocol.og">Instagram</a></div>
           </div>
-          <p className="legal">GLP-1 medications are prescription-only and dispensed solely when a licensed physician determines they are clinically appropriate; they are not suitable for everyone and may carry side effects. The BMI tool is for general awareness only and is not medical advice or a diagnosis. Results vary and are not guaranteed. Lean Protocol is not affiliated with Novo Nordisk A/S or Eli Lilly &amp; Co. © {new Date().getFullYear()} Lean Protocol Pvt Ltd.</p>
+          <p className="legal">GLP-1 medications are prescription-only and dispensed solely when a licensed physician determines they are clinically appropriate; they are not suitable for everyone and may carry side effects. The BMI tool is for general awareness only and is not medical advice or a diagnosis. Results vary and are not guaranteed. Lean Protocol is not affiliated with Novo Nordisk A/S or Eli Lilly &amp; Co. Â© {new Date().getFullYear()} Lean Protocol Pvt Ltd.</p>
         </div>
       </footer>
 
       {/* Sticky CTA */}
       <div className="sticky-cta">
         <div className="txt">Very limited slots today<b>GLP-1 Consultation · â‚¹49</b></div>
-        <button className="btn btn-primary" onClick={() => openModal()}>Book ₹49 →</button>
+        <button className="btn btn-primary" onClick={() => openModal()}>Book â‚¹49 â†’</button>
       </div>
 
       <JoinerToast onJoin={handleJoin} />
