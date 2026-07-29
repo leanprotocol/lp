@@ -1,35 +1,26 @@
-import fs from "node:fs";
-import path from "node:path";
 import type { Metadata } from "next";
 import { company, seo } from "@/content/innovation";
 import { innovationAssets } from "@/content/innovation-assets";
 import "./innovation.css";
 
-/** Only reference the social image if the file is actually present.
- *  Never fall back to a remote image. */
-function localSocialImage() {
-  try {
-    const rel = innovationAssets.socialPreview.src.replace(/^\//, "");
-    const abs = path.join(process.cwd(), "public", rel);
-    if (fs.existsSync(abs)) {
-      return [
-        {
-          url: innovationAssets.socialPreview.src,
-          width: innovationAssets.socialPreview.width,
-          height: innovationAssets.socialPreview.height,
-          alt: seo.title,
-        },
-      ];
-    }
-  } catch {
-    // Filesystem not available - fall through to no image.
-  }
-  return undefined;
-}
+/** The social image ships with the repo, so reference it directly.
+ *  Never probe the filesystem here: Next cannot trace a process.cwd()
+ *  path, so it bundles the whole project into this route's function. */
+const SOCIAL_IMAGE_AVAILABLE = true;
 
-const images = localSocialImage();
+const images = SOCIAL_IMAGE_AVAILABLE
+  ? [
+      {
+        url: innovationAssets.socialPreview.src,
+        width: innovationAssets.socialPreview.width,
+        height: innovationAssets.socialPreview.height,
+        alt: seo.title,
+      },
+    ]
+  : undefined;
 
 export const metadata: Metadata = {
+  metadataBase: new URL(company.mainSite),
   title: seo.title,
   description: seo.description,
   keywords: seo.keywords,
