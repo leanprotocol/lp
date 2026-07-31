@@ -308,18 +308,19 @@ export default function UsersFunnel() {
                 <span className="step-text">Begin your weight loss journey 🚀</span>
               </div>
             </div>
-            <div className="ty-cta">
-              <a
-                href="/"
-                className="btn"
-                style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", textDecoration: "none" }}
-              >
-                Explore Lean Protocol {"\u2192"}
-              </a>
-            </div>
           </div>
         )}
       </div>
+
+      <p style={{ textAlign: "center", fontSize: 12, color: "var(--lp-muted)", marginTop: 18 }}>
+        <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" style={{ color: "var(--lp-muted)", textDecoration: "underline" }}>
+          Privacy Policy
+        </a>
+        {"  "}&middot;{"  "}
+        <a href="/terms-conditions" target="_blank" rel="noopener noreferrer" style={{ color: "var(--lp-muted)", textDecoration: "underline" }}>
+          Terms
+        </a>
+      </p>
 
       {step > 1 && !done && (
         <button className="nav-back" onClick={() => setStep((s) => s - 1)}>
