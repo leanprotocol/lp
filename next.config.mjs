@@ -26,11 +26,6 @@ const nextConfig = {
         has: [{ type: 'host', value: 'forms.leanprotocol.in' }],
         destination: '/users',
       },
-      {
-        source: '/',
-        has: [{ type: 'host', value: 'www.forms.leanprotocol.in' }],
-        destination: '/users',
-      },
     ]
   },
 }
