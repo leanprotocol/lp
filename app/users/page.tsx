@@ -313,11 +313,11 @@ export default function UsersFunnel() {
       </div>
 
       <p style={{ textAlign: "center", fontSize: 12, color: "var(--lp-muted)", marginTop: 18 }}>
-        <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" style={{ color: "var(--lp-muted)", textDecoration: "underline" }}>
+        <a href="/users/privacy" target="_blank" rel="noopener noreferrer" style={{ color: "var(--lp-muted)", textDecoration: "underline" }}>
           Privacy Policy
         </a>
         {"  "}&middot;{"  "}
-        <a href="/terms-conditions" target="_blank" rel="noopener noreferrer" style={{ color: "var(--lp-muted)", textDecoration: "underline" }}>
+        <a href="/users/terms" target="_blank" rel="noopener noreferrer" style={{ color: "var(--lp-muted)", textDecoration: "underline" }}>
           Terms
         </a>
       </p>
