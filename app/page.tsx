@@ -16,7 +16,6 @@ const WeightSlider = dynamic(() => import("@/components/weight-slider").then(m =
 import { MobileStatsCard } from "@/components/mobile-stats-card";
 import { PricingCarousel } from "@/components/pricing-carousel";
 const WeightLossChart = dynamic(() => import("@/components/weight-loss-chart").then(m => ({ default: m.WeightLossChart })))
-import { LimitedOffersSection } from "@/components/limited-offers-section"; 
 import { VideoPopup } from "@/components/video-popup"
 import { VideoSection } from "@/components/video-section"
 import { NewsSection } from "@/components/news-section";
@@ -35,9 +34,8 @@ export default function Page() {
       <div id="pricing">
         <PricingCarousel />
       </div>
-      <LimitedOffersSection />
-      <section className="py-10 px-4 text-center bg-[#E8F0D8] md:bg-white">
-        <h3 className="font-extrabold text-black uppercase tracking-widest text-sm mb-8">Our Engagement Partners</h3>
+      <section className="py-10 px-4 text-center bg-dark">
+        <h3 className="font-extrabold text-white uppercase tracking-widest text-sm mb-8">Our Engagement Partners</h3>
         <div className="flex flex-wrap justify-center items-center gap-8">
           <div className="relative w-32 h-12">
             <img src="/lp-assets/logo-redcliffe.png" alt="Redcliffe Labs" className="w-full h-full object-contain" />

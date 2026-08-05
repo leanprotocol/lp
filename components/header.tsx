@@ -184,6 +184,14 @@ export function Header() {
           </DropdownMenu>
           </div>
           <Link
+            href="/lp/ABHI"
+            className="text-base transition-colors text-foreground hover:text-foreground/70"
+          >
+            <span className="relative inline-flex pb-4 leading-none">
+              Pricing
+            </span>
+          </Link>
+          <Link
             href="/blog"
             className={`text-base transition-colors ${
               isActive("/blog") ? "text-[#1F302B]" : "text-foreground hover:text-foreground/70"
@@ -284,6 +292,13 @@ export function Header() {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Our Why
+            </Link>
+            <Link
+              href="/lp/ABHI"
+              className="text-base font-medium py-2 px-3 rounded-lg transition-colors text-foreground hover:text-foreground/70"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Pricing
             </Link>
             <Link
               href="/blog"
