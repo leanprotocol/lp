@@ -80,8 +80,8 @@ const QUESTIONS: Question[] = [
 const STORIES = [
   { name: "Pratima, 37", result: "Lost 7 kg in 2.5 months*", img: "/testimonials/pratima.png",
     quote: "The first month I barely noticed. By the third my clothes did." },
-  { name: "Kanti, 44", result: "Lost 8.5 kg in 3 months*", img: "/testimonials/kanti.png",
-    quote: "What worked was someone checking on me every single week." },
+  { name: "Neema, 46", result: "Lost 10.8 kg in 4 months*", img: "/testimonials/neema.png",
+    quote: "At 46 I thought it was too late. The plan proved me wrong." },
   { name: "Rohit, 39", result: "Lost 9.1 kg in 15 weeks*", img: "/testimonials/rohit.png",
     quote: "They fixed my protein before they touched anything else." },
   { name: "Atreyee, 28", result: "Lost 6 kg*", img: "/lp-assets/atreyee-transformation.jpeg",
@@ -91,7 +91,7 @@ const STORIES = [
 const DOCTORS = [
   { name: "Dr. Nishant Jain", role: "MD, DM (Endo)", img: "/lp-assets/experts/nishant.jpeg" },
   { name: "Dr. Akhil Konduru", role: "MD, Internal Med", img: "/lp-assets/experts/akhil.jpeg" },
-  { name: "Dr. Siddharth Garg", role: "MD, Internal Med", img: "/lp-assets/experts/siddharth.jpeg" },
+  { name: "Dr. Gautam Kumar", role: "MD, DM (Endo)", img: "/lp-assets/experts/gautam.jpeg" },
 ];
 
 const LOAD_MSGS = [
@@ -109,12 +109,52 @@ const BANDS = [
   { name: "Extreme", range: "40+", color: "#C85A42" },
 ];
 
-const BAND_NOTES = [
-  "A low BMI needs a doctor to look at why before any weight programme is considered.",
-  `You are in the normal range on the WHO scale ${DASH} where fat sits matters more than the number.`,
-  "This BMI range is linked to early insulin resistance, inflammation and metabolic slowdown.",
-  "At this range weight is likely affecting other systems already. A doctor-led protocol is the safest route.",
-  "This range carries significant metabolic risk. Close clinical monitoring is essential.",
+/* Content is written per band. The headline, the explanation and the bullets
+   all change with the result - a generic paragraph under a specific number
+   reads as boilerplate and undercuts the rest of the screen. */
+/* Content is written per band. Kept deliberately short - this sits at the
+   end of a six-step funnel, and a wall of text is where people leave. */
+const BAND_CONTENT = [
+  {
+    lead: "A low BMI needs a doctor to look at why first.",
+    body: "Weight loss is not the goal here. Thyroid, absorption and nutrition come first.",
+    points: [
+      "A GLP-1 protocol would not be appropriate.",
+      "The panel still checks thyroid, iron and hormones.",
+    ],
+  },
+  {
+    lead: "You are in the normal range, but where fat sits matters more than the number.",
+    body: "A normal BMI can still hide visceral fat, which is what drives insulin resistance.",
+    points: [
+      "Waist size tells a doctor more than BMI here.",
+      "The panel reads insulin, HbA1c and lipids directly.",
+    ],
+  },
+  {
+    lead: "This range is linked to early insulin resistance and a slowing metabolism.",
+    body: "It is also the window where intervention works best, while the changes are still reversible.",
+    points: [
+      "Eligibility usually needs BMI 27+ with a related condition.",
+      "Your doctor decides that from the panel, not from BMI.",
+    ],
+  },
+  {
+    lead: "At this range weight is likely affecting other systems already.",
+    body: "Blood pressure, liver markers and glucose are often affected before symptoms show.",
+    points: [
+      "BMI 30+ is the usual threshold a doctor considers.",
+      "Any prescription still depends on your panel and history.",
+    ],
+  },
+  {
+    lead: "This range carries significant metabolic risk.",
+    body: "Weight at this level rarely acts alone. Supervised care with regular review is essential.",
+    points: [
+      "An endocrinologist reviews your case first.",
+      "Existing medication is accounted for before anything starts.",
+    ],
+  },
 ];
 
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -229,13 +269,11 @@ export default function UsersFunnel() {
 
   const conds = (answers.conditions as string[]) || [];
   const flags: string[] = [];
-  if (conds.includes("Diabetes")) flags.push(`You flagged diabetes ${DASH} GLP-1 protocols are often prescribed for exactly this overlap.`);
-  if (conds.includes("Thyroid")) flags.push("Thyroid function is checked in the blood panel before anything is prescribed.");
-  if (conds.includes("PCOS / PCOD")) flags.push(`PCOS changes how your body stores fat ${DASH} the protocol accounts for it.`);
-  if (conds.includes("Fatty liver")) flags.push("Fatty liver frequently improves as visceral fat comes down.");
-  if (conds.includes("Hypertension")) flags.push("Blood pressure is monitored across the six months alongside weight.");
-  if (!flags.length) flags.push(`No conditions flagged ${DASH} the blood panel still checks hormones, insulin response and thyroid.`);
-  flags.push("Understanding the reason behind your weight gain is step one.");
+  if (conds.includes("Diabetes")) flags.push("Diabetes flagged - GLP-1 is often prescribed for this overlap.");
+  if (conds.includes("Thyroid")) flags.push("Thyroid is checked before anything is prescribed.");
+  if (conds.includes("PCOS / PCOD")) flags.push("PCOS changes how you store fat. The protocol accounts for it.");
+  if (conds.includes("Fatty liver")) flags.push("Fatty liver often improves as visceral fat comes down.");
+  if (conds.includes("Hypertension")) flags.push("Blood pressure is tracked alongside weight.");
 
   const question = QUESTIONS.find((q) => q.step === step);
   const isChoice = Boolean(question);
@@ -274,7 +312,7 @@ export default function UsersFunnel() {
         }
         return n + 2;
       });
-    }, 90);
+    }, 120);   /* 100 steps of 2 at 120ms = 6.0s, one third longer than before */
     storyTimer.current = setInterval(() => setStoryIdx((i) => (i + 1) % STORIES.length), 2300);
   }, [clearTimers]);
 
@@ -656,15 +694,15 @@ export default function UsersFunnel() {
                   />
                   <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg,rgba(14,20,17,.1) 30%,rgba(14,20,17,.92))" }} />
                   <div style={{ position: "absolute", inset: "auto 0 0 0", padding: "22px 24px" }}>
-                    <div style={{ display: "inline-flex", background: "rgba(200,217,167,.2)", border: "1px solid rgba(200,217,167,.5)", color: "#C8D9A7", borderRadius: 999, padding: "6px 14px", fontWeight: 800, fontSize: 11.5, letterSpacing: ".08em", marginBottom: 12 }}>
+                    <div style={{ display: "inline-flex", background: "rgba(200,217,167,.2)", border: "1px solid rgba(200,217,167,.5)", color: "#C8D9A7", borderRadius: 999, padding: "5px 12px", fontWeight: 800, fontSize: 10.5, letterSpacing: ".08em", marginBottom: 10 }}>
                       {STORIES[storyIdx].result}
                     </div>
-                    <div style={{ fontWeight: 800, fontSize: 24, color: "#F9F7F2", letterSpacing: "-.025em" }}>
+                    <div style={{ fontWeight: 800, fontSize: 19, color: "#F9F7F2", letterSpacing: "-.025em" }}>
                       {STORIES[storyIdx].name}
                     </div>
                   </div>
                 </div>
-                <div style={{ padding: "22px 24px 24px" }}>
+                <div style={{ padding: "18px 22px 20px" }}>
                   <p className="story-quote">{"\u201C"}{STORIES[storyIdx].quote}{"\u201D"}</p>
                 </div>
               </div>
@@ -784,7 +822,7 @@ export default function UsersFunnel() {
                   {bmi}
                 </div>
                 <p style={{ fontSize: 16, lineHeight: 1.5, color: "rgba(28,43,34,.7)", margin: "10px 0 24px" }}>
-                  Based on your inputs you fall into the{" "}
+                  You fall into the{" "}
                   <span style={{ background: "rgba(201,168,76,.22)", color: "#8a6d18", fontWeight: 800, padding: "2px 9px", borderRadius: 6 }}>
                     {BANDS[bandIdx].name.toLowerCase()}
                   </span>{" "}
@@ -809,30 +847,28 @@ export default function UsersFunnel() {
                 </div>
               </div>
 
-              <div className="panel-dark" style={{ marginTop: 16 }}>
-                <div style={{ fontSize: 11.5, letterSpacing: ".14em", fontWeight: 800, color: "#C8D9A7", marginBottom: 12 }}>
+              <div className="panel-dark" style={{ marginTop: 14, padding: "18px 18px" }}>
+                <div style={{ fontSize: 10.5, letterSpacing: ".14em", fontWeight: 800, color: "#C8D9A7", marginBottom: 10 }}>
                   WHAT THIS MEANS FOR YOU
                 </div>
-                <p style={{ margin: "0 0 12px", fontSize: 16.5, lineHeight: 1.55, color: "#F9F7F2", fontWeight: 600 }}>
-                  {BAND_NOTES[bandIdx]}
+                <p style={{ margin: "0 0 10px", fontSize: 14.5, lineHeight: 1.5, color: "#F9F7F2", fontWeight: 600 }}>
+                  {BAND_CONTENT[bandIdx].lead}
                 </p>
-                <p style={{ margin: "0 0 16px", fontSize: 15, lineHeight: 1.6, color: "#A8BEB7" }}>
-                  BMI is a starting signal, not a diagnosis. It cannot see muscle, where your
-                  fat sits, or the hormones driving it {DASH} which is why the protocol begins
-                  with a full metabolic and hormone panel rather than a number.
+                <p style={{ margin: "0 0 14px", fontSize: 13, lineHeight: 1.55, color: "#A8BEB7" }}>
+                  {BAND_CONTENT[bandIdx].body}
                 </p>
-                <div style={{ display: "grid", gap: 9 }}>
-                  {flags.map((f) => (
-                    <div key={f} style={{ display: "flex", gap: 11, alignItems: "flex-start", fontSize: 14.5, lineHeight: 1.45, color: "#A8BEB7" }}>
+                <div style={{ display: "grid", gap: 7 }}>
+                  {[...BAND_CONTENT[bandIdx].points, ...flags].map((f) => (
+                    <div key={f} style={{ display: "flex", gap: 9, alignItems: "flex-start", fontSize: 12.5, lineHeight: 1.4, color: "#A8BEB7" }}>
                       <span style={{ color: "#C9A84C", fontWeight: 800, flex: "none" }}>{"\u2022"}</span>{f}
                     </div>
                   ))}
                 </div>
               </div>
 
-              <p style={{ fontSize: 11, color: "rgba(28,43,34,.5)", margin: "12px 0 0", lineHeight: 1.55 }}>
-                Asian-Indian cut-offs are lower than the WHO scale shown {DASH} overweight
-                starts at 23, not 25. This is a screening signal only, not a diagnosis.
+              <p style={{ fontSize: 10.5, color: "rgba(28,43,34,.5)", margin: "10px 0 0", lineHeight: 1.5 }}>
+                Asian-Indian cut-offs are lower than the scale shown {DASH} overweight starts
+                at 23. Screening signal only, not a diagnosis.
               </p>
 
               <div className="cta-wrap" style={{ paddingTop: 20 }}>

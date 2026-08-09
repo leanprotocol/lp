@@ -117,7 +117,7 @@
   transition: opacity .3s, border-color .2s; padding: 0;
 }
 .users-page .back:hover { border-color: var(--u-green); }
-.users-page .topbar img { height: 40px; display: block;
+.users-page .topbar img { height: 54px; display: block;
   filter: drop-shadow(0 2px 6px rgba(25,50,49,.18)) saturate(1.15) contrast(1.08); }
 
 /* ---- progress ---- */
