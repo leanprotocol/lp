@@ -1,4 +1,3 @@
-import { notFound } from "next/navigation";
 import { ChallengeHeader } from "@/components/challenge/ChallengeHeader";
 import { Hero } from "@/components/challenge/Hero";
 import { Stats } from "@/components/challenge/Stats";
@@ -21,7 +20,6 @@ import { ScrollReveal } from "@/components/challenge/ScrollReveal";
  * no Footer, no main-site nav (see app/challenge/layout.tsx).
  */
 export default function ChallengePage() {
-  notFound();
   return (
     <>
       <ChallengeHeader />
