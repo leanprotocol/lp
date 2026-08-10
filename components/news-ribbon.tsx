@@ -81,7 +81,7 @@ export function NewsRibbon() {
       <div className="text-center mb-6 md:mb-8 px-4">
         <h2 className="font-serif text-2xl md:text-3xl text-dark">In the News</h2>
         <p className="text-sm text-muted-foreground mt-1">
-          GLP-1 is the only clinically proven weight loss solution that works if your BMI is above 27
+          GLP-1 therapy is one of the treatment options a doctor may consider at a BMI above 27, alongside a related condition
         </p>
       </div>
 

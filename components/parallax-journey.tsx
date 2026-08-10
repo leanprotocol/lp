@@ -1,142 +1,172 @@
 "use client"
 
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
-import Link from "next/link"
+import { useEffect, useRef, useState } from "react"
+import * as C from "@/content/home-v2"
 
-const journeySteps = [
-  {
-    title: "At Home Advanced Blood Test",
-    description: "Share your goals and history to power your personalized MetabolicPrint™ health assessment",
-    image: "/journey/journey1.webp",
-    gradient: "from-[#8B8A6F] to-[#A39F88]",
-  },
-  {
-    title: "Consultation with our Expert Doctors & Nutritionists for a Personalised Protocol",
-    description: "We'll find the best medication option for your budget & set goals",
-    image: "/journey/journey2.png",
-    gradient: "from-[#A39F88] to-[#B8B29E]",
-  },
-  {
-    title: "Supplements Delivered to your place",
-    description: "Fast, discreet shipping right to your door within days",
-    image: "/journey/journey3.png",
-    gradient: "from-[#8B8A6F] to-[#9B9A80]",
-  },
-  {
-    title: "Get an accountability partner & expert-designed workouts",
-    description: "Monitor your weight loss journey with our app and regular check-ins",
-    image: "/journey/journey4.png",
-    gradient: "from-[#7A7961] to-[#8B8A6F]",
-  },
-  {
-    title: "Get lighter - lose up to 22% of body weight*",
-    description: "Celebrate your success with ongoing support from our care team",
-    image: "/journey/journey5.webp",
-    gradient: "from-[#9B9A80] to-[#A39F88]",
-  },
-] 
-
+/**
+ * The Lean Protocol journey.
+ *
+ * A tall section (560vh) with a sticky viewport inside it. Scroll position
+ * within the section drives which of the five steps is showing, so the copy
+ * and the image cross-fade as you move down the page rather than on a timer.
+ *
+ * The progress read is throttled with requestAnimationFrame: a raw scroll
+ * listener calling setState fires far more often than React can usefully
+ * render, and on mobile that shows up as jank.
+ */
 export function ParallaxJourney() {
+  const sectionRef = useRef<HTMLElement>(null)
+  const [progress, setProgress] = useState(0)
+
+  useEffect(() => {
+    let frame = 0
+
+    const read = () => {
+      frame = 0
+      const el = sectionRef.current
+      if (!el) return
+      const r = el.getBoundingClientRect()
+      const total = r.height - window.innerHeight
+      const p = total > 0 ? Math.min(1, Math.max(0, -r.top / total)) : 0
+      setProgress((prev) => (Math.abs(p - prev) > 0.0015 ? p : prev))
+    }
+
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(read)
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true })
+    window.addEventListener("resize", onScroll, { passive: true })
+    read()
+
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("resize", onScroll)
+      if (frame) cancelAnimationFrame(frame)
+    }
+  }, [])
+
+  const steps = C.journey.steps
+  const n = steps.length
+  const exact = progress * n
+  const active = Math.min(n - 1, Math.floor(exact))
+
   return (
-    <section className="relative min-h-screen py-12 md:py-18">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
-          
-          {/* Sticky Text Content */}
-          <div className="lg:sticky lg:top-1/2 lg:-translate-y-1/2 md:mt-30">
-            <h2 className="heading">
-              Weight-loss secret of celebrities <span className="font-serif opacity-70 italic">made safer and accessible</span> 
-            </h2>
-            <Link href="/get-started">
-              <Button 
-                size="lg" 
-                className="bg-dark cursor-pointer text-white hover:bg-dark/90 rounded-full text-base px-8 w-40 h-12 mt-5"
-              >
-                Get started
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
-          </div>
-
-          {/* Scrolling Image Cards (Updated Design) */}
-          <div className="space-y-4 md:space-y-8">
-            {journeySteps.map((step, index) => {
-              const stepNumber = String(index + 1).padStart(2, "0")
-              return (
-                <div
-                  key={step.title}
-                  className="journey-card group relative overflow-hidden rounded-3xl md:rounded-[2.2rem] bg-gray-100"
-                  style={{ animationDelay: `${index * 120}ms` }}
-                >
-                  <div className="relative h-[300px] md:h-[450px] w-full">
-                    {/* Image with Zoom Effect */}
-                    <Image
-                      src={step.image || "/placeholder.svg"}
-                      alt={step.title}
-                      fill
-                      className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                    />
-
-
-
-                    {/* Smart Gradient Overlay: Only darkens the bottom for text readability */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 md:via-black/40 to-transparent opacity-80" />
-
-                    {/* Content Positioned at Bottom */}
-                    <div className="absolute bottom-0 left-0 right-0 p-5 md:p-7 text-white transition-transform duration-500">
-                      <div className="mb-3 flex items-center gap-3 text-xs uppercase tracking-[0.4em] text-white/60">
-                        <span className="h-px w-10 bg-white/40" />
-                        Step {stepNumber}
-                      </div>
-                      <h3 className="text-[24px] md:text-[26px] font-light mb-2 leading-tight text-balance">
-                        {step.title}
-                      </h3>
-
-                      {/* Uncomment this if you want the description visible.
-                          It will now be readable. */}
-                      {/* <p className="text-base text-white/80 max-w-lg text-balance mt-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                        {step.description}
-                      </p>
-                      */}
-                    </div>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </div>
-      <p className="text-[11px] text-muted-foreground/60 mt-4 px-4 text-center max-w-3xl mx-auto">*Results vary. Eligibility, treatment and outcomes depend on individual medical assessment. Medication is prescribed only when clinically appropriate.</p>
+    <section
+      ref={sectionRef}
+      id={C.journey.id}
+      className="relative bg-dark"
+      style={{ height: `${n * 112}vh` }}
+    >
+      {/* The image is short on mobile so the copy fits beside it inside one
+          viewport; desktop gets the full-height treatment back. */}
       <style jsx>{`
-        .journey-card {
-          opacity: 0;
-          transform: translateY(32px);
-          animation: journeyCardReveal 0.75s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-        }
-
-        @keyframes journeyCardReveal {
-          from {
-            opacity: 0;
-            transform: translateY(40px) scale(0.98);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .journey-card {
-            animation: none;
-            opacity: 1;
-            transform: none;
+        @media (min-width: 768px) {
+          .gw-journey-shot {
+            height: min(72vh, 640px) !important;
           }
         }
       `}</style>
+      <div className="sticky top-[73px] flex min-h-[calc(100dvh-73px)] items-start py-4 md:items-center md:py-7">
+        <div className="grid w-full items-center gap-6 md:gap-[clamp(26px,3.4vw,60px)] md:[grid-template-columns:repeat(auto-fit,minmax(min(400px,100%),1fr))]">
+
+          {/* Image stack. All five are mounted; only the active one is opaque,
+              so the cross-fade has nothing to load mid-scroll. */}
+          <div
+            className="gw-journey-shot relative mx-5 min-h-0 overflow-hidden rounded-[22px] bg-[#0E1512] md:ml-[clamp(28px,5vw,70px)] md:mr-0 md:rounded-[30px]"
+            style={{
+              height: "min(42vh, 360px)",
+              boxShadow: "0 40px 90px rgba(0,0,0,.45)",
+            }}
+          >
+            {steps.map((s, i) => (
+              <img
+                key={s.n}
+                src={s.img}
+                alt={s.title}
+                className="absolute inset-0 h-full w-full object-cover"
+                style={{
+                  opacity: i === active ? 1 : 0,
+                  transform: `scale(${i === active ? 1 : 1.06})`,
+                  transition:
+                    "opacity .8s cubic-bezier(.2,.7,.2,1), transform 1.6s cubic-bezier(.2,.7,.2,1)",
+                }}
+              />
+            ))}
+            <div className="absolute bottom-6 left-6 rounded-full bg-lp-bg/90 px-5 py-2.5 text-sm font-bold text-dark backdrop-blur-sm">
+              Step {String(active + 1).padStart(2, "0")} of {String(n).padStart(2, "0")}
+            </div>
+          </div>
+
+          {/* Copy column */}
+          <div className="flex h-full flex-col justify-center px-5 md:px-0 md:pr-[clamp(28px,5vw,70px)]">
+            <div className="mb-4 text-[12.5px] font-bold tracking-[0.16em] text-accent">
+              THE LEAN PROTOCOL
+            </div>
+
+            <div className="relative min-h-[190px] md:min-h-[clamp(230px,34vh,310px)]">
+              {steps.map((s, i) => (
+                <div
+                  key={s.n}
+                  className="absolute inset-0"
+                  style={{
+                    opacity: i === active ? 1 : 0,
+                    transform:
+                      i === active
+                        ? "translateY(0)"
+                        : `translateY(${i < active ? -28 : 28}px)`,
+                    transition:
+                      "opacity .6s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1)",
+                    pointerEvents: i === active ? "auto" : "none",
+                  }}
+                >
+                  <div
+                    className="font-extrabold leading-none tracking-[-0.03em] text-lp-bg/[0.16]"
+                    style={{ fontSize: "clamp(38px,5.6vw,88px)" }}
+                  >
+                    {s.n}
+                  </div>
+                  <h2
+                    className="mb-4 mt-3.5 max-w-[16ch] font-extrabold leading-[1.05] tracking-[-0.03em] text-lp-bg"
+                    style={{ fontSize: "clamp(24px,3.7vw,54px)" }}
+                  >
+                    {s.title}
+                  </h2>
+                  <p
+                    className="m-0 max-w-[42ch] leading-[1.5] text-accent2"
+                    style={{ fontSize: "clamp(14.5px,1.5vw,21px)" }}
+                  >
+                    {s.body}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* One bar per step. The active bar fills with the fractional
+                progress, so the rail tracks scroll rather than snapping. */}
+            <div className="mt-auto flex gap-2 pt-6 md:gap-2.5 md:pt-[clamp(24px,6vh,64px)]">
+              {steps.map((s, i) => {
+                const fill = i < active ? 100 : i === active ? (exact - active) * 100 : 0
+                return (
+                  <div
+                    key={s.n}
+                    className="h-[3px] flex-1 overflow-hidden rounded-[3px] bg-lp-bg/[0.14]"
+                  >
+                    <div
+                      className="h-full bg-accent"
+                      style={{ width: `${fill}%`, transition: "width .25s linear" }}
+                    />
+                  </div>
+                )
+              })}
+            </div>
+
+            <p className="m-0 mt-3.5 max-w-[60ch] text-[11.5px] text-accent2/60">
+              {C.journey.note}
+            </p>
+          </div>
+        </div>
+      </div>
     </section>
   )
 }
-
-

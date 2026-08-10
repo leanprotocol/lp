@@ -11,7 +11,7 @@ const metricsTabs = [
     value: "18–22%",
     label: "Avg Weight Loss",
     title: "18-22% Average Weight Loss*",
-    description: "Our GLP-1 protocol is clinically proven to help you lose up to 22% of your body weight safely and sustainably.",
+    description: "In clinical studies, GLP-1 therapy has supported weight reduction of up to 22% alongside diet and activity. Individual results vary and depend on medical assessment.",
     image: "/lp-assets/image10.jpg",
     objectPosition: "object-center"
   },
@@ -156,7 +156,7 @@ export function SocialProof() {
         <div className="max-w-4xl mx-auto space-y-12">
           <div className="text-center">
             <h2 className="font-serif text-2xl md:text-4xl text-lp-dark mb-4">The numbers speak for themselves</h2>
-            <p className="text-gray-500 text-lg">Proven science, guaranteed results.</p>
+            <p className="text-gray-500 text-lg">Science-led care, measured every step.</p>
           </div>
 
           <div className="grid grid-cols-2 gap-4 md:gap-6">

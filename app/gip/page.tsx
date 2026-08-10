@@ -9,7 +9,7 @@ const PAGE_ENABLED = false;
 export const metadata: Metadata = {
   title: "Lean Protocol | Mounjaro (Tirzepatide) Medical Weight Loss Program",
   description:
-    "Tirzepatide (Mounjaro) GLP-1 program. Doctor-led, science-based weight loss. Guaranteed 10% weight loss in 6 months or full refund.",
+    "Tirzepatide (Mounjaro) GLP-1 programme. Doctor-led, science-based weight care. Eligible six-month members may qualify for a refund review; terms apply. Results vary.",
 };
 
 export default function MounjaroPage() {

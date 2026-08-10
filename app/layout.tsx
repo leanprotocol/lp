@@ -18,8 +18,8 @@ const libreBaskerville = Libre_Baskerville({
 })
 
 export const metadata: Metadata = {
-  title: "Lean Protocol | Clinically Proven Weight Loss for India",
-  description: "Advanced blood tests, 1-on-1 doctor & nutritionist care, personalized GLP-1 protocol. Lose 15-22% body weight with Lean Protocol.",
+  title: "Lean Protocol | Doctor-Led Weight Care for India",
+  description: "Advanced blood tests, 1-on-1 doctor and nutritionist care, and a personalised GLP-1 protocol where clinically appropriate. Results vary.",
   openGraph: {
     images: ["/og-image.jpg"],
   },

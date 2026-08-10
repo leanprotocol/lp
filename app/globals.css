@@ -252,3 +252,15 @@
 .scroll-hint-arrow { display: inline-block; animation: hintBounce 1s ease-in-out infinite; }
 @keyframes hintBounce { 0%,100% { transform: translateX(0); } 50% { transform: translateX(6px); } }
 .partner-logos { display: flex; flex-wrap: nowrap; align-items: center; justify-content: center; gap: clamp(16px, 5vw, 48px); }
+/* Weight estimate comparison bars. Global, not scoped: styled-jsx renames
+   keyframes, which silently breaks an inline animation that names one.
+   Scales from the bottom instead of animating height, because a percentage
+   height only animates when the parent height is definite. */
+@keyframes lpBarGrow {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+@keyframes lpBarNum {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}

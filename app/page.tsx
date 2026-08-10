@@ -24,44 +24,44 @@ export default function Page() {
     <main className="min-h-screen bg-background">
       <Header />
       <VideoPopup />
+
+      {/* 1  Hero + ticker */}
       <Hero />
-      <InsuranceLogos />
-      {<div className="hidden md:block"><CausesSection /></div>}
-      <ParallaxJourney /> 
+
+      {/* 2  Journey - 560vh sticky scroll */}
+      <ParallaxJourney />
+
+      {/* 3  Explainer video */}
       <VideoSection />
+
+      {/* 4  Metric cards */}
+      <StatsSection />
+
+      {/* 5  Results film strip - 320vh sticky scroll */}
       <TestimonialsCarousel />
-      <MobileStatsCard />
+
+      {/* 6  Weight estimate */}
+      <WeightSlider />
+
+      {/* 6b  Clinical outcomes chart */}
+      <WeightLossChart />
+
+      {/* 7  Pricing - prices read live from /api/plans */}
       <div id="pricing">
         <PricingCarousel />
       </div>
-      <section className="py-10 px-4 text-center bg-dark">
-        <h3 className="font-extrabold text-white uppercase tracking-widest text-sm mb-8">Our Engagement Partners</h3>
-        <div className="flex flex-wrap justify-center items-center gap-8">
-          <div className="relative w-32 h-12">
-            <img src="/lp-assets/logo-redcliffe.png" alt="Redcliffe Labs" className="w-full h-full object-contain" />
-          </div>
-          <div className="flex items-center font-bold text-2xl tracking-tight text-[#0066CC]">
-            <span className="text-[#4CAF50]">Mr</span>Med
-          </div>
-          <div className="relative w-24 h-12">
-            <img src="/lp-assets/logo-cult.png" alt="Cult" className="w-full h-full object-contain" />
-          </div>
-        </div>
-      </section>
-      {/* <MembersServed /> */}
+
+      {/* 8  Press. news-section.tsx is shared with the affiliate page and
+             /gip, so it has not been redesigned yet. */}
       <NewsSection />
-      {/* {<div className="hidden md:block"><MedicationToolkit /></div>} */}
-      {/* <MicrodoseSection /> */}
-      <WeightSlider />
+
+      {/* 9  Experts marquee */}
       <DoctorsSection />
-      <WeightLossChart />
+
+      {/* 10  Benefits marquees */}
       <BenefitsMarquee />
-      <InsuranceCoverage />
-      
-      {/* <StatsSection /> */}
-      {/* <DoctorTestimonial /> */}
-      {/* <DoctorsSection /> */}
+
       <Footer />
-    </main>
+</main>
   );
 }

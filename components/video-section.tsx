@@ -1,84 +1,54 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import * as C from "@/content/home-v2"
 
-const VIDEO_SRC = "/lp-assets/lp-explainer.mp4"
-
+/**
+ * Explainer video with trust pills beneath.
+ *
+ * preload="metadata" so the poster frame and duration are available without
+ * pulling the whole file on page load - this sits below the fold and most
+ * visitors never press play.
+ */
 export function VideoSection() {
-  const videoRef = useRef<HTMLVideoElement>(null)
-
-  // Autoplay when section scrolls into view, pause when out
-  useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            video.play().catch(() => {})
-          } else {
-            video.pause()
-          }
-        })
-      },
-      { threshold: 0.3 } // lower threshold for mobile — triggers earlier
-    )
-
-    observer.observe(video)
-    return () => observer.disconnect()
-  }, [])
-
   return (
-    <section className="py-10 md:py-24 bg-dark">
-      <div className="container mx-auto px-3 md:px-4">
+    <section className="bg-lp-bg px-7 pb-[110px] pt-20">
+      <div className="mx-auto max-w-[1180px] text-center">
+        <h2
+          className="mb-10 font-extrabold text-lp-dark"
+          style={{ fontSize: "clamp(28px,3.6vw,48px)" }}
+        >
+          Understand the process behind{" "}
+          <span className="font-serif italic tracking-normal text-lp-green">
+            amazing results.
+          </span>
+        </h2>
 
-        {/* Header */}
-        <div className="text-center mb-6 md:mb-12">
-          <h2 className="font-serif text-xl md:text-4xl text-white leading-snug px-2">
-            Understand The Process That Let Us Deliver Amazing Results!
-          </h2>
+        <div
+          className="overflow-hidden rounded-[34px]"
+          style={{ boxShadow: "0 44px 110px rgba(25,50,49,.28)" }}
+        >
+          <video
+            src={C.explainer.videoSrc}
+            poster={C.explainer.poster}
+            controls
+            preload="metadata"
+            className="block w-full bg-black object-cover"
+            style={{ aspectRatio: "16 / 9" }}
+          />
         </div>
 
-        {/* Video player */}
-        <div className="w-full max-w-3xl mx-auto">
-          <div className="relative w-full aspect-video rounded-xl md:rounded-2xl overflow-hidden shadow-2xl border border-[#0F766E]/30 bg-black">
-            <video
-              ref={videoRef}
-              src={VIDEO_SRC}
-              preload="none"
-              className="absolute inset-0 w-full h-full object-contain"
-              controls
-              muted
-              playsInline
-              poster="/lp-assets/video-thumbnail.jpg"
-            />
-          </div>
-
-          {/* Below video — hidden on very small screens */}
-          <div className="hidden sm:flex items-center justify-center gap-6 mt-4 md:mt-5">
-            <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#14B8A6]" />
-              <span className="text-white/60 text-xs">Doctor-guided</span>
+        <div className="mt-[26px] flex flex-wrap justify-center gap-3">
+          {C.explainer.points.map((p) => (
+            <div
+              key={p}
+              className="rounded-full border border-lp-green/20 bg-white px-[22px] py-[11px] text-sm font-bold text-lp-green"
+              style={{ boxShadow: "0 8px 22px rgba(25,50,49,.08)" }}
+            >
+              {p}
             </div>
-            <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#14B8A6]" />
-              <span className="text-white/60 text-xs">Made for India</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#14B8A6]" />
-              <span className="text-white/60 text-xs">GLP-1 backed (only if eligible & prescribed)</span>
-            </div>
-          </div>
-
-          {/* Mobile only — single line trust badge */}
-          <p className="sm:hidden text-center text-[10px] text-white/40 mt-3">
-            Doctor-guided · Made for India · GLP-1 backed (only if eligible & prescribed)
-          </p>
+          ))}
         </div>
-
       </div>
     </section>
   )
 }
-

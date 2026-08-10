@@ -1,231 +1,117 @@
 "use client"
 
-import Image from "next/image"
-import { useCallback, useEffect, useState } from "react"
-import useEmblaCarousel from "embla-carousel-react"
-import type { EmblaCarouselType } from "embla-carousel"
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import { FormCallbacksContext } from "sanity/_singletons"
+import { useEffect, useRef, useState } from "react"
+import * as C from "@/content/home-v2"
 
-interface Testimonial {
-  name: string
-  age?: string
-  weightLost?: string
-  duration?: string
-  imageFilename?: string
-  videoFilename?: string
-}
-
+/**
+ * Horizontal film strip of member results.
+ *
+ * The section is tall (320vh) with a sticky viewport; vertical scroll is
+ * translated into horizontal travel across the strip. The design relied on
+ * CSS scroll-driven animations (view-timeline), which Safari and Firefox do
+ * not support yet, so this reads scroll position in JS instead and works
+ * everywhere.
+ */
 export function TestimonialsCarousel() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: true,
-    align: "start",
-    containScroll: "trimSnaps",
-    skipSnaps: false,
-  })
-  const [scrollSnaps, setScrollSnaps] = useState<number[]>([])
-  const [selectedIndex, setSelectedIndex] = useState(0)
-  const [canScrollPrev, setCanScrollPrev] = useState(false)
-  const [canScrollNext, setCanScrollNext] = useState(false)
-
-  const updateScrollState = useCallback((api?: EmblaCarouselType) => {
-    if (!api) return
-    setSelectedIndex(api.selectedScrollSnap())
-    setCanScrollPrev(api.canScrollPrev())
-    setCanScrollNext(api.canScrollNext())
-  }, [])
+  const sectionRef = useRef<HTMLElement>(null)
+  const trackRef = useRef<HTMLDivElement>(null)
+  const [shift, setShift] = useState(0)
 
   useEffect(() => {
-    if (!emblaApi) return
-    setScrollSnaps(emblaApi.scrollSnapList())
-    updateScrollState(emblaApi)
-    emblaApi.on("select", updateScrollState)
-    emblaApi.on("reInit", updateScrollState)
+    let frame = 0
+
+    const read = () => {
+      frame = 0
+      const sec = sectionRef.current
+      const track = trackRef.current
+      if (!sec || !track) return
+
+      const r = sec.getBoundingClientRect()
+      const total = r.height - window.innerHeight
+      const p = total > 0 ? Math.min(1, Math.max(0, -r.top / total)) : 0
+
+      // Travel the full strip width, less one viewport, so the last card
+      // finishes flush with the right edge rather than scrolling past it.
+      const distance = Math.max(0, track.scrollWidth - window.innerWidth + 60)
+      setShift(p * distance)
+    }
+
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(read)
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true })
+    window.addEventListener("resize", onScroll, { passive: true })
+    read()
 
     return () => {
-      emblaApi?.off("select", updateScrollState)
-      emblaApi?.off("reInit", updateScrollState)
+      window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("resize", onScroll)
+      if (frame) cancelAnimationFrame(frame)
     }
-  }, [emblaApi, updateScrollState])
-
-  const parseTestimonialFilename = (filename: string) => {
-    const name = filename.split(",")[0]?.trim() || ""
-
-    const ageMatch = filename.match(/,\s*(\d+)\s*Lost/i)
-    const weightMatch = filename.match(/Lost\s*([\d.]+)\s*(?:Kgs?|kg|kgs)/i)
-    const durationMatch = filename.match(/\sin\s(.+?)\.(?:jpe?g|png|webp)$/i)
-
-    return {
-      name,
-      age: ageMatch?.[1],
-      weightLost: weightMatch?.[1],
-      duration: durationMatch?.[1]?.trim(),
-    }
-  }
-
-  const testimonials: Testimonial[] = [
-    {
-      ...parseTestimonialFilename("Pratima, 37 Lost 7Kgs in 2.5 months.jpeg"),
-      imageFilename: "Pratima, 37 Lost 7Kgs in 2.5 months.jpeg",
-    },
-    {
-      ...parseTestimonialFilename("Kanti, 44 Lost 8.5 Kgs in 3 months.png"),
-      imageFilename: "Kanti, 44 Lost 8.5 Kgs in 3 months.png",
-    },
-    {
-      ...parseTestimonialFilename("Rohit, 39 Lost 9.1 kg in 15 weeks.png"),
-      imageFilename: "Rohit, 39 Lost 9.1 kg in 15 weeks.png",
-    },
-    {
-      name: "Manav",
-      age: "24",
-      weightLost: "20",
-      duration: "5 months",
-      videoFilename: "manav.mp4",
-    },
-    {
-      name: "Uday",
-      age: "20",
-      weightLost: "10",
-      duration: "6 months",
-      videoFilename: "uday.mp4",
-    },{
-      name: "Ayushi",
-      age: "22",
-      weightLost: "15",
-      duration: "6 months",
-      videoFilename: "ayushi.mp4",
-    },
-    {
-      name: "Ananya",
-      age: "20",
-      weightLost: "14",
-      duration: "7 months",
-      videoFilename: "ananya.mp4",
-    },
-    {
-      name: "Aditya",
-      age: "21",
-      weightLost: "8",
-      duration: "3 months",
-      videoFilename: "Aditya .mp4",
-    },
-    {
-      name: "Roshni",
-      age: "23",
-      weightLost: "15",
-      duration: "6 months",
-      videoFilename: "roshni.mp4",
-    },
-    {
-      name: "Atreyee",
-      age: "28",
-      weightLost: "6",
-      duration: "1 month",
-      videoFilename: "atreyee.mp4",
-    },
-  ]
-   
+  }, [])
 
   return (
-    <section className="pb-20 pt-20 md:pb-20 bg-dark">
-      <div className="container mx-auto px-4">
-        {/* Section heading */}
-        <h2 className="heading-white text-center">
-          Real people. Real stories. <span className="italic text-white">Real results.</span>
+    <section ref={sectionRef} id={C.results.id} className="bg-black" style={{ height: "320vh" }}>
+      <div className="sticky top-[73px] flex h-[calc(100vh-73px)] flex-col justify-center overflow-hidden">
+        <h2
+          className="m-0 mb-[26px] text-center font-extrabold text-lp-bg"
+          style={{ fontSize: "clamp(30px,4vw,54px)" }}
+        >
+          Real people.{" "}
+          <span className="font-serif italic tracking-normal text-accent">
+            Real results.
+          </span>{" "}
+          <span className="text-[0.45em] font-semibold text-accent2">
+            {"\u2014"} keep scrolling {"\u2192"}
+          </span>
         </h2>
 
-        {/* Carousel container */}
-        <div className="relative max-w-7xl mx-auto mt-16">
-          <div className="overflow-hidden" ref={emblaRef}>
-            <div className="flex gap-6">
-              {testimonials.map((testimonial, index) => (
-                <div
-                  key={index}
-                  className="basis-full sm:basis-3/4 md:basis-1/2 lg:basis-1/3 xl:basis-1/4 shrink-0"
-                >
-                  <div className="bg-white/20 rounded-2xl overflow-hidden shadow-xl transition-all duration-300 [transform-style:preserve-3d] hover:[transform:perspective(1000px)_rotateX(2deg)_rotateY(-2deg)_translateY(-8px)] hover:shadow-2xl">
-                    <div className="p-4">
-                      <div className="w-full overflow-hidden rounded-xl bg-white/10 h-[360px] sm:h-[340px] md:h-[280px] relative">
-                        {testimonial.videoFilename ? (
-                          <video
-                            src={`/before-after/${testimonial.videoFilename}`}
-                            className="h-full w-full object-cover"
-                            controls
-                            loop
-                            playsInline
-                            preload="metadata"
-                          />
-                        ) : (
-                          <Image
-                            src={`/before-after/${encodeURIComponent(testimonial.imageFilename ?? "")}`}
-                            alt={testimonial.name ? `${testimonial.name} result` : "Testimonial result"}
-                            fill
-                            className="object-cover bg-white"
-                            loading="lazy"
-                          />
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="p-6 pt-4 flex items-end justify-between gap-4">
-  <div className="flex-1 min-w-0">
-    <h3 className="text-2xl font-serif text-white leading-none mb-2 truncate">
-      {testimonial.name}
-    </h3>
-  </div>
-</div>
-                  </div>
-                </div>
-              ))}
+        <div
+          ref={trackRef}
+          className="flex w-max gap-[22px] px-[clamp(28px,5vw,70px)]"
+          style={{
+            transform: `translateX(-${shift}px)`,
+            willChange: "transform",
+          }}
+        >
+          {C.results.films.map((s) => (
+            <div
+              key={s.name}
+              className="flex-none overflow-hidden rounded-[26px] bg-dark"
+              style={{
+                width: "clamp(300px,26vw,380px)",
+                boxShadow: "0 18px 44px rgba(0,0,0,.4)",
+              }}
+            >
+              {s.isVideo ? (
+                <video
+                  src={s.src}
+                  controls
+                  preload="metadata"
+                  className="block w-full bg-black object-cover"
+                  style={{ height: "clamp(380px,52vh,460px)" }}
+                />
+              ) : (
+                <img
+                  src={s.src}
+                  alt={`${s.name} result`}
+                  className="block w-full object-cover"
+                  style={{ height: "clamp(380px,52vh,460px)" }}
+                />
+              )}
+              <div className="px-5 pb-[18px] pt-4 text-lp-bg">
+                <div className="text-xl font-bold">{s.name}</div>
+                <div className="mt-0.5 text-sm font-bold text-accent">{s.result}</div>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
 
-        {/* Navigation controls */}
-        <div className="flex items-center justify-center gap-4 mt-12">
-          <button
-            type="button"
-            onClick={() => emblaApi?.scrollPrev()}
-            disabled={!canScrollPrev}
-            className={`w-11 h-11 rounded-full border border-white/30 flex items-center justify-center text-white transition-colors ${
-              canScrollPrev ? "hover:bg-white/20" : "opacity-40 cursor-not-allowed"
-            }`}
-            aria-label="View previous testimonial"
-          >
-            <ChevronLeft className="h-5 w-5" />
-          </button>
-
-          <div className="flex items-center gap-2 bg-white/20 rounded-full px-4 py-2">
-            {scrollSnaps.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => emblaApi?.scrollTo(index)}
-                className={`h-2 rounded-full transition-all ${
-                  index === selectedIndex ? "w-8 bg-white" : "w-2 bg-white/50"
-                }`}
-                aria-label={`View testimonial ${index + 1}`}
-              />
-            ))}
-          </div>
-
-          <button
-            type="button"
-            onClick={() => emblaApi?.scrollNext()}
-            disabled={!canScrollNext}
-            className={`w-11 h-11 rounded-full border border-white/30 flex items-center justify-center text-white transition-colors ${
-              canScrollNext ? "hover:bg-white/20" : "opacity-40 cursor-not-allowed"
-            }`}
-            aria-label="View next testimonial"
-          >
-            <ChevronRight className="h-5 w-5" />
-          </button>
-        </div>
-
-        {/* Disclaimer */}
-        <p className="text-xs text-[#B8CCC5] text-center mt-12 max-w-4xl mx-auto leading-relaxed">*Individual results may vary.</p>
+        <p className="m-0 mt-4 text-center text-[11.5px] text-accent2/55">
+          {C.results.note}
+        </p>
       </div>
     </section>
   )
 }
-

@@ -4,163 +4,244 @@ import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Check, Zap, ShieldCheck, TrendingDown, Stethoscope, Sun, ArrowRight } from "lucide-react"
 
+
+import * as C from "@/content/home-v2"
+
 export function Hero() {
-  const [videoSrc, setVideoSrc] = useState<string | null>(null)
-  const [defaultPlan, setDefaultPlan] = useState<
-    | { id: string; price: number; originalPrice?: number | null; isDefault?: boolean }
-    | null
-  >(null)
-
-  useEffect(() => {
-    if (typeof window === "undefined") return
-
-    const mediaQuery = window.matchMedia("(min-width: 768px)")
-
-    const handleChange = (event: MediaQueryListEvent) => {
-      setVideoSrc(event.matches ? "/hero-web.mp4" : "/hero-mobile.mp4")
-    }
-
-    setVideoSrc(mediaQuery.matches ? "/hero-web.mp4" : "/hero-mobile.mp4")
-    mediaQuery.addEventListener("change", handleChange)
-
-    return () => mediaQuery.removeEventListener("change", handleChange)
-  }, [])
-
-  useEffect(() => {
-    let mounted = true
-    const controller = new AbortController()
-
-    const fetchDefaultPlan = async () => {
-      try {
-        const res = await fetch("/api/plans", { signal: controller.signal })
-        const data = await res.json()
-        if (!mounted) return
-        if (!res.ok) {
-          setDefaultPlan(null)
-          return
-        }
-
-        const plans = (data?.plans ?? []) as Array<{
-          id: string
-          price: number
-          originalPrice?: number | null
-          isDefault?: boolean
-        }>
-        const matched = plans.find((p) => p.isDefault) ?? plans[0]
-        setDefaultPlan(matched ?? null)
-      } catch {
-        if (!mounted) return
-        setDefaultPlan(null)
-      }
-    }
-
-    fetchDefaultPlan()
-
-    return () => {
-      mounted = false
-      controller.abort()
-    }
-  }, [])
-
   return (
-    <section className="relative bg-[#F6F1EE] overflow-hidden rounded-[2rem] mx-4 mt-7 py-4 md:mx-6">
-      
-      {/* Background Video & Overlay */}
-      <div className="absolute inset-0 bg-black/30"> 
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent z-10" />
-        
-        {videoSrc && (
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          className="h-full w-full object-cover"
+    <section className="gw-hero relative flex min-h-[96vh] flex-col justify-center overflow-hidden px-7 pb-0 pt-[60px]">
+      {/* Backdrop: photo with a slow Ken Burns drift, then three stacked
+          washes that pull the bottom edge into the next section's colour. */}
+      <img
+        src={C.hero.bgImage}
+        alt=""
+        aria-hidden
+        className="gw-ken absolute inset-0 h-full w-full object-cover"
+        style={{ objectPosition: "60% 30%" }}
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(180deg,rgba(14,14,15,.9) 0%,rgba(14,14,15,.62) 32%,rgba(20,38,36,.78) 72%,#193231 100%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(120% 75% at 50% 48%,rgba(14,14,15,.72),transparent 70%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="gw-glow absolute -left-[120px] -top-[160px] h-[560px] w-[560px] rounded-full"
+        style={{
+          background:
+            "radial-gradient(circle,rgba(200,217,167,.22),transparent 65%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="gw-glow absolute -bottom-[120px] -right-[80px] h-[460px] w-[460px] rounded-full"
+        style={{
+          animationDuration: "10s",
+          animationDelay: "1s",
+          background:
+            "radial-gradient(circle,rgba(201,168,76,.16),transparent 65%)",
+        }}
+      />
+
+      {/* Floating polaroids. Hidden below md so they never crowd the wordmark. */}
+      {C.hero.polaroids.map((p, i) => (
+        <img
+          key={i}
+          src={p.src}
+          alt=""
           aria-hidden
-          src={videoSrc}
+          className="gw-float absolute z-0 rounded-lg border-4 border-lp-bg object-cover md:border-[6px]"
+          style={
+            {
+              "--r": p.rot,
+              top: p.top,
+              bottom: p.bottom,
+              left: p.left,
+              right: p.right,
+              width: p.width,
+              aspectRatio: "4 / 5",
+              transform: `rotate(${p.rot})`,
+              animationDuration: p.dur,
+              animationDelay: p.delay,
+              boxShadow: "0 30px 60px rgba(0,0,0,.5)",
+            } as React.CSSProperties
+          }
+        />
+      ))}
+
+      <div
+        className="relative z-[2] mx-auto max-w-[1100px] text-center"
+        style={{ textShadow: "0 2px 30px rgba(14,14,15,.6)" }}
+      >
+        <div className="gw-rise inline-flex rounded-full border border-accent/40 px-5 py-[9px] text-[12.5px] font-bold tracking-[0.16em] text-accent">
+          {C.hero.eyebrow}
+        </div>
+
+        <h1
+          className="gw-rise mt-7 font-extrabold leading-[0.94] tracking-[-0.03em] text-lp-bg"
+          style={{ fontSize: "clamp(58px,11vw,170px)", animationDelay: ".1s" }}
         >
-          Your browser does not support the video tag.
-        </video>
-        )}
+          GET
+          <br />
+          <span className="gw-outline">
+            LEANER<span className="gw-dot">.</span>
+          </span>
+        </h1>
+
+        <p
+          className="gw-rise mx-auto mb-[34px] mt-[26px] max-w-[560px] text-accent2"
+          style={{ fontSize: "clamp(16px,1.7vw,20px)", animationDelay: ".2s" }}
+        >
+          {C.hero.lede}
+        </p>
+
+        <div
+          className="gw-rise flex flex-wrap justify-center gap-[14px]"
+          style={{ animationDelay: ".3s" }}
+        >
+          <a
+            href={C.hero.ctaPrimary.href}
+            className="rounded-full bg-accent px-10 py-[18px] text-[18px] font-extrabold text-dark transition-colors hover:bg-white"
+            style={{ boxShadow: "0 14px 40px rgba(200,217,167,.25)" }}
+          >
+            {C.hero.ctaPrimary.label}
+          </a>
+          <a
+            href={C.hero.ctaSecondary.href}
+            className="rounded-full border-[1.5px] border-lp-bg/30 px-10 py-[18px] text-[18px] font-bold text-lp-bg transition-colors hover:border-accent hover:text-accent"
+          >
+            {C.hero.ctaSecondary.label}
+          </a>
+        </div>
+
+        <p className="mb-[60px] mt-[22px] text-[11.5px] text-accent2/60">
+          {C.hero.note}
+        </p>
       </div>
 
-      {/* Content Container */}
-      <div className="relative z-20 container mx-auto px-4 md:px-10 py-16 md:py-16">
-        <div className="max-w-4xl">
-          
-          <h1 className="mb-3 text-4xl font-serif tracking-tight text-balance md:text-[3.2rem] text-white leading-[1.3]">
-            GLP 1* Guided Fat Loss Made
-            <br />
-             <span className="italic font-light text-accent opacity-90">Affordable for India</span>
-          </h1>
-
-          <p className="mb-7 text-white max-w-2xl hidden sm:block">
-            Advanced blood test & evaluation · 1:1 nutritionist consult (60 min) · Weight-loss doctor consultation · A clear future action plan · All for Rs {defaultPlan ? defaultPlan.price : "—"}. No hidden terms
-          </p>
-
-          {/* <div className="mb-7 text-white space-y-1 text-[14px] leading-[15px] sm:hidden">
-            <p>- Advanced blood test &amp; evaluation</p>
-            <p>- 1:1 nutritionist consult (60 min)</p>
-            <p>- Weight-loss doctor consultation</p>
-            <p>- A clear future action plan</p>
-            <p>- All for Rs {defaultPlan ? defaultPlan.price : "—"}. No hidden terms</p>
-          </div> */}
-
-          <div className="mb-7 md:mt-5 mt-20 flex flex-col sm:flex-row gap-3">
-      <a href="https://wa.link/3s1upf" target="_blank" rel="noopener noreferrer" aria-label="Chat with Lean Protocol experts on WhatsApp">
-            <Button
-              size="lg"
-              className="bg-white cursor-pointer text-black hover:bg-white/90 rounded-full text-base px-8 h-12 font-medium"
+      {/* Ticker. The list is duplicated so the -50% loop has no seam. */}
+      <div className="relative -mx-7 overflow-hidden border-t border-lp-bg/10 py-4">
+        <div className="gw-ticker flex w-max gap-12">
+          {[...C.ticker, ...C.ticker].map((t, i) => (
+            <span
+              key={i}
+              className="flex items-center gap-12 whitespace-nowrap text-[15px] font-bold text-accent"
             >
-              Chat with Experts <ArrowRight className="ml-2"/>
-            </Button>
-      </a>
-            {/* <Button
-              size="lg"
-              variant="outline"
-              className="text-white border-white/30 hover:bg-white/10 hover:text-white hover:border-white rounded-full text-base px-8 h-12 bg-transparent"
-            >
-              Check insurance
-            </Button> */}
-          </div>
-
-          <div className="pt-6 border-t border-white/20">
-            <div className="grid grid-cols-1 gap-4">
-              
-              <div className="flex flex-row items-start gap-3">
-                <div className="p-1.5 rounded-full bg-white/10 shrink-0">
-                  <TrendingDown className="w-4 h-4 text-white" />
-                </div>
-                <p className="text-base text-white/90 leading-snug font-medium">
-                  Root Causes Diagnosis
-                </p>
-              </div>
-
-              <div className="flex flex-row items-start gap-3">
-                <div className="p-1.5 rounded-full bg-white/10 shrink-0">
-                  <Stethoscope className="w-4 h-4 text-white" />
-                </div>
-                <p className="text-base text-white/90 leading-snug font-medium">
-                  Personalised Lifestyle Approach
-                </p>
-              </div>
-              <div className="flex flex-row items-start gap-3">
-                <div className="p-1.5 rounded-full bg-white/10 shrink-0">
-                  <Sun className="w-4 h-4 text-white" />
-                </div>
-                <p className="text-base text-white/90 leading-snug font-medium">
-                  Lose weight optimally with GLP-1 (only if eligible &amp; prescribed)
-                </p>
-              </div>
-
-            </div>
-          </div>
-
+              {t}
+              <span aria-hidden className="text-lp-gold">
+                {"\u2726"}
+              </span>
+            </span>
+          ))}
         </div>
       </div>
+
+      <style jsx>{`
+        .gw-ken {
+          animation: gwKen 14s cubic-bezier(0.2, 0.7, 0.2, 1) both,
+            gwFade 1.6s ease both;
+        }
+        .gw-glow {
+          animation: gwGlow 8s ease-in-out infinite;
+        }
+        .gw-float {
+          animation: gwFloat 7s ease-in-out infinite;
+        }
+        .gw-rise {
+          animation: gwRise 1s both;
+        }
+        .gw-ticker {
+          animation: gwTicker 30s linear infinite;
+        }
+        .gw-outline {
+          color: transparent;
+          -webkit-text-stroke: 2px #c8d9a7;
+        }
+        .gw-dot {
+          color: #c9a84c;
+          -webkit-text-stroke: 0;
+        }
+        @keyframes gwKen {
+          from {
+            transform: scale(1.14) translateY(0);
+          }
+          to {
+            transform: scale(1.02) translateY(-1.5%);
+          }
+        }
+        @keyframes gwFade {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+        @keyframes gwGlow {
+          0%,
+          100% {
+            opacity: 0.4;
+          }
+          50% {
+            opacity: 0.85;
+          }
+        }
+        @keyframes gwFloat {
+          0%,
+          100% {
+            transform: translateY(0) rotate(var(--r, 0deg));
+          }
+          50% {
+            transform: translateY(-16px) rotate(var(--r, 0deg));
+          }
+        }
+        @keyframes gwRise {
+          from {
+            opacity: 0;
+            transform: translateY(70px);
+          }
+          to {
+            opacity: 1;
+            transform: none;
+          }
+        }
+        @keyframes gwTicker {
+          from {
+            transform: translateX(0);
+          }
+          to {
+            transform: translateX(-50%);
+          }
+        }
+        @media (max-width: 767px) {
+          .gw-float {
+            width: clamp(74px, 21vw, 104px) !important;
+            opacity: 0.82;
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .gw-ken,
+          .gw-glow,
+          .gw-float,
+          .gw-rise,
+          .gw-ticker {
+            animation: none !important;
+          }
+        }
+      `}</style>
     </section>
-  )
+  );
 }
 
 export function InsuranceLogos() {

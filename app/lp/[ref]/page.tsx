@@ -4,9 +4,9 @@ import { AffiliateLandingPage } from "@/components/affiliate-lp/page";
 import { prisma } from "@/lib/prisma";
 
 export const metadata: Metadata = {
-  title: "Lean Protocol | India's #1 GLP-1 Medical Weight Loss Program",
+  title: "Lean Protocol | Doctor-Led GLP-1 Weight Management",
   description:
-    "Semaglutide GLP-1 Pen Shot backed by Alkem. Doctor-led, science-based weight loss. Guaranteed 10% weight loss in 6 months or full refund. Plans from ₹5,999.",
+    "Doctor-led, science-based weight care with semaglutide where clinically appropriate. Eligible six-month members may qualify for a refund review; terms apply. Results vary. Plans from Rs 4,999.",
 };
 
 interface Props {

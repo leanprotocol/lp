@@ -170,7 +170,7 @@ export function ProcessGuarantee() {
       <section className="bg-lp-bg py-24 px-4 border-t border-gray-100">
         <div className="max-w-4xl mx-auto space-y-12">
           <div className="text-center">
-            <h2 className="font-serif text-3xl md:text-5xl text-lp-dark mb-4">Real results, sustained for life</h2>
+            <h2 className="font-serif text-3xl md:text-5xl text-lp-dark mb-4">Real results, built to last</h2>
             <p className="text-gray-500 text-lg">More than just weight loss—a total body transformation.</p>
           </div>
 

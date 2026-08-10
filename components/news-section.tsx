@@ -1,91 +1,99 @@
 "use client"
 
-import Image from "next/image"
+import * as C from "@/content/home-v2"
 
-// ─── News channels (6 total → 3 per row) ─────────────────────────────────────
-const NEWS_FEATURES: { name: string; logo: string; article: string; className?: string }[] = [
-  {
-    name: "Zee News",
-    logo: "/news/zee-news.svg",
-    article: "https://zeenews.india.com/consumer-connect/the-glp-1-hype-how-lean-protocol-is-building-a-sustainable-weight-loss-ecosystem-3055350.html",
-  },
-  {
-    name: "News24",
-    logo: "/news/news-24.jpg",
-    article: "https://news24online.com/information/the-entrepreneurial-journey-behind-a-glp-1-startup-lean-protocol/860995/",
-  },
-  {
-    name: "News Today 24x7",
-    logo: "/news/news-today-24x7.png",
-    article: "https://www.newstoday24x7.co.in/2026/04/from-gimmicks-to-ethics-entrepreneurial.html",
-  },
-  {
-    name: "The Startup Story",
-    logo: "/news/startup-story.jpg",
-    article: "https://thestartupstory.co.in/why-india-needs-a-new-approach-to-weight-loss-the-lean-protocol-perspective/",
-    className: "scale-[1.9]",
-  },
-  {
-    name: "The Tribune",
-    logo: "/news/the-tribune.webp",
-    article: "https://www.tribuneindia.com/partner-exclusives/is-lean-protocol-building-a-sustainable-weight-loss-ecosystem-or-another-weight-loss-hype/",
-    className: "scale-[1.25]",
-  },
-  {
-    name: "The Republic News",
-    logo: "/news/the-republic-news.png",
-    article: "https://www.therepublicnews.co.in/2026/04/from-gimmicks-to-ethics-entrepreneurial.html",
-  },
-]
-// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * Press strip.
+ *
+ * Shared by the homepage, the affiliate page and /gip, so it takes a variant
+ * rather than assuming a background. "light" is the default so the existing
+ * callers keep their current appearance without being edited.
+ *
+ * Logos are greyscale until hovered. An entry with no href renders as a
+ * plain logo rather than a dead link.
+ */
+export function NewsSection({
+  variant = "light",
+}: {
+  variant?: "light" | "dark"
+}) {
+  const dark = variant === "dark"
 
-export function NewsSection() {
   return (
-    <section className="py-12 md:py-20 bg-white md:bg-background">
-      <div className="container mx-auto px-4">
+    <section
+      className="overflow-hidden px-7 py-[clamp(48px,7vh,80px)]"
+      style={{ background: dark ? "#0E0E0F" : "#F9F7F2" }}
+    >
+      <div className="mx-auto max-w-[1180px] text-center">
+        <h2
+          className="m-0 font-extrabold"
+          style={{
+            fontSize: "clamp(22px,2.6vw,34px)",
+            color: dark ? "#F9F7F2" : "#1C2B22",
+          }}
+        >
+          Featured across India&apos;s{" "}
+          <span
+            className="font-serif italic tracking-normal"
+            style={{ color: dark ? "#C8D9A7" : "#2D5A4E" }}
+          >
+            leading publications.
+          </span>
+        </h2>
+        <p
+          className="m-0 mt-2 text-[13px]"
+          style={{ color: dark ? "rgba(168,190,183,.7)" : "rgba(28,43,34,.5)" }}
+        >
+          {C.press.sub}
+        </p>
 
-        {/* Heading */}
-        <div className="text-center mb-8 md:mb-12">
-          <h2 className="font-serif text-2xl md:text-4xl text-black leading-snug">
-            Lean Protocol
-            <br />
-            Featured Across India&apos;s Leading Publications
-          </h2>
-          <p className="text-sm md:text-base text-black/50 mt-3">
-            Click on a logo to read our feature on that publication
-          </p>
+        <div className="mt-9 flex flex-wrap items-center justify-center gap-x-[clamp(32px,5vw,72px)] gap-y-10">
+          {C.press.items.map((p) => {
+            const logo = (
+              <img
+                src={p.logo}
+                alt={p.name}
+                loading="lazy"
+                className="gw-press block h-[clamp(40px,4.6vw,64px)] w-auto object-contain"
+
+              />
+            )
+
+            return p.href ? (
+              <a
+                key={p.name}
+                href={p.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Read the ${p.name} article`}
+                className="inline-flex"
+              >
+                {logo}
+              </a>
+            ) : (
+              <span key={p.name} className="inline-flex">
+                {logo}
+              </span>
+            )
+          })}
         </div>
-
-        {/* 3 logos per row, faded-black divider between every logo */}
-        <div className="grid grid-cols-3 max-w-3xl mx-auto">
-          {NEWS_FEATURES.map((item, i) => (
-            <a
-              key={item.name}
-              href={item.article}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Read our feature on ${item.name}`}
-              className={[
-                "flex items-center justify-center py-5 px-4 md:py-7 md:px-6",
-                "transition duration-300 hover:opacity-80",
-                i % 3 !== 0 ? "border-l border-black/10" : "", // vertical line between logos in a row
-                i >= 3 ? "border-t border-black/10" : "",       // horizontal line between the two rows
-              ].join(" ")}
-            >
-              <div className={`relative h-14 w-full md:h-14 ${item.className ?? ""}`}>
-                <Image
-                  src={item.logo}
-                  alt={item.name}
-                  fill
-                  sizes="(max-width: 768px) 30vw, 200px"
-                  className="object-contain"
-                />
-              </div>
-            </a>
-          ))}
-        </div>
-
       </div>
+
+      <style jsx>{`
+        .gw-press {
+          opacity: 0.9;
+          transition: opacity 0.25s, transform 0.25s;
+        }
+        a:hover .gw-press {
+          opacity: 1;
+          transform: translateY(-2px);
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .gw-press {
+            transition: none;
+          }
+        }
+      `}</style>
     </section>
   )
 }

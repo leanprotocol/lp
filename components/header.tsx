@@ -1,353 +1,152 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { ChevronDown, User, LogOut, Menu, X } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
-
-interface MeResponse {
-  success: boolean;
-  user?: {
-    id: string;
-    name?: string;
-    mobileNumber: string;
-    displayName: string;
-    initials: string;
-  };
-}
+import { useEffect, useState } from "react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 
 export function Header() {
-  const [me, setMe] = useState<MeResponse["user"] | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-  const pathname = usePathname();
+  const pathname = usePathname()
+  const [open, setOpen] = useState(false)
+  const [solid, setSolid] = useState(false)
 
-  const isActive = (href: string) => {
-    if (!pathname) return false;
-    if (href === "/") return pathname === "/";
-    if (href === "/medications") return pathname === "/medications" || pathname.startsWith("/medications/");
-    return pathname === href || pathname.startsWith(`${href}/`);
-  };
+  /* The hero is dark at the top, so the bar starts transparent and only
+     picks up a background once you have scrolled past it. */
+  useEffect(() => {
+    let frame = 0
+    const read = () => {
+      frame = 0
+      setSolid(window.scrollY > 40)
+    }
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(read)
+    }
+    window.addEventListener("scroll", onScroll, { passive: true })
+    read()
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+      if (frame) cancelAnimationFrame(frame)
+    }
+  }, [])
+
+  /* Close the mobile sheet on navigation, and stop the page scrolling
+     underneath it while it is open. */
+  useEffect(() => {
+    setOpen(false)
+  }, [pathname])
 
   useEffect(() => {
-    const fetchMe = async () => {
-      try {
-        const res = await fetch("/api/user/me?optional=1");
-        if (res.ok) {
-          const data: MeResponse = await res.json();
-          if (data.success && data.user) {
-            setMe(data.user);
-          } else {
-            setMe(null);
-          }
-        }
-      } catch {
-        setMe(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchMe();
-  }, []);
+    document.body.style.overflow = open ? "hidden" : ""
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [open])
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  const handleLogout = async () => {
-    await fetch("/api/auth/logout", { method: "POST" });
-    setMe(null);
-    window.location.href = "/";
-  };
+  const links = [
+    { label: "How it works", href: "/#journey" },
+    { label: "Results", href: "/#results" },
+    { label: "Pricing", href: "/#pricing" },
+    { label: "Experts", href: "/#experts" },
+    { label: "Knowledge Hub", href: "/blog" },
+  ]
 
   return (
-    <header className="sticky top-0 md:top-3 z-50 mx-auto w-full md:w-[98%] md:max-w-[97%] md:rounded-2xl border border-white/40 bg-white/60 backdrop-blur-xl shadow-[0_12px_30px_rgba(15,23,42,0.12)] ring-1 ring-black/5 transition-all duration-300">
-      <div className="container mx-auto flex h-16 md:h-20 items-center justify-between px-4 lg:px-8">
-        <Link href="/" className="flex items-center">
-          <Image
+    <header
+      className="fixed inset-x-0 top-0 z-50 transition-colors duration-300"
+      style={{
+        background: solid ? "rgba(14,14,15,.92)" : "transparent",
+        backdropFilter: solid ? "blur(14px)" : "none",
+        borderBottom: solid
+          ? "1px solid rgba(249,247,242,.1)"
+          : "1px solid transparent",
+      }}
+    >
+      <div className="mx-auto flex h-[73px] max-w-[1180px] items-center justify-between gap-5 px-7">
+        <Link href="/" aria-label="Lean Protocol" className="flex-none">
+          <img
             src="/logo-cropped.png"
-            alt="Lean Healthtech"
-            width={70}
-            height={30}
-            className="object-contain"
-            priority
+            alt="Lean Protocol"
+            className="h-11 w-auto"
           />
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-8 relative">
-          <Link
-            href="/"
-            className={`text-base transition-colors ${
-              isActive("/") ? "text-[#1F302B]" : "text-foreground hover:text-foreground/70"
-            }`}
-          >
-            <span className="relative inline-flex pb-4 leading-none">
-              Home
-              {isMounted && isActive("/") && (
-                <motion.span
-                  layoutId="desktop-nav-underline"
-                  className="absolute left-0 right-0 bottom-1 h-0.5 bg-[#1F302B]"
-                  transition={{ type: "spring", stiffness: 500, damping: 40 }}
-                />
-              )}
-            </span>
-          </Link>
-          <Link
-            href="/our-why"
-            className={`text-base transition-colors ${
-              isActive("/our-why") ? "text-[#1F302B]" : "text-foreground hover:text-foreground/70"
-            }`}
-          >
-            <span className="relative inline-flex pb-4 leading-none">
-              Our Why
-              {isMounted && isActive("/our-why") && (
-                <motion.span
-                  layoutId="desktop-nav-underline"
-                  className="absolute left-0 right-0 bottom-1 h-0.5 bg-[#1F302B]"
-                  transition={{ type: "spring", stiffness: 500, damping: 40 }}
-                />
-              )}
-            </span>
-          </Link>
-          <div className="hidden">
-          <DropdownMenu>
-            <DropdownMenuTrigger
-              className={`text-base transition-colors leading-none outline-none inline-flex items-baseline gap-1 ${
-                isActive("/medications") ? "text-[#1F302B]" : "text-foreground hover:text-foreground/70"
-              }`}
+        <nav
+          aria-label="Primary"
+          className="hidden items-center gap-8 lg:flex"
+        >
+          {links.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              className="text-[14.5px] font-semibold text-accent2 transition-colors hover:text-accent"
             >
-              <span className="relative inline-flex pb-4 leading-none">
-                Medication
-                {isMounted && isActive("/medications") && (
-                  <motion.span
-                    layoutId="desktop-nav-underline"
-                    className="absolute left-0 right-0 bottom-1 h-0.5 bg-[#1F302B]"
-                    transition={{ type: "spring", stiffness: 500, damping: 40 }}
-                  />
-                )}
-              </span>
-              <ChevronDown className="w-4 h-4 mt-1" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-56">
-              <DropdownMenuItem asChild>
-                <Link href="/medications" className="cursor-pointer">
-                  All medication
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/medications/zepbound" className="cursor-pointer">
-                  Zepbound®
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/medications/mounjaro" className="cursor-pointer">
-                  Mounjaro®
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/medications/saxenda" className="cursor-pointer">
-                  Saxenda®
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/medications/victoza" className="cursor-pointer">
-                  Victoza®
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/medications/wegovy" className="cursor-pointer">
-                  Wegovy®
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/medications/ozempic" className="cursor-pointer">
-                  Ozempic
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/medications/rybelsus" className="cursor-pointer">
-                  Rybelsus
-                </Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          </div>
-          <Link
-            href="/lp/ABHI"
-            className="text-base transition-colors text-foreground hover:text-foreground/70"
-          >
-            <span className="relative inline-flex pb-4 leading-none">
-              Pricing
-            </span>
-          </Link>
-          <Link
-            href="/blog"
-            className={`text-base transition-colors ${
-              isActive("/blog") ? "text-[#1F302B]" : "text-foreground hover:text-foreground/70"
-            }`}
-          >
-            <span className="relative inline-flex pb-4 leading-none">
-              Knowledge Hub
-              {isMounted && isActive("/blog") && (
-                <motion.span
-                  layoutId="desktop-nav-underline"
-                  className="absolute left-0 right-0 bottom-1 h-0.5 bg-[#1F302B]"
-                  transition={{ type: "spring", stiffness: 500, damping: 40 }}
-                />
-              )}
-            </span>
-          </Link>
+              {l.label}
+            </Link>
+          ))}
         </nav>
 
-        <div className="flex items-center gap-1 min-w-[120px] justify-end">
-          {/* Auth Button */}
-          {loading ? (
-            <div className="h-10 w-[110px] rounded-full border border-foreground/10 bg-gray-200/70 animate-pulse" />
-          ) : me ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center justify-center w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 font-semibold text-sm hover:bg-emerald-200 transition-colors outline-none">
-                {me.initials}
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem className="flex items-center gap-2">
-                  <User className="w-4 h-4" />
-                  <span className="text-sm">{me.displayName}</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link
-                    href="/dashboard"
-                    className="cursor-pointer flex items-center gap-2"
-                  >
-                    Dashboard
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={handleLogout}
-                  className="cursor-pointer flex items-center gap-2"
-                >
-                  <LogOut className="w-4 h-4" />
-                  <span className="text-sm">Log out</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <Button
-              variant="outline"
-              className="hidden lg:inline-flex rounded-full border-foreground px-6 bg-transparent hover:bg-dark"
-              asChild
-            >
-              <Link href="/login">Log in</Link>
-            </Button>
-          )}
-
-          {/* Mobile Menu Toggle */}
-          {/* Mobile Menu Toggle */}
-          <button
-            className="lg:hidden p-2 text-foreground hover:bg-black/5 rounded-md transition-colors"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label={isMobileMenuOpen ? "Close mobile menu" : "Open mobile menu"}
+        <div className="hidden items-center gap-3 lg:flex">
+          <Link
+            href="/login"
+            className="text-[14.5px] font-semibold text-accent2 transition-colors hover:text-accent"
           >
-            {isMobileMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
-          </button>
+            Log in
+          </Link>
+          <a
+            href="/users"
+            className="rounded-full bg-accent px-6 py-3 text-[15px] font-extrabold text-dark transition-colors hover:bg-white"
+          >
+            Get Started
+          </a>
         </div>
+
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          aria-controls="lp-mobile-nav"
+          aria-label={open ? "Close menu" : "Open menu"}
+          className="flex h-11 w-11 flex-none items-center justify-center rounded-full border border-lp-bg/25 text-lp-bg lg:hidden"
+        >
+          <span aria-hidden className="text-xl leading-none">
+            {open ? "\u00D7" : "\u2261"}
+          </span>
+        </button>
       </div>
 
-      {/* Mobile Navigation Menu */}
-      {isMobileMenuOpen && (
-        <div className="lg:hidden border-t border-white/20 px-4 pb-6 pt-2 animate-in slide-in-from-top-2 fade-in-0">
-          <nav className="flex flex-col gap-4">
-            <Link
-              href="/"
-              className={`text-base font-medium py-2 px-3 rounded-lg transition-colors ${
-                isActive("/")
-                  ? "text-[#1F302B] bg-[#1F302B]/10"
-                  : "text-foreground hover:text-foreground/70"
-              }`}
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Home
-            </Link>
-            <Link
-              href="/our-why"
-              className={`text-base font-medium py-2 px-3 rounded-lg transition-colors ${
-                isActive("/our-why")
-                  ? "text-[#1F302B] bg-[#1F302B]/10"
-                  : "text-foreground hover:text-foreground/70"
-              }`}
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Our Why
-            </Link>
-            <Link
-              href="/lp/ABHI"
-              className="text-base font-medium py-2 px-3 rounded-lg transition-colors text-foreground hover:text-foreground/70"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Pricing
-            </Link>
-            <Link
-              href="/blog"
-              className={`text-base font-medium py-2 px-3 rounded-lg transition-colors ${
-                isActive("/blog")
-                  ? "text-[#1F302B] bg-[#1F302B]/10"
-                  : "text-foreground hover:text-foreground/70"
-              }`}
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Knowledge Hub
-            </Link>
-            {!loading && !me && (
-              <Button
-                variant="outline"
-                className="w-full rounded-full border-foreground bg-transparent hover:bg-dark"
-                asChild
+      {open && (
+        <div
+          id="lp-mobile-nav"
+          className="border-t border-lp-bg/10 lg:hidden"
+          style={{ background: "rgba(14,14,15,.98)", backdropFilter: "blur(14px)" }}
+        >
+          <nav aria-label="Primary" className="flex flex-col gap-1 px-7 py-4">
+            {links.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                onClick={() => setOpen(false)}
+                className="flex min-h-[48px] items-center text-[16px] font-semibold text-accent2"
               >
-                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                  Log in
-                </Link>
-              </Button>
-            )}
-            {!loading && me && (
-              <>
-                <Button
-                  variant="outline"
-                  className="w-full rounded-full border-foreground bg-transparent hover:bg-dark"
-                  asChild
-                >
-                  <Link href="/dashboard" onClick={() => setIsMobileMenuOpen(false)}>
-                    Dashboard
-                  </Link>
-                </Button>
-                <Button
-                  variant="outline"
-                  className="w-full rounded-full border-foreground bg-transparent hover:bg-dark"
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    handleLogout();
-                  }}
-                >
-                  Log out
-                </Button>
-              </>
-            )}
+                {l.label}
+              </Link>
+            ))}
+            <Link
+              href="/login"
+              onClick={() => setOpen(false)}
+              className="flex min-h-[48px] items-center text-[16px] font-semibold text-accent2"
+            >
+              Log in
+            </Link>
+            <a
+              href="/users"
+              onClick={() => setOpen(false)}
+              className="mt-3 rounded-full bg-accent px-6 py-4 text-center text-[16px] font-extrabold text-dark"
+            >
+              Get Started
+            </a>
           </nav>
         </div>
       )}
     </header>
-  );
+  )
 }

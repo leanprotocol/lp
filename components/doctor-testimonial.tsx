@@ -1,226 +1,73 @@
 "use client"
 
-import Image from "next/image"
-import { useCallback, useEffect, useState } from "react"
-import useEmblaCarousel, { UseEmblaCarouselType } from "embla-carousel-react"
-import { Quote, ChevronLeft, ChevronRight } from "lucide-react"
+import * as C from "@/content/home-v2"
 
-type DoctorProfile = {
-  title: string
-  subtitle: string
-  imageFilename: string
-  objectPosition?: string
-}
-
-export function DoctorTestimonial() {
-  return (
-    <section className="py-20 md:py-32">
-      <div className="container mx-auto px-4">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 lg:gap-10 items-center">
-          
-          {/* Left column - Heading with serif elegance */}
-          <div>
-            <h2 className="heading">
-              Lean Protocol's program is designed by leading doctors in obesity medicine
-            </h2>
-          </div>
-
-          {/* Right column - Testimonial card */}
-          <div className="bg-[#B8CCC5] rounded-2xl p-8 md:p-12 relative shadow-sm">
-            
-            {/* Improved Quote Icon: Uses the Lucide component for a crisp, professional look */}
-            <div className="mb-6">
-              <Quote 
-                className="w-12 h-12 text-white opacity-80" 
-                strokeWidth={3}
-                fill="currentColor" 
-              />
-            </div>
-
-            <blockquote className="space-y-8">
-              <p className="text-xl md:text-[30px] text-dark leading-[1.4] font-light font-sans">
-                As Lean Protocol's Senior Medical Advisor, I help design the clinical protocols 
-                that guide the medical care Lean Protocol's members receive care that is 
-                guided by the latest advancements in obesity medicine.
-              </p>
-
-              {/* Author info: Right-aligned structure as seen in your reference */}
-              <div className="flex items-center justify-end gap-4 border-t border-dark/10 pt-8">
-                <div className="text-right">
-                  <p className="text-lg font-bold text-dark leading-none mb-1">
-                    Dr. Kumar
-                  </p>
-                  <p className="text-xs uppercase tracking-widest text-dark/70 font-semibold">
-                    Senior Medical Advisor
-                  </p>
-                </div>
-                
-                {/* Avatar with a subtle border to match professional medical branding */}
-                <div className="w-16 h-16 rounded-full overflow-hidden shrink-0 border-2 border-[#F5F3ED] relative">
-                 <Image 
-                 src="/dr-kumar-avatar.jpg" 
-                 alt="Dr. Kumar" 
-                 fill
-                 className="object-cover object-top" 
-                   />
-                </div>
-              </div>
-            </blockquote>
-          </div>
-
-        </div>
-      </div>
-    </section>
-  )
-}
-
+/**
+ * Experts marquee.
+ *
+ * The list is duplicated so the -50% translate loops seamlessly. The
+ * duplicate is aria-hidden so a screen reader reads each person once.
+ *
+ * Two exports are kept because app/page.tsx imports both, even though
+ * DoctorTestimonial is currently commented out there.
+ */
 export function DoctorsSection() {
-  const doctors: DoctorProfile[] = [
-    {
-      title: "Dr. Nishant Jain",
-      subtitle: "MD, DM (Endocrinology)",
-      imageFilename: "/lp-assets/experts/nishant.jpeg",
-      objectPosition: "object-top",
-    },
-    {
-      title: "Dr. Akhil Konduru",
-      subtitle: "MD, Internal Medicine",
-      imageFilename: "/lp-assets/experts/akhil.jpeg",
-    },
-    {
-      title: "Dr. Siddharth Garg",
-      subtitle: "MD, Internal Medicine",
-      imageFilename: "/lp-assets/experts/siddharth.jpeg",
-    },
-    {
-      title: "Dr. Gautam Kumar",
-      subtitle: "MD, DM (Endocrinology)",
-      imageFilename: "/lp-assets/experts/gautam.jpeg",
-      objectPosition: "object-top",
-    },
-    {
-      title: "Alisha Gupta",
-      subtitle: "GLP 1 Expert Dietitian",
-      imageFilename: "/lp-assets/experts/alisha.jpeg",
-    },
-    {
-      title: "Simran Kumawat",
-      subtitle: "Weight Loss Dietitian",
-      imageFilename: "/lp-assets/experts/simran.jpeg",
-      objectPosition: "object-top",
-    },
-    {
-      title: "Richa Sharma",
-      subtitle: "Senior Dietitian",
-      imageFilename: "/lp-assets/experts/richa-sharma.jpeg",
-    },
-    {
-      title: "Aparna Tandon",
-      subtitle: "Weight Loss Expert Dietitian",
-      imageFilename: "/lp-assets/experts/aparna.jpeg",
-    },
-    {
-      title: "Richa Singh",
-      subtitle: "Yoga & Fat Loss Expert",
-      imageFilename: "/lp-assets/experts/richa-singh.jpeg",
-    },
-    {
-      title: "Alka Bharti",
-      subtitle: "GLP 1 Dietitian",
-      imageFilename: "/lp-assets/experts/alka.jpeg",
-    },
-  ]
-
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: doctors.length > 3,
-    align: "start",
-    skipSnaps: false,
-    containScroll: "trimSnaps",
-  })
-  const [canScrollPrev, setCanScrollPrev] = useState(false)
-  const [canScrollNext, setCanScrollNext] = useState(false)
-
-  const updateScrollState = useCallback((api?: UseEmblaCarouselType[1]) => {
-    if (!api) return
-    setCanScrollPrev(api.canScrollPrev())
-    setCanScrollNext(api.canScrollNext())
-  }, [])
-
-  useEffect(() => {
-    if (!emblaApi) return
-    updateScrollState(emblaApi)
-    emblaApi.on("select", updateScrollState)
-    emblaApi.on("reInit", updateScrollState)
-
-    return () => {
-      emblaApi?.off("select", updateScrollState)
-      emblaApi?.off("reInit", updateScrollState)
-    }
-  }, [emblaApi, updateScrollState])
-
   return (
-    <section className="py-20 md:py-28 bg-[#F6F1EE]">
-      <div className="container mx-auto px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-12 md:mb-16">
-            <h2 className="heading text-center">Meet the Experts working with us</h2>
-          </div>
+    <section id={C.experts.id} className="overflow-hidden bg-lp-bg pb-[110px] pt-5">
+      <h2
+        className="m-0 mb-12 text-center font-extrabold text-lp-dark"
+        style={{ fontSize: "clamp(30px,4vw,54px)" }}
+      >
+        Meet the{" "}
+        <span className="font-serif italic tracking-normal text-lp-green">
+          experts.
+        </span>
+      </h2>
 
-          <div className="relative">
-            <div className="overflow-hidden" ref={emblaRef}>
-              <div className="flex gap-6">
-                {doctors.map((doctor) => (
-                  <div
-                    key={doctor.imageFilename}
-                    className="basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4 shrink-0 bg-white rounded-2xl overflow-hidden border border-dark/10 shadow-xl transition-all duration-300 [transform-style:preserve-3d] [transform:perspective(1000px)_rotateX(2deg)_rotateY(-2deg)]"
-                  >
-                    <div className="w-full h-[320px] bg-[#EDE7E1] relative">
-                      <Image
-                        src={doctor.imageFilename}
-                        alt={doctor.title}
-                        fill
-                        className={`object-cover ${doctor.objectPosition || ""}`}
-                        loading="lazy"
-                      />
-                    </div>
-                    <div className="p-5">
-                      <p className="text-lg font-serif text-dark leading-tight">{doctor.title}</p>
-                      {doctor.subtitle ? (
-                        <p className="text-sm text-dark/70 mt-2 leading-snug">{doctor.subtitle}</p>
-                      ) : null}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex justify-end gap-3 mt-8">
-              <button
-                type="button"
-                onClick={() => emblaApi?.scrollPrev()}
-                disabled={!canScrollPrev}
-                className={`w-11 h-11 rounded-full border border-dark/20 flex items-center justify-center text-dark transition-colors cursor-pointer ${
-                  canScrollPrev ? "hover:bg-dark hover:text-white" : "opacity-40 cursor-not-allowed"
-                }`}
-                aria-label="View previous doctors"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button
-                type="button"
-                onClick={() => emblaApi?.scrollNext()}
-                disabled={!canScrollNext}
-                className={`w-11 h-11 rounded-full border border-dark/20 flex items-center justify-center text-dark transition-colors cursor-pointer ${
-                  canScrollNext ? "hover:bg-dark hover:text-white" : "opacity-40 cursor-not-allowed"
-                }`}
-                aria-label="View next doctors"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
+      <div className="gw-expert-track flex w-max gap-[22px]">
+        {[...C.experts.people, ...C.experts.people].map((ex, i) => (
+          <div
+            key={i}
+            className="w-[210px] flex-none text-center"
+            aria-hidden={i >= C.experts.people.length}
+          >
+            <img
+              src={ex.img}
+              alt={ex.name}
+              className="block h-[230px] w-full rounded-[20px] bg-[#DDE7E2] object-cover object-top"
+              style={{ boxShadow: "0 16px 38px rgba(25,50,49,.16)" }}
+            />
+            <div className="mt-3 text-base font-bold text-lp-dark">{ex.name}</div>
+            <div className="mt-0.5 text-[12.5px] font-semibold text-lp-green">
+              {ex.role}
             </div>
           </div>
-        </div>
+        ))}
       </div>
+
+      <style jsx>{`
+        .gw-expert-track {
+          animation: gwTickerR 48s linear infinite;
+        }
+        @keyframes gwTickerR {
+          from {
+            transform: translateX(-50%);
+          }
+          to {
+            transform: translateX(0);
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .gw-expert-track {
+            animation: none;
+          }
+        }
+      `}</style>
     </section>
   )
+}
+
+/** Kept so the named import in app/page.tsx keeps resolving. */
+export function DoctorTestimonial() {
+  return null
 }
