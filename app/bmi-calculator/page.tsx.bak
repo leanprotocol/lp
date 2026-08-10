@@ -1,4 +1,4 @@
-import ToolsCalculator from "@/components/tools-calculator";
+import BMICalculator from "@/components/bmi-calculator/bmi-calculator";
 import BMIInfo from "@/components/bmi-calculator/bmi-info";
 import Footer from "@/components/footer";
 import { Header } from "@/components/header";
@@ -16,7 +16,7 @@ export default function Page() {
   return (
     <section>
       <Header/>
-      <ToolsCalculator defaultTab={0} />
+      <BMICalculator />
       <BMIInfo/>
       <Footer/>
     </section>

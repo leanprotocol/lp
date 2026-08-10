@@ -1,4 +1,4 @@
-import ToolsCalculator from "@/components/tools-calculator";
+import BMRCalculator from "@/components/bmr-calculator/bmr-calculator";
 import BMRInfo from "@/components/bmr-calculator/bmr-info";
 import Footer from "@/components/footer";
 import { Header } from "@/components/header";
@@ -16,7 +16,7 @@ export default function Page() {
   return (
     <section>
       <Header/>
-      <ToolsCalculator defaultTab={1} />
+      <BMRCalculator />
       <BMRInfo/>
       <Footer/>
     </section>

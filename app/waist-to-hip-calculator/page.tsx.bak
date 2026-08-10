@@ -1,6 +1,6 @@
 import Footer from "@/components/footer";
 import { Header } from "@/components/header";
-import ToolsCalculator from "@/components/tools-calculator";
+import WaistToHipCalculator from "@/components/waist-to-hip-calculator/waist-to-hip-calculator";
 import WaistToHipInfo from "@/components/waist-to-hip-calculator/waist-to-hip-info";
 import { Metadata } from "next";
 
@@ -16,7 +16,7 @@ export default function Page() {
   return (
     <section>
       <Header/>
-      <ToolsCalculator defaultTab={2} />
+      <WaistToHipCalculator />
       <WaistToHipInfo/>
       <Footer/>
     </section>
