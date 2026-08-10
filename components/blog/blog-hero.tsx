@@ -1,44 +1,83 @@
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import blogsHero from "../../public/blogshero.png"
+"use client"
+
+/**
+ * Knowledge Hub hero.
+ *
+ * Standalone - no data, no Sanity. The post cards below keep their existing
+ * components so images continue to come from Sanity unchanged.
+ */
 export function BlogHero() {
   return (
-    <div className="bg-background -mt-20">
-      <section className="max-w-7xl mx-auto relative w-full overflow-hidden pt-28 md:pt-20">
-        <div className="container mx-auto px-6 lg:px-14 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            
-            {/* Left Content */}
-            <div className="max-w-xl py-10">
-              <h1 className="font-serif text-4xl lg:text-[3.5rem] leading-[1.2] text-[#191919] mb-6">
-                The Blog{" "}
-                <span className="italic opacity-70">that keeps it practical</span>
-              </h1>
+    <section
+      className="relative overflow-hidden px-5 pb-14 pt-[70px] sm:px-7"
+      style={{ background: "linear-gradient(180deg,#0E0E0F,#193231)" }}
+    >
+      <div
+        aria-hidden
+        className="bh-glow absolute -right-[100px] -top-[160px] h-[520px] w-[520px] rounded-full"
+        style={{
+          background:
+            "radial-gradient(circle,rgba(201,168,76,.16),transparent 65%)",
+        }}
+      />
 
-              <p className="text-[#4A4A4A] text-sm mb-10 leading-relaxed max-w-md">
-                Evidence-based guidance on medication, nutrition, mindset, and
-              day-to-day habits—written to be easy to apply.
-              </p>
-            </div>
-
-            {/* Right Content: Image */}
-            <div className="relative w-full aspect-4/5 lg:aspect-square hidden md:block">
-              <div className="relative w-full h-full rounded-[2.5rem] lg:rounded-[3rem] overflow-hidden transform transition-transform duration-500 ease-out">
-                <Image
-                  src={blogsHero}
-                  alt="Notebook, coffee, and laptop on a desk"
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
-            </div>
-
-          </div>
+      <div className="relative z-[2] mx-auto max-w-[1360px]">
+        <div className="bh-rise text-[12.5px] font-bold tracking-[0.16em] text-accent">
+          KNOWLEDGE HUB
         </div>
-      </section>
-    </div>
-  );
+
+        <h1
+          className="bh-rise mb-0 mt-[22px] max-w-[15ch] font-extrabold leading-[0.96] tracking-[-0.035em] text-lp-bg"
+          style={{ fontSize: "clamp(36px,7vw,104px)", animationDelay: ".05s" }}
+        >
+          The blog that keeps it{" "}
+          <span className="font-serif font-normal italic tracking-normal text-accent">
+            practical.
+          </span>
+        </h1>
+
+        <p
+          className="bh-rise m-0 mt-6 max-w-[58ch] leading-[1.55] text-accent2"
+          style={{ fontSize: "clamp(15.5px,1.6vw,20px)", animationDelay: ".12s" }}
+        >
+          Evidence-based guidance on medication, nutrition, mindset and
+          day-to-day habits {"\u2014"} written to be easy to apply.
+        </p>
+      </div>
+
+      <style jsx>{`
+        .bh-glow {
+          animation: bhGlow 10s ease-in-out infinite;
+        }
+        .bh-rise {
+          animation: bhRise 0.9s both;
+        }
+        @keyframes bhGlow {
+          0%,
+          100% {
+            opacity: 0.4;
+          }
+          50% {
+            opacity: 0.85;
+          }
+        }
+        @keyframes bhRise {
+          from {
+            opacity: 0;
+            transform: translateY(40px);
+          }
+          to {
+            opacity: 1;
+            transform: none;
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .bh-glow,
+          .bh-rise {
+            animation: none;
+          }
+        }
+      `}</style>
+    </section>
+  )
 }
