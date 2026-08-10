@@ -42,6 +42,7 @@ export function Header() {
   }, [open])
 
   const links = [
+    { label: "Our Why", href: "/our-why" },
     { label: "How it works", href: "/#journey" },
     { label: "Results", href: "/#results" },
     { label: "Pricing", href: "/#pricing" },
