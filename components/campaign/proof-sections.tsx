@@ -98,13 +98,22 @@ export function ProofSection() {
         </div>
         <div className="mt-4 md:mt-[22px] md:grid md:items-stretch md:grid-cols-[repeat(auto-fit,minmax(min(340px,100%),1fr))] md:gap-[22px]">
           <div className="relative h-[280px] overflow-hidden rounded-[22px] md:h-auto md:min-h-[300px] md:rounded-[26px] md:shadow-[0_26px_60px_rgba(0,0,0,0.4)]">
-            <Image
-              src={featuredStory.image}
-              alt="Atreyee's transformation"
-              fill
-              sizes="(min-width: 768px) 45vw, 92vw"
-              className="object-cover"
-            />
+            <>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={featuredStory.imageMobile}
+                alt="Atreyee's transformation, before and after"
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover md:hidden"
+              />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={featuredStory.image}
+                alt="Atreyee's transformation, before and after"
+                loading="lazy"
+                className="absolute inset-0 hidden h-full w-full object-cover md:block"
+              />
+            </>
           </div>
           <div className="mt-3 flex flex-col justify-center rounded-[22px] bg-[#193231] px-5 py-6 md:mt-0 md:rounded-[26px] md:px-8 md:py-[34px]">
             <div className="mb-[15px] inline-flex self-start rounded-full border border-[rgba(200,217,167,0.45)] bg-[rgba(200,217,167,0.16)] px-[15px] py-[7px] text-[12.5px] font-extrabold text-[#C8D9A7] md:mb-5 md:px-[18px] md:py-2 md:text-[13.5px]">

@@ -143,7 +143,8 @@ export const proof = [
 ];
 
 export const featuredStory = {
-  image: "/lp-assets/atreyee-transformation.jpeg",
+  image: "/before-after/atreyee-desktop.png",
+  imageMobile: "/before-after/atreyee-mobile.png",
   badge: "Lost 6 Kgs*",
   quote:
     "I was about to buy a GLP-1 program that would cost me a bit less and thank god I did not. My wedding approached and I wanted to lose weight quickly. Thanks to their constant motivation and nudging I lost more than I thought I would.",
