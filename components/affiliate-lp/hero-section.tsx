@@ -8,7 +8,7 @@ import { WhatsappIcon } from "@/components/whatsapp-icon";
 import { Button } from "@/components/ui/button";
 
 interface HeroSectionProps {
-  onBuyNow: (planTitle: string) => void;
+  onBuyNow: (planId: string) => void;
   isCheckoutLoading: boolean;
   dbPlans: any[];
   pageTitle?: string;
@@ -251,7 +251,7 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans, pageTitle, m
           </div>
 
           <Button 
-            onClick={() => onBuyNow(activePlan.title)}
+            onClick={() => activePlan.id && onBuyNow(activePlan.id)}
             disabled={isCheckoutLoading}
             className="w-full h-16 text-xl bg-lp-green hover:bg-[#1C3A32] text-white rounded-full shadow-xl transition-all active:scale-95 disabled:opacity-70 font-bold"
           >

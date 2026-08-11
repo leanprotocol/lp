@@ -63,10 +63,7 @@ export function AffiliateLandingPage({ affiliateRef }: AffiliateLandingPageProps
       .finally(() => setAuthChecked(true));
   }, []);
 
-  const handleBuyNow = (planTitle: string) => {
-    // Map to db plan if possible, else just use the first active plan as fallback
-    const dbPlan = dbPlans.find(p => p.name.toLowerCase().includes(planTitle.toLowerCase().split(' ')[0]));
-    const planId = dbPlan ? dbPlan.id : dbPlans[0]?.id;
+  const handleBuyNow = (planId: string) => {
     
     if (planId) {
        if (isLoggedIn) {
