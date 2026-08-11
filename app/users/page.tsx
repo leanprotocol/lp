@@ -80,18 +80,18 @@ const QUESTIONS: Question[] = [
 const STORIES = [
   { name: "Pratima, 37", result: "Lost 7 kg in 2.5 months*", img: "/testimonials/pratima.png",
     quote: "The first month I barely noticed. By the third my clothes did." },
-  { name: "Neema, 46", result: "Lost 10.8 kg in 4 months*", img: "/testimonials/neema.png",
-    quote: "At 46 I thought it was too late. The plan proved me wrong." },
+  { name: "Atreyee, 28", result: "Lost 6 kg*", img: "/before-after/atreyee-before-after.jpeg",
+    quote: "My wedding approached and I lost more than I thought I would." },
   { name: "Rohit, 39", result: "Lost 9.1 kg in 15 weeks*", img: "/testimonials/rohit.png",
     quote: "They fixed my protein before they touched anything else." },
-  { name: "Atreyee, 28", result: "Lost 6 kg*", img: "/lp-assets/atreyee-transformation.jpeg",
-    quote: "My wedding approached and I lost more than I thought I would." },
+  { name: "Neema, 46", result: "Lost 10.8 kg in 4 months*", img: "/testimonials/neema.png",
+    quote: "At 46 I thought it was too late. The plan proved me wrong." },
 ];
 
 const DOCTORS = [
   { name: "Dr. Nishant Jain", role: "MD, DM (Endo)", img: "/lp-assets/experts/nishant.jpeg" },
   { name: "Dr. Akhil Konduru", role: "MD, Internal Med", img: "/lp-assets/experts/akhil.jpeg" },
-  { name: "Dr. Gautam Kumar", role: "MD, DM (Endo)", img: "/lp-assets/experts/gautam.jpeg" },
+  { name: "Aparna Tandon", role: "Weight Loss Dietitian", img: "/lp-assets/experts/aparna.jpeg" },
 ];
 
 const LOAD_MSGS = [
