@@ -170,17 +170,28 @@ export function ExpertsSection() {
         <div className="mb-[18px] text-[11px] font-extrabold tracking-[0.15em] text-[rgba(168,190,183,0.6)] md:mb-[26px] md:text-[12.5px] md:font-bold md:tracking-[0.16em]">
           BRANDS TRUST US
         </div>
-        <div className="flex flex-wrap items-center justify-center gap-[26px] md:gap-[52px]">
-          {brandLogos.map((b) => (
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img
-              key={b.name}
-              src={b.img}
-              alt={b.name}
-              loading="lazy"
-              className="h-7 opacity-80 md:h-10"
-            />
-          ))}
+        <div className="mx-auto flex max-w-[720px] flex-wrap items-center justify-center gap-[26px] rounded-[20px] bg-[#F9F7F2] px-6 py-6 md:gap-[52px] md:rounded-[24px] md:px-10 md:py-8">
+          {brandLogos.map((b) =>
+            b.img ? (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img
+                key={b.name}
+                src={b.img}
+                alt={b.name}
+                loading="lazy"
+                className="h-8 w-auto object-contain md:h-11"
+              />
+            ) : (
+              /* MrMed has no usable logo asset - same styled wordmark
+                 the affiliate page uses (components/affiliate-lp/social-trust.tsx) */
+              <div
+                key={b.name}
+                className="flex items-center text-[24px] font-bold tracking-tight text-[#0066CC] md:text-[30px]"
+              >
+                <span className="text-[#4CAF50]">Mr</span>Med
+              </div>
+            )
+          )}
         </div>
       </div>
     </section>

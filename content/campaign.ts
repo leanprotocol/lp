@@ -188,7 +188,7 @@ export const experts = [
 
 export const brandLogos = [
   { name: "Redcliffe Labs", img: "/lp-assets/logo-redcliffe.png" },
-  { name: "MrMed", img: "/lp-assets/logo-mrmed.jpg" },
+  { name: "MrMed", img: "" },
   { name: "Cult", img: "/lp-assets/logo-cult.png" },
 ];
 
