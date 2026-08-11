@@ -213,10 +213,17 @@ export function ConsultSection({
         <div className="mb-6 h-[290px] overflow-hidden rounded-[22px] bg-[#0E1512] md:order-2 md:mb-0 md:h-auto md:rounded-[30px] md:shadow-[0_40px_90px_rgba(0,0,0,0.45)]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
+            src={consultSection.imageMobile}
+            alt="GLP-1 expert doctor consultation"
+            loading="lazy"
+            className="block h-full w-full object-cover object-top md:hidden"
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src={consultSection.image}
             alt="GLP-1 expert doctor consultation"
             loading="lazy"
-            className="block h-full w-full object-cover object-top md:h-[min(56vh,470px)]"
+            className="hidden h-full w-full object-cover object-top md:block md:h-[min(56vh,470px)]"
           />
         </div>
         <div className="md:order-1">

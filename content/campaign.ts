@@ -200,7 +200,8 @@ export const consultSection = {
     { n: "2", title: "Detailed body evaluation", text: "We review your history and suggest treatment for the root causes of weight gain." },
     { n: "3", title: "Personalised wellness plan", text: "A prescription with clear, actionable steps designed around your weight loss." },
   ],
-  image: "/get-started.png",
+  image: "/lp-assets/consult-desktop.png",
+  imageMobile: "/lp-assets/consult-mobile.png",
 };
 
 export const symptoms = [
