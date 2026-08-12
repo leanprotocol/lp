@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 const HOOKS = [
   "Spin to win 🎉",
-  "Lose up to 22%! 🔥",
+  "Doctor-led GLP-1 care! 🔥",
   "₹399 for doctor consultation ",
   "10,000+ joined ✨",
   "Tap me to play!",

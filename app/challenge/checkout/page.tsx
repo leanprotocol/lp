@@ -423,11 +423,11 @@ function CheckoutContent() {
                 : "Your spot in the 30 Days GLP-1 Challenge is reserved. Our medical team will reach out shortly to confirm payment and get you started."}
             </p>
             <a href="https://wa.link/3s1upf" className="btn btn-wa" style={{ marginBottom: "10px" }}>
-              💬 Message us on WhatsApp
+              Message us on WhatsApp
             </a>
             <br />
-            <a href="/" className="btn btn-ghost">
-              Back to home
+            <a href="/challenge" className="btn btn-ghost">
+              Back to the challenge
             </a>
           </div>
         )}

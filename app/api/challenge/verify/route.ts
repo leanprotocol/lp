@@ -81,7 +81,7 @@ export async function POST(request: NextRequest) {
 
     // Push the confirmed paid lead to TeleCRM, including a PAYMENT action
     // on the timeline — see https://docs.telecrm.in/concepts/actions
-    await pushToCRM({
+    const crm = await pushToCRM({
       name: name || '',
       phone: cleanPhone ? (cleanPhone.startsWith('91') ? cleanPhone : `91${cleanPhone}`) : '',
       email: email || '',
@@ -95,6 +95,22 @@ export async function POST(request: NextRequest) {
       razorpay_order_id: razorpayOrderId,
       razorpay_payment_id: razorpayPaymentId,
     });
+
+    // A paid customer that never reached the CRM exists nowhere in our
+    // systems - nothing is written to the database on this route. Log it
+    // loudly so it can be reconciled against Razorpay.
+    if (!crm.ok) {
+      console.error(
+        '[Challenge Verify] PAID BUT NOT RECORDED IN CRM',
+        JSON.stringify({
+          razorpayOrderId,
+          razorpayPaymentId,
+          phone: cleanPhone,
+          name: name || '',
+          amount: 399,
+        })
+      );
+    }
 
     return NextResponse.json({ success: true, message: 'Payment verified' });
   } catch (error: any) {
