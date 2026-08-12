@@ -118,7 +118,7 @@ const [cohort, setCohort] = useState<{ slots: number; dateLabel: string } | null
           <div className="viewing">
             <span className="dot"></span> Only&nbsp;<b>{cohort ? cohort.slots : "—"}</b>&nbsp;slots left for the {cohort ? cohort.dateLabel : "upcoming"} cohort
           </div>
-          <a href="/unlock" className="btn btn-primary" style={{ marginTop: "22px", fontSize: "17px", padding: "15px 30px" }}>
+          <a href="/challenge/unlock" className="btn btn-primary" style={{ marginTop: "22px", fontSize: "17px", padding: "15px 30px" }}>
             Begin the Challenge <span className="arrow">›</span>
           </a>
         </div>
