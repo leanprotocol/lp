@@ -25,6 +25,11 @@ const nextConfig = {
           has: [{ type: 'host', value: '(?<host>pro\\.leanprotocol\\.in.*)' }],
           destination: '/pro',
         },
+        {
+          source: '/:path*',
+          has: [{ type: 'host', value: '(?<host>challenge\\.leanprotocol\\.in.*)' }],
+          destination: '/challenge/:path*',
+        },
       ],
     }
   },

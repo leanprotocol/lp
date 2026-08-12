@@ -32,7 +32,7 @@ export function SpinWheel() {
   const [consent, setConsent] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
-  const [checkoutHref, setCheckoutHref] = useState("/challenge/checkout?promo=30%2B15HARD");
+  const [checkoutHref, setCheckoutHref] = useState("/checkout?promo=30%2B15HARD");
 
   const handleSpin = () => {
     if (phase !== "idle") return;

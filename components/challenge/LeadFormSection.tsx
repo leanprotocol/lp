@@ -248,7 +248,7 @@ export function LeadFormSection() {
             <div className="check">✓</div>
             <h3>You&apos;re in!</h3>
             <p>Our medical team will call you within 24 hours. Want to start now?</p>
-            <a href="/challenge/checkout" className="btn btn-primary" style={{ width: "100%", marginBottom: "10px" }}>
+            <a href="/checkout" className="btn btn-primary" style={{ width: "100%", marginBottom: "10px" }}>
               Continue to checkout →
             </a>
             <a href="https://wa.link/3s1upf" className="btn btn-wa" style={{ width: "100%" }}>

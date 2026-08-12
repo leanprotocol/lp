@@ -10,7 +10,7 @@ export function FinalCTA() {
         </h2>
         <p>10,000+ Indians already started. Join the 30 Days GLP-1 Challenge today for just ₹399.</p>
         <div className="row">
-          <a href="/challenge/unlock" className="btn btn-primary" style={{ fontSize: "18px", padding: "17px 40px" }}>
+          <a href="/unlock" className="btn btn-primary" style={{ fontSize: "18px", padding: "17px 40px" }}>
             Start my challenge <span className="arrow">›</span>
           </a>
           <a href="https://wa.link/3s1upf" className="btn btn-wa">

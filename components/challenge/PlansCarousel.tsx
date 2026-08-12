@@ -57,7 +57,7 @@ export function PlansCarousel() {
               <li key={fi}>{f}</li>
             ))}
           </ul>
-          <a href="/challenge/unlock" className={`btn ${PLAN.ctaClass}`}>
+          <a href="/unlock" className={`btn ${PLAN.ctaClass}`}>
             {PLAN.ctaLabel} <span className="arrow">›</span>
           </a>
           <p style={{ fontSize: "10px", color: "var(--muted, #9DB0A8)", marginTop: "10px", textAlign: "center", fontWeight: 300 }}>*Data calculated based on 1000+ participants. Individual results vary.</p>

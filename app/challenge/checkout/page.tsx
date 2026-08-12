@@ -426,7 +426,7 @@ function CheckoutContent() {
               💬 Message us on WhatsApp
             </a>
             <br />
-            <a href="/challenge" className="btn btn-ghost">
+            <a href="/" className="btn btn-ghost">
               Back to home
             </a>
           </div>

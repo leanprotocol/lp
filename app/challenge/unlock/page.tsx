@@ -63,7 +63,7 @@ export default function UnlockFunnel() {
   const go = (d: number) => {
     const n = step + d;
     if (n < 1) {
-      window.location.href = "/challenge";
+      window.location.href = "/";
       return;
     }
     if (n > STEPS) return;
@@ -388,7 +388,7 @@ export default function UnlockFunnel() {
               💬 Message us on WhatsApp
             </a>
             <a
-              href="/challenge"
+              href="/"
               style={{ display: "block", marginTop: 12, color: C.green, fontSize: 13, textDecoration: "none" }}
             >
               ← Back to home
