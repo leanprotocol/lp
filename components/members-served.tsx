@@ -29,18 +29,18 @@ const Counter = ({ from, to }: { from: number; to: number }) => {
 export default function MembersServed() {
   const images: MemberImage[] = [
     // Mixed high quality portraits
-    { src: "/member1.jpg", height: "h-64" },
-    { src: "/member2.jpg", height: "h-52" },
+    { src: "/member1.webp", height: "h-64" },
+    { src: "/member2.webp", height: "h-52" },
     { src: "/member3.jpg", height: "h-72" },
-    { src: "/member4.png", height: "h-48" },
-    { src: "/member5.png", height: "h-60" },
-    { src: "/member6.png", height: "h-56" },
-    { src: "/member7.png", height: "h-52" },
+    { src: "/member4.webp", height: "h-48" },
+    { src: "/member5.webp", height: "h-60" },
+    { src: "/member6.webp", height: "h-56" },
+    { src: "/member7.webp", height: "h-52" },
     { src: "/member8.jpg", height: "h-64" },
-    { src: "/member9.jpg", height: "h-56" },
-    { src: "/member10.jpg", height: "h-52" },
-    { src: "/member11.jpg", height: "h-64" },
-    { src: "/member12.jpg", height: "h-52" },
+    { src: "/member9.webp", height: "h-56" },
+    { src: "/member10.webp", height: "h-52" },
+    { src: "/member11.webp", height: "h-64" },
+    { src: "/member12.webp", height: "h-52" },
   ];
 
   // Distribute images into 3 columns

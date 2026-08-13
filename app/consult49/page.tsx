@@ -32,7 +32,7 @@ const TESTIMONIALS = [
   { initial: "A", name: "Ananya", age: "20 yrs", quote: "The at-home blood test found what years of dieting missed.", result: "−14 kg", when: "in 7 months", type: "video" as const, src: "/before-after/ananya.mp4" },
   { initial: "A", name: "Aditya", age: "", quote: "Doorstep delivery and constant support made this easy.", result: "Transformation", when: "journey", type: "video" as const, src: "/before-after/aditya.mp4" },
   { initial: "R", name: "Roshni", age: "23 yrs", quote: "Doctor-led made all the difference.", result: "−15 kg", when: "in 6 months", type: "video" as const, src: "/before-after/roshni.mp4" },
-  { initial: "R", name: "Rohit", age: "39 yrs", quote: "Labs, doctor, dietitian, delivery — everything in one place.", result: "−9.1 kg", when: "in 15 weeks", type: "image" as const, src: "/before-after/Rohit, 39 Lost 9.1 kg in 15 weeks.png" },
+  { initial: "R", name: "Rohit", age: "39 yrs", quote: "Labs, doctor, dietitian, delivery — everything in one place.", result: "−9.1 kg", when: "in 15 weeks", type: "image" as const, src: "/before-after/Rohit, 39 Lost 9.1 kg in 15 weeks.webp" },
   { initial: "A", name: "Atreyee", age: "28 yrs", quote: "The constant motivation made all the difference.", result: "−6 kg", when: "in 1 month", type: "video" as const, src: "/before-after/atreyee.mp4" },
 ];
 
@@ -601,9 +601,9 @@ function Consult49Content() {
           `}</style>
           <div className="doc-row">
             {[
-              { img: "/consult49/doctor-1.png", name: "Dr. Nishant Jain", role: "MD, DM · Endocrinologist", hospital: "Kailash Hospital" },
-              { img: "/consult49/doctor-2.png", name: "Dr. Akhil Konduru", role: "MD · Internal Medicine", hospital: "Yashoda Hospital" },
-              { img: "/consult49/doctor-3.png", name: "Dr. Siddharth Garg", role: "MD · Internal Medicine", hospital: "Former Medanta, Gurgaon" },
+              { img: "/consult49/doctor-1.webp", name: "Dr. Nishant Jain", role: "MD, DM · Endocrinologist", hospital: "Kailash Hospital" },
+              { img: "/consult49/doctor-2.webp", name: "Dr. Akhil Konduru", role: "MD · Internal Medicine", hospital: "Yashoda Hospital" },
+              { img: "/consult49/doctor-3.webp", name: "Dr. Siddharth Garg", role: "MD · Internal Medicine", hospital: "Former Medanta, Gurgaon" },
             ].map((d, i) => (
               <div key={i} className="doc-col">
                 <img
@@ -791,7 +791,7 @@ function Consult49Content() {
             </div>
             <div className="final-img">
               <img
-                src="/lp-assets/doctor-patient.png"
+                src="/lp-assets/doctor-patient.webp"
                 alt="Doctor consultation"
                 style={{ width: "100%", maxWidth: "480px", display: "block", margin: "0 auto", mixBlendMode: "multiply" }}
               />

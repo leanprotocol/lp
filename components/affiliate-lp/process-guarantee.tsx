@@ -5,25 +5,25 @@ const secondaryMetrics = [
     id: "success-stories",
     title: "1,000+ Success Stories",
     subtitle: "Join a thriving community of people who have reclaimed their health",
-    image: "/lp-assets/metric_success_stories.png"
+    image: "/lp-assets/metric_success_stories.webp"
   },
   {
     id: "waist-reduction",
     title: '4" Avg Waist Reduction',
     subtitle: "Target stubborn visceral fat safely and effectively",
-    image: "/lp-assets/metric_waist_reduction.png"
+    image: "/lp-assets/metric_waist_reduction.webp"
   },
   {
     id: "sustain-weight",
     title: "88% Sustain Lost Weight",
     subtitle: "Build lifelong habits that keep the weight off for good",
-    image: "/lp-assets/metric_sustain_weight.png"
+    image: "/lp-assets/metric_sustain_weight.webp"
   },
   {
     id: "muscle-retention",
     title: "90% Muscle Retention",
     subtitle: "Lose fat while keeping the muscle that powers your metabolism",
-    image: "/lp-assets/metric_muscle_retention.png"
+    image: "/lp-assets/metric_muscle_retention.webp"
   }
 ];
 
@@ -35,31 +35,31 @@ const steps = [
     description: "A comprehensive home blood test to deeply analyze your metabolic profile and biomarkers.",
   },
   { 
-    v: "/journey/step-2-vertical.png", 
+    v: "/journey/step-2-vertical.webp", 
     h: "/journey/step-2-horizontal.jpeg", 
     title: "Consultation with the doctor", 
     description: "Our specialist reviews your reports to check eligibility and prescribe the exact medical protocol.",
   },
   { 
-    v: "/journey/step-3-vertical.png", 
+    v: "/journey/step-3-vertical.webp", 
     h: "/journey/step-3-horizontal.jpeg", 
     title: "The dietitian gives a GLP-1-based diet", 
     description: "A customized nutritional plan tailored specifically to complement your GLP-1 protocol.",
   },
   { 
-    v: "/journey/step-4-vertical.png", 
+    v: "/journey/step-4-vertical.webp", 
     h: "/journey/step-4-horizontal.jpeg", 
     title: "Medications delivered at your doorstep", 
     description: "Your prescribed protocol medication is fulfilled and delivered securely to your home.",
   },
   { 
-    v: "/journey/step-5-vertical.png", 
+    v: "/journey/step-5-vertical.webp", 
     h: "/journey/step-5-horizontal.jpeg", 
     title: "6 months Cult pass home subscription", 
     description: "Get access to Cult home workouts to build lean muscle and keep your body active.",
   },
   { 
-    v: "/journey/step-6-vertical.png", 
+    v: "/journey/step-6-vertical.webp", 
     h: "/journey/step-6-horizontal.jpeg", 
     title: "15–22% weight loss in 6 months*", 
     description: "Achieve lasting, transformational results with our guaranteed weight loss program.",

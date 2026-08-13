@@ -82,7 +82,7 @@ const testimonials = [
     name: "Vikram M.",
     result: "Transformation Journey",
     quote: "The doctor support and dietitian guidance made this journey effortless. I've never felt this energetic in my 40s.",
-    image: "/member2.jpg"
+    image: "/member2.webp"
   },
   {
     id: 3,
@@ -171,7 +171,7 @@ export function SocialTrust() {
                 type: "image",
                 name: "Kanti, 44",
                 result: "Transformation Journey",
-                src: "/testimonials/kanti.png",
+                src: "/testimonials/kanti.webp",
               },
               {
                 type: "video",
@@ -183,7 +183,7 @@ export function SocialTrust() {
                 type: "image",
                 name: "Pratima, 37",
                 result: "Transformation Journey",
-                src: "/testimonials/pratima.png",
+                src: "/testimonials/pratima.webp",
               },
               {
                 type: "video",
@@ -195,7 +195,7 @@ export function SocialTrust() {
                 type: "image",
                 name: "Rohit, 39",
                 result: "Transformation Journey",
-                src: "/testimonials/rohit.png",
+                src: "/testimonials/rohit.webp",
               },
               {
                 type: "video",

@@ -1,7 +1,7 @@
 export function BenefitsSection() {
   const benefits = [
-    { label: "Sleep apnea", image: "/peaceful-sleep.png" },
-    { label: "Diabetes", image: "/diabetes-management-concept.png" },
+    { label: "Sleep apnea", image: "/peaceful-sleep.webp" },
+    { label: "Diabetes", image: "/diabetes-management-concept.webp" },
     { label: "Mental health", image: "/mental-wellness.jpg" },
     { label: "Back pain", image: "/placeholder.svg?height=300&width=400" },
     { label: "Hydration", image: "/hydration.jpg" },

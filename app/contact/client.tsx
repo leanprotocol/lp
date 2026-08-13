@@ -81,7 +81,7 @@ export default function ContactPageClient() {
 
               <div className="relative rounded-3xl overflow-hidden h-[300px] md:h-[400px] shadow-sm border border-dark/5 flex-grow">
                 <Image
-                  src="/lp-assets/contact-hero-indian.png"
+                  src="/lp-assets/contact-hero-indian.webp"
                   alt="Person enjoying healthy lifestyle"
                   fill
                   className="object-cover"
@@ -285,7 +285,7 @@ export default function ContactPageClient() {
               {/* Photo */}
               <div className="relative rounded-3xl overflow-hidden aspect-[4/3] shadow-sm border border-dark/10 bg-white">
                 <Image
-                  src="/lp-assets/image4.png"
+                  src="/lp-assets/image4.webp"
                   alt="Lean Protocol support team member"
                   fill
                   className="object-contain p-4"

@@ -135,7 +135,7 @@ export function EligibilityFAQ() {
               {/* Right: Doctor Image */}
               <div className="relative order-1 md:order-2 min-h-[300px] md:min-h-0">
                 <Image
-                  src="/lp-assets/doctor-consult-hero.png"
+                  src="/lp-assets/doctor-consult-hero.webp"
                   alt="GLP-1 Expert Doctor Consultation"
                   fill
                   className="object-cover object-top"

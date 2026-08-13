@@ -50,7 +50,7 @@ const QUESTIONS: Question[] = [
       "My doctor suggested it",
       "For aesthetic reasons",
     ],
-    img: "/journey/journey4.png", caption: "Your why comes first",
+    img: "/journey/journey4.webp", caption: "Your why comes first",
   },
   {
     step: S.TARGET, key: "target",
@@ -78,13 +78,13 @@ const QUESTIONS: Question[] = [
 ];
 
 const STORIES = [
-  { name: "Pratima, 37", result: "Lost 7 kg in 2.5 months*", img: "/testimonials/pratima.png",
+  { name: "Pratima, 37", result: "Lost 7 kg in 2.5 months*", img: "/testimonials/pratima.webp",
     quote: "The first month I barely noticed. By the third my clothes did." },
   { name: "Atreyee, 28", result: "Lost 6 kg*", img: "/before-after/atreyee-before-after.jpeg",
     quote: "My wedding approached and I lost more than I thought I would." },
-  { name: "Rohit, 39", result: "Lost 9.1 kg in 15 weeks*", img: "/testimonials/rohit.png",
+  { name: "Rohit, 39", result: "Lost 9.1 kg in 15 weeks*", img: "/testimonials/rohit.webp",
     quote: "They fixed my protein before they touched anything else." },
-  { name: "Neema, 46", result: "Lost 10.8 kg in 4 months*", img: "/testimonials/neema.png",
+  { name: "Neema, 46", result: "Lost 10.8 kg in 4 months*", img: "/testimonials/neema.webp",
     quote: "At 46 I thought it was too late. The plan proved me wrong." },
 ];
 
@@ -461,7 +461,7 @@ export default function UsersFunnel() {
                 is likely to find you eligible.
               </p>
               <div className="shot" style={{ flex: 1, minHeight: 200, margin: "18px 0 2px" }}>
-                <img src="/journey/journey2.png" alt="" style={{ objectPosition: "60% 22%" }} />
+                <img src="/journey/journey2.webp" alt="" style={{ objectPosition: "60% 22%" }} />
                 <div className="shot-veil" />
                 <div className="shot-cap">Doctor-led from day one</div>
               </div>

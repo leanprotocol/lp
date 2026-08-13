@@ -35,7 +35,7 @@ const TESTIMONIALS: Testimonial[] = [
     result: "−8.5 kg",
     when: "in 3 months",
     type: "image",
-    src: "/before-after/Kanti, 44 Lost 8.5 Kgs in 3 months.png",
+    src: "/before-after/Kanti, 44 Lost 8.5 Kgs in 3 months.webp",
   },
   {
     initial: "M",
@@ -113,7 +113,7 @@ const TESTIMONIALS: Testimonial[] = [
     result: "−9.1 kg",
     when: "in 15 weeks",
     type: "image",
-    src: "/before-after/Rohit, 39 Lost 9.1 kg in 15 weeks.png",
+    src: "/before-after/Rohit, 39 Lost 9.1 kg in 15 weeks.webp",
   },
   {
     initial: "A",

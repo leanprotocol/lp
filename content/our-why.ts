@@ -35,7 +35,7 @@ export const problem = {
 };
 
 export const platform = {
-  image: "/lp-assets/doctor-patient.png",
+  image: "/lp-assets/doctor-patient.webp",
   heading: "A medical-first, expert-connected platform.",
   body:
     "Your doctor, nutritionist, trainer and psychologist finally work as one. Treatment isn't random. Your plan isn't generic. Your health and your story truly matter.",

@@ -9,27 +9,27 @@ const steps = [
     alt: "Step 1 - Take our free quiz",
   },
   {
-    vertical: "/journey/step-2-vertical.jpeg",
+    vertical: "/journey/step-2-vertical.webp",
     horizontal: "/journey/step-2-horizontal.jpeg",
     alt: "Step 2 - Chat with our experts",
   },
   {
-    vertical: "/journey/step-3-vertical.jpeg",
+    vertical: "/journey/step-3-vertical.webp",
     horizontal: "/journey/step-3-horizontal.jpeg",
     alt: "Step 3 - Your GLP-1 Based Diet Plan",
   },
   {
-    vertical: "/journey/step-4-vertical.jpeg",
+    vertical: "/journey/step-4-vertical.webp",
     horizontal: "/journey/step-4-horizontal.jpeg",
     alt: "Step 4 - Get your medication",
   },
   {
-    vertical: "/journey/step-5-vertical.jpeg",
+    vertical: "/journey/step-5-vertical.webp",
     horizontal: "/journey/step-5-horizontal.jpeg",
     alt: "Step 5 - Cult Pass Home",
   },
   {
-    vertical: "/journey/step-6-vertical.jpeg",
+    vertical: "/journey/step-6-vertical.webp",
     horizontal: "/journey/step-6-horizontal.jpeg",
     alt: "Step 6 - Start seeing results",
   },

@@ -77,7 +77,7 @@ export default function LoginPage() {
         {/* 1. Background Image Layer */}
         <div className="absolute inset-0 z-0">
            <img 
-             src="/medications-hero.png" /* Replace with your image path */
+             src="/medications-hero.webp" /* Replace with your image path */
              alt="Background" 
              className="w-full h-full object-cover opacity-80"
            />

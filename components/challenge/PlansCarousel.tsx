@@ -43,7 +43,7 @@ export function PlansCarousel() {
 
         <div className="pcard-single">
           <div className="pmedia">
-            <img src="/challenge/plan-poster.png" alt="The 30 Days GLP-1 Challenge" className="pmedia-fill" />
+            <img src="/challenge/plan-poster.webp" alt="The 30 Days GLP-1 Challenge" className="pmedia-fill" />
           </div>
           {PLAN.tag && <div className="ptag">{PLAN.tag}</div>}
           <h3>{PLAN.title}</h3>

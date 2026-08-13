@@ -26,7 +26,7 @@ export function MedicationsHero() {
             sizes="(max-width: 767px) 100vw"
           />
           <Image
-            src="/medications-hero-web.jpg"
+            src="/medications-hero-web.webp"
             alt="Lean Protocol weight loss medication pens"
             fill
             priority

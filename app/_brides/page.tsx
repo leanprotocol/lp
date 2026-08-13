@@ -221,7 +221,7 @@ export default function BridesEditPage() {
               </div>
             </div>
             <div style={css("position:relative;overflow:hidden;border-radius:3px;border:1px solid #E8D9B8")}>
-              <img src="/brides/bridal-1.png" alt="Lean Protocol bride" style={css("display:block;width:100%;max-width:100%;height:auto;object-fit:contain")} />
+              <img src="/brides/bridal-1.webp" alt="Lean Protocol bride" style={css("display:block;width:100%;max-width:100%;height:auto;object-fit:contain")} />
               <div style={css("position:absolute;left:16px;right:16px;bottom:16px;background:#fff;border-radius:4px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 6px 20px rgba(0,0,0,.12)")}><div style={css("text-align:left")}><div style={css("font-family:'Playfair Display',serif;font-size:28px;font-weight:600;color:#B5202C;line-height:1")}>17 kg<sup style={css("font-size:12px;color:#C9A24B")}>*</sup></div><div style={css("font-family:'Jost',sans-serif;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#7A6F66;margin-top:5px")}>Typical loss / 5 months</div></div><div style={css("text-align:right")}><div style={css("font-family:'Playfair Display',serif;font-size:28px;font-weight:600;color:#B5202C;line-height:1")}>98%<sup style={css("font-size:12px;color:#C9A24B")}>*</sup></div><div style={css("font-family:'Jost',sans-serif;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#7A6F66;margin-top:5px")}>Felt camera-ready</div></div></div>
               
             </div>
@@ -262,7 +262,7 @@ export default function BridesEditPage() {
         {/* EDITORIAL */}
         <section className="sec">
           <div className="editorial">
-            <img src="/brides/bridal-2.png" alt="Bride getting ready" style={css("display:block;width:100%;aspect-ratio:5/4;object-fit:cover;border-radius:3px;border:1px solid #FFFDF9")} />
+            <img src="/brides/bridal-2.webp" alt="Bride getting ready" style={css("display:block;width:100%;aspect-ratio:5/4;object-fit:cover;border-radius:3px;border:1px solid #FFFDF9")} />
             <div>
               <div style={css("font-family:'Jost',sans-serif;font-size:11.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#7D5E1F;margin-bottom:14px")}>Start with a doctor, not a guess</div>
               <h2 style={css("font-family:'Playfair Display',serif;font-weight:500;font-size:31px;line-height:1.08;margin:0 0 10px")}>Your bridal doctor consultation</h2>
@@ -453,7 +453,7 @@ export default function BridesEditPage() {
         {/* FINAL CTA */}
         <section className="sec" style={css("text-align:center")}>
           <div className="boxed" style={css("background:#FAF3E6;border-radius:4px;padding:40px 22px 48px")}>
-            <img src="/brides/bridal-3.png" alt="Radiant bride" style={css("display:block;width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:3px;margin:0 0 28px")} />
+            <img src="/brides/bridal-3.webp" alt="Radiant bride" style={css("display:block;width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:3px;margin:0 0 28px")} />
             <div style={css("font-family:'Jost',sans-serif;font-size:11.5px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#7D5E1F;margin-bottom:18px")}>Limited seats</div>
             <h2 style={css("font-family:'Playfair Display',serif;font-weight:500;font-size:30px;line-height:1.06;margin:0 0 14px")}>Your glow has a deadline.<br />So does this offer.</h2>
             <p style={css("font-size:14px;color:#5F574F;max-width:300px;margin:0 auto 26px;font-weight:300")}>Lock your bridal seat before this month&rsquo;s 50 fill up.</p>

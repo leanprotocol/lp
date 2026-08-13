@@ -77,7 +77,7 @@ Where your health and your story truly matter.
 
                <div className="w-full h-[40vh] sm:h-[50vh] md:h-[60vh] lg:h-[80vh] sm:mt-15 rounded-4xl relative overflow-hidden">
       <Image
-        src="/lean-protocol-our-why1.jpg"
+        src="/lean-protocol-our-why1.webp"
         alt="Full width hero image"
         fill
         sizes="100vw"

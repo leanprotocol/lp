@@ -256,7 +256,7 @@ const causes = [
     title: "Hormonal Imbalance",
     description: "Disrupted hormones slow fat loss and increase storage.",
     icon: Scale,
-    image: "/causes/cause1.jpg",
+    image: "/causes/cause1.webp",
   },
   {
     id: 2,
@@ -270,14 +270,14 @@ const causes = [
     title: "Psychological & Sleep Factors",
     description: "Stress, eating disorders, and poor sleep drive weight gain.",
     icon: Moon,
-    image: "/causes/cause3.jpg",
+    image: "/causes/cause3.webp",
   },
   {
     id: 4,
     title: "Diabetes",
     description: "Insulin resistance locks the body into fat storage.",
     icon: Droplet,
-    image: "/causes/cause4.jpg",
+    image: "/causes/cause4.webp",
   },
   {
     id: 5,
@@ -285,14 +285,14 @@ const causes = [
     description:
       "Some medicines leave a lasting impact on weight and create inflammation.",
     icon: Pill,
-    image: "/causes/cause5.jpg",
+    image: "/causes/cause5.webp",
   },
   {
     id: 6,
     title: "Food Environment & Sedentary Lifestyle",
     description: "Modern diets and low movement keep calories in surplus.",
     icon: Utensils,
-    image: "/causes/cause6.jpg",
+    image: "/causes/cause6.webp",
   },
   {
     id: 7,

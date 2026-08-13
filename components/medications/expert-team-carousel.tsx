@@ -16,7 +16,7 @@ export function ExpertTeamCarousel() {
       name: "Jonathan Larson",
       title: "MD, MBA",
       role: "Medical Director",
-      image: "/dr-larson.jpg",
+      image: "/dr-larson.webp",
       bio: "A West Point graduate and a board-certified physician, Dr. Larson has a decade of telemedicine leadership and operational expertise. At Lean Protocol, he is helping scale a high-quality telemedicine experience to provide the best obesity care.",
     },
     {

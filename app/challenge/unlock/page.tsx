@@ -426,7 +426,7 @@ export default function UnlockFunnel() {
               <h2 style={sH2}>Find out how much <span style={{ color: C.dark }}>weight loss</span> to expect from this challenge</h2>
               <div style={{ marginTop: 14 }}>
                 <img
-                  src="/lp-assets/doctor-patient.png"
+                  src="/lp-assets/doctor-patient.webp"
                   alt="Doctor consulting with a patient"
                   style={{ width: "100%", borderRadius: 16, display: "block", boxShadow: "0 14px 34px rgba(20,64,46,.16)" }}
                 />
@@ -634,7 +634,7 @@ export default function UnlockFunnel() {
               
 
               <img
-  src="/challenge/plan-poster.png"
+  src="/challenge/plan-poster.webp"
   alt="30 Days GLP-1 Challenge plan"
   style={{ width: "100%", borderRadius: 16, display: "block", margin: "10px 0", boxShadow: "0 14px 34px rgba(0,0,0,.3)" }}
 />

@@ -36,7 +36,7 @@ export default function GetStartedPage() {
     <section className="relative bg-white min-h-[calc(100vh-1rem)] flex flex-col lg:flex-row">
       <div className="relative w-full lg:w-[45%] min-h-[55vh] lg:min-h-[calc(100dvh-5rem)] bg-[#F0F2E9] order-1 lg:order-1 overflow-hidden flex-1">
         <Image
-          src="/get-started.png"
+          src="/get-started.webp"
           alt="Medical consultation"
           fill
           className="object-cover"

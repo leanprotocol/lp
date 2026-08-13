@@ -14,7 +14,7 @@ export function FinalCTA() {
           {/* Hero image */}
           <div className="order-1 relative w-full max-w-3xl aspect-[16/8] rounded-3xl overflow-hidden">
             <Image
-              src="/medication-cta.png"
+              src="/medication-cta.webp"
               alt="Two friends laughing together"
               fill
               className="object-cover"

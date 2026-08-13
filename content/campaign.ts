@@ -61,14 +61,14 @@ export const consultMeta = {
 
 export const posters: Record<MedTrack, Record<DurationKey, string>> = {
   SEMAGLUTIDE: {
-    "1 Month": "/lp-assets/1-month-plan.png",
-    "3 Months": "/lp-assets/3-months-plan.png",
-    "6 Months": "/lp-assets/6-months-plan.png",
+    "1 Month": "/lp-assets/1-month-plan.webp",
+    "3 Months": "/lp-assets/3-months-plan.webp",
+    "6 Months": "/lp-assets/6-months-plan.webp",
   },
   MOUNJARO: {
-    "1 Month": "/lp-assets/mounjaro-1-month-plan.png",
-    "3 Months": "/lp-assets/mounjaro-3-months-plan.png",
-    "6 Months": "/lp-assets/mounjaro-6-months-plan.png",
+    "1 Month": "/lp-assets/mounjaro-1-month-plan.webp",
+    "3 Months": "/lp-assets/mounjaro-3-months-plan.webp",
+    "6 Months": "/lp-assets/mounjaro-6-months-plan.webp",
   },
 };
 
@@ -116,7 +116,7 @@ export const vizTabs: VizTab[] = [
 ];
 
 // Poster shown when the Doctor Consultation tile is selected.
-export const consultPoster = "/get-started.png";
+export const consultPoster = "/get-started.webp";
 
 export const terms: string[] = [
   "Your plan is activated within 48 hours of purchase. If there is any activation issue, our team calls you on the number provided at purchase.",
@@ -130,7 +130,7 @@ export const press = [
   { name: "Zee News", logo: "/news/zee-news.svg", url: "https://zeenews.india.com/consumer-connect/the-glp-1-hype-how-lean-protocol-is-building-a-sustainable-weight-loss-ecosystem-3055350.html" },
   { name: "News24", logo: "/news/news-24.jpg", url: "https://news24online.com/information/the-entrepreneurial-journey-behind-a-glp-1-startup-lean-protocol/860995/" },
   { name: "News Today 24x7", logo: "/news/news-today-24x7.png", url: "https://www.newstoday24x7.co.in/2026/04/from-gimmicks-to-ethics-entrepreneurial.html" },
-  { name: "The Startup Story", logo: "/news/startup-story.png", url: "https://thestartupstory.co.in/why-india-needs-a-new-approach-to-weight-loss-the-lean-protocol-perspective/" },
+  { name: "The Startup Story", logo: "/news/startup-story.webp", url: "https://thestartupstory.co.in/why-india-needs-a-new-approach-to-weight-loss-the-lean-protocol-perspective/" },
   { name: "The Tribune", logo: "/news/the-tribune.webp", url: "https://www.tribuneindia.com/partner-exclusives/is-lean-protocol-building-a-sustainable-weight-loss-ecosystem-or-another-weight-loss-hype/" },
   { name: "The Republic News", logo: "/news/the-republic-news.png", url: "https://www.therepublicnews.co.in/2026/04/from-gimmicks-to-ethics-entrepreneurial.html" },
 ];
@@ -143,8 +143,8 @@ export const proof = [
 ];
 
 export const featuredStory = {
-  image: "/before-after/atreyee-desktop.png",
-  imageMobile: "/before-after/atreyee-mobile.png",
+  image: "/before-after/atreyee-desktop.webp",
+  imageMobile: "/before-after/atreyee-mobile.webp",
   badge: "Lost 6 Kgs*",
   quote:
     "I was about to buy a GLP-1 program that would cost me a bit less and thank god I did not. My wedding approached and I wanted to lose weight quickly. Thanks to their constant motivation and nudging I lost more than I thought I would.",
@@ -162,11 +162,11 @@ export const steps = [
 ];
 
 export const stories = [
-  { type: "photo" as const, src: "/testimonials/pratima.png", name: "Pratima, 37", result: "Transformation journey" },
+  { type: "photo" as const, src: "/testimonials/pratima.webp", name: "Pratima, 37", result: "Transformation journey" },
   { type: "video" as const, src: "/testimonials/ayushi.mp4", name: "Ayushi", result: "Transformation journey" },
-  { type: "photo" as const, src: "/testimonials/kanti.png", name: "Kanti, 44", result: "Transformation journey" },
+  { type: "photo" as const, src: "/testimonials/kanti.webp", name: "Kanti, 44", result: "Transformation journey" },
   { type: "video" as const, src: "/testimonials/manav.mp4", name: "Manav", result: "Transformation journey" },
-  { type: "photo" as const, src: "/testimonials/rohit.png", name: "Rohit, 39", result: "Transformation journey" },
+  { type: "photo" as const, src: "/testimonials/rohit.webp", name: "Rohit, 39", result: "Transformation journey" },
   { type: "video" as const, src: "/testimonials/uday.mp4", name: "Uday", result: "Transformation journey" },
   { type: "video" as const, src: "/testimonials/ananya.mp4", name: "Ananya", result: "Transformation journey" },
   { type: "video" as const, src: "/testimonials/aditya.mp4", name: "Aditya", result: "Transformation journey" },
@@ -200,8 +200,8 @@ export const consultSection = {
     { n: "2", title: "Detailed body evaluation", text: "We review your history and suggest treatment for the root causes of weight gain." },
     { n: "3", title: "Personalised wellness plan", text: "A prescription with clear, actionable steps designed around your weight loss." },
   ],
-  image: "/lp-assets/consult-desktop.png",
-  imageMobile: "/lp-assets/consult-mobile.png",
+  image: "/lp-assets/consult-desktop.webp",
+  imageMobile: "/lp-assets/consult-mobile.webp",
 };
 
 export const symptoms = [

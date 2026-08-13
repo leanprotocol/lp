@@ -21,7 +21,7 @@ const metricsTabs = [
     label: "Success Rate",
     title: "98% Success Rate*",
     description: "Join thousands of successful members who have transformed their lives, reversed chronic conditions, and maintained their results.",
-    image: "/lp-assets/metric_success_rate.png",
+    image: "/lp-assets/metric_success_rate.webp",
     objectPosition: "object-top"
   },
   {
@@ -30,7 +30,7 @@ const metricsTabs = [
     label: "Avg. HbA1c Drop*",
     title: "2.6% Avg. HbA1c Drop",
     description: "Beyond weight loss, our protocol significantly improves metabolic health, reversing insulin resistance and lowering blood sugar.",
-    image: "/lp-assets/metric_hba1c.png",
+    image: "/lp-assets/metric_hba1c.webp",
     objectPosition: "object-top"
   },
   {
