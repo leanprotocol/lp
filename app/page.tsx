@@ -16,14 +16,12 @@ const WeightSlider = dynamic(() => import("@/components/weight-slider").then(m =
 import { MobileStatsCard } from "@/components/mobile-stats-card";
 import { PricingCarousel } from "@/components/pricing-carousel";
 const WeightLossChart = dynamic(() => import("@/components/weight-loss-chart").then(m => ({ default: m.WeightLossChart })))
-import { VideoPopup } from "@/components/video-popup"
 import { VideoSection } from "@/components/video-section"
 import { NewsSection } from "@/components/news-section";
 export default function Page() {
   return (
     <main className="min-h-screen bg-background">
       <Header />
-      <VideoPopup />
 
       {/* 1  Hero + ticker */}
       <Hero />
