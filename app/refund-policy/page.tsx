@@ -5,7 +5,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Refund Policy | Lean Protocol Results Promise",
-  description: "Review our Guaranteed Refund Policy. We promise 6% weight loss in 3 months for eligible GLP-1 programs. Learn about eligibility, adherence requirements (tracking, medication, logging), and the refund review process.",
+  description: "The Lean Protocol Six-Month Results Promise. Eligibility, adherence requirements, how results are measured, exclusions and the claim process.",
   openGraph: {
     images: ["/og-image.jpg"],
   },
