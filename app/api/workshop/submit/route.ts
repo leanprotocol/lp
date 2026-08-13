@@ -1,30 +1,29 @@
 // app/api/workshop/submit/route.ts
-// Grades server-side. The client never receives the answer key before
-// submitting, so the score cannot be manufactured in the browser.
+// Grades server-side against the 15 questions this participant was served,
+// recomputed from their seed. The answer key never reaches the browser
+// before submission.
 
 export const runtime = "nodejs";
 
 import { NextRequest, NextResponse } from "next/server";
 import { SESSION_COOKIE, readSessionToken } from "@/lib/workshop/session";
 import { getAttempt, saveResult } from "@/lib/workshop/db";
-import { QUESTIONS, TEST_CONFIG } from "@/content/workshop-test";
+import { TEST_CONFIG } from "@/content/workshop-test";
+import { selectForSeed } from "../start/route";
 
 export async function POST(request: NextRequest) {
   try {
-    const phone = readSessionToken(
-      request.cookies.get(SESSION_COOKIE)?.value
-    );
-    if (!phone) {
+    const session = readSessionToken(request.cookies.get(SESSION_COOKIE)?.value);
+    if (!session) {
       return NextResponse.json({ error: "Not verified" }, { status: 401 });
     }
 
-    const attempt = await getAttempt(phone);
+    const attempt = await getAttempt(session.phone);
     if (!attempt) {
       return NextResponse.json({ error: "No attempt found" }, { status: 400 });
     }
 
-    // Idempotent: a double-click or a retry returns the stored result
-    // rather than regrading or erroring.
+    // Idempotent: a double click or a retry returns the stored result.
     if (attempt.submitted_at) {
       return NextResponse.json({
         success: true,
@@ -40,16 +39,16 @@ export async function POST(request: NextRequest) {
     };
     const submitted = body.answers || {};
 
-    // Time check with a 30s allowance for slow connections. Late papers are
-    // graded on what was submitted rather than voided.
     const startedAt = new Date(attempt.started_at).getTime();
     const limitMs =
       (TEST_CONFIG.durationMinutes + TEST_CONFIG.graceMinutes) * 60 * 1000 +
-      30000;
+      30000; // 30s allowance for slow connections
     const late = Date.now() > startedAt + limitMs;
 
+    const served = selectForSeed(attempt.order_seed);
+
     let score = 0;
-    const detail = QUESTIONS.map((q) => {
+    const detail = served.map((q) => {
       const given = submitted[String(q.id)];
       const correct = typeof given === "number" && given === q.answer;
       if (correct) score++;
@@ -64,11 +63,11 @@ export async function POST(request: NextRequest) {
       };
     });
 
-    const total = QUESTIONS.length;
+    const total = served.length;
     const percent = Math.round((score / total) * 100);
     const passed = percent >= TEST_CONFIG.passPercent;
 
-    await saveResult(phone, score, total, passed, {
+    await saveResult(session.phone, score, total, passed, {
       answers: submitted,
       late,
       percent,
@@ -81,6 +80,7 @@ export async function POST(request: NextRequest) {
       percent,
       passed,
       passMark: TEST_CONFIG.passPercent,
+      name: session.name,
       detail,
     });
   } catch (error) {

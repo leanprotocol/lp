@@ -1,6 +1,7 @@
 // lib/workshop/session.ts
-// A short-lived signed cookie identifying a phone number that Firebase has
-// already verified. Shares nothing with the main app's auth.
+// A short-lived signed cookie carrying the verified phone plus the name and
+// email captured at sign-in. Signing the whole payload means the name that
+// ends up on the certificate cannot be swapped after verification.
 //
 // Env: WORKSHOP_SESSION_SECRET
 //   node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"
@@ -11,6 +12,12 @@ const SECRET = process.env.WORKSHOP_SESSION_SECRET || "";
 const TTL_MS = 1000 * 60 * 60 * 4; // 4 hours
 
 export const SESSION_COOKIE = "workshop_session";
+
+export type SessionData = {
+  phone: string;
+  name: string;
+  email: string;
+};
 
 /** Digits only, with the country code, e.g. 919650491267 */
 export function normalisePhone(raw: string): string {
@@ -25,9 +32,30 @@ export function isValidIndianPhone(phone: string): boolean {
   return /^91[6-9]\d{9}$/.test(phone);
 }
 
-export function createSessionToken(phone: string): string {
+export function normaliseName(raw: string): string {
+  return (raw || "").trim().replace(/\s+/g, " ");
+}
+
+export function normaliseEmail(raw: string): string {
+  return (raw || "").trim().toLowerCase();
+}
+
+export function isValidEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+}
+
+export function isValidName(name: string): boolean {
+  return (
+    name.length >= 2 &&
+    name.length <= 60 &&
+    /^[\p{L}\p{M}.'\- ]+$/u.test(name)
+  );
+}
+
+export function createSessionToken(data: SessionData): string {
   const exp = Date.now() + TTL_MS;
-  const payload = Buffer.from(phone).toString("base64url") + "." + exp;
+  const payload =
+    Buffer.from(JSON.stringify(data)).toString("base64url") + "." + exp;
   const sig = crypto
     .createHmac("sha256", SECRET)
     .update(payload)
@@ -35,13 +63,15 @@ export function createSessionToken(phone: string): string {
   return payload + "." + sig;
 }
 
-export function readSessionToken(token: string | undefined): string | null {
+export function readSessionToken(
+  token: string | undefined
+): SessionData | null {
   if (!token || !SECRET) return null;
   const parts = token.split(".");
   if (parts.length !== 3) return null;
 
-  const [phoneB64, expStr, sig] = parts;
-  const payload = phoneB64 + "." + expStr;
+  const [dataB64, expStr, sig] = parts;
+  const payload = dataB64 + "." + expStr;
   const expected = crypto
     .createHmac("sha256", SECRET)
     .update(payload)
@@ -53,7 +83,11 @@ export function readSessionToken(token: string | undefined): string | null {
   if (Number(expStr) < Date.now()) return null;
 
   try {
-    return Buffer.from(phoneB64, "base64url").toString("utf8");
+    const data = JSON.parse(
+      Buffer.from(dataB64, "base64url").toString("utf8")
+    ) as SessionData;
+    if (!data?.phone) return null;
+    return data;
   } catch {
     return null;
   }

@@ -3,17 +3,17 @@
 // Pure ASCII: unicode via \u escapes (\u2014 em dash, \u2013 en dash).
 //
 // CLINICAL CONTENT - REVIEW BEFORE USE.
-// These 15 questions were drafted for the onboarding workshop and must be
-// checked by the clinician running the session. "rationale" is shown on the
-// results screen after submission, not during the test.
+// 20 questions in the bank. Each participant is served 15 of them, chosen
+// and ordered by their own seed, so no two people sit an identical paper.
+// "rationale" appears on the results screen after submission only.
 
 export const TEST_CONFIG = {
   title: "GLP-1 Protocol Assessment",
   subtitle: "Dietitian onboarding workshop",
   durationMinutes: 15,
-  graceMinutes: 2,
+  graceMinutes: 2, // shown separately as "extra time"
   passPercent: 80, // 12 of 15
-  totalQuestions: 15,
+  questionsPerTest: 15,
 };
 
 export type Question = {
@@ -54,12 +54,7 @@ export const QUESTIONS: Question[] = [
   {
     id: 3,
     q: "Which side effect is most commonly reported in the first weeks of treatment?",
-    options: [
-      "Nausea",
-      "Hair loss",
-      "Joint pain",
-      "Skin rash",
-    ],
+    options: ["Nausea", "Hair loss", "Joint pain", "Skin rash"],
     answer: 0,
     rationale:
       "Gastrointestinal effects, nausea in particular, are the most frequently reported. They are usually mild and tend to settle as the dose is titrated, but they should be monitored and escalated if they persist.",
@@ -214,5 +209,70 @@ export const QUESTIONS: Question[] = [
     answer: 2,
     rationale:
       "Any dose change is a clinical decision for the prescribing doctor. The dietitian's contribution is to review what is within scope \u2014 protein intake, meal structure, activity and adherence \u2014 and to escalate the dosing question appropriately.",
+  },
+  {
+    id: 16,
+    q: "Rapid weight loss of any cause raises the risk of which complication?",
+    options: [
+      "Gallstone formation",
+      "Increased bone density",
+      "Improved night vision",
+      "Higher red blood cell count",
+    ],
+    answer: 0,
+    rationale:
+      "Rapid weight loss increases biliary cholesterol saturation and reduces gallbladder emptying, raising the risk of gallstones. Steady, monitored loss with adequate protein and some dietary fat is preferable to very rapid restriction.",
+  },
+  {
+    id: 17,
+    q: "A member tells you she is planning to conceive in the next few months. What is the correct response?",
+    options: [
+      "Reassure her that the medication is safe throughout pregnancy",
+      "Advise her to double the dose beforehand to lose weight faster",
+      "Escalate to the prescribing doctor promptly, as this class is not recommended in pregnancy",
+      "Tell her to stop the medication immediately on your own advice",
+    ],
+    answer: 2,
+    rationale:
+      "GLP-1 receptor agonists are not recommended during pregnancy, and planning to conceive is a clinical matter requiring the prescribing doctor's input. The dietitian escalates rather than either reassuring or instructing a stop.",
+  },
+  {
+    id: 18,
+    q: "Beyond the number on the scale, what should progress reviews also track?",
+    options: [
+      "Only the number of days the medication was taken",
+      "Waist circumference, body composition where available, strength and energy",
+      "Nothing else \u2014 weight is the only meaningful measure",
+      "Daily step count alone",
+    ],
+    answer: 1,
+    rationale:
+      "Weight alone hides whether the loss is fat or muscle. Waist circumference, body composition where available, strength, energy and how clothes fit give a much fuller picture, and help catch excessive lean-mass loss early.",
+  },
+  {
+    id: 19,
+    q: "A vegetarian member is struggling to reach their protein target on a reduced appetite. What is the most useful approach?",
+    options: [
+      "Tell them a vegetarian diet cannot meet protein needs on this protocol",
+      "Prioritise dense sources at each meal such as dal, paneer, curd, soya and, if acceptable, a supplement",
+      "Advise them to eat only fruit until appetite returns",
+      "Suggest they stop tracking protein and focus only on calories",
+    ],
+    answer: 1,
+    rationale:
+      "Vegetarian diets can meet protein targets, but the sources need to be deliberately dense given the smaller volumes tolerated. Dal, paneer, curd, soya, tofu and legumes at every meal, with a supplement where intake still falls short, is the practical route.",
+  },
+  {
+    id: 20,
+    q: "A member's weight has been stable for three weeks despite good adherence. What is the appropriate first step?",
+    options: [
+      "Tell them to skip meals to break the plateau",
+      "Review intake, protein, activity and sleep, and reassure them that plateaus are a normal part of the process",
+      "Advise an immediate dose increase",
+      "Discharge them from the programme",
+    ],
+    answer: 1,
+    rationale:
+      "Plateaus are expected as the body adapts. The dietitian reviews what is within scope \u2014 actual intake, protein adequacy, activity, sleep and stress \u2014 and reassures. Severe restriction is counterproductive, and any dose question goes to the doctor.",
   },
 ];
