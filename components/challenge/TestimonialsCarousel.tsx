@@ -90,7 +90,7 @@ const TESTIMONIALS: Testimonial[] = [
     result: "Transformation",
     when: "journey",
     type: "video",
-    src: "/before-after/Aditya .mp4",
+    src: "/before-after/aditya.mp4",
   },
   {
     initial: "R",

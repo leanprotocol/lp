@@ -87,8 +87,10 @@ export function TestimonialsCarousel() {
               {s.isVideo ? (
                 <video
                   src={s.src}
+                  poster={s.src.replace(/\.mp4$/, "-poster.jpg")}
+                  playsInline
                   controls
-                  preload="metadata"
+                  preload="none"
                   className="block w-full bg-black object-cover"
                   style={{ height: "clamp(380px,52vh,460px)" }}
                 />

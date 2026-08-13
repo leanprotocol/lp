@@ -50,6 +50,7 @@ function StoryCard({
       {s.type === "video" ? (
         <video
           src={s.src}
+          poster={s.src.replace(/\.mp4$/, "-poster.jpg")}
           controls
           preload="none"
           playsInline

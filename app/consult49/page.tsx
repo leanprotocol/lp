@@ -30,7 +30,7 @@ const TESTIMONIALS = [
   { initial: "U", name: "Uday", age: "", quote: "Structured, doctor-led, and genuinely effective.", result: "Transformation", when: "journey", type: "video" as const, src: "/before-after/uday.mp4" },
   { initial: "A", name: "Ayushi", age: "22 yrs", quote: "First plan with actual science behind it. The check-ins kept me going.", result: "−15 kg", when: "in 6 months", type: "video" as const, src: "/before-after/ayushi.mp4" },
   { initial: "A", name: "Ananya", age: "20 yrs", quote: "The at-home blood test found what years of dieting missed.", result: "−14 kg", when: "in 7 months", type: "video" as const, src: "/before-after/ananya.mp4" },
-  { initial: "A", name: "Aditya", age: "", quote: "Doorstep delivery and constant support made this easy.", result: "Transformation", when: "journey", type: "video" as const, src: "/before-after/Aditya .mp4" },
+  { initial: "A", name: "Aditya", age: "", quote: "Doorstep delivery and constant support made this easy.", result: "Transformation", when: "journey", type: "video" as const, src: "/before-after/aditya.mp4" },
   { initial: "R", name: "Roshni", age: "23 yrs", quote: "Doctor-led made all the difference.", result: "−15 kg", when: "in 6 months", type: "video" as const, src: "/before-after/roshni.mp4" },
   { initial: "R", name: "Rohit", age: "39 yrs", quote: "Labs, doctor, dietitian, delivery — everything in one place.", result: "−9.1 kg", when: "in 15 weeks", type: "image" as const, src: "/before-after/Rohit, 39 Lost 9.1 kg in 15 weeks.png" },
   { initial: "A", name: "Atreyee", age: "28 yrs", quote: "The constant motivation made all the difference.", result: "−6 kg", when: "in 1 month", type: "video" as const, src: "/before-after/atreyee.mp4" },
