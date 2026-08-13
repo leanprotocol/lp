@@ -21,15 +21,15 @@ export function PolicyShell({
   contactLines: string[];
 }) {
   return (
-    <div className="shell" style={{ maxWidth: 760 }}>
-      <div className="top">
+    <div style={{ minHeight: "100vh", background: "#F9F7F2", padding: "0 0 60px" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 12, maxWidth: 760, margin: "0 auto", padding: "22px 20px" }}>
         <Link href="/" className="brand" style={{ textDecoration: "none" }}>
-          <img src="/logo-cropped.png" alt="Lean Protocol" />
+          <img src="/logo-cropped.png" alt="Lean Protocol" style={{ height: 44, width: "auto", display: "block" }} />
           <span className="brand-text">Lean Protocol</span>
         </Link>
       </div>
 
-      <div className="card" style={{ display: "block" }}>
+      <div style={{ maxWidth: 760, margin: "0 auto", padding: "0 20px", boxSizing: "border-box" }}>
         <h1
           style={{
             fontSize: "clamp(24px, 5vw, 32px)",
