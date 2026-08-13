@@ -104,9 +104,13 @@ export default function UnlockFunnel() {
     }
   };
 
-  // Capture the lead the moment the user reaches the final offer page (step 7)
+  // Capture the lead as soon as the details form is submitted (step 2).
+  // The form moved ahead of the forecast, so waiting until step 7 would
+  // lose everyone who drops off at the spin wheel or the plan screen.
+  // captureLead is idempotent-ish server-side (autoupdatelead), so the
+  // step-7 call is kept as a backstop for anyone who reaches the end.
   useEffect(() => {
-    if (step === 7) captureLead();
+    if (step === 3 || step === 7) captureLead();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step]);
 
@@ -420,10 +424,6 @@ export default function UnlockFunnel() {
             <>
               <p style={{ ...sEb, marginTop: 16 }}>The 30-day average</p>
               <h2 style={sH2}>Find out how much <span style={{ color: C.dark }}>weight loss</span> to expect from this challenge</h2>
-              <div style={{ ...sPop, marginTop: 16, textAlign: "center" }}>
-                <div style={{ ...big, fontSize: 52, color: C.green }}>6&ndash;8 Kg</div>
-                <p style={{ fontSize: 12, color: C.muted }}>average weight lost · based on our internal data</p>
-              </div>
               <div style={{ marginTop: 14 }}>
                 <img
                   src="/lp-assets/doctor-patient.png"
@@ -442,7 +442,7 @@ export default function UnlockFunnel() {
           )}
 
           {/* STEP 2 — about you */}
-          {step === 2 && (
+          {step === 3 && (
             <>
               <p style={{ ...sEb, marginTop: 18 }}>About you</p>
               <h2 style={sH2}>Check your <span style={{ color: C.dark }}>eligibility</span> for your goal</h2>
@@ -469,7 +469,7 @@ export default function UnlockFunnel() {
           )}
 
           {/* STEP 3 — forecast */}
-          {step === 3 && (
+          {step === 4 && (
             <>
               <p style={{ ...sEb, marginTop: 18 }}>Your forecast</p>
               <div style={{ ...sPop, marginTop: 14, textAlign: "center" }}>
@@ -496,7 +496,7 @@ export default function UnlockFunnel() {
           )}
 
           {/* STEP 4 — BMI + eligibility */}
-          {step === 4 && (
+          {step === 5 && (
             <>
               <p style={{ ...sEb, marginTop: 18 }}>Your BMI &amp; eligibility</p>
               <div style={{ ...sPop, marginTop: 14, textAlign: "center" }}>
@@ -542,7 +542,7 @@ export default function UnlockFunnel() {
           )}
 
           {/* STEP 5 — register */}
-          {step === 5 && (
+          {step === 2 && (
             <>
               <p style={{ ...sEb, marginTop: 18 }}>Register</p>
               <h2 style={sH2}>Unlock your <span style={{ color: C.dark }}>personalised plan</span></h2>
@@ -577,7 +577,7 @@ export default function UnlockFunnel() {
                 <p style={{ ...big, fontSize: 20, color: C.green, marginTop: 8 }}>Good news!</p>
                 <p style={{ fontSize: 13, color: C.dark, marginTop: 4 }}>You qualify for the challenge plus an exclusive joining offer.</p>
               </div>
-              <button style={{ ...sCta, opacity: formValid ? 1 : 0.5, cursor: formValid ? "pointer" : "not-allowed" }} onClick={unlock} disabled={!formValid}>Unlock my plan →</button>
+              <button style={{ ...sCta, opacity: formValid ? 1 : 0.5, cursor: formValid ? "pointer" : "not-allowed" }} onClick={unlock} disabled={!formValid}>Unlock my plan</button>
             </>
           )}
 
@@ -643,17 +643,12 @@ export default function UnlockFunnel() {
               <div style={{ ...sStep, marginTop: 10 }}>
                 {[
                   ["Doctor consultation", "₹1500"],
-                  ["Health coach", "₹1000"],
                 ].map(([l, p], i) => (
                   <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "7px 0", borderTop: i ? `1px solid ${C.border}` : "none" }}>
-                    <span style={{ fontSize: 7 }}>{l}</span>
-                    <b style={{ color: C.green, fontSize: 8 }}>{p}</b>
+                    <span style={{ fontSize: 13 }}>{l}</span>
+                    <b style={{ color: C.muted, fontSize: 13, textDecoration: "line-through" }}>{p}</b>
                   </div>
                 ))}
-                <div style={{ display: "flex", justifyContent: "space-between", padding: "5px 0 1px", borderTop: `1px solid ${C.border2}` }}>
-                  <span style={{ fontSize: 6, color: C.muted, textTransform: "uppercase" }}>Total value</span>
-                  <b style={{ color: C.muted, textDecoration: "line-through", fontSize: 8 }}>₹2500</b>
-                </div>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", padding: "8px 0 0", borderTop: `1px solid ${C.border2}` }}>
                   <span style={{ fontSize: 11, color: C.dark, fontWeight: 700, textTransform: "uppercase" }}>Your price</span>
                   <b style={{ ...big, color: C.dark, fontSize: 24 }}>₹399</b>
