@@ -1,8 +1,10 @@
 // content/workshop-test.ts
 // Lean Protocol dietitian onboarding assessment.
-// Pure ASCII: unicode via \u escapes (\u2014 em dash, \u2013 en dash).
+// Pure ASCII: unicode via \u escapes.
 //
-// CLINICAL CONTENT - REVIEW BEFORE USE.
+// Generated from the approved question document. Wording is verbatim -
+// do not paraphrase questions, options or explanations without review.
+//
 // 20 questions in the bank. Each participant is served 15 of them, chosen
 // and ordered by their own seed, so no two people sit an identical paper.
 // "rationale" appears on the results screen after submission only.
@@ -25,254 +27,265 @@ export type Question = {
 };
 
 export const QUESTIONS: Question[] = [
+
   {
     id: 1,
-    q: "How do GLP-1 receptor agonists primarily support weight loss?",
+    q: "What does GLP 1 stand for?",
     options: [
-      "They block dietary fat from being absorbed in the small intestine",
-      "They slow gastric emptying and increase satiety, reducing overall intake",
-      "They directly increase resting metabolic rate by around 20%",
-      "They prevent the body from storing any carbohydrate as fat",
+      "Glucose Like Peptide 1",
+      "Glucagon Like Peptide 1",
+      "Glucose Linked Polypeptide 1",
+      "Glucagon Linked Peptide 1",
     ],
     answer: 1,
     rationale:
-      "GLP-1 receptor agonists mimic an endogenous incretin hormone. They slow gastric emptying, act on hypothalamic appetite centres to increase satiety, and stimulate insulin secretion in a glucose-dependent manner. They are not fat blockers and do not substantially raise metabolic rate.",
+      "GLP-1 stands for Glucagon-Like Peptide-1. The name reflects its structural similarity to glucagon, as both are derived from the proglucagon gene. It is an incretin hormone released from the gut in response to food, and despite the shared name its metabolic actions are largely opposite to those of glucagon.",
   },
   {
     id: 2,
-    q: "Why is protein intake a priority for a member on a GLP-1 protocol?",
+    q: "What does GIP stand for?",
     options: [
-      "Protein prevents the medication from causing nausea",
-      "Protein is the only macronutrient that does not affect blood sugar",
-      "Appetite falls sharply, so without a deliberate target, lean mass is lost alongside fat",
-      "Protein speeds up how quickly the medication is cleared from the body",
+      "Glucose Insulin Peptide",
+      "Gastric Inhibitory Peptide",
+      "Glucose Dependent Insulinotropic Polypeptide",
+      "Glucose Induced Insulin Peptide",
     ],
     answer: 2,
     rationale:
-      "Reduced appetite means total intake drops, and protein usually drops with it. Without an explicit target, a meaningful share of the weight lost can be lean mass rather than fat. Protecting muscle is a core part of the dietitian's role.",
+      "GIP is now called Glucose-Dependent Insulinotropic Polypeptide. It was originally named Gastric Inhibitory Peptide, which is why the older name remains a common answer, but the name was revised once its principal action was understood to be glucose-dependent stimulation of insulin secretion rather than inhibition of gastric acid.",
   },
   {
     id: 3,
-    q: "Which side effect is most commonly reported in the first weeks of treatment?",
-    options: ["Nausea", "Hair loss", "Joint pain", "Skin rash"],
-    answer: 0,
+    q: "Where is GLP 1 primarily produced?",
+    options: [
+      "Stomach",
+      "Pancreas",
+      "L cells of the intestine",
+      "Liver",
+    ],
+    answer: 2,
     rationale:
-      "Gastrointestinal effects, nausea in particular, are the most frequently reported. They are usually mild and tend to settle as the dose is titrated, but they should be monitored and escalated if they persist.",
+      "GLP-1 is secreted by enteroendocrine L cells, found mainly in the distal small intestine and colon, in response to nutrients reaching the gut. This is why it is described as an incretin: the signal originates in the intestine and then acts on the pancreas and the brain, rather than being produced by either.",
   },
   {
     id: 4,
-    q: "A member reports nausea after meals. Which adjustment is most appropriate?",
+    q: "Which receptor is shared by semaglutide and tirzepatide?",
     options: [
-      "Ask them to stop the medication until the nausea resolves",
-      "Increase meal size so they finish eating faster",
-      "Smaller, lower-fat meals eaten slowly, stopping at the first sign of fullness",
-      "Replace all meals with fruit juice for a week",
+      "GIP receptor",
+      "GLP 1 receptor",
+      "Glucagon receptor",
+      "Amylin receptor",
     ],
-    answer: 2,
+    answer: 1,
     rationale:
-      "Smaller, lower-fat, slowly eaten meals reduce the load on already-delayed gastric emptying. A dietitian does not advise stopping a prescribed medication \u2014 that decision belongs to the prescribing doctor, who should be informed if symptoms persist.",
+      "Semaglutide is a selective GLP-1 receptor agonist, while tirzepatide acts on both the GIP and GLP-1 receptors. The GLP-1 receptor is therefore the one they have in common. The GIP receptor is unique to tirzepatide among these two.",
   },
   {
     id: 5,
-    q: "Using Asian-Indian BMI thresholds, overweight begins at a BMI of:",
-    options: ["21", "23", "25", "27"],
-    answer: 1,
-    rationale:
-      "Asian-Indian populations show higher cardiometabolic risk at lower BMI than WHO international cut-offs. Overweight begins at 23 and obesity at 25, rather than 25 and 30. Lean Protocol uses these thresholds throughout.",
-  },
-  {
-    id: 6,
-    q: "Why do fibre and fluid intake need active attention on a GLP-1 protocol?",
+    q: "Why can a tablet and an injection containing the same active molecule not necessarily be considered equivalent at the same numerical dose?",
     options: [
-      "They increase the absorption of the medication",
-      "Slowed gut motility and reduced intake make constipation common",
-      "They are needed to prevent an allergic reaction",
-      "They replace the need for a protein target",
+      "Route of administration affects bioavailability and pharmacokinetics",
+      "Tablets contain inactive GLP 1",
+      "Injections contain no active drug",
+      "Receptors respond differently to milligrams depending on BMI",
     ],
-    answer: 1,
+    answer: 0,
     rationale:
-      "Delayed gastric emptying and a smaller total food volume make constipation one of the more common complaints. Adequate fibre and fluid, introduced gradually, help manage it.",
+      "The milligrams stated on a package describe how much drug is administered, not how much reaches the bloodstream. Oral peptides face degradation in the stomach and poor absorption, so only a small fraction becomes systemically available, whereas a subcutaneous injection bypasses that barrier almost entirely. The same number on two different routes therefore represents very different exposure.",
   },
   {
     id: 7,
-    q: "What is the main risk of rapid weight loss without resistance training and adequate protein?",
+    q: "Why are semaglutide and tirzepatide generally introduced through dose escalation schedules rather than immediately at their highest therapeutic doses?",
     options: [
-      "The member will regain the weight within a week",
-      "Loss of lean muscle mass, which lowers resting energy expenditure",
-      "The medication stops working permanently",
-      "Blood sugar becomes impossible to control",
+      "To prevent the drugs from losing efficacy",
+      "Primarily to improve gastrointestinal tolerability",
+      "To increase renal clearance",
+      "To prevent weight loss during the first few weeks",
     ],
     answer: 1,
     rationale:
-      "Rapid loss without a protein and resistance-training stimulus takes a larger proportion from lean tissue. Because muscle is metabolically active, losing it lowers resting energy expenditure and makes maintenance harder later.",
+      "Starting at a high dose markedly increases nausea, vomiting and other gastrointestinal effects. Gradual escalation allows the gut to adapt, which keeps people on treatment rather than discontinuing early. The schedule is set by the prescribing doctor and adjusted at review, not by the patient or the dietitian.",
   },
   {
     id: 8,
-    q: "Why is the dose titrated gradually rather than started at the maintenance level?",
+    q: "Tirzepatide differs pharmacologically from semaglutide because tirzepatide acts on:",
     options: [
-      "To make the treatment course last longer commercially",
-      "Because the body builds tolerance if the full dose is used immediately",
-      "To reduce gastrointestinal side effects and improve tolerability",
-      "Because the full dose is unsafe in all patients",
+      "GLP 1 and GIP receptors",
+      "GLP 1 and cortisol receptors",
+      "Insulin and leptin receptors",
+      "GIP and thyroid receptors",
     ],
-    answer: 2,
+    answer: 0,
     rationale:
-      "Gradual titration allows the gut to adapt and markedly reduces nausea and other GI effects. The schedule is set by the prescribing doctor and adjusted at review.",
+      "Tirzepatide is a dual agonist, binding both the GIP and GLP-1 receptors, whereas semaglutide targets the GLP-1 receptor alone. Adding GIP activity is the pharmacological difference between the two molecules. Neither acts on cortisol, leptin, insulin or thyroid receptors.",
   },
   {
     id: 9,
-    q: "Which history would typically be a contraindication to GLP-1 receptor agonist therapy?",
+    q: "A significant reduction in appetite during GLP 1 therapy makes which nutritional priority particularly important?",
     options: [
-      "Seasonal allergies",
-      "Personal or family history of medullary thyroid carcinoma or MEN2",
-      "Mild iron deficiency",
-      "A previous ankle fracture",
+      "Eliminating carbohydrates",
+      "Ensuring adequate protein and overall nutrient intake",
+      "Increasing saturated fat intake",
+      "Skipping meals whenever hunger is absent",
     ],
     answer: 1,
     rationale:
-      "A personal or family history of medullary thyroid carcinoma, or Multiple Endocrine Neoplasia syndrome type 2, is a recognised contraindication for this drug class. Eligibility is assessed by the prescribing doctor, never by the dietitian.",
+      "When appetite falls sharply, total intake falls with it, and protein and micronutrients usually fall fastest. Without a deliberate target, a meaningful share of the weight lost can be lean tissue rather than fat. Skipping meals because hunger is absent compounds the problem, which is why structured intake matters more, not less, once appetite drops.",
   },
   {
     id: 10,
-    q: "Tirzepatide differs from semaglutide in that it acts on:",
+    q: "Which statement regarding semaglutide's pharmacokinetics is correct?",
     options: [
-      "Only the GLP-1 receptor, but for longer",
-      "Both GIP and GLP-1 receptors",
-      "Neither receptor \u2014 it works through a different mechanism entirely",
-      "The insulin receptor directly",
+      "It has a half life of approximately 6 hours",
+      "It requires multiple daily administration",
+      "Its prolonged half life permits once weekly administration",
+      "It is eliminated exclusively through renal filtration",
     ],
-    answer: 1,
+    answer: 2,
     rationale:
-      "Tirzepatide is a dual GIP and GLP-1 receptor agonist, whereas semaglutide is a selective GLP-1 receptor agonist. Both are prescription-only and prescribed at the doctor's discretion.",
+      "Semaglutide has a half-life of roughly one week, achieved through structural modifications that slow degradation and promote albumin binding. That is what makes once-weekly injection possible. Elimination occurs through several routes, including metabolism, rather than renal filtration alone.",
   },
   {
     id: 11,
-    q: "With sustained low food volume, which nutritional risk should the dietitian monitor?",
+    q: "Which of the following is not an incretin based medication?",
     options: [
-      "Excess vitamin C",
-      "Inadequate micronutrient intake, such as iron, B12 and calcium",
-      "Too much dietary fibre",
-      "Excess protein causing kidney failure in healthy adults",
+      "Semaglutide",
+      "Liraglutide",
+      "Tirzepatide",
+      "Metformin",
     ],
-    answer: 1,
+    answer: 3,
     rationale:
-      "A sustained drop in total intake risks shortfalls in iron, B12, calcium and other micronutrients. Meals should be planned for nutrient density rather than volume, with supplementation considered where clinically indicated.",
+      "Semaglutide and liraglutide are GLP-1 receptor agonists and tirzepatide is a dual GIP/GLP-1 agonist, so all three act on the incretin system. Metformin is a biguanide and works through entirely different mechanisms, principally reducing hepatic glucose production and improving insulin sensitivity.",
   },
   {
     id: 12,
-    q: "What typically happens when medication stops without established habits?",
+    q: "A patient loses 12 kg during semaglutide therapy. Fat mass decreases by 9 kg and lean mass decreases by 3 kg. Hand grip strength remains unchanged and resistance training performance improves. Which interpretation is BEST?",
     options: [
-      "The weight lost is permanently maintained regardless of diet",
-      "Appetite returns and weight regain is likely without nutrition and activity habits in place",
-      "Metabolism permanently resets to a higher rate",
-      "The member becomes unable to feel hunger again",
+      "The patient has sarcopenia because lean mass decreased",
+      "The patient has experienced no muscle loss",
+      "Lean mass reduction doesn't necessarily mean less muscle function.",
+      "Semaglutide selectively causes skeletal muscle breakdown",
     ],
-    answer: 1,
+    answer: 2,
     rationale:
-      "The medication modulates appetite while it is being taken. When it stops, appetite returns. Sustained outcomes depend on the nutrition, movement and behavioural habits built during treatment \u2014 which is precisely where the dietitian's work matters most.",
+      "Lean mass is not the same as contractile muscle. It also includes water, glycogen and the tissue that supports a larger body, all of which fall as weight is lost. Here grip strength held and training performance improved, so function was preserved. Sarcopenia is defined by loss of muscle function and strength, not by a number on a body composition report alone.",
   },
   {
     id: 13,
-    q: "Which best describes the dietitian's role within the protocol?",
+    q: "Which of the following is NOT a typical side effect of GLP1 medication",
     options: [
-      "To adjust the medication dose based on how much weight the member has lost",
-      "To decide whether the member is eligible for GLP-1 medication",
-      "To build a nutrition plan that protects lean mass and manages side effects, alongside the doctor",
-      "To replace medical follow-up once the plan is issued",
+      "Nausea",
+      "Diarrhea",
+      "Constipation",
+      "Headache",
     ],
-    answer: 2,
+    answer: 3,
     rationale:
-      "Dosing and eligibility are medical decisions belonging to the prescribing doctor. The dietitian builds and adapts the nutrition plan, protects lean mass, manages tolerability, and escalates clinical concerns to the doctor.",
+      "The characteristic adverse effects of this drug class are gastrointestinal, reflecting slowed gastric emptying and altered gut motility: nausea, vomiting, diarrhoea and constipation. Headache can occur, as it can with many medications, but it is not a typical or class-defining effect.",
   },
   {
     id: 14,
-    q: "Which is most likely to worsen gastrointestinal symptoms?",
+    q: "Which statement most accurately distinguishes the pharmacological mechanisms of semaglutide and tirzepatide?",
     options: [
-      "Large, high-fat meals and alcohol",
-      "Drinking water between meals",
-      "Eating a moderate portion of dal with rice",
-      "Walking for twenty minutes after eating",
+      "Semaglutide is a dual GLP 1/GIP receptor agonist, while tirzepatide is a selective GLP 1 receptor agonist",
+      "Semaglutide is a GLP 1 receptor agonist, while tirzepatide is a dual GIP/GLP 1 receptor agonist",
+      "Both are dual GLP 1/GIP receptor agonists but differ only in half life",
+      "Both primarily act through GIP receptors",
     ],
-    answer: 0,
+    answer: 1,
     rationale:
-      "Large, high-fat meals sit in an already slowly emptying stomach, and alcohol adds further irritation. Both commonly aggravate nausea and reflux on this class of medication.",
+      "Semaglutide is a selective GLP-1 receptor agonist; tirzepatide is a dual GIP and GLP-1 receptor agonist. Option A reverses the two, which is the most common error. The difference is one of receptor targets, not simply half-life.",
   },
   {
     id: 15,
-    q: "A member asks you to increase their dose because progress feels slow. What do you do?",
+    q: "During pharmacologically induced weight loss, adequate protein intake and resistance exercise are particularly important for:",
     options: [
-      "Advise a higher dose, since they are not progressing",
-      "Tell them to take two doses in the same week",
-      "Refer the question to the prescribing doctor and review nutrition, protein and activity in the meantime",
-      "Tell them the medication is not working and they should stop",
+      "Increasing appetite",
+      "Preserving lean body mass",
+      "Preventing all gastrointestinal adverse effects",
+      "Increasing gastric emptying",
     ],
-    answer: 2,
+    answer: 1,
     rationale:
-      "Any dose change is a clinical decision for the prescribing doctor. The dietitian's contribution is to review what is within scope \u2014 protein intake, meal structure, activity and adherence \u2014 and to escalate the dosing question appropriately.",
+      "Rapid weight loss without a protein and resistance-training stimulus takes a larger proportion from lean tissue. Because muscle is metabolically active, losing it lowers resting energy expenditure and makes maintenance harder afterwards. Protein and resistance work do not prevent gastrointestinal effects, which are managed separately through meal size, fat content and pacing.",
   },
   {
     id: 16,
-    q: "Rapid weight loss of any cause raises the risk of which complication?",
+    q: "Why is clinically significant hypoglycaemia generally less characteristic of GLP 1 receptor agonist monotherapy than of therapies that stimulate insulin secretion independently of glucose?",
     options: [
-      "Gallstone formation",
-      "Increased bone density",
-      "Improved night vision",
-      "Higher red blood cell count",
+      "GLP 1 receptor agonists prevent glucose from entering cells",
+      "Their insulinotropic effect is glucose dependent",
+      "They permanently suppress glucagon secretion",
+      "They increase urinary glucose excretion in all patients",
     ],
-    answer: 0,
+    answer: 1,
     rationale:
-      "Rapid weight loss increases biliary cholesterol saturation and reduces gallbladder emptying, raising the risk of gallstones. Steady, monitored loss with adequate protein and some dietary fat is preferable to very rapid restriction.",
+      "GLP-1 receptor agonists stimulate insulin release only when blood glucose is elevated, and the effect subsides as glucose normalises. Sulfonylureas, by contrast, drive insulin secretion regardless of glucose level, which is why they carry a higher hypoglycaemia risk. Risk does rise when a GLP-1 agonist is combined with insulin or a sulfonylurea, which is a matter for the prescribing doctor.",
   },
   {
     id: 17,
-    q: "A member tells you she is planning to conceive in the next few months. What is the correct response?",
+    q: "Which statement BEST explains the appetite suppressing effect of GLP 1 based therapy?",
     options: [
-      "Reassure her that the medication is safe throughout pregnancy",
-      "Advise her to double the dose beforehand to lose weight faster",
-      "Escalate to the prescribing doctor promptly, as this class is not recommended in pregnancy",
-      "Tell her to stop the medication immediately on your own advice",
+      "It primarily increases basal metabolic rate",
+      "It increases intestinal glucose absorption",
+      "Central appetite signalling and gastrointestinal effects contribute to reduced energy intake",
+      "It directly oxidises adipose tissue",
     ],
     answer: 2,
     rationale:
-      "GLP-1 receptor agonists are not recommended during pregnancy, and planning to conceive is a clinical matter requiring the prescribing doctor's input. The dietitian escalates rather than either reassuring or instructing a stop.",
+      "Two mechanisms work together. Centrally, GLP-1 receptors in hypothalamic and brainstem appetite centres increase satiety and reduce food-seeking behaviour. Peripherally, slowed gastric emptying prolongs the sense of fullness after eating. The medication does not meaningfully raise metabolic rate or act directly on fat tissue.",
   },
   {
     id: 18,
-    q: "Beyond the number on the scale, what should progress reviews also track?",
+    q: "Which statement correctly distinguishes oral semaglutide from injectable semaglutide?",
     options: [
-      "Only the number of days the medication was taken",
-      "Waist circumference, body composition where available, strength and energy",
-      "Nothing else \u2014 weight is the only meaningful measure",
-      "Daily step count alone",
+      "Oral semaglutide contains a different active drug",
+      "Both contain semaglutide, but their formulations and routes of administration differ",
+      "Oral semaglutide is a GIP/GLP 1 agonist, while injectable semaglutide is GLP 1 only",
+      "Oral semaglutide is a DPP 4 inhibitor",
     ],
     answer: 1,
     rationale:
-      "Weight alone hides whether the loss is fat or muscle. Waist circumference, body composition where available, strength, energy and how clothes fit give a much fuller picture, and help catch excessive lean-mass loss early.",
+      "The active molecule is identical. The oral formulation includes an absorption enhancer that allows a small fraction of the peptide to cross the stomach lining, which is why the tablet dose is numerically much higher than the injected dose and why it must be taken on an empty stomach with specific timing. Same drug, different delivery.",
   },
   {
     id: 19,
-    q: "A vegetarian member is struggling to reach their protein target on a reduced appetite. What is the most useful approach?",
+    q: "Why can substantial weight loss potentially result in clinically meaningful lean mass loss?",
     options: [
-      "Tell them a vegetarian diet cannot meet protein needs on this protocol",
-      "Prioritise dense sources at each meal such as dal, paneer, curd, soya and, if acceptable, a supplement",
-      "Advise them to eat only fruit until appetite returns",
-      "Suggest they stop tracking protein and focus only on calories",
+      "GLP 1 directly destroys skeletal muscle",
+      "Reduced energy and protein intake can accompany weight loss",
+      "GLP 1 permanently inhibits muscle protein synthesis",
+      "GLP 1 increases muscle breakdown in every individual",
     ],
     answer: 1,
     rationale:
-      "Vegetarian diets can meet protein targets, but the sources need to be deliberately dense given the smaller volumes tolerated. Dal, paneer, curd, soya, tofu and legumes at every meal, with a supplement where intake still falls short, is the practical route.",
+      "The medication does not act on muscle tissue. Lean mass is lost because a large energy deficit combined with reduced protein intake removes the stimulus needed to maintain it, which happens with substantial weight loss by any method. This is exactly why the nutrition plan and resistance training matter, and it is where the dietitian's work makes the difference.",
   },
   {
     id: 20,
-    q: "A member's weight has been stable for three weeks despite good adherence. What is the appropriate first step?",
+    q: "What is one of the major effects of GLP 1 receptor activation?",
     options: [
-      "Tell them to skip meals to break the plateau",
-      "Review intake, protein, activity and sleep, and reassure them that plateaus are a normal part of the process",
-      "Advise an immediate dose increase",
-      "Discharge them from the programme",
+      "Increased appetite",
+      "Increased satiety",
+      "Increased gastric emptying",
+      "Increased glucagon secretion",
     ],
     answer: 1,
     rationale:
-      "Plateaus are expected as the body adapts. The dietitian reviews what is within scope \u2014 actual intake, protein adequacy, activity, sleep and stress \u2014 and reassures. Severe restriction is counterproductive, and any dose question goes to the doctor.",
+      "GLP-1 receptor activation increases satiety, slows rather than speeds gastric emptying, and suppresses rather than increases glucagon secretion. Options A, C and D each state the opposite of the actual effect.",
+  },
+  {
+    id: 21,
+    q: "Why can reduced appetite during GLP 1 therapy increase the risk of inadequate nutritional intake?",
+    options: [
+      "Appetite suppression selectively reduces carbohydrate absorption",
+      "Reduced food intake can decrease protein, energy and micronutrient intake",
+      "GLP 1 therapy prevents absorption of all micronutrients",
+      "Appetite suppression directly increases nutrient requirements",
+    ],
+    answer: 1,
+    rationale:
+      "The effect is on how much is eaten, not on how well nutrients are absorbed. A sustained drop in total intake risks shortfalls in protein, energy and micronutrients such as iron, B12 and calcium. Meals should therefore be planned for nutrient density rather than volume, since the volume tolerated is now smaller.",
   },
 ];
