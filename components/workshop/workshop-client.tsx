@@ -81,7 +81,11 @@ export function WorkshopClient() {
     const el = document.getElementById("workshop-recaptcha");
     if (!el) return null;
     try {
+      // A failed attempt can leave a verifier bound to this element, and
+      // Firebase then refuses to render a second one into it. Clearing the
+      // node first makes a retry work instead of erroring.
       el.innerHTML = "";
+      (window as any).grecaptcha?.reset?.();
       const v = new RecaptchaVerifier(auth, "workshop-recaptcha", {
         size: "invisible",
         callback: () => {},
@@ -447,7 +451,7 @@ export function WorkshopClient() {
                   <input
                     value={phone}
                     onChange={(e) =>
-                      setPhone(e.target.value.replace(/\D/g, "").slice(0, 12))
+                      setPhone(e.target.value.replace(/\D/g, "").replace(/^0+/, "").slice(0, 12))
                     }
                     inputMode="numeric"
                     placeholder="Mobile number"
