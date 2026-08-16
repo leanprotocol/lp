@@ -14,7 +14,7 @@ import {
   normalisePhone,
   normaliseName,
   normaliseEmail,
-  isValidIndianPhone,
+  isValidPhone,
   isValidName,
   isValidEmail,
 } from "@/lib/workshop/session";
@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
     }
 
     const phone = normalisePhone(decoded.phone_number);
-    if (!isValidIndianPhone(phone)) {
+    if (!isValidPhone(phone)) {
       return NextResponse.json(
         { error: "Unsupported phone number" },
         { status: 400 }

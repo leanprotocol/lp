@@ -19,18 +19,30 @@ export type SessionData = {
   email: string;
 };
 
-/** Digits only, with the country code, e.g. 919650491267 */
+/**
+ * Digits only, including the country code, e.g. 919650491267.
+ * A bare 10-digit number is assumed to be Indian, which keeps every row
+ * written before international support was added consistent with new ones.
+ */
 export function normalisePhone(raw: string): string {
-  const digits = (raw || "").replace(/\D/g, "");
+  let digits = (raw || "").replace(/\D/g, "");
+  digits = digits.replace(/^0+/, "");
   if (digits.length === 10) return "91" + digits;
-  if (digits.length === 12 && digits.startsWith("91")) return digits;
-  if (digits.length === 13 && digits.startsWith("091")) return digits.slice(1);
   return digits;
 }
 
-export function isValidIndianPhone(phone: string): boolean {
-  return /^91[6-9]\d{9}$/.test(phone);
+/**
+ * Accepts any international number in E.164 form without the plus:
+ * 1 to 3 digits of country code plus the subscriber number, 8 to 15 digits
+ * in total. Firebase performs the authoritative check when it sends the
+ * code, so this only needs to reject obvious nonsense.
+ */
+export function isValidPhone(phone: string): boolean {
+  return /^\d{8,15}$/.test(phone);
 }
+
+/** Kept so older imports do not break. */
+export const isValidIndianPhone = isValidPhone;
 
 export function normaliseName(raw: string): string {
   return (raw || "").trim().replace(/\s+/g, " ");
@@ -46,9 +58,7 @@ export function isValidEmail(email: string): boolean {
 
 export function isValidName(name: string): boolean {
   return (
-    name.length >= 2 &&
-    name.length <= 60 &&
-    /^[\p{L}\p{M}.'\- ]+$/u.test(name)
+    name.length >= 2 && name.length <= 60 && /^[\p{L}\p{M}.'\- ]+$/u.test(name)
   );
 }
 

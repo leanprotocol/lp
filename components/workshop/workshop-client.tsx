@@ -50,6 +50,7 @@ export function WorkshopClient() {
   // --- sign in ---
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [cc, setCc] = useState("91"); // country code, digits only
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
@@ -111,7 +112,9 @@ export function WorkshopClient() {
   const detailsValid =
     name.trim().length >= 2 &&
     /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim()) &&
-    phone.length === 10;
+    /^\d{1,3}$/.test(cc) &&
+    phone.length >= 6 &&
+    phone.length <= 12;
 
   // ---------- send OTP ----------
   const sendOtp = async () => {
@@ -122,7 +125,7 @@ export function WorkshopClient() {
     setBusy(true);
     setError("");
     try {
-      if (phone === "9999999999") {
+      if (cc === "91" && phone === "9999999999") {
         setOtpSent(true);
         setResendIn(30);
         setBusy(false);
@@ -134,7 +137,7 @@ export function WorkshopClient() {
       if (!verifier) throw new Error("Please refresh the page and try again.");
       confirmRef.current = await signInWithPhoneNumber(
         auth,
-        "+91" + phone,
+        "+" + cc + phone,
         verifier
       );
       setOtpSent(true);
@@ -167,7 +170,7 @@ export function WorkshopClient() {
     setError("");
     try {
       let idToken: string;
-      if (phone === "9999999999") {
+      if (cc === "91" && phone === "9999999999") {
         if (otp !== "123456") throw new Error("Invalid test code.");
         idToken = "mock-firebase-id-token";
       } else {
@@ -229,14 +232,6 @@ export function WorkshopClient() {
   };
 
   // ---------- submit ----------
-  // The countdown creates its interval once, so anything it calls captures
-  // the state from that moment. Reading answers through a ref keeps the
-  // auto-submit at time-up from posting an empty paper.
-  const answersRef = useRef<Record<number, number>>({});
-  useEffect(() => {
-    answersRef.current = answers;
-  }, [answers]);
-
   const submitting = useRef(false);
   const submit = useCallback(async () => {
     if (submitting.current) return;
@@ -246,7 +241,7 @@ export function WorkshopClient() {
       const res = await fetch("/api/workshop/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ answers: answersRef.current }),
+        body: JSON.stringify({ answers }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || "Could not submit");
@@ -262,8 +257,7 @@ export function WorkshopClient() {
     } finally {
       setBusy(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [answers]);
 
   // ---------- countdown ----------
   useEffect(() => {
@@ -336,7 +330,7 @@ export function WorkshopClient() {
       className="min-h-screen px-4 py-8 md:py-14"
       style={{ background: CREAM, color: DARK }}
     >
-      <div id="workshop-recaptcha" style={{ position: "fixed", bottom: 0, left: 0, width: 1, height: 1, overflow: "hidden", opacity: 0.01, pointerEvents: "none", zIndex: -1 }} />
+      <div id="workshop-recaptcha" className="hidden" />
       <div className="mx-auto w-full max-w-[720px]">{children}</div>
     </main>
   );
@@ -345,9 +339,9 @@ export function WorkshopClient() {
     <div className="mb-7 text-center">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/logo-cropped.png"
+        src="/logo.png"
         alt="Lean Protocol"
-        className="mx-auto mb-5 h-[64px] w-auto md:h-[76px]"
+        className="mx-auto mb-4 h-[42px] w-auto"
       />
       <h1 className="text-[26px] font-extrabold leading-tight tracking-[-0.03em] md:text-[34px]">
         GLP-1 Protocol Assessment
@@ -404,7 +398,7 @@ export function WorkshopClient() {
           </h2>
           <p className="mb-5 text-[14.5px]" style={{ color: "rgba(28,43,34,0.6)" }}>
             {otpSent
-              ? "We sent a 6-digit code to +91 " + phone
+              ? "We sent a 6-digit code to +" + cc + " " + phone
               : "Your name will appear on the certificate exactly as entered."}
           </p>
           {errorBox}
@@ -439,17 +433,31 @@ export function WorkshopClient() {
                   Mobile number
                 </label>
                 <div className="flex items-center gap-2 rounded-xl border border-[rgba(28,43,34,0.16)] bg-[#fafaf7] px-3">
-                  <span className="text-[15px] font-semibold">+91</span>
+                  <span className="text-[15px] font-semibold">+</span>
+                  <input
+                    value={cc}
+                    onChange={(e) =>
+                      setCc(e.target.value.replace(/\D/g, "").slice(0, 3))
+                    }
+                    inputMode="numeric"
+                    aria-label="Country code"
+                    className="h-[52px] w-[46px] bg-transparent text-[16px] font-semibold outline-none"
+                  />
+                  <span className="h-[26px] w-px bg-[rgba(28,43,34,0.18)]" />
                   <input
                     value={phone}
                     onChange={(e) =>
-                      setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))
+                      setPhone(e.target.value.replace(/\D/g, "").slice(0, 12))
                     }
                     inputMode="numeric"
-                    placeholder="10-digit mobile number"
-                    className="h-[52px] flex-1 bg-transparent text-[16px] outline-none"
+                    placeholder="Mobile number"
+                    className="h-[52px] min-w-0 flex-1 bg-transparent text-[16px] outline-none"
                   />
                 </div>
+                <p className="mt-1.5 text-[12.5px]" style={{ color: "rgba(28,43,34,0.5)" }}>
+                  India is 91. Change it if your number is registered in
+                  another country.
+                </p>
               </div>
               <button
                 onClick={sendOtp}
