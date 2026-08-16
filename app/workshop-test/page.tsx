@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 // app/workshop-test/page.tsx
 // Dietitian onboarding assessment. Everything runs as one client component
 // with internal states, so nothing navigates mid-test and no answers can be
@@ -16,5 +17,7 @@ export const metadata: Metadata = {
 };
 
 export default function WorkshopTestPage() {
-  return <WorkshopClient />;
+  // Assessment closed after the 16 Aug 2026 workshop.
+  // To reopen: delete the notFound() call and the import above.
+  notFound();
 }
