@@ -81,7 +81,7 @@ export async function findExistingIdentity(
     FROM workshop_attempt
     WHERE phone = ${phone}
        OR (${email} <> '' AND lower(email) = ${email})
-       OR (${name} <> '' AND lower(regexp_replace(name, '\\s+', ' ', 'g')) = ${name.toLowerCase()})
+
     LIMIT 1
   `) as Attempt[];
 
