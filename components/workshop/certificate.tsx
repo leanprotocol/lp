@@ -16,8 +16,8 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const NAME_Y = 0.46; // baseline, in the clear space inside the wreath
-const DATE_Y = 0.515; // small date under the name
+const NAME_Y = 0.55; // baseline, in the clear space inside the wreath
+const DATE_Y = 0.62; // small date under the name
 const SIGN_BOTTOM_Y = 0.845; // just above the printed signature rule
 const NAME_MAX_WIDTH = 0.66; // of canvas width
 const DARK = "#193231";
@@ -74,13 +74,6 @@ export function Certificate({
 
       ctx.drawImage(bg, 0, 0, W, H);
       ctx.textAlign = "center";
-
-      // ---- company logo, above the title ----
-      if (logo) {
-        const lw = W * 0.13;
-        const lh = (logo.naturalHeight / logo.naturalWidth) * lw;
-        ctx.drawImage(logo, (W - lw) / 2, H * 0.075, lw, lh);
-      }
 
       // ---- participant name ----
       // Shrinks to fit rather than overflowing the wreath on long names.
