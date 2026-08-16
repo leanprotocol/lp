@@ -16,6 +16,8 @@ export function Hero() {
         src={C.hero.bgImage}
         alt=""
         aria-hidden
+        fetchPriority="high"
+        decoding="async"
         className="gw-ken absolute inset-0 h-full w-full object-cover"
         style={{ objectPosition: "60% 30%" }}
       />
