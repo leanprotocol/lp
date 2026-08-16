@@ -336,7 +336,7 @@ export function WorkshopClient() {
       className="min-h-screen px-4 py-8 md:py-14"
       style={{ background: CREAM, color: DARK }}
     >
-      <div id="workshop-recaptcha" className="hidden" />
+      <div id="workshop-recaptcha" style={{ position: "fixed", bottom: 0, left: 0, width: 1, height: 1, overflow: "hidden", opacity: 0.01, pointerEvents: "none", zIndex: -1 }} />
       <div className="mx-auto w-full max-w-[720px]">{children}</div>
     </main>
   );
