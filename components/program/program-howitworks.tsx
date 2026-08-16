@@ -39,7 +39,7 @@ export default function ProgramHowItWorks() {
       <div 
         className="absolute inset-0 opacity-[4%] z-0"
         style={{
-          backgroundImage: 'url(/white-pattern.png)',
+          backgroundImage: 'url(/white-pattern.webp)',
           backgroundSize: 'contain',
           backgroundPosition: 'top',
           backgroundRepeat: 'no-repeat'

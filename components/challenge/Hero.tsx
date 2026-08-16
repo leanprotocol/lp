@@ -109,7 +109,7 @@ const [cohort, setCohort] = useState<{ slots: number; dateLabel: string } | null
           </ul>
           <div className="hero-trust">
             <div className="avatars">
-              {["atreyee-transformation.jpeg", "image4.png", "member7.png", "member8.jpg"].map((f, i) => (
+              {["atreyee-transformation.jpeg", "image4.webp", "member7.webp", "member8.jpg"].map((f, i) => (
                 <span key={i} style={{ backgroundImage: `url(/challenge/avatars/${f})`, backgroundSize: "cover", backgroundPosition: "center" }}></span>
               ))}
             </div>{" "}
