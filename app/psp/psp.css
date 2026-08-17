@@ -1,0 +1,1156 @@
+/* app/psp/psp.css
+   Scoped to .psp-page so nothing here can affect the consumer site.
+   Tokens are the live Lean Protocol brand values. Fonts come from the
+   root layout: --font-sans (Inter), --font-serif (Libre Baskerville). */
+
+.psp-page {
+  --p-forest: #193231;
+  --p-ivory: #f9f7f2;
+  --p-warm: #f6f1ee;
+  --p-sage: #c8d9a7;
+  --p-sage-muted: #a8beb7;
+  --p-gold: #c9a84c;
+  --p-black: #0e0e0f;
+  --p-green: #2d5a4e;
+
+  --p-ink: #1c2b22;
+  --p-ink-60: rgba(28, 43, 34, 0.62);
+  --p-ink-45: rgba(28, 43, 34, 0.45);
+  --p-line: rgba(28, 43, 34, 0.12);
+
+  --p-sans: var(--font-sans), system-ui, sans-serif;
+  --p-serif: var(--font-serif), Georgia, serif;
+
+  --p-max: 1240px;
+  --p-radius: 20px;
+
+  background: var(--p-warm);
+  color: var(--p-ink);
+  font-family: var(--p-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.psp-page *,
+.psp-page *::before,
+.psp-page *::after {
+  box-sizing: border-box;
+}
+
+/* ---------- layout ---------- */
+.psp-page .wrap {
+  width: 100%;
+  max-width: var(--p-max);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+@media (min-width: 768px) {
+  .psp-page .wrap {
+    padding: 0 32px;
+  }
+}
+
+.psp-page .sec {
+  padding: 64px 0;
+}
+@media (min-width: 768px) {
+  .psp-page .sec {
+    padding: 104px 0;
+  }
+}
+.psp-page .sec-ivory {
+  background: var(--p-ivory);
+}
+.psp-page .sec-forest {
+  background: var(--p-forest);
+  color: var(--p-ivory);
+}
+.psp-page .sec-black {
+  background: var(--p-black);
+  color: var(--p-ivory);
+}
+
+/* ---------- type ---------- */
+.psp-page .eyebrow {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--p-green);
+  margin: 0 0 14px;
+}
+.psp-page .sec-forest .eyebrow,
+.psp-page .sec-black .eyebrow {
+  color: var(--p-sage);
+}
+
+.psp-page h1 {
+  font-size: clamp(34px, 6vw, 62px);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  font-weight: 800;
+  margin: 0 0 20px;
+  max-width: 18ch;
+}
+.psp-page h2 {
+  font-size: clamp(26px, 3.6vw, 44px);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  font-weight: 800;
+  margin: 0 0 16px;
+  max-width: 24ch;
+}
+.psp-page h3 {
+  font-size: 18px;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+.psp-page .lede {
+  font-size: clamp(16px, 1.7vw, 19px);
+  line-height: 1.6;
+  color: var(--p-ink-60);
+  max-width: 62ch;
+  margin: 0 0 8px;
+}
+.psp-page .sec-forest .lede,
+.psp-page .sec-black .lede {
+  color: var(--p-sage-muted);
+}
+.psp-page .serif-em {
+  font-family: var(--p-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--p-green);
+}
+.psp-page .sec-forest .serif-em,
+.psp-page .sec-black .serif-em {
+  color: var(--p-sage);
+}
+.psp-page .fine {
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--p-ink-45);
+}
+.psp-page .sec-forest .fine,
+.psp-page .sec-black .fine {
+  color: rgba(168, 190, 183, 0.7);
+}
+
+/* ---------- buttons ---------- */
+.psp-page .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1.5px solid transparent;
+  border-radius: 100px;
+  padding: 14px 26px;
+  font-family: inherit;
+  font-size: 15.5px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.psp-page .btn-primary {
+  background: var(--p-sage);
+  color: var(--p-forest);
+}
+.psp-page .btn-primary:hover {
+  background: #d6e3bb;
+}
+.psp-page .btn-solid {
+  background: var(--p-green);
+  color: #fff;
+}
+.psp-page .btn-solid:hover {
+  background: var(--p-forest);
+}
+.psp-page .btn-ghost {
+  border-color: rgba(28, 43, 34, 0.24);
+  color: var(--p-ink);
+  background: transparent;
+}
+.psp-page .btn-ghost:hover {
+  border-color: var(--p-green);
+  color: var(--p-green);
+}
+.psp-page .sec-forest .btn-ghost,
+.psp-page .sec-black .btn-ghost {
+  border-color: rgba(249, 247, 242, 0.32);
+  color: var(--p-ivory);
+}
+.psp-page .sec-forest .btn-ghost:hover,
+.psp-page .sec-black .btn-ghost:hover {
+  border-color: var(--p-sage);
+  color: var(--p-sage);
+}
+.psp-page .btn:focus-visible,
+.psp-page a:focus-visible,
+.psp-page button:focus-visible,
+.psp-page input:focus-visible,
+.psp-page select:focus-visible,
+.psp-page textarea:focus-visible {
+  outline: 3px solid var(--p-green);
+  outline-offset: 2px;
+}
+.psp-page .sec-forest a:focus-visible,
+.psp-page .sec-black a:focus-visible {
+  outline-color: var(--p-sage);
+}
+
+/* ---------- header ---------- */
+.psp-page .hdr {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: rgba(25, 50, 49, 0.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(249, 247, 242, 0.1);
+}
+.psp-page .hdr-in {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 14px 20px;
+  max-width: var(--p-max);
+  margin: 0 auto;
+}
+@media (min-width: 768px) {
+  .psp-page .hdr-in {
+    padding: 16px 32px;
+  }
+}
+.psp-page .hdr-logo img {
+  height: 34px;
+  width: auto;
+  display: block;
+}
+.psp-page .hdr-nav {
+  display: none;
+  gap: 22px;
+  margin-left: auto;
+}
+@media (min-width: 1100px) {
+  .psp-page .hdr-nav {
+    display: flex;
+  }
+}
+.psp-page .hdr-nav a {
+  color: var(--p-sage-muted);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.psp-page .hdr-nav a:hover {
+  color: var(--p-ivory);
+}
+.psp-page .hdr-cta {
+  margin-left: auto;
+  padding: 10px 20px;
+  font-size: 14px;
+}
+@media (min-width: 1100px) {
+  .psp-page .hdr-cta {
+    margin-left: 0;
+  }
+}
+.psp-page .hdr-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(249, 247, 242, 0.28);
+  background: transparent;
+  color: var(--p-ivory);
+  cursor: pointer;
+}
+@media (min-width: 1100px) {
+  .psp-page .hdr-toggle {
+    display: none;
+  }
+}
+.psp-page .hdr-drawer {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 20px 18px;
+  border-top: 1px solid rgba(249, 247, 242, 0.1);
+}
+.psp-page .hdr-drawer a {
+  color: var(--p-sage-muted);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 11px 0;
+}
+
+/* ---------- hero ---------- */
+.psp-page .hero {
+  background: linear-gradient(180deg, var(--p-forest) 0%, #12241f 100%);
+  color: var(--p-ivory);
+  padding: 56px 0 0;
+}
+@media (min-width: 900px) {
+  .psp-page .hero {
+    padding: 88px 0 0;
+  }
+}
+.psp-page .hero h1 {
+  color: var(--p-ivory);
+}
+.psp-page .hero-grid {
+  display: grid;
+  gap: 36px;
+}
+@media (min-width: 900px) {
+  .psp-page .hero-grid {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: clamp(32px, 4vw, 64px);
+    align-items: center;
+  }
+}
+.psp-page .hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 26px 0 14px;
+}
+.psp-page .trust-strip {
+  border-top: 1px solid rgba(249, 247, 242, 0.12);
+  margin-top: 44px;
+  padding: 18px 0 22px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 26px;
+}
+.psp-page .trust-strip span {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--p-sage-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.psp-page .trust-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--p-gold);
+  flex: none;
+}
+
+/* ---------- media placeholder ---------- */
+.psp-page .figure-slot {
+  position: relative;
+  border-radius: var(--p-radius);
+  overflow: hidden;
+  background: rgba(249, 247, 242, 0.05);
+  border: 1px solid rgba(200, 217, 167, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+  min-height: 260px;
+}
+.psp-page .figure-slot img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.psp-page .figure-slot-note {
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(168, 190, 183, 0.75);
+  max-width: 34ch;
+}
+.psp-page .sec-ivory .figure-slot {
+  background: rgba(28, 43, 34, 0.03);
+  border-color: rgba(45, 90, 78, 0.28);
+}
+.psp-page .sec-ivory .figure-slot-note {
+  color: var(--p-ink-45);
+}
+
+/* ---------- cards ---------- */
+.psp-page .grid {
+  display: grid;
+  gap: 16px;
+}
+.psp-page .g2 {
+  grid-template-columns: 1fr;
+}
+.psp-page .g3 {
+  grid-template-columns: 1fr;
+}
+.psp-page .g4 {
+  grid-template-columns: 1fr;
+}
+@media (min-width: 700px) {
+  .psp-page .g2,
+  .psp-page .g4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .psp-page .g3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1000px) {
+  .psp-page .g3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .psp-page .g4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.psp-page .card {
+  background: #fff;
+  border: 1px solid var(--p-line);
+  border-radius: var(--p-radius);
+  padding: 24px;
+}
+.psp-page .sec-forest .card,
+.psp-page .sec-black .card {
+  background: rgba(249, 247, 242, 0.04);
+  border-color: rgba(249, 247, 242, 0.12);
+  color: var(--p-ivory);
+}
+.psp-page .card p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--p-ink-60);
+}
+.psp-page .sec-forest .card p,
+.psp-page .sec-black .card p {
+  color: var(--p-sage-muted);
+}
+.psp-page .card-num {
+  font-family: var(--p-serif);
+  font-size: 14px;
+  color: var(--p-gold);
+  margin-bottom: 10px;
+  display: block;
+}
+
+.psp-page .ticks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.psp-page .ticks li {
+  display: flex;
+  gap: 10px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--p-ink-60);
+}
+.psp-page .sec-forest .ticks li,
+.psp-page .sec-black .ticks li {
+  color: var(--p-sage-muted);
+}
+.psp-page .ticks li::before {
+  content: "";
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--p-sage);
+  margin-top: 8px;
+}
+.psp-page .sec-ivory .ticks li::before {
+  background: var(--p-green);
+}
+
+.psp-page .callout {
+  border-left: 3px solid var(--p-gold);
+  padding: 14px 0 14px 18px;
+  margin-top: 28px;
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 70ch;
+  color: var(--p-ink-60);
+}
+.psp-page .sec-forest .callout,
+.psp-page .sec-black .callout {
+  color: var(--p-sage-muted);
+}
+
+.psp-page .note-box {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(201, 168, 76, 0.1);
+  font-size: 13px;
+  line-height: 1.55;
+  color: #7a6320;
+}
+.psp-page .sec-forest .note-box,
+.psp-page .sec-black .note-box {
+  background: rgba(201, 168, 76, 0.14);
+  color: #e3cf95;
+}
+
+/* ---------- tabs ---------- */
+.psp-page .tablist {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+.psp-page .tab {
+  border: 1.5px solid var(--p-line);
+  background: #fff;
+  color: var(--p-ink-60);
+  border-radius: 100px;
+  padding: 10px 20px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.psp-page .tab[aria-selected="true"] {
+  background: var(--p-forest);
+  border-color: var(--p-forest);
+  color: var(--p-ivory);
+}
+
+/* ---------- journey ---------- */
+.psp-page .journey-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.psp-page .jstep {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 14px;
+  padding-bottom: 22px;
+  position: relative;
+}
+.psp-page .jstep:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 16px;
+  top: 32px;
+  bottom: 0;
+  width: 2px;
+  background: rgba(200, 217, 167, 0.3);
+}
+.psp-page .jnum {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid var(--p-sage);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--p-sage);
+  background: var(--p-forest);
+  position: relative;
+  z-index: 1;
+}
+.psp-page .jbody {
+  font-size: 15px;
+  line-height: 1.5;
+  padding-top: 6px;
+  color: var(--p-ivory);
+}
+@media (min-width: 1000px) {
+  .psp-page .journey-rail {
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 0;
+    padding-bottom: 8px;
+    scrollbar-width: none;
+  }
+  .psp-page .journey-rail::-webkit-scrollbar {
+    display: none;
+  }
+  .psp-page .jstep {
+    grid-template-columns: 1fr;
+    grid-template-rows: 34px 1fr;
+    gap: 14px;
+    min-width: 190px;
+    flex: 1;
+    padding: 0 14px 0 0;
+  }
+  .psp-page .jstep:not(:last-child)::before {
+    left: 34px;
+    right: 0;
+    top: 16px;
+    bottom: auto;
+    width: auto;
+    height: 2px;
+  }
+  .psp-page .jbody {
+    padding-top: 0;
+    font-size: 14px;
+  }
+}
+
+/* ---------- dashboard mock ---------- */
+.psp-page .dash {
+  background: #fff;
+  border: 1px solid var(--p-line);
+  border-radius: var(--p-radius);
+  overflow: hidden;
+}
+.psp-page .dash-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  background: var(--p-forest);
+  color: var(--p-ivory);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.psp-page .dash-tag {
+  margin-left: auto;
+  background: var(--p-gold);
+  color: var(--p-black);
+  border-radius: 100px;
+  padding: 3px 10px;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+}
+.psp-page .dash-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--p-line);
+}
+@media (min-width: 700px) {
+  .psp-page .dash-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.psp-page .dash-cell {
+  background: #fff;
+  padding: 16px 18px;
+  min-height: 78px;
+}
+.psp-page .dash-cell span {
+  display: block;
+  font-size: 11.5px;
+  color: var(--p-ink-45);
+  line-height: 1.35;
+}
+.psp-page .dash-cell b {
+  display: block;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+  color: var(--p-green);
+  margin-top: 6px;
+}
+
+/* ---------- evidence bars ---------- */
+.psp-page .bar-row {
+  margin-bottom: 14px;
+}
+.psp-page .bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: var(--p-ink-60);
+}
+.psp-page .bar-track {
+  height: 12px;
+  border-radius: 100px;
+  background: rgba(28, 43, 34, 0.09);
+  overflow: hidden;
+}
+.psp-page .bar-fill {
+  height: 100%;
+  border-radius: 100px;
+  background: var(--p-green);
+}
+.psp-page .bar-fill.alt {
+  background: var(--p-sage-muted);
+}
+.psp-page .stat-lg {
+  font-size: clamp(38px, 5vw, 54px);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  color: var(--p-green);
+  line-height: 1;
+}
+.psp-page .src {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--p-green);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ---------- form ---------- */
+.psp-page .field {
+  margin-bottom: 14px;
+}
+.psp-page .field label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--p-ink-60);
+  margin-bottom: 6px;
+}
+.psp-page .field input,
+.psp-page .field select,
+.psp-page .field textarea {
+  width: 100%;
+  border: 1px solid rgba(28, 43, 34, 0.18);
+  border-radius: 12px;
+  background: #fbfaf7;
+  padding: 13px 14px;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--p-ink);
+}
+.psp-page .field textarea {
+  min-height: 108px;
+  resize: vertical;
+}
+.psp-page .field-err input,
+.psp-page .field-err select,
+.psp-page .field-err textarea {
+  border-color: #a02525;
+}
+.psp-page .err {
+  display: block;
+  margin-top: 5px;
+  font-size: 12.5px;
+  color: #a02525;
+}
+.psp-page .form-grid {
+  display: grid;
+  gap: 0 14px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 700px) {
+  .psp-page .form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .psp-page .form-grid .span2 {
+    grid-column: span 2;
+  }
+}
+
+/* ---------- accordion ---------- */
+.psp-page .acc {
+  border: 1px solid var(--p-line);
+  background: #fff;
+  border-radius: 16px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.psp-page .acc-btn {
+  width: 100%;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: space-between;
+  background: none;
+  border: 0;
+  padding: 18px 20px;
+  font-family: inherit;
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--p-ink);
+  text-align: left;
+  cursor: pointer;
+}
+.psp-page .acc-panel {
+  padding: 0 20px 18px;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--p-ink-60);
+  max-width: 78ch;
+}
+
+/* ---------- footer ---------- */
+.psp-page .ftr {
+  background: var(--p-black);
+  color: rgba(249, 247, 242, 0.72);
+  padding: 48px 0 34px;
+}
+.psp-page .ftr a {
+  color: rgba(249, 247, 242, 0.72);
+  text-decoration: none;
+  font-size: 14px;
+}
+.psp-page .ftr a:hover {
+  color: var(--p-sage);
+}
+
+/* ---------- reveal ---------- */
+.psp-page .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.65s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.65s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.psp-page .reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .psp-page .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .psp-page * {
+    scroll-behavior: auto !important;
+  }
+}
+
+.psp-page .skip {
+  position: absolute;
+  left: -9999px;
+}
+.psp-page .skip:focus {
+  left: 20px;
+  top: 12px;
+  z-index: 100;
+  background: var(--p-sage);
+  color: var(--p-forest);
+  padding: 10px 16px;
+  border-radius: 8px;
+}
+
+/* Form on a dark section: labels default to dark ink, which disappears
+   against forest. Lift them to ivory, with gold for error states. */
+.psp-page .sec-forest .field label,
+.psp-page .sec-black .field label {
+  color: var(--p-ivory);
+}
+.psp-page .sec-forest .field input,
+.psp-page .sec-forest .field select,
+.psp-page .sec-forest .field textarea,
+.psp-page .sec-black .field input,
+.psp-page .sec-black .field select,
+.psp-page .sec-black .field textarea {
+  background: #fbfaf7;
+  color: var(--p-ink);
+  border-color: rgba(249, 247, 242, 0.24);
+}
+.psp-page .sec-forest .field-err label,
+.psp-page .sec-black .field-err label {
+  color: var(--p-gold);
+}
+.psp-page .sec-forest .err,
+.psp-page .sec-black .err {
+  color: #f0a5a5;
+}
+.psp-page .sec-forest .consent,
+.psp-page .sec-black .consent {
+  color: var(--p-ivory);
+}
+/* Diagram variant: show the whole image rather than cropping it, and
+   carry the node labels as real text beneath so they are readable,
+   translatable and available to screen readers. */
+.psp-page .figure-contain {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  min-height: 0;
+  border-radius: var(--p-radius);
+  overflow: hidden;
+  background: rgba(249, 247, 242, 0.04);
+  border: 1px solid rgba(200, 217, 167, 0.18);
+}
+.psp-page .figure-contain img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 10px;
+}
+.psp-page .arch-labels {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+  list-style: none;
+  padding: 0;
+}
+@media (min-width: 620px) {
+  .psp-page .arch-labels {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+.psp-page .arch-labels li {
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--p-sage-muted);
+  text-align: center;
+  border-top: 2px solid rgba(201, 168, 76, 0.5);
+  padding-top: 8px;
+}
+.psp-page .arch-labels b {
+  display: block;
+  color: var(--p-ivory);
+  font-size: 12.5px;
+  margin-bottom: 2px;
+}
+/* ==================================================================
+   Motion. Appended to app/psp/psp.css
+   Everything here is disabled under prefers-reduced-motion at the end
+   of this block.
+   ================================================================== */
+
+/* Anchor navigation glides rather than jumping, with padding so the
+   sticky header does not cover the section heading. */
+.psp-page {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+}
+
+/* Reveal: slightly longer travel and a softer curve than the default. */
+.psp-page .reveal {
+  transform: translateY(26px);
+  transition:
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Stagger: children of a revealed block arrive in sequence rather than
+   all at once. Applied to card grids. */
+.psp-page .reveal .grid > *,
+.psp-page .reveal .journey-rail > * {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.psp-page .reveal.in .grid > *,
+.psp-page .reveal.in .journey-rail > * {
+  opacity: 1;
+  transform: none;
+}
+.psp-page .reveal.in .grid > *:nth-child(1),
+.psp-page .reveal.in .journey-rail > *:nth-child(1) { transition-delay: 0.04s; }
+.psp-page .reveal.in .grid > *:nth-child(2),
+.psp-page .reveal.in .journey-rail > *:nth-child(2) { transition-delay: 0.1s; }
+.psp-page .reveal.in .grid > *:nth-child(3),
+.psp-page .reveal.in .journey-rail > *:nth-child(3) { transition-delay: 0.16s; }
+.psp-page .reveal.in .grid > *:nth-child(4),
+.psp-page .reveal.in .journey-rail > *:nth-child(4) { transition-delay: 0.22s; }
+.psp-page .reveal.in .grid > *:nth-child(5),
+.psp-page .reveal.in .journey-rail > *:nth-child(5) { transition-delay: 0.28s; }
+.psp-page .reveal.in .grid > *:nth-child(6),
+.psp-page .reveal.in .journey-rail > *:nth-child(6) { transition-delay: 0.34s; }
+.psp-page .reveal.in .journey-rail > *:nth-child(n + 7) { transition-delay: 0.4s; }
+
+/* Cards lift on hover. Pointer devices only, so touch does not get a
+   stuck hover state. */
+@media (hover: hover) {
+  .psp-page .card {
+    transition:
+      transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.35s ease,
+      box-shadow 0.35s ease;
+  }
+  .psp-page .sec-ivory .card:hover,
+  .psp-page .sec .card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(45, 90, 78, 0.34);
+    box-shadow: 0 18px 40px rgba(25, 50, 49, 0.1);
+  }
+  .psp-page .sec-forest .card:hover,
+  .psp-page .sec-black .card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(200, 217, 167, 0.4);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+  }
+}
+
+/* Buttons settle slightly on press. */
+.psp-page .btn {
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    color 0.2s,
+    transform 0.12s ease;
+}
+.psp-page .btn:active {
+  transform: translateY(1px);
+}
+
+/* Evidence bars grow from the left when their block is revealed. */
+.psp-page .bar-fill {
+  transform-origin: left center;
+}
+.psp-page .reveal.in .bar-fill {
+  animation: pspBar 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 0.25s;
+}
+@keyframes pspBar {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Journey connector draws in behind the numbered nodes. */
+.psp-page .reveal.in .jstep:not(:last-child)::before {
+  animation: pspLine 0.7s ease both;
+  animation-delay: 0.3s;
+}
+@keyframes pspLine {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Header gains weight once the page has scrolled. */
+.psp-page .hdr {
+  transition:
+    background 0.3s ease,
+    box-shadow 0.3s ease,
+    padding 0.3s ease;
+}
+.psp-page .hdr.scrolled {
+  background: rgba(14, 20, 17, 0.97);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+}
+.psp-page .hdr-nav a {
+  position: relative;
+  transition: color 0.2s ease;
+}
+.psp-page .hdr-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 2px;
+  background: var(--p-sage);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.psp-page .hdr-nav a:hover::after {
+  transform: scaleX(1);
+}
+
+/* Tabs and accordions cross-fade rather than snapping. */
+.psp-page [role="tabpanel"]:not([hidden]) {
+  animation: pspFade 0.35s ease both;
+}
+.psp-page .acc-panel:not([hidden]) {
+  animation: pspFade 0.3s ease both;
+}
+@keyframes pspFade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.psp-page .tab {
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
+}
+.psp-page .acc-btn {
+  transition: background 0.2s ease;
+}
+@media (hover: hover) {
+  .psp-page .acc-btn:hover {
+    background: rgba(45, 90, 78, 0.04);
+  }
+}
+
+/* Form fields respond as they gain focus. */
+.psp-page .field input,
+.psp-page .field select,
+.psp-page .field textarea {
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.psp-page .field input:focus,
+.psp-page .field select:focus,
+.psp-page .field textarea:focus {
+  border-color: var(--p-green);
+  box-shadow: 0 0 0 3px rgba(45, 90, 78, 0.14);
+}
+
+/* Hero content arrives on load rather than on scroll, since it is
+   already in view. */
+.psp-page .hero > .wrap > .hero-grid > div:first-child > * {
+  animation: pspIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.psp-page .hero > .wrap > .hero-grid > div:first-child > *:nth-child(1) { animation-delay: 0.05s; }
+.psp-page .hero > .wrap > .hero-grid > div:first-child > *:nth-child(2) { animation-delay: 0.13s; }
+.psp-page .hero > .wrap > .hero-grid > div:first-child > *:nth-child(3) { animation-delay: 0.21s; }
+.psp-page .hero > .wrap > .hero-grid > div:first-child > *:nth-child(4) { animation-delay: 0.29s; }
+.psp-page .hero > .wrap > .hero-grid > div:first-child > *:nth-child(5) { animation-delay: 0.37s; }
+.psp-page .hero > .wrap > .hero-grid > div:first-child > *:nth-child(6) { animation-delay: 0.45s; }
+.psp-page .hero .figure-slot,
+.psp-page .hero .figure-contain {
+  animation: pspIn 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 0.2s;
+}
+@keyframes pspIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---- reduced motion: everything above becomes static ---- */
+@media (prefers-reduced-motion: reduce) {
+  .psp-page,
+  .psp-page * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+  .psp-page .reveal,
+  .psp-page .reveal .grid > *,
+  .psp-page .reveal .journey-rail > *,
+  .psp-page .hero > .wrap > .hero-grid > div:first-child > *,
+  .psp-page .hero .figure-slot,
+  .psp-page .hero .figure-contain {
+    opacity: 1;
+    transform: none;
+  }
+  .psp-page .bar-fill {
+    transform: none;
+  }
+}
