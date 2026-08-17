@@ -461,7 +461,7 @@ export default function UsersFunnel() {
                 is likely to find you eligible.
               </p>
               <div className="shot" style={{ flex: 1, minHeight: 200, margin: "18px 0 2px" }}>
-                <img src="/journey/journey2.webp" alt="" style={{ objectPosition: "60% 22%" }} />
+                <img src="/journey/funnel-doctor-patient.webp" alt="" style={{ objectPosition: "50% 25%" }} />
                 <div className="shot-veil" />
                 <div className="shot-cap">Doctor-led from day one</div>
               </div>
