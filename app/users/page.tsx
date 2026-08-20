@@ -9,8 +9,8 @@
 
    Step order:
      0 intro | 1 reason | 2 target | 3 height | 4 weight
-     5 conditions | 6 timing | 7 loading | 8 projection | 9 BMI
-     10 register | 11 done                                                   */
+     5 timing | 6 loading | 7 projection | 8 BMI
+     9 register | 10 done                                                   */
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -22,8 +22,8 @@ const APPROX = "\u2248";
 
 const S = {
   INTRO: 0, REASON: 1, TARGET: 2, HEIGHT: 3, WEIGHT: 4,
-  CONDITIONS: 5, TIMING: 6, LOADING: 7, GRAPH: 8, BMI: 9,
-  REGISTER: 10, DONE: 11,
+  TIMING: 5, LOADING: 6, GRAPH: 7, BMI: 8,
+  REGISTER: 9, DONE: 10,
 } as const;
 
 const NONE = "None of these";
@@ -47,7 +47,7 @@ const QUESTIONS: Question[] = [
     multi: false,
     options: [
       "For better energy and performance",
-      "My doctor suggested it",
+      "My health expert suggested it",
       "For aesthetic reasons",
     ],
     img: "/journey/journey4.webp", caption: "Your why comes first",
@@ -59,13 +59,6 @@ const QUESTIONS: Question[] = [
     multi: false,
     options: ["2-5 kg", "5-10 kg", "10 kg or more"],
     img: "/journey/journey5.webp", caption: "Modelled on real outcomes",
-  },
-  {
-    step: S.CONDITIONS, key: "conditions",
-    title: "Any of these medical conditions?",
-    hint: `Select all that apply ${DASH} this is what a doctor reviews first.`,
-    multi: true,
-    options: ["Diabetes", "Hypertension", "Thyroid", "Fatty liver", "PCOS / PCOD", NONE],
   },
   {
     step: S.TIMING, key: "timing",
@@ -89,9 +82,16 @@ const STORIES = [
 ];
 
 const DOCTORS = [
-  { name: "Dr. Nishant Jain", role: "MD, DM (Endo)", img: "/lp-assets/experts/nishant.jpeg" },
-  { name: "Dr. Akhil Konduru", role: "MD, Internal Med", img: "/lp-assets/experts/akhil.jpeg" },
-  { name: "Aparna Tandon", role: "Weight Loss Dietitian", img: "/lp-assets/experts/aparna.jpeg" },
+  { name: "Alka Bharti", role: "GLP-1 Dietitian", img: "/lp-assets/experts/alka.jpeg" },
+  { name: "Richa Singh", role: "Yoga & Fat Loss", img: "/lp-assets/experts/richa-singh.jpeg" },
+  { name: "Aparna Tandon", role: "Weight Loss Expert", img: "/lp-assets/experts/aparna.jpeg" },
+];
+
+/* Fulfilment partners shown on the register step. */
+const PARTNERS = [
+  { name: "Redcliffe Labs", logo: "/lp-assets/logo-redcliffe.png", note: "Blood panels" },
+  { name: "MrMed", logo: "/lp-assets/logo-mrmed.jpg", note: "Medicine delivery" },
+  { name: "Cult.fit", logo: "/lp-assets/logo-cult.png", note: "Fitness" },
 ];
 
 const LOAD_MSGS = [
@@ -116,7 +116,7 @@ const BANDS = [
    end of a six-step funnel, and a wall of text is where people leave. */
 const BAND_CONTENT = [
   {
-    lead: "A low BMI needs a doctor to look at why first.",
+    lead: "A low BMI needs a health expert to look at why first.",
     body: "Weight loss is not the goal here. Thyroid, absorption and nutrition come first.",
     points: [
       "A GLP-1 protocol would not be appropriate.",
@@ -127,7 +127,7 @@ const BAND_CONTENT = [
     lead: "You are in the normal range, but where fat sits matters more than the number.",
     body: "A normal BMI can still hide visceral fat, which is what drives insulin resistance.",
     points: [
-      "Waist size tells a doctor more than BMI here.",
+      "Waist size tells a health expert more than BMI here.",
       "The panel reads insulin, HbA1c and lipids directly.",
     ],
   },
@@ -136,14 +136,14 @@ const BAND_CONTENT = [
     body: "It is also the window where intervention works best, while the changes are still reversible.",
     points: [
       "Eligibility usually needs BMI 27+ with a related condition.",
-      "Your doctor decides that from the panel, not from BMI.",
+      "Your health expert decides that from the panel, not from BMI.",
     ],
   },
   {
     lead: "At this range weight is likely affecting other systems already.",
     body: "Blood pressure, liver markers and glucose are often affected before symptoms show.",
     points: [
-      "BMI 30+ is the usual threshold a doctor considers.",
+      "BMI 30+ is the usual threshold a health expert considers.",
       "Any prescription still depends on your panel and history.",
     ],
   },
@@ -286,7 +286,7 @@ export default function UsersFunnel() {
 
   const qNumByStep: Record<number, number> = {
     [S.REASON]: 1, [S.TARGET]: 2, [S.HEIGHT]: 3,
-    [S.WEIGHT]: 4, [S.CONDITIONS]: 5, [S.TIMING]: 6,
+    [S.WEIGHT]: 4, [S.TIMING]: 5,
   };
   const qNum = qNumByStep[step] || 1;
   const showBar = step >= S.REASON && step <= S.TIMING;
@@ -431,7 +431,7 @@ export default function UsersFunnel() {
         {showBar && (
           <div className="prog">
             <div className="prog-bars">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
+              {[1, 2, 3, 4, 5].map((i) => (
                 <div
                   key={i}
                   className="prog-bar"
@@ -440,7 +440,7 @@ export default function UsersFunnel() {
               ))}
             </div>
             <div className="prog-meta">
-              <span>QUESTION 0{qNum} OF 06</span>
+              <span>QUESTION 0{qNum} OF 05</span>
               <span style={{ letterSpacing: ".04em" }}>{timeLeft}</span>
             </div>
           </div>
@@ -453,20 +453,20 @@ export default function UsersFunnel() {
             <div className="pane">
               <div className="badge">2-MINUTE ELIGIBILITY CHECK</div>
               <h1 className="q-h1">
-                India&apos;s doctor-led<br />
-                <span className="serif">expert-guided</span> fat-loss plan
+                India&apos;s <span className="serif">expert-guided</span><br />
+                fat-loss plan
               </h1>
               <p className="lede">
-                Six questions. We&apos;ll model your six-month curve and tell you if a doctor
+                Six questions. We&apos;ll model your six-month curve and tell you if a health expert
                 is likely to find you eligible.
               </p>
               <div className="shot" style={{ flex: 1, minHeight: 200, margin: "18px 0 2px" }}>
                 <img src="/journey/funnel-doctor-patient.webp" alt="" style={{ objectPosition: "50% 25%" }} />
                 <div className="shot-veil" />
-                <div className="shot-cap">Doctor-led from day one</div>
+                <div className="shot-cap">Expert-led from day one</div>
               </div>
               <div className="trust">
-                {["Doctor-led", "No medication without a prescription", "Money-back guarantee*"].map((t) => (
+                {["Expert-led", "Money-back guarantee*"].map((t) => (
                   <div className="trust-item" key={t}>
                     <span className="trust-tick">{TICK}</span>{t}
                   </div>
@@ -478,9 +478,8 @@ export default function UsersFunnel() {
                 </button>
               </div>
               <p className="fine">
-                *Screening only. Eligibility and any prescription are decided by a licensed
-                physician. Money-back guarantee applies to eligible 6-month programme members
-                and is subject to the terms.
+                *Money-back guarantee applies to eligible 6-month programme members and is
+                subject to the terms.
               </p>
             </div>
           )}
@@ -632,7 +631,7 @@ export default function UsersFunnel() {
             <div className="pane">
               <h2 className="q-h2">And what do you weigh today?</h2>
               <p className="q-hint" style={{ marginBottom: 30 }}>
-                Roughly is fine. Your blood panel is what the doctor actually reads.
+                Roughly is fine. Your blood panel is what our health experts actually read.
               </p>
               <div className="dial" style={{ borderRadius: 26, padding: "30px 24px", textAlign: "center" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 22 }}>
@@ -807,8 +806,7 @@ export default function UsersFunnel() {
                 </button>
               </div>
               <p className="fine" style={{ fontSize: 10.5, marginTop: 12 }}>
-                *Modelled from Lean Protocol member averages. Individual results vary with
-                medical assessment. Not a prediction or a guarantee of outcome.
+                *Individual results vary. Not a prediction or a guarantee of outcomes.
               </p>
             </div>
           )}
@@ -933,6 +931,23 @@ export default function UsersFunnel() {
                 ))}
               </div>
 
+              <div style={{ marginTop: 16 }}>
+                <div style={{ fontSize: 10.5, letterSpacing: ".12em", fontWeight: 800, color: "rgba(28,43,34,.45)", textAlign: "center", marginBottom: 10 }}>
+                  OUR TRUSTED PARTNERS
+                </div>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 22, flexWrap: "wrap" }}>
+                  {PARTNERS.map((p) => (
+                    <img
+                      key={p.name}
+                      src={p.logo}
+                      alt={p.name}
+                      title={p.note}
+                      style={{ height: 26, width: "auto", objectFit: "contain", opacity: 0.75 }}
+                    />
+                  ))}
+                </div>
+              </div>
+
               {sendError && <p className="err">{sendError}</p>}
 
               <div className="cta-wrap" style={{ paddingTop: 20 }}>
@@ -945,9 +960,7 @@ export default function UsersFunnel() {
                   {sending ? "Sending..." : `Unlock my plan ${ARROW}`}
                 </button>
               </div>
-              <p className="fine" style={{ fontSize: 10.5, marginTop: 11 }}>
-                No medication without a doctor&apos;s evaluation.
-              </p>
+
             </div>
           )}
 
