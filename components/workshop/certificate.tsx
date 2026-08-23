@@ -16,8 +16,8 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const NAME_Y = 0.55; // baseline, in the clear space inside the wreath
-const DATE_Y = 0.62; // small date under the name
+const NAME_Y = 0.57; // baseline, in the clear space inside the wreath
+const DATE_Y = 0.64; // small date under the name
 const SIGN_BOTTOM_Y = 0.845; // just above the printed signature rule
 const NAME_MAX_WIDTH = 0.66; // of canvas width
 const DARK = "#193231";

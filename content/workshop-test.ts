@@ -288,4 +288,30 @@ export const QUESTIONS: Question[] = [
     rationale:
       "The effect is on how much is eaten, not on how well nutrients are absorbed. A sustained drop in total intake risks shortfalls in protein, energy and micronutrients such as iron, B12 and calcium. Meals should therefore be planned for nutrient density rather than volume, since the volume tolerated is now smaller.",
   },
+  {
+    id: 22,
+    q: "Which combination BEST explains the glucose-lowering effect of GLP-1 receptor agonism?",
+    options: [
+      "Increased glucagon, increased hepatic glucose production, decreased insulin",
+      "Increased insulin, decreased glucagon, decreased hepatic glucose output",
+      "Decreased insulin, increased glucagon, increased gastric emptying",
+      "Increased glucagon, decreased insulin, increased gastric emptying",
+    ],
+    answer: 1,
+    rationale:
+      "GLP-1 receptor activation stimulates insulin secretion in a glucose-dependent manner and suppresses glucagon release from pancreatic alpha cells. Less glucagon means less hepatic glucose output, so all three effects pull in the same direction. The other options each invert at least one of them; note also that GLP-1 slows gastric emptying rather than increasing it.",
+  },
+  {
+    id: 23,
+    q: "Which patient may require particular clinical attention when considering GLP-1-based weight-loss therapy?",
+    options: [
+      "A patient with a history of nephrolithiasis but no metabolic disease",
+      "A patient with previous gallbladder disease undergoing rapid weight loss",
+      "A patient with mild seasonal allergies",
+      "A patient with iron-deficiency anaemia receiving oral iron",
+    ],
+    answer: 1,
+    rationale:
+      "Rapid weight loss of any cause increases biliary cholesterol saturation and reduces gallbladder emptying, which raises the risk of gallstones. A patient with previous gallbladder disease is therefore the one warranting closer attention, and the treating doctor may prefer a steadier rate of loss with adequate protein and some dietary fat. Kidney stones, seasonal allergies and iron deficiency are not specific concerns for this drug class.",
+  },
 ];
