@@ -236,6 +236,14 @@ export function WorkshopClient() {
   };
 
   // ---------- submit ----------
+  // The countdown creates its interval once, so anything it calls captures the
+  // state from that moment. Reading answers through a ref keeps the auto-submit
+  // at time-up from posting an empty paper.
+  const answersRef = useRef<Record<number, number>>({});
+  useEffect(() => {
+    answersRef.current = answers;
+  }, [answers]);
+
   const submitting = useRef(false);
   const submit = useCallback(async () => {
     if (submitting.current) return;
@@ -245,7 +253,7 @@ export function WorkshopClient() {
       const res = await fetch("/api/workshop/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ answers }),
+        body: JSON.stringify({ answers: answersRef.current }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || "Could not submit");
