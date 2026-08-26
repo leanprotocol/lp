@@ -85,7 +85,7 @@ export const results = {
   heading: `Real people. Real results. ${DASH} keep scrolling ${ARROW}`,
   /* isVideo picks <video> over <img>. Both live in /public/before-after. */
   films: [
-    { name: "Pratima, 37", result: "Lost 7 kg in 2.5 months*",  isVideo: false,
+    { name: "Pratima, 37", result: "Lost 7 kg in 3 months*",  isVideo: false,
       src: "/before-after/Pratima, 37 Lost 7Kgs in 2.5 months.jpeg" },
     { name: "Manav, 24",   result: "Lost 20 kg in 5 months*",   isVideo: true,
       src: "/before-after/manav.mp4" },
@@ -97,9 +97,9 @@ export const results = {
       src: "/before-after/Rohit, 39 Lost 9.1 kg in 15 weeks.webp" },
     { name: "Ananya, 20",  result: "Lost 14 kg in 7 months*",   isVideo: true,
       src: "/before-after/ananya.mp4" },
-    { name: "Neema, 46",   result: "Lost 10.8 kg in 4 months*", isVideo: false,
+    { name: "Neema, 46",   result: "Lost 10.8 kg in 10 weeks*", isVideo: false,
       src: "/before-after/Neema, 46 Lost 10.8 kgs in 4 months.webp" },
-    { name: "Atreyee, 28", result: "Lost 6 kg in 1 month*",     isVideo: true,
+    { name: "Atreyee, 28", result: "Lost 12 kg in 2 months*",     isVideo: true,
       src: "/before-after/atreyee.mp4" },
   ],
   note: "*Individual results may vary.",

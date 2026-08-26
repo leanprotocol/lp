@@ -18,6 +18,7 @@ import { PricingCarousel } from "@/components/pricing-carousel";
 const WeightLossChart = dynamic(() => import("@/components/weight-loss-chart").then(m => ({ default: m.WeightLossChart })))
 import { VideoSection } from "@/components/video-section"
 import { NewsSection } from "@/components/news-section";
+import { TrustedPartners } from "@/components/trusted-partners";
 export default function Page() {
   return (
     <main className="min-h-screen bg-background">
@@ -55,6 +56,9 @@ export default function Page() {
 
       {/* 9  Experts marquee */}
       <DoctorsSection />
+
+      {/* 9b  Trusted partners */}
+      <TrustedPartners />
 
       {/* 10  Benefits marquees */}
       <BenefitsMarquee />
