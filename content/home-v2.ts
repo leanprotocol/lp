@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Homepage v2 - all copy and static data.
  *
  * WHY THIS FILE EXISTS
@@ -140,7 +140,7 @@ export const pricing = {
     "Lean Pro":      { rot: "2.5deg",  featured: false },
   } as Record<string, { rot: string; featured: boolean; ribbon?: string }>,
   cta: "Get started",
-  note: "Medication, if prescribed, is billed separately and dispensed by a third-party pharmacy.",
+  note: "Medication is included when prescribed, and is dispensed by a licensed third-party pharmacy. GLP-1 only after a doctor's evaluation. Comparison figures are typical retail prices for sourcing the same services separately.",
 };
 
 export const press = {

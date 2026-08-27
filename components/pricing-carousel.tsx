@@ -1,7 +1,8 @@
-"use client"
+﻿"use client"
 
 import { useEffect, useState } from "react"
 import * as C from "@/content/home-v2"
+import { pricingBreakdown, breakdownCopy } from "@/content/pricing-breakdown"
 
 /**
  * Pricing.
@@ -12,6 +13,11 @@ import * as C from "@/content/home-v2"
  *
  * content/home-v2.ts holds presentation only - the tilt, and which card is
  * featured - keyed by plan name.
+ *
+ * content/pricing-breakdown.ts holds what the same things cost when sourced
+ * separately. Those are third-party retail figures, never anything we bill,
+ * so the rule above still holds: the price and the saving are computed from
+ * the live plan record, not typed anywhere.
  */
 type DbPlan = {
   id: string
@@ -73,7 +79,7 @@ export function PricingCarousel() {
             {[0, 1, 2].map((i) => (
               <div
                 key={i}
-                className="h-[420px] animate-pulse rounded-[28px] border border-lp-green/10 bg-white/60"
+                className="h-[560px] animate-pulse rounded-[28px] border border-lp-green/10 bg-white/60"
               />
             ))}
           </div>
@@ -82,20 +88,40 @@ export function PricingCarousel() {
             Plans are being updated. Please check back shortly.
           </p>
         ) : (
-          <div className="grid items-center gap-[26px] [grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))]">
+          <div className="grid items-start gap-[26px] [grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))]">
             {sorted.map((p) => {
               const look =
                 C.pricing.presentation[p.name] ?? { rot: "0deg", featured: false }
-              const off =
-                p.originalPrice && p.originalPrice > p.price
-                  ? Math.round((1 - p.price / p.originalPrice) * 100)
-                  : null
               const months = p.durationDays ? Math.round(p.durationDays / 30) : null
+              const bd = pricingBreakdown[p.name]
+
+              // Retail total is summed from the lines, never typed.
+              const retail = bd
+                ? bd.lines.reduce((s, l) => s + l.unit * l.qty, 0)
+                : p.originalPrice ?? null
+
+              if (
+                process.env.NODE_ENV !== "production" &&
+                bd &&
+                retail !== bd.expectedTotal
+              ) {
+                // eslint-disable-next-line no-console
+                console.warn(
+                  `[pricing] ${p.name}: lines sum to ${retail}, expectedTotal says ${bd.expectedTotal}`,
+                )
+              }
+
+              const fg = look.featured ? "#F9F7F2" : "#1C2B22"
+              const muted = look.featured ? "#A8BEB7" : "#6B7873"
+              const accent = look.featured ? "#C8D9A7" : "#2D5A4E"
+              const hair = look.featured
+                ? "1px solid rgba(200,217,167,.18)"
+                : "1px solid rgba(25,50,49,.1)"
 
               return (
                 <div
                   key={p.id}
-                  className="gw-plan relative rounded-[24px] p-6 sm:rounded-[28px] sm:p-[clamp(26px,3vw,38px)]"
+                  className="gw-plan relative rounded-[24px] p-6 sm:rounded-[28px] sm:p-[clamp(24px,2.4vw,32px)]"
                   style={{
                     ["--rot" as any]: look.rot,
                     background: look.featured ? "#193231" : "#FFFFFF",
@@ -116,73 +142,128 @@ export function PricingCarousel() {
 
                   <div
                     className="text-[13px] font-bold tracking-[0.12em]"
-                    style={{ color: look.featured ? "#C8D9A7" : "#2D5A4E" }}
+                    style={{ color: accent }}
                   >
                     {months ? `${months} MONTH${months > 1 ? "S" : ""}` : "PLAN"}
                   </div>
 
                   <div
                     className="mt-1.5 text-[22px] font-extrabold"
-                    style={{ color: look.featured ? "#F9F7F2" : "#1C2B22" }}
+                    style={{ color: fg }}
                   >
                     {p.name}
                   </div>
 
-                  <div className="mt-5 flex flex-wrap items-baseline gap-2.5">
-                    <span
-                      className="font-extrabold leading-none tracking-[-0.03em]"
-                      style={{
-                        fontSize: "clamp(38px,4vw,54px)",
-                        color: look.featured ? "#C8D9A7" : "#1C2B22",
-                      }}
-                    >
-                      {inr(p.price)}
-                    </span>
-                    {p.originalPrice && p.originalPrice > p.price && (
-                      <span
-                        className="text-lg line-through"
-                        style={{ color: look.featured ? "#A8BEB7" : "#8A9690" }}
+                  {bd ? (
+                    <>
+                      <div
+                        className="mt-6 text-[12px] font-bold uppercase tracking-[0.1em]"
+                        style={{ color: muted }}
                       >
-                        {inr(p.originalPrice)}
-                      </span>
-                    )}
-                    {off !== null && (
-                      <span className="rounded-md bg-lp-gold px-2 py-1 text-xs font-extrabold text-white">
-                        {off}% OFF
-                      </span>
-                    )}
-                  </div>
+                        {breakdownCopy.includedHeading}
+                      </div>
 
-                  {Array.isArray(p.features) && p.features.length > 0 && (
-                    <ul className="mt-6 grid list-none gap-2.5 p-0">
-                      {p.features.slice(0, 6).map((f) => (
-                        <li
-                          key={f}
-                          className="flex gap-2.5 text-[14.5px] leading-snug"
-                          style={{ color: look.featured ? "#A8BEB7" : "#4A5751" }}
-                        >
-                          <span
-                            aria-hidden
-                            className="flex-none font-extrabold"
-                            style={{ color: look.featured ? "#C8D9A7" : "#2D5A4E" }}
+                      <ul className="mt-3 grid list-none gap-0 p-0">
+                        {bd.lines.map((l) => (
+                          <li
+                            key={l.label}
+                            className="flex items-baseline justify-between gap-3 py-2.5"
+                            style={{ borderBottom: hair }}
                           >
-                            {"\u2713"}
-                          </span>
-                          {f}
-                        </li>
-                      ))}
-                    </ul>
+                            <span
+                              className="min-w-0 text-[14.5px] leading-snug"
+                              style={{ color: look.featured ? "#D8E3D4" : "#4A5751" }}
+                            >
+                              <span
+                                aria-hidden
+                                className="mr-2 font-extrabold"
+                                style={{ color: accent }}
+                              >
+                                {"\u2713"}
+                              </span>
+                              {l.label}
+                              {l.qtyLabel ? (
+                                <span
+                                  className="ml-1.5 whitespace-nowrap text-[12.5px]"
+                                  style={{ color: muted }}
+                                >
+                                  {l.qtyLabel}
+                                </span>
+                              ) : l.qty > 1 ? (
+                                <span
+                                  className="ml-1.5 whitespace-nowrap text-[12.5px]"
+                                  style={{ color: muted }}
+                                >
+                                  {l.qty}
+                                  {"\u00D7"}
+                                  {inr(l.unit)}
+                                </span>
+                              ) : null}
+                              {l.detail && (
+                                <span
+                                  className="ml-1.5 text-[12.5px] italic"
+                                  style={{ color: muted }}
+                                >
+                                  {l.detail}
+                                </span>
+                              )}
+                            </span>
+                            <span
+                              className="flex-none text-[14.5px] font-bold tabular-nums"
+                              style={{ color: look.featured ? "#D8E3D4" : "#2D3A34" }}
+                            >
+                              {inr(l.unit * l.qty)}
+                            </span>
+                          </li>
+                        ))}
+
+                        {retail !== null && (
+                          <li className="flex items-baseline justify-between gap-3 pt-3">
+                            <span className="text-[14px]" style={{ color: muted }}>
+                              {breakdownCopy.totalLabel}
+                            </span>
+                            <span className="flex-none text-[15px] tabular-nums">
+                              <span className="line-through" style={{ color: muted }}>
+                                {inr(retail)}
+                              </span>
+                              <span
+                                aria-hidden
+                                className="ml-2 font-extrabold"
+                                style={{ color: accent }}
+                              >
+                                {"\u2192"}
+                              </span>
+                            </span>
+                          </li>
+                        )}
+                      </ul>
+
+                      <div
+                        className="mt-5 pt-5 text-[16px] font-bold leading-snug"
+                        style={{ borderTop: hair, color: accent }}
+                      >
+                        {breakdownCopy.teaser}
+                      </div>
+                    </>
+                  ) : (
+                    /* No breakdown written for this plan yet - plain price. */
+                    <div
+                      className="mt-5 text-[16px] font-bold leading-snug"
+                      style={{ color: accent }}
+                    >
+                      {breakdownCopy.teaser}
+                    </div>
                   )}
 
                   <a
-                    href="/users"
-                    className="mt-7 block rounded-full px-6 py-4 text-center text-[16.5px] font-extrabold transition-colors"
+                    href="https://forms.leanprotocol.in/"
+                    className="mt-6 block rounded-full px-6 py-4 text-center text-[16.5px] font-extrabold transition-colors"
                     style={{
                       background: look.featured ? "#C8D9A7" : "#193231",
                       color: look.featured ? "#193231" : "#F9F7F2",
                     }}
                   >
-                    {C.pricing.cta}
+                    {breakdownCopy.cta}
                   </a>
                 </div>
               )
