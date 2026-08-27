@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Health calculator content.
  *
  * Shared by /bmi-calculator, /bmr-calculator and /waist-to-hip-calculator,
@@ -108,7 +108,7 @@ export const limits = {
   ],
 };
 
-export const cta = { label: "Check my eligibility", href: "/users" };
+export const cta = { label: "Check my eligibility", href: "https://forms.leanprotocol.in/" };
 
 export const disclaimer =
   "These calculators are for general awareness only and are not medical advice or a diagnosis. Speak to a qualified doctor about your individual health.";

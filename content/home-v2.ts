@@ -21,7 +21,7 @@ export const hero = {
   eyebrow: "DOCTOR-LED \u00B7 GLP-1 GUIDED \u00B7 MADE FOR INDIA",
   lede:
     "GLP 1* guided fat loss made affordable for India \u2014 lose up to 22% of body weight* in 6 months.",
-  ctaPrimary: { label: "Get Started", href: "/users" },
+  ctaPrimary: { label: "Get Started", href: "https://forms.leanprotocol.in/" },
   ctaSecondary: { label: "Chat with Experts", href: "https://wa.link/3s1upf" },
   note:
     "*GLP-1 only after doctor's evaluation and on the basis of valid prescription. Results vary; medication only when clinically appropriate.",
@@ -228,6 +228,6 @@ export const benefits = {
 
 export const closing = {
   heading: "One small step. To a leaner you.",
-  cta: { label: "Check my eligibility", href: "/users" },
+  cta: { label: "Check my eligibility", href: "https://forms.leanprotocol.in/" },
   note: "Lean Protocol is not affiliated with Novo Nordisk A/S or Eli Lilly & Co. GLP-1 medications are prescription-only.",
 };

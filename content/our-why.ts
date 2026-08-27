@@ -1,4 +1,4 @@
-/**
+﻿/**
  * /our-why page content.
  *
  * Same conventions as content/home-v2.ts: no JSX, no prices, pure ASCII with
@@ -10,7 +10,7 @@ export const hero = {
   headingA: "Take charge of your",
   headingB: "weight today.",
   bgImage: "/our-why-hero1.webp",
-  ctaPrimary: { label: "Get Started", href: "/users" },
+  ctaPrimary: { label: "Get Started", href: "https://forms.leanprotocol.in/" },
   ctaSecondary: { label: "Chat with Experts", href: "https://wa.link/3s1upf" },
 };
 
@@ -66,6 +66,6 @@ export const framework = {
 export const closing = {
   headingA: "Start your journey",
   headingB: "with people who listen.",
-  ctaPrimary: { label: "Get started", href: "/users" },
+  ctaPrimary: { label: "Get started", href: "https://forms.leanprotocol.in/" },
   ctaSecondary: { label: "Chat with experts", href: "https://wa.link/3s1upf" },
 };

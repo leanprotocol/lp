@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import type { Section } from "./policies-content";
 import { policyMeta } from "./policies-content";
 
@@ -167,7 +167,7 @@ export function PolicyShell({
       </div>
 
       <p style={{ textAlign: "center", fontSize: 13, marginTop: 18 }}>
-        <Link href="/users" style={{ color: "var(--lp-muted)", textDecoration: "underline" }}>
+        <Link href="https://forms.leanprotocol.in/" style={{ color: "var(--lp-muted)", textDecoration: "underline" }}>
           Back to the form
         </Link>
       </p>

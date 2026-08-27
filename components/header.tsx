@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
@@ -93,7 +93,7 @@ export function Header() {
             Log in
           </Link>
           <a
-            href="/users"
+            href="https://forms.leanprotocol.in/"
             className="rounded-full bg-accent px-6 py-3 text-[15px] font-extrabold text-dark transition-colors hover:bg-white"
           >
             Get Started
@@ -139,7 +139,7 @@ export function Header() {
               Log in
             </Link>
             <a
-              href="/users"
+              href="https://forms.leanprotocol.in/"
               onClick={() => setOpen(false)}
               className="mt-3 rounded-full bg-accent px-6 py-4 text-center text-[16px] font-extrabold text-dark"
             >
