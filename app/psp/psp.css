@@ -563,3 +563,19 @@
 
 .psp-page .flow span { background: linear-gradient(180deg, rgba(200,217,167,0.14), rgba(200,217,167,0.04)); box-shadow: 0 6px 14px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.14); transition: transform 0.2s ease, box-shadow 0.2s ease; }
 .psp-page .flow span:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.18); }
+
+
+
+@media (max-width: 900px) {
+  .psp-page .flow { grid-template-columns: repeat(3, 1fr); gap: 20px 20px; }
+  .psp-page .flow span { font-size: 11px; padding: 7px 8px; line-height: 1.25; }
+  .psp-page .flow span::after { right: -20px; width: 20px; }
+  .psp-page .flow span:nth-child(4)::after, .psp-page .flow span:nth-child(5)::after { left: -20px; right: auto; width: 20px; }
+  .psp-page .flow span:nth-child(3)::after { right: -10px; width: 10px; border-radius: 0 8px 8px 0; }
+  .psp-page .flow span:nth-child(6)::after { display: none; }
+  .psp-page .flow span:last-child::before { left: -16px; right: auto; }
+}
+
+.psp-page .flow span:not(:nth-child(3)):not(:nth-child(6))::before { content: ''; position: absolute; top: 50%; width: 0; height: 0; border-top: 5px solid transparent; border-bottom: 5px solid transparent; transform: translateY(-50%); opacity: 0.55; }
+.psp-page .flow span:nth-child(1)::before, .psp-page .flow span:nth-child(2)::before { right: -12px; border-left: 7px solid var(--p-gold); }
+.psp-page .flow span:nth-child(4)::before, .psp-page .flow span:nth-child(5)::before { left: -12px; right: auto; border-right: 7px solid var(--p-gold); }
