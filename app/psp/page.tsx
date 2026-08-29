@@ -1,4 +1,4 @@
-// app/psp/page.tsx
+﻿// app/psp/page.tsx
 // White-labelled Patient Support Programme page for pharmaceutical
 // partners. Seven sections, image-led, deliberately short.
 //
@@ -59,9 +59,6 @@ export default function PspPage() {
               <p className="label">{HERO.eyebrow}</p>
               <h1>{HERO.h1}</h1>
               <p className="big">{HERO.copy}</p>
-              <p className="big serif" style={{ marginTop: 14 }}>
-                {HERO.support}
-              </p>
               <div className="hero-ctas">
                 <a href="#request" className="btn btn-sage">
                   {CTA.primary}
@@ -93,19 +90,6 @@ export default function PspPage() {
               <p className="label">{VALUE.label}</p>
               <h2>{VALUE.h2}</h2>
               <p className="big">{VALUE.intro}</p>
-
-              <div className="three">
-                {VALUE.blocks.map((b) => (
-                  <div key={b.title}>
-                    <h3>{b.title}</h3>
-                    <p className="body">{b.copy}</p>
-                  </div>
-                ))}
-              </div>
-
-              <p className="big serif" style={{ marginTop: 42 }}>
-                {VALUE.line}
-              </p>
             </Reveal>
 
             <Reveal>
@@ -274,7 +258,7 @@ export default function PspPage() {
         <div className="wrap">
           <div className="ftr-row">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.png" alt="Lean Protocol" className="ftr-logo" />
+            <img src="/logo-cropped.png" alt="Lean Protocol" className="ftr-logo" />
             <div className="ftr-links">
               <a href="mailto:support@leanprotocol.in">
                 support@leanprotocol.in

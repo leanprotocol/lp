@@ -1,4 +1,4 @@
-// app/api/psp/lead/route.ts
+﻿// app/api/psp/lead/route.ts
 // B2B enquiry endpoint for the /psp site. Posts to TeleCRM with a distinct
 // source so pharmaceutical enquiries can be separated from patient leads.
 //
@@ -50,9 +50,6 @@ export async function POST(request: NextRequest) {
     }
     if (designation.length < 2) {
       return NextResponse.json({ error: "Designation is required" }, { status: 400 });
-    }
-    if (!therapy) {
-      return NextResponse.json({ error: "Therapy area is required" }, { status: 400 });
     }
 
     const fields = {

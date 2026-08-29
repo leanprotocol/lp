@@ -1,11 +1,11 @@
-"use client";
+﻿"use client";
 
 // components/psp/psp-interactive.tsx
 // The only interactive parts of /psp. Everything else renders on the
 // server in app/psp/page.tsx.
 
 import { useEffect, useRef, useState } from "react";
-import { NAV, CTA, FAQS, THERAPY_OPTIONS } from "@/content/psp";
+import { NAV, CTA, FAQS } from "@/content/psp";
 
 /* ---------------- reveal ---------------- */
 
@@ -144,7 +144,6 @@ export function RequestForm() {
     email: "",
     company: "",
     designation: "",
-    therapy: "",
     message: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -165,7 +164,6 @@ export function RequestForm() {
     if (v.company.trim().length < 2) e.company = "Please enter your company.";
     if (v.designation.trim().length < 2)
       e.designation = "Please enter your designation.";
-    if (!v.therapy) e.therapy = "Please select a therapy area.";
 
     setErrors(e);
     if (Object.keys(e).length) {
@@ -238,13 +236,6 @@ export function RequestForm() {
           <input {...a("company")} value={v.company} onChange={(e) => set("company", e.target.value)} autoComplete="organization" />)}
         {f("designation", "Designation",
           <input {...a("designation")} value={v.designation} onChange={(e) => set("designation", e.target.value)} autoComplete="organization-title" />)}
-        {f("therapy", "Therapy area",
-          <select {...a("therapy")} value={v.therapy} onChange={(e) => set("therapy", e.target.value)}>
-            <option value="">Select</option>
-            {THERAPY_OPTIONS.map((t) => (
-              <option key={t} value={t}>{t}</option>
-            ))}
-          </select>, true)}
         {f("message", "Message (optional)",
           <textarea {...a("message")} value={v.message} onChange={(e) => set("message", e.target.value)} />, true)}
       </div>

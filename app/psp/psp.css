@@ -1,4 +1,4 @@
-/* app/psp/psp.css
+﻿/* app/psp/psp.css
    Scoped to .psp-page so nothing here reaches the consumer site.
    Fonts come from the root layout: --font-sans (Inter),
    --font-serif (Libre Baskerville). */
@@ -117,7 +117,7 @@
   color: var(--p-ink-50);
 }
 .psp-page .sec-forest .fine,
-.psp-page .hero .fine { color: rgba(200, 217, 167, 0.78); }
+.psp-page .hero .fine { color: rgba(200, 217, 167, 0.95); }
 .psp-page .serif {
   font-family: var(--p-serif);
   font-style: italic;
@@ -478,16 +478,16 @@
 /* ---------- footer ---------- */
 .psp-page .ftr {
   background: var(--p-black);
-  color: rgba(249, 247, 242, 0.66);
+  color: rgba(249, 247, 242, 0.88);
   padding: 46px 0 34px;
 }
-.psp-page .ftr-logo { height: 34px; width: auto; filter: brightness(0) invert(1); }
+.psp-page .ftr-logo { height: 34px; width: auto; }
 .psp-page .ftr-row {
   display: flex; flex-wrap: wrap; gap: 18px 40px;
   justify-content: space-between; align-items: flex-start;
   padding-bottom: 26px;
 }
-.psp-page .ftr a { color: rgba(249, 247, 242, 0.66); font-size: 14px; text-decoration: none; }
+.psp-page .ftr a { color: rgba(249, 247, 242, 0.88); font-size: 14px; text-decoration: none; }
 .psp-page .ftr a:hover { color: var(--p-sage); }
 .psp-page .ftr-links { display: flex; flex-wrap: wrap; gap: 22px; }
 .psp-page .ftr-base {
@@ -533,3 +533,33 @@
   }
   .psp-page .rv { opacity: 1; transform: none; }
 }
+
+.psp-page .ev .fine { color: rgba(200, 217, 167, 0.95); }
+
+.psp-page .ftr .fine { color: rgba(249, 247, 242, 0.9); }
+
+.psp-page .flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px 34px; }
+.psp-page .flow span { position: relative; text-align: center; }
+.psp-page .flow i { position: absolute; right: -26px; top: 50%; transform: translateY(-50%); margin-left: 0 !important; }
+.psp-page .flow span:nth-child(3n) i { display: none; }
+@media (max-width: 720px) { .psp-page .flow { grid-template-columns: 1fr; } .psp-page .flow i { display: none; } }
+
+.psp-page .flow i { display: none; }
+.psp-page .flow span::after { content: ''; position: absolute; right: -34px; top: 50%; width: 34px; height: 2px; background: var(--p-gold); opacity: 0.55; }
+.psp-page .flow span:nth-child(3n)::after { display: none; }
+.psp-page .flow span:last-child::before { content: '\2192'; position: absolute; right: -30px; top: 50%; transform: translateY(-50%); color: var(--p-gold); font-size: 17px; }
+@media (max-width: 720px) { .psp-page .flow span::after, .psp-page .flow span:last-child::before { display: none; } }
+
+.psp-page .flow span:nth-child(4) { order: 3; grid-column: 3; }
+.psp-page .flow span:nth-child(5) { order: 2; grid-column: 2; }
+.psp-page .flow span:nth-child(6) { order: 1; grid-column: 1; }
+.psp-page .flow span:nth-child(4)::after, .psp-page .flow span:nth-child(5)::after { content: ''; position: absolute; left: -34px; right: auto; top: 50%; width: 34px; height: 2px; background: var(--p-gold); opacity: 0.55; }
+.psp-page .flow span:nth-child(6)::after { display: none; }
+.psp-page .flow span:nth-child(3)::after { content: ''; display: block; position: absolute; right: 50%; bottom: -26px; top: auto; width: 2px; height: 26px; background: var(--p-gold); opacity: 0.55; }
+.psp-page .flow span:last-child::before { content: '\2190'; left: -30px; right: auto; }
+
+.psp-page .flow span:nth-child(3)::after { content: ''; display: block; position: absolute; right: -17px; top: 50%; bottom: auto; width: 17px; height: calc(50% + 26px + 50%); background: none; border-right: 2px solid var(--p-gold); border-top: 2px solid var(--p-gold); border-bottom: 2px solid var(--p-gold); border-radius: 0 14px 14px 0; opacity: 0.55; }
+.psp-page .flow span:nth-child(4)::after { display: none; }
+
+.psp-page .flow span { background: linear-gradient(180deg, rgba(200,217,167,0.14), rgba(200,217,167,0.04)); box-shadow: 0 6px 14px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.14); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.psp-page .flow span:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.18); }

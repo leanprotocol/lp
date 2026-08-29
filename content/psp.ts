@@ -1,4 +1,4 @@
-// content/psp.ts
+﻿// content/psp.ts
 // Copy for the B2B Patient Support Programme page at /psp.
 // Pure ASCII: unicode via \u escapes. Indian/British English.
 //
@@ -7,44 +7,28 @@
 
 export const NAV = [
   { label: "How it works", href: "#how" },
-  { label: "What we run", href: "#run" },
+  { label: "Our execution layer", href: "#run" },
   { label: "Care areas", href: "#areas" },
   { label: "Pilot", href: "#pilot" },
 ];
 
 export const CTA = {
-  primary: "Request Demo",
+  primary: "Get in touch",
   secondary: "Request our Post-Prescription Patient Support Blueprint",
 };
 
 export const HERO = {
-  eyebrow: "WHITE-LABELLED PATIENT SUPPORT PROGRAMMES",
+  eyebrow: "CO-BRANDED PATIENT SUPPORT PROGRAMMES",
   h1: "Build the patient experience around your therapy.",
-  copy: "Lean Protocol runs patient support under your brand, from education and follow-ups to diagnostics, delivery and doctor coordination.",
-  support: "Built for metabolic and chronic therapies across India.",
+  copy: "Lean Protocol runs patient support under your brand, from education, nutrition, follow-ups, cross-selling and doctor coordination.",
   audience: "For pharma commercial, portfolio and medical teams.",
 };
 
 export const VALUE = {
   label: "WHY SUPPORT MATTERS",
-  h2: "A prescription is only the beginning.",
+  h2: "Real care starts after the prescription.",
   intro:
-    "Patients still need help to start well, manage concerns and return for review. That support can strengthen continuity and the experience around your brand.",
-  blocks: [
-    {
-      title: "Help more patients start",
-      copy: "Clear onboarding, education and first-dose guidance.",
-    },
-    {
-      title: "Help patients stay connected",
-      copy: "Follow-ups, reminders and support between doctor visits.",
-    },
-    {
-      title: "See where support is needed",
-      copy: "Track enrolment, engagement, symptoms, follow-ups and reasons for drop-off.",
-    },
-  ],
-  line: "When fewer patients drop off unnecessarily, more can continue for as long as their doctor recommends.",
+    "In GLP-1, support has been shown to improve continuity, results and the brand experience.",
 };
 
 export const EVIDENCE = {
@@ -52,65 +36,65 @@ export const EVIDENCE = {
   stats: [
     { value: "29.3%", label: "higher adherence observed" },
     { value: "22.0%", label: "lower discontinuation observed" },
-    { value: "12.2%", label: "higher drug spending observed over 12 months" },
+    { value: "4.8 months", label: "longer on treatment observed" },
   ],
   note: "Matched US observational study of 2,268 adalimumab patients. Manufacturer-funded. Associations are not Lean Protocol outcomes or forecasts.",
-  href: "https://www.jmcp.org/doi/pdf/10.18553/jmcp.2019.18443",
+  href: "https://www.jmcp.org/doi/10.18553/jmcp.2021.20560",
 };
 
 export const JOURNEY = {
   label: "HOW IT WORKS",
-  h2: "From prescription to continued care.",
+  h2: "How do we execute the GLP-1 patient support protocol.",
   steps: [
     {
-      title: "Enrol",
-      copy: "Verify the prescription, capture consent and understand the patient.",
+      title: "Onboarding",
+      copy: "Capture consent, understand the patient's needs, preferences and goals, and build rapport.",
     },
     {
-      title: "Educate",
-      copy: "Provide the online course, diet plan, first-dose guidance and regular expert-led webinars.",
+      title: "Nutrition & education",
+      copy: "A customised diet plan for their demography, pen administration guidance and regular expert-led webinars.",
     },
     {
-      title: "Follow up",
-      copy: "Check in, track symptoms and escalate concerns to the treating doctor.",
+      title: "Regular follow-ups",
+      copy: "Dosage reminders, SOS help, side-effect management, and your brand's care app for symptom logging and diet notifications.",
     },
     {
       title: "Coordinate",
-      copy: "Connect patients with diagnostics, follow-up appointments and authorised delivery partners.",
+      copy: "Subsequent pen purchase reminders, payment collection and delivery coordination.",
     },
     {
-      title: "Continue",
-      copy: "Support doctor reviews, refills and the next clinician-approved step.",
+      title: "Patient success",
+      copy: "Better side-effect management, better continuity and better results.",
     },
   ],
 };
 
 export const RUN = {
-  label: "WHAT WE RUN",
-  h2: "The care team and tools behind your programme.",
+  label: "OUR EXECUTION LAYER",
+  h2: "The care team and tools behind your PSP.",
   blocks: [
     {
       title: "Patient education",
-      copy: "Online courses, personalised diet plans, regular webinars and multilingual content.",
+      copy: "Data shows higher education leads to higher adherence. We do it with dietitians, online courses, expert-led Q&A and webinars, all multilingual.",
     },
     {
       title: "Human support",
-      copy: "Dietitians, coaches and care coordinators who stay connected with patients.",
+      copy: "We strike a balance between automation and human support, with dietitians and care coordinators who stay connected with patients and build rapport.",
     },
     {
-      title: "Access and follow-up",
-      copy: "Diagnostics, licensed-pharmacy delivery, appointment scheduling and approved supplements where appropriate.",
+      title: "Reminders and follow-ups",
+      copy: "Dosage reminders, medicine delivery through nearby providers, and cross-selling your supplements or additional services where appropriate.",
     },
     {
-      title: "A clearer programme view",
-      copy: "See enrolment, engagement, symptom trends, follow-up attendance and reasons for drop-off.",
+      title: "A clearer dashboard for you",
+      copy: "See enrolment, engagement, continuation trend, ARPU and average weight loss in one dashboard.",
     },
   ],
 };
 
 export const AREAS = {
   label: "CARE AREAS",
-  h2: "Support across metabolic and chronic care.",
+  h2: "Extended support for other conditions.",
   intro:
     "The same care team and technology can support different therapies and patient needs.",
   // size drives the mosaic: "lg" spans two columns on desktop.
@@ -122,16 +106,23 @@ export const AREAS = {
     { title: "Type 2 diabetes", size: "sm", img: "/psp/areas/diabetes.webp", alt: "A person checking a glucose reading at home." },
     { title: "High blood pressure", size: "sm", img: "/psp/areas/blood-pressure.webp", alt: "A home blood-pressure check at a kitchen table." },
     { title: "Heart health", size: "lg", img: "/psp/areas/heart.webp", alt: "An older adult walking in a park with family." },
-    { title: "PCOS", size: "sm", img: "/psp/areas/pcos.webp", alt: "A woman in an everyday wellness setting." },
-    { title: "Sleep health", size: "sm", img: "/psp/areas/sleep.webp", alt: "A calm bedroom in soft morning light." },
-    { title: "High cholesterol", size: "sm", img: "/psp/areas/cholesterol.webp", alt: "Heart-conscious food being prepared at home." },
+    { title: "PCOS", size: "sm", img: "/psp/areas/pcos.png", alt: "A woman in an everyday wellness setting." },
+    { title: "Sleep health", size: "sm", img: "/psp/areas/sleep.png", alt: "A calm bedroom in soft morning light." },
+    { title: "High cholesterol", size: "sm", img: "/psp/areas/cholesterol.png", alt: "Heart-conscious food being prepared at home." },
   ],
 };
 
 export const MODEL = {
-  h2: "Your brand. Our care team.",
-  copy: "The patient sees a programme built around your therapy. Lean Protocol runs the care team, workflows and technology behind it.",
-  flow: ["Your therapy", "Doctor prescribes", "Lean supports", "You see progress"],
+  h2: "Hire a whole extended care team for your GLP-1 therapy.",
+  copy: "A 24/7 care team, so patients feel more connected.",
+  flow: [
+    "Doctor prescribes",
+    "We take consent and onboard",
+    "Patient education and nutrition guidance",
+    "Reminders and follow-ups",
+    "Side-effect management",
+    "Higher patient success and continuity",
+  ],
   brandLine:
     "Brand the onboarding, education, webinars, helpline, WhatsApp, patient app and reports.",
 };
