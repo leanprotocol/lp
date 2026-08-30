@@ -20,6 +20,7 @@ import {
   CTA,
   DISCLAIMER,
 } from "@/content/psp";
+import { PspPartners, PspGoogle, PspNews } from "@/components/psp/psp-strips";
 import {
   PspHeader,
   Reveal,
@@ -143,6 +144,7 @@ export default function PspPage() {
           </div>
         </section>
 
+        <PspPartners />
         {/* ---------- 4. What we run ---------- */}
         <section className="sec sec-warm" id="run">
           <div className="wrap">
@@ -190,6 +192,7 @@ export default function PspPage() {
           </div>
         </section>
 
+        <PspGoogle />
         {/* ---------- 6. White-label model and pilot ---------- */}
         <section className="sec sec-forest" id="pilot">
           <div className="wrap split">
@@ -233,6 +236,7 @@ export default function PspPage() {
           </div>
         </section>
 
+        <PspNews />
         {/* ---------- 7. Final CTA, form and FAQ ---------- */}
         <section className="sec sec-forest" id="request">
           <div className="wrap split">
