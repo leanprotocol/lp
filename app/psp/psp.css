@@ -614,3 +614,59 @@
 .psp-page .psp-news-item img { height: 44px; max-width: 100%; }
 
 @media (max-width: 640px) { .psp-page .psp-news { grid-template-columns: repeat(3, 1fr); gap: 20px 14px; } .psp-page .psp-news-item img { height: 30px; } }
+
+/* ---------- partner dashboard showcase ---------- */
+.psp-page .dash { position: relative; margin: 54px 0 10px; padding-bottom: 40px; perspective: 1800px; }
+.psp-page .dash__glow { position: absolute; inset: -6% -4% 8%; background: radial-gradient(58% 62% at 52% 42%, rgba(200,217,167,0.20), transparent 70%); filter: blur(38px); pointer-events: none; }
+.psp-page .dash__desktop { position: relative; width: 84%; margin-left: auto; transform: rotateX(7deg) rotateY(-9deg) rotateZ(0.6deg); transform-origin: 70% 50%; animation: dashFloat 9s ease-in-out infinite; }
+.psp-page .dash__desktop img { display: block; width: 100%; height: auto; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.28), 0 18px 34px rgba(0,0,0,0.34), 0 54px 90px rgba(0,0,0,0.42); }
+.psp-page .dash__mobile { position: absolute; left: 0; bottom: 0; width: 20%; min-width: 132px; transform: rotateX(6deg) rotateY(11deg) rotateZ(-1.4deg); transform-origin: 30% 60%; animation: dashFloat 9s ease-in-out infinite; animation-delay: -3.2s; }
+.psp-page .dash__mobile img { display: block; width: 100%; height: auto; border-radius: 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.3), 0 16px 30px rgba(0,0,0,0.38), 0 42px 70px rgba(0,0,0,0.46); }
+@keyframes dashFloat { 0%,100% { translate: 0 0; } 50% { translate: 0 -12px; } }
+.psp-page .dash__notes { list-style: none; display: flex; flex-wrap: wrap; gap: 10px 26px; padding: 0; margin: 30px 0 0; }
+.psp-page .dash__notes li { font-size: 13.5px; color: rgba(200,217,167,0.9); }
+.psp-page .dash__notes li::before { content: '\2713'; margin-right: 8px; font-weight: 700; color: var(--p-sage); }
+@media (max-width: 900px) { .psp-page .dash { perspective: none; padding-bottom: 0; } .psp-page .dash__desktop { width: 100%; margin: 0; transform: none; animation: none; } .psp-page .dash__mobile { position: relative; width: 46%; margin: -14% auto 0; transform: none; animation: none; } }
+@media (prefers-reduced-motion: reduce) { .psp-page .dash__desktop, .psp-page .dash__mobile { animation: none; } }
+
+/* ---------- dashboard showcase v2: side by side ---------- */
+.psp-page #dashboard .wrap { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.15fr); gap: 54px; align-items: center; }
+.psp-page #dashboard .label, .psp-page #dashboard h2, .psp-page #dashboard .big, .psp-page #dashboard .dash__notes { grid-column: 1; }
+.psp-page #dashboard h2 { margin-top: 6px; }
+.psp-page #dashboard .big { margin-top: 14px; }
+.psp-page .dash { grid-column: 2; grid-row: 1 / span 4; margin: 0; padding: 0; perspective: 1500px; }
+.psp-page .dash__glow { inset: -12%; }
+.psp-page .dash__desktop { width: 88%; margin-left: auto; transform: rotateX(6deg) rotateY(-11deg); }
+.psp-page .dash__mobile { width: 24%; min-width: 96px; left: -2%; bottom: -6%; transform: rotateX(5deg) rotateY(9deg) rotateZ(-2deg); }
+.psp-page .dash__notes { margin-top: 26px; gap: 8px 20px; }
+.psp-page .dash__notes li { font-size: 12.5px; }
+@media (max-width: 900px) { .psp-page #dashboard .wrap { display: block; } .psp-page .dash { margin-top: 34px; } }
+
+/* ---------- dashboard showcase v3: tighter ---------- */
+.psp-page #dashboard { padding-top: 46px; padding-bottom: 46px; }
+.psp-page #dashboard .wrap { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 30px; }
+.psp-page .dash { grid-row: 1 / span 3; }
+.psp-page #dashboard .big { margin-top: 12px; max-width: 44ch; font-size: 16px; }
+.psp-page #dashboard h2 { margin-top: 4px; }
+@media (max-width: 900px) { .psp-page #dashboard { padding-top: 34px; padding-bottom: 34px; } .psp-page .dash { margin-top: 24px; } }
+
+/* ---------- dashboard showcase v4: larger ---------- */
+.psp-page #dashboard { padding-top: 76px; padding-bottom: 76px; }
+.psp-page #dashboard .wrap { grid-template-columns: minmax(0, 0.6fr) minmax(0, 1.4fr); gap: 40px; align-items: center; }
+.psp-page .dash { grid-row: 1 / span 2; }
+.psp-page .dash__desktop { width: 96%; transform: rotateX(6deg) rotateY(-10deg); }
+.psp-page .dash__mobile { width: 27%; min-width: 110px; left: -12%; bottom: -8%; transform: rotateX(5deg) rotateY(9deg) rotateZ(-2deg); }
+@media (max-width: 900px) { .psp-page #dashboard { padding-top: 44px; padding-bottom: 44px; } .psp-page .dash__desktop { display: none; } .psp-page .dash__mobile { position: relative; left: 0; bottom: 0; width: 68%; min-width: 0; margin: 26px auto 0; transform: none; animation: none; } .psp-page .dash__glow { inset: 0; } }
+
+/* ---------- dashboard showcase v6: cutouts, no CSS shadow ---------- */
+.psp-page .dash__desktop img, .psp-page .dash__mobile img { box-shadow: none; border-radius: 0; filter: drop-shadow(0 24px 44px rgba(0,0,0,0.45)); }
+
+/* ---------- dashboard showcase v7: kill box shadows ---------- */
+.psp-page .dash__desktop img, .psp-page .dash__mobile img { box-shadow: none !important; border-radius: 0 !important; background: none !important; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.42)); }
+.psp-page .dash__desktop, .psp-page .dash__mobile { box-shadow: none !important; background: none !important; }
+
+/* ---------- dashboard showcase v8: no border ---------- */
+.psp-page .dash img, .psp-page .dash__desktop, .psp-page .dash__mobile { border: 0 !important; outline: 0 !important; box-shadow: none !important; background: transparent !important; }
+
+/* ---------- dashboard showcase v8: no border ---------- */
+.psp-page .dash img, .psp-page .dash__desktop, .psp-page .dash__mobile { border: 0 !important; outline: 0 !important; box-shadow: none !important; background: transparent !important; }

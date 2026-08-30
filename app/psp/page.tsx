@@ -21,6 +21,7 @@ import {
   DISCLAIMER,
 } from "@/content/psp";
 import { PspPartners, PspGoogle, PspNews } from "@/components/psp/psp-strips";
+import { PspDashboard } from "@/components/psp/psp-dashboard";
 import {
   PspHeader,
   Reveal,
@@ -164,6 +165,7 @@ export default function PspPage() {
           </div>
         </section>
 
+        <PspDashboard />
         {/* ---------- 5. Care areas ---------- */}
         <section className="sec sec-ivory" id="areas">
           <div className="wrap">
