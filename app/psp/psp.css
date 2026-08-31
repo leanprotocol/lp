@@ -670,3 +670,56 @@
 
 /* ---------- dashboard showcase v8: no border ---------- */
 .psp-page .dash img, .psp-page .dash__desktop, .psp-page .dash__mobile { border: 0 !important; outline: 0 !important; box-shadow: none !important; background: transparent !important; }
+
+/* ---------- dashboard showcase v9: heading position ---------- */
+.psp-page #dashboard .wrap { grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr); gap: 64px; }
+.psp-page #dashboard .label, .psp-page #dashboard h2 { padding-right: 20px; }
+.psp-page .dash__desktop { width: 90%; }
+@media (max-width: 900px) { .psp-page #dashboard .label, .psp-page #dashboard h2 { padding-right: 0; } }
+
+/* ---------- dashboard showcase v10: heading further left and up ---------- */
+.psp-page #dashboard .wrap { grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr); gap: 30px; align-items: start; }
+.psp-page #dashboard .label { margin-top: 24px; }
+.psp-page #dashboard h2 { margin-top: 10px; }
+.psp-page .dash { margin-top: 46px; }
+@media (max-width: 900px) { .psp-page #dashboard .label { margin-top: 0; } .psp-page .dash { margin-top: 24px; } }
+
+/* ---------- dashboard showcase v11: bigger images and heading ---------- */
+.psp-page #dashboard .wrap { max-width: none; padding-left: clamp(16px, 3vw, 46px); padding-right: clamp(16px, 3vw, 46px); grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr); gap: 24px; }
+.psp-page #dashboard h2 { font-size: clamp(34px, 4.4vw, 62px); line-height: 1.04; }
+.psp-page .dash__desktop { width: 104%; margin-left: auto; margin-right: -8%; }
+.psp-page .dash__mobile { width: 30%; left: -14%; bottom: -4%; }
+@media (max-width: 900px) { .psp-page #dashboard h2 { font-size: 30px; } .psp-page .dash__mobile { width: 68%; left: 0; bottom: 0; } }
+
+/* ---------- dashboard showcase v12: undo overflow, small bump ---------- */
+.psp-page #dashboard .wrap { max-width: 1180px; margin-left: auto; margin-right: auto; padding-left: 26px; padding-right: 26px; grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr); gap: 28px; }
+.psp-page #dashboard h2 { font-size: clamp(30px, 3.2vw, 46px); }
+.psp-page .dash__desktop { width: 100%; margin-right: 0; margin-left: auto; }
+.psp-page .dash__mobile { width: 28%; left: -10%; bottom: -4%; }
+@media (max-width: 900px) { .psp-page #dashboard h2 { font-size: 28px; } .psp-page .dash__mobile { width: 68%; left: 0; bottom: 0; } }
+
+/* ---------- dashboard showcase v13: final positions ---------- */
+.psp-page #dashboard .wrap { grid-template-columns: minmax(0, 0.96fr) minmax(0, 1.04fr); gap: 20px; }
+.psp-page #dashboard .label, .psp-page #dashboard h2 { margin-left: -34px; }
+.psp-page #dashboard h2 { max-width: 11ch; }
+.psp-page .dash__desktop { width: 100%; margin-left: auto; margin-right: -6%; }
+.psp-page .dash__mobile { left: -4%; }
+@media (max-width: 900px) { .psp-page #dashboard .label, .psp-page #dashboard h2 { margin-left: 0; } .psp-page #dashboard h2 { max-width: none; } .psp-page .dash__desktop { margin-right: 0; } .psp-page .dash__mobile { left: 0; } }
+
+/* ---------- dashboard showcase v14: larger heading, wider device gap ---------- */
+.psp-page #dashboard h2 { font-size: clamp(34px, 4vw, 58px); line-height: 1.05; max-width: 12ch; }
+.psp-page .dash__desktop { margin-right: -12%; }
+.psp-page .dash__mobile { left: -10%; }
+@media (max-width: 900px) { .psp-page #dashboard h2 { font-size: 30px; max-width: none; } .psp-page .dash__desktop { margin-right: 0; } .psp-page .dash__mobile { left: 0; } }
+
+/* ---------- dashboard showcase v15: bigger images, same strip height ---------- */
+.psp-page .dash { position: relative; height: 0; padding-bottom: 34%; }
+.psp-page .dash__desktop { position: absolute; right: -12%; top: 50%; width: 128%; margin: 0; transform: translateY(-50%) rotateX(6deg) rotateY(-10deg); }
+.psp-page .dash__mobile { position: absolute; left: -22%; bottom: auto; top: 50%; width: 36%; transform: translateY(-46%) rotateX(5deg) rotateY(9deg) rotateZ(-2deg); }
+@media (max-width: 900px) { .psp-page .dash { height: auto; padding-bottom: 0; } .psp-page .dash__desktop { display: none; } .psp-page .dash__mobile { position: relative; left: 0; top: auto; width: 68%; margin: 26px auto 0; transform: none; } }
+
+/* ---------- dashboard showcase v16: desktop further right ---------- */
+.psp-page .dash__desktop { right: -22%; }
+
+/* ---------- dashboard showcase v17 ---------- */
+.psp-page .dash__desktop { right: -32%; }
