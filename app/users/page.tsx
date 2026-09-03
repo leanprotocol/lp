@@ -395,6 +395,17 @@ export default function UsersFunnel() {
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data?.success) throw new Error(data?.error || "Could not submit. Please try again.");
       setStep(S.DONE);
+
+      // OpenAI ads pixel. Fired here rather than on mount because this
+      // funnel is one route with internal steps - a page-load event would
+      // count everyone who opened it, not everyone who finished.
+      try {
+        const oaiq = (window as unknown as { oaiq?: (...args: unknown[]) => void }).oaiq;
+        oaiq?.("measure", "lead_created", { type: "customer_action" });
+        oaiq?.("measure", "page_viewed", { type: "contents" });
+      } catch {
+        // A blocked or missing pixel must never break the thank-you screen.
+      }
     } catch (err: any) {
       setSendError(err.message || "Could not submit. Please try again.");
     } finally {

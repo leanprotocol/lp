@@ -11,6 +11,12 @@ const GOOGLE_ADS_ID = "AW-18352829434";
 const GA4_ID = "G-LEFM5XNNP5";
 const GTM_ID = "GTM-P2Q8FQJ3";
 
+/* OpenAI ads pixel. The loader below defines a queue stub so the measure
+   calls in page.tsx work before the SDK has finished downloading.
+   debug:true logs to the console - marketing asked for it while they verify
+   events are arriving. Remove it once they confirm. */
+const OAI_PIXEL_ID = "ExeXJ9TEEr7Gci9U65VWhm";
+
 export const metadata: Metadata = {
   title: "Get Your Personalised Plan | Lean Protocol",
   description:
@@ -53,6 +59,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           gtag('config', '${GOOGLE_ADS_ID}');
           gtag('config', '${GA4_ID}');
         `}
+      </Script>
+
+      {/* OpenAI ads pixel */}
+      <Script id="oaiq" strategy="afterInteractive">
+        {`!function(w,d,s,u){if(w.oaiq)return;var q=function(){q.q.push(arguments)};q.q=[];w.oaiq=q;var j=d.createElement(s);j.async=1;j.src=u;var f=d.getElementsByTagName(s)[0];f.parentNode.insertBefore(j,f)}(window,document,"script","https://bzrcdn.openai.com/sdk/oaiq.min.js");oaiq("init",{pixelId:"${OAI_PIXEL_ID}",debug:true});`}
       </Script>
 
       {children}
