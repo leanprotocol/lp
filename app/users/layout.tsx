@@ -17,6 +17,12 @@ const GTM_ID = "GTM-P2Q8FQJ3";
    events are arriving. Remove it once they confirm. */
 const OAI_PIXEL_ID = "ExeXJ9TEEr7Gci9U65VWhm";
 
+/* Meta Pixel. Note this is a DIFFERENT id from the 2207593576706808 pixel
+   that was removed from the main site on 3 August - that one fires from
+   inside the GTM container. Scoped to /users, so it also loads on
+   /users/privacy and /users/terms. */
+const META_PIXEL_ID = "1388275653443222";
+
 export const metadata: Metadata = {
   title: "Get Your Personalised Plan | Lean Protocol",
   description:
@@ -65,6 +71,29 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <Script id="oaiq" strategy="afterInteractive">
         {`!function(w,d,s,u){if(w.oaiq)return;var q=function(){q.q.push(arguments)};q.q=[];w.oaiq=q;var j=d.createElement(s);j.async=1;j.src=u;var f=d.getElementsByTagName(s)[0];f.parentNode.insertBefore(j,f)}(window,document,"script","https://bzrcdn.openai.com/sdk/oaiq.min.js");oaiq("init",{pixelId:"${OAI_PIXEL_ID}",debug:true});`}
       </Script>
+
+      {/* Meta Pixel */}
+      <Script id="meta-pixel" strategy="afterInteractive">
+        {`!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '${META_PIXEL_ID}');
+fbq('track', 'PageView');`}
+      </Script>
+      <noscript>
+        <img
+          height="1"
+          width="1"
+          style={{ display: "none" }}
+          alt=""
+          src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
+        />
+      </noscript>
 
       {children}
     </div>
