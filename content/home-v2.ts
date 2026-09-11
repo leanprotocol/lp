@@ -199,6 +199,10 @@ export const experts = {
     { name: "Aparna Tandon",      role: "Weight Loss Expert",     img: "/lp-assets/experts/aparna.jpeg" },
     { name: "Richa Singh",        role: "Yoga & Fat Loss",        img: "/lp-assets/experts/richa-singh.jpeg" },
     { name: "Alka Bharti",        role: "GLP-1 Dietitian",        img: "/lp-assets/experts/alka.jpeg" },
+    { name: "Dr. Archna Gupta",   role: "Senior Dietitian",       img: "/lp-assets/experts/archna-gupta.png" },
+    { name: "Dt. Florence Singh", role: "Weight Loss Dietitian",  img: "/lp-assets/experts/florence-singh.jpeg" },
+    { name: "Dt. Suruchi Gupta",  role: "Weight Loss Expert",     img: "/lp-assets/experts/suruchi-gupta.jpeg" },
+    { name: "Dt. Sarani",         role: "Weight Loss Dietitian",  img: "/lp-assets/experts/sarani.jpeg" },
   ],
 };
 
