@@ -465,7 +465,7 @@ export default function UsersFunnel() {
               <div className="badge">2-MINUTE ELIGIBILITY CHECK</div>
               <h1 className="q-h1">
                 India&apos;s <span className="serif">expert-guided</span><br />
-                fat-loss plan
+                weight-loss plan
               </h1>
               <p className="lede">
                 Six questions. We&apos;ll model your six-month curve and tell you if a health expert
@@ -477,7 +477,7 @@ export default function UsersFunnel() {
                 <div className="shot-cap">Expert-led from day one</div>
               </div>
               <div className="trust">
-                {["Expert-led", "Money-back guarantee*"].map((t) => (
+                {["Expert-led"].map((t) => (
                   <div className="trust-item" key={t}>
                     <span className="trust-tick">{TICK}</span>{t}
                   </div>
@@ -488,10 +488,7 @@ export default function UsersFunnel() {
                   Get my free metabolic score {ARROW}
                 </button>
               </div>
-              <p className="fine">
-                *Money-back guarantee applies to eligible 6-month programme members and is
-                subject to the terms.
-              </p>
+
             </div>
           )}
 
@@ -893,7 +890,7 @@ export default function UsersFunnel() {
             <div className="pane">
               <h2 className="q-h2" style={{ fontSize: "clamp(25px,6.4vw,33px)", margin: "0 0 22px" }}>
                 Last step to unlock your{" "}
-                <span className="serif">personalised fat-loss plan.</span>
+                <span className="serif">personalised weight-loss plan.</span>
               </h2>
 
               <div style={{ display: "grid", gap: 11 }}>
