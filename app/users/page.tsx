@@ -400,9 +400,20 @@ export default function UsersFunnel() {
       // funnel is one route with internal steps - a page-load event would
       // count everyone who opened it, not everyone who finished.
       try {
-        const oaiq = (window as unknown as { oaiq?: (...args: unknown[]) => void }).oaiq;
-        oaiq?.("measure", "lead_created", { type: "customer_action" });
-        oaiq?.("measure", "page_viewed", { type: "contents" });
+        const w = window as unknown as {
+          oaiq?: (...args: unknown[]) => void;
+          fbq?: (...args: unknown[]) => void;
+          gtag?: (...args: unknown[]) => void;
+        };
+        w.oaiq?.("measure", "lead_created", { type: "customer_action" });
+        w.oaiq?.("measure", "page_viewed", { type: "contents" });
+
+        // Meta and Google both loaded a pixel and neither was ever told when
+        // somebody actually finished. Until now they were optimising against
+        // arrivals, so every cost-per-lead figure in those dashboards was a
+        // cost per page view.
+        w.fbq?.("track", "Lead");
+        w.gtag?.("event", "generate_lead", { currency: "INR" });
       } catch {
         // A blocked or missing pixel must never break the thank-you screen.
       }
