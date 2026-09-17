@@ -23,6 +23,16 @@ const OAI_PIXEL_ID = "ExeXJ9TEEr7Gci9U65VWhm";
    /users/privacy and /users/terms. */
 const META_PIXEL_ID = "1388275653443222";
 
+/* Second Meta pixel, added 17 Sep 2026 for the incoming agency.
+   fbq supports several pixels on one page: the library loads once and each
+   init registers another destination. A track call with no scoping fires to
+   BOTH, which is intended - each agency sees every conversion.
+
+   Worth knowing when the two dashboards are compared: they report the same
+   leads, so adding the totals double-counts. Campaign attribution comes from
+   the UTM parameters on the lead, not from which pixel saw it. */
+const META_PIXEL_ID_2 = "1110969804946521";
+
 export const metadata: Metadata = {
   title: "Get Your Personalised Plan | Lean Protocol",
   description:
@@ -83,6 +93,7 @@ t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '${META_PIXEL_ID}');
+fbq('init', '${META_PIXEL_ID_2}');
 fbq('track', 'PageView');`}
       </Script>
       <noscript>
