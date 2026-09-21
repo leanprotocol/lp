@@ -394,6 +394,24 @@ export default function UsersFunnel() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data?.success) throw new Error(data?.error || "Could not submit. Please try again.");
+      // Hand off to the thank-you URL. A FULL navigation, not router.push:
+      // the Meta pixel records PageView when the layout loads, so a
+      // client-side route change would never register a view on /thankyou
+      // and a URL-based conversion would count nothing. Conversion events now
+      // fire on the thank-you page, where navigating cannot cancel them.
+      //
+      // Falls through to the in-page done screen if session storage is
+      // unavailable, so a locked-down browser still sees a confirmation.
+      try {
+        const first = name.trim().split(" ")[0] || "friend";
+        sessionStorage.setItem("lp_thanks", JSON.stringify({ name: first, fired: false }));
+        window.location.assign(
+          window.location.pathname.startsWith("/users") ? "/users/thankyou" : "/thankyou",
+        );
+        return;
+      } catch {
+        // fall through to the in-page screen
+      }
       setStep(S.DONE);
 
       // OpenAI ads pixel. Fired here rather than on mount because this
