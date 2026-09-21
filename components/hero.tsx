@@ -9,7 +9,7 @@ import * as C from "@/content/home-v2"
 
 export function Hero() {
   return (
-    <section className="gw-hero relative flex min-h-[96vh] flex-col justify-center overflow-hidden px-7 pb-0 pt-[60px]">
+    <section className="gw-hero relative flex min-h-[96vh] flex-col justify-center overflow-hidden px-7 pb-0 pt-[180px] md:pt-[60px]">
       {/* Backdrop: photo with a slow Ken Burns drift, then three stacked
           washes that pull the bottom edge into the next section's colour. */}
       <img
@@ -63,7 +63,7 @@ export function Hero() {
           src={p.src}
           alt=""
           aria-hidden
-          className="gw-float absolute z-0 rounded-lg border-4 border-lp-bg object-cover md:border-[6px]"
+          className={`gw-float gw-float-${i} absolute z-0 rounded-lg border-4 border-lp-bg object-cover md:border-[6px]`}
           style={
             {
               "--r": p.rot,
@@ -228,8 +228,21 @@ export function Hero() {
         }
         @media (max-width: 767px) {
           .gw-float {
-            width: clamp(74px, 21vw, 104px) !important;
-            opacity: 0.82;
+            width: clamp(56px, 15vw, 74px) !important;
+            opacity: 0.5;
+          }
+          .gw-float-0 {
+            top: 78px !important;
+            left: 8px !important;
+            bottom: auto !important;
+          }
+          .gw-float-1 {
+            top: 72px !important;
+            right: 8px !important;
+            bottom: auto !important;
+          }
+          .gw-float-2 {
+            display: none;
           }
         }
         @media (prefers-reduced-motion: reduce) {
