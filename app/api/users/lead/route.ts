@@ -39,6 +39,15 @@ async function pushToCRM(fields: Record<string, any>) {
   }
 }
 
+// One clean column to filter on. A click ID wins over utm_source, because
+// Google and Meta add them even when nobody remembered to tag the campaign.
+function leadChannel(utmSource?: string, gclid?: string, fbclid?: string): string {
+  const src = (utmSource || '').toLowerCase();
+  if (gclid || src === 'google') return 'Google Ads';
+  if (fbclid || ['meta', 'facebook', 'fb', 'instagram', 'ig'].includes(src)) return 'Meta Ads';
+  return src || 'Organic / Direct';
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -58,6 +67,13 @@ export async function POST(request: NextRequest) {
       fbclid,
       page_url,
       referrer,
+      height_cm,
+      bmi,
+      conditions,
+      conditions_other,
+      utm_content,
+      utm_term,
+      campaign_id,
     } = body as Record<string, string>;
 
     const cleanPhone = (phone || '').replace(/\D/g, '');
@@ -75,7 +91,12 @@ export async function POST(request: NextRequest) {
       email: email || '',
       weight: weight || '',
       goal: goal || '',
-      timeline: timeline || '',
+      // Keys follow the CRM field names: lowercase, spaces as underscores.
+      // "timeline" matched no field and was silently dropped on every lead.
+      when_to_lose_weight: timeline || '',
+      height: height_cm || '',
+      bmi: Number.isFinite(Number(bmi)) && Number(bmi) > 0 ? Math.round(Number(bmi) * 10) / 10 : '',
+      comorbidity: [conditions, conditions_other].filter(Boolean).join('; '),
       support_type: support_type || '',
       source: source || 'users-questionnaire',
       utm_source: utm_source || '',
@@ -85,6 +106,10 @@ export async function POST(request: NextRequest) {
       fbclid: fbclid || '',
       page_url: page_url || '',
       referrer: referrer || '',
+      utm_content: utm_content || '',
+      utm_term: utm_term || '',
+      campaign_id: campaign_id || '',
+      lead_channel: leadChannel(utm_source, gclid, fbclid),
     });
 
     if (!result.ok) {

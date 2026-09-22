@@ -160,6 +160,26 @@ const BAND_CONTENT = [
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
 export default function UsersFunnel() {
+  // Campaign parameters, read ONCE on arrival and held, so a refresh or
+  // back press mid-funnel cannot lose the attribution. Last touch: TeleCRM
+  // matches on phone, so a second submission overwrites the first.
+  const campaign = useRef<Record<string, string>>({});
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search);
+    const take = (k: string) => (q.get(k) ?? "").slice(0, 200);
+    campaign.current = {
+      utm_source: take("utm_source"),
+      utm_medium: take("utm_medium"),
+      utm_campaign: take("utm_campaign"),
+      utm_content: take("utm_content"),
+      utm_term: take("utm_term"),
+      // Meta sends utm_id when the ad carries utm_id={{campaign.id}}; Google
+      // appends gad_campaignid on its own. A stable ID survives a rename.
+      campaign_id: take("utm_id") || take("gad_campaignid"),
+      gclid: take("gclid"),
+      fbclid: take("fbclid"),
+    };
+  }, []);
   const [step, setStep] = useState<number>(S.INTRO);
   const [answers, setAnswers] = useState<Record<string, string | string[]>>({});
   const [other, setOther] = useState("");
@@ -388,6 +408,7 @@ export default function UsersFunnel() {
           timeline: (answers.timing as string) || "",
           projected_target_kg: String(target),
           source: "users-questionnaire",
+          ...campaign.current,
           page_url: typeof window !== "undefined" ? window.location.href : "",
           referrer: typeof document !== "undefined" ? document.referrer : "",
         }),
