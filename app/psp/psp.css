@@ -206,7 +206,7 @@
 }
 /* Logo is dark-on-transparent, so it needs inverting on the dark bar. */
 .psp-page .hdr-logo img {
-  height: 68px;
+  height: 88px;
   width: auto;
   display: block;
 }
@@ -723,3 +723,23 @@
 
 /* ---------- dashboard showcase v17 ---------- */
 .psp-page .dash__desktop { right: -32%; }
+
+/* Partner login. Outlined rather than filled, so it reads as a peer of the
+   sage CTA without competing with it - the enquiry form stays the primary
+   action for new visitors. */
+/* Inherits .btn .btn-sage, so it is identical to the Get in touch button
+   by construction rather than by copied values that can drift apart. */
+/* hdr-cta sets margin-left: auto to push itself right. Cancel it here, or
+   the two pills end up separated by all the remaining space. */
+.psp-page .hdr-login {
+  margin-left: auto;
+  margin-right: 12px;
+}
+.psp-page .hdr-login + .hdr-cta {
+  margin-left: 0;
+}
+@media (max-width: 720px) {
+  .hdr-login {
+    display: none;
+  }
+}

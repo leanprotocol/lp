@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 // components/psp/psp-interactive.tsx
 // The only interactive parts of /psp. Everything else renders on the
@@ -74,6 +74,7 @@ export function PspHeader() {
           ))}
         </nav>
 
+        <a href="https://partner.leanprotocol.in" className="btn btn-sage hdr-cta hdr-login" target="_blank" rel="noopener noreferrer">Partner login</a>
         <a href="#request" className="btn btn-sage hdr-cta">
           {CTA.primary}
         </a>
