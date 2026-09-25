@@ -223,6 +223,63 @@ export default function UsersFunnel() {
 
   useEffect(() => clearTimers, [clearTimers]);
 
+  /* A URL per step, so analytics can report drop-off by screen.
+     The funnel is one React page. Pushing a path here gives GA4, Meta and
+     GTM a distinct pageview per step without splitting the component into
+     routes - which would cost the transitions and the in-memory answers.
+
+     basePath keeps this working on both hosts: on forms.leanprotocol.in the
+     funnel sits at "/", on the main domain it sits at "/users". Captured
+     once on mount, before the first push changes the pathname. */
+  const basePath = useRef("");
+  useEffect(() => {
+    basePath.current = window.location.pathname.startsWith("/users") ? "/users" : "";
+  }, []);
+
+  const pathForStep = useCallback((s: number) => {
+    const b = basePath.current;
+    if (s === S.DONE) return `${b}/thankyou`;
+    if (s === S.INTRO) return b || "/";
+    return `${b}/page${s + 1}`;
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const path = pathForStep(step);
+    if (window.location.pathname !== path) {
+      window.history.pushState({ step }, "", path);
+    }
+    const w = window as any;
+    if (typeof w.gtag === "function") {
+      w.gtag("event", "page_view", {
+        page_path: path,
+        page_title: `Funnel step ${step}`,
+        page_location: window.location.href,
+      });
+    }
+    if (typeof w.fbq === "function") w.fbq("track", "PageView");
+    w.dataLayer = w.dataLayer || [];
+    w.dataLayer.push({ event: "virtual_pageview", page_path: path, funnel_step: step });
+  }, [step, pathForStep]);
+
+  /* Back button. Without this the URL would change but the screen would not,
+     which is worse than having no history at all. */
+  useEffect(() => {
+    const onPop = (e: PopStateEvent) => {
+      const s = e.state && typeof e.state.step === "number" ? e.state.step : null;
+      if (s !== null) {
+        clearTimers();
+        setStep(s);
+        return;
+      }
+      const m = window.location.pathname.match(/page(\d+)$/);
+      clearTimers();
+      setStep(m ? Math.max(0, Number(m[1]) - 1) : S.INTRO);
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, [clearTimers]);
+
   /* ---------- derived ---------- */
   const heightCm = Math.round((ft * 12 + inch) * 2.54);
   const bmiNum = weight / Math.pow(heightCm / 100, 2);
