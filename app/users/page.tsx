@@ -232,8 +232,13 @@ export default function UsersFunnel() {
      funnel sits at "/", on the main domain it sits at "/users". Captured
      once on mount, before the first push changes the pathname. */
   const basePath = useRef("");
+  /* The URL the visitor actually arrived on, query string included.
+     Captured on mount because pushState below rewrites the path, and the
+     CRM reads UTMs out of page_url. */
+  const landingUrl = useRef("");
   useEffect(() => {
     basePath.current = window.location.pathname.startsWith("/users") ? "/users" : "";
+    landingUrl.current = window.location.href;
   }, []);
 
   const pathForStep = useCallback((s: number) => {
@@ -247,7 +252,7 @@ export default function UsersFunnel() {
     if (typeof window === "undefined") return;
     const path = pathForStep(step);
     if (window.location.pathname !== path) {
-      window.history.pushState({ step }, "", path);
+      window.history.pushState({ step }, "", path + window.location.search);
     }
     const w = window as any;
     if (typeof w.gtag === "function") {
@@ -466,7 +471,7 @@ export default function UsersFunnel() {
           projected_target_kg: String(target),
           source: "users-questionnaire",
           ...campaign.current,
-          page_url: typeof window !== "undefined" ? window.location.href : "",
+          page_url: landingUrl.current || (typeof window !== "undefined" ? window.location.href : ""),
           referrer: typeof document !== "undefined" ? document.referrer : "",
         }),
       });
