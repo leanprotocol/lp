@@ -7,6 +7,7 @@
 // sentences without removing others.
 
 import type { Metadata } from "next";
+import { PspFeatures } from "@/components/psp/psp-features";
 import {
   HERO,
   VALUE,
@@ -72,14 +73,16 @@ export default function PspPage() {
               <p className="fine">{HERO.audience}</p>
             </div>
 
-            {/* Care-team photograph. Place at /public/psp/hero-care-team.webp */}
-            <div className="well well-hero">
+            {/* Service cycle. A cut-out with no background of its own, so it
+                sits straight on the hero rather than inside the photo well -
+                no frame, no radius, no crop. */}
+            <div className="hero-wheel">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/psp/hero-care-team.webp"
-                alt="A Lean Protocol care team reviewing a patient nutrition plan together."
-                width={900}
-                height={1200}
+                src="/psp/hero-wheel.webp"
+                alt="The Lean Protocol service cycle: enrolment, onboarding, nutrition, doctor consults, side-effect support, dose reminders, diagnostics, medicine delivery, education and reporting, arranged around one care team."
+                width={1024}
+                height={1024}
               />
             </div>
           </div>
@@ -166,6 +169,9 @@ export default function PspPage() {
         </section>
 
         <PspDashboard />
+        {/* ---------- 4b. Capability grid ---------- */}
+        <PspFeatures />
+
         {/* ---------- 5. Care areas ---------- */}
         <section className="sec sec-ivory" id="areas">
           <div className="wrap">

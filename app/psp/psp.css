@@ -743,3 +743,110 @@
     display: none;
   }
 }
+/* Partner strip: centred heading, larger logos, captions with room to sit
+   on two lines. Appended so it wins over the earlier .psp-partner rules
+   without editing them - those are shared with the press strip below. */
+/* The h2 needs naming directly - a section-level rule sets text-align on
+   headings, and that beats alignment inherited from the wrapper. */
+.psp-page .psp-partners-head { text-align: center; }
+.psp-page .psp-partners-head h2,
+.psp-page .psp-partners-head p { text-align: center; margin-left: auto; margin-right: auto; }
+.psp-page .psp-partner img { height: 64px; }
+.psp-page .psp-partner span {
+  font-size: 13.5px;
+  line-height: 1.4;
+  max-width: 19ch;
+  text-align: center;
+}
+@media (max-width: 640px) {
+  .psp-page .psp-partner img { height: 46px; }
+  .psp-page .psp-partner span { font-size: 12.5px; }
+}
+/* Hero service cycle. A transparent cut-out, so no well, no border and no
+   radius - a frame around a circle just draws a box around empty corners.
+   The soft radial behind it stops the graphic floating unanchored on the
+   hero gradient. */
+.psp-page .hero-wheel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.psp-page .hero-wheel::before {
+  content: "";
+  position: absolute;
+  inset: 6%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200, 217, 167, 0.14), transparent 68%);
+  pointer-events: none;
+}
+.psp-page .hero-wheel img {
+  position: relative;
+  width: 100%;
+  max-width: 680px;
+  height: auto;
+  display: block;
+}
+/* The column is narrower than the graphic wants, so let it spill right
+   instead of shrinking. The hero clips overflow, which keeps the page from
+   scrolling sideways. */
+@media (min-width: 900px) {
+  .psp-page .hero-wheel {
+    margin-right: clamp(-90px, -5vw, 0px);
+    justify-content: flex-end;
+  }
+  .psp-page .hero-wheel img { max-width: 620px; }
+}
+@media (max-width: 860px) {
+  .psp-page .hero-wheel img { max-width: 500px; margin: 0 auto; }
+}
+/* ---------- capability grid ---------- */
+.psp-page .psp-feat-head { text-align: center; }
+.psp-page .psp-feat-head h2,
+.psp-page .psp-feat-head p { text-align: center; margin-left: auto; margin-right: auto; }
+.psp-page .psp-feat-intro { max-width: 60ch; margin-top: 14px; font-size: 17px; line-height: 1.6; }
+
+.psp-page .psp-feat-grid {
+  display: grid; gap: 34px 40px; margin-top: 50px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 760px) {
+  .psp-page .psp-feat-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* No card, no border, no fill - the icon and the whitespace do the work.
+   Matches the reference: centred column, round badge above the title. */
+/* Icon left, text right. Two wide columns of centred text left the
+   descriptions stranded, so the badge anchors each row instead. */
+/* Grid rather than flex: the icon, the heading and the paragraph are three
+   siblings, so a flex row puts all three in a line. This spans the badge
+   down the left and stacks the text beside it. */
+.psp-page .psp-feat {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 20px;
+  row-gap: 6px;
+  align-items: start;
+  text-align: left;
+  padding: 4px 8px;
+}
+.psp-page .psp-feat-icon {
+  grid-row: 1 / span 2;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 82px; height: 82px; flex: none; border-radius: 50%;
+  background: #DCE7C6; color: #2D5A4E; margin-bottom: 0;
+  transition: background .25s, color .25s;
+}
+.psp-page .psp-feat:hover .psp-feat-icon { background: #2D5A4E; color: #F9F7F2; }
+.psp-page .psp-feat h3 {
+  grid-column: 2;
+  margin: 8px 0 0; font-size: 18px; font-weight: 800; letter-spacing: -0.015em;
+}
+.psp-page .psp-feat p {
+  grid-column: 2;
+  margin: 0; max-width: 46ch;
+  font-size: 14.5px; line-height: 1.55; color: rgba(28, 43, 34, 0.62);
+}.psp-page .psp-feat-note {
+  max-width: 68ch; margin: 34px auto 0; text-align: center;
+  font-size: 12.5px; line-height: 1.6; color: rgba(28, 43, 34, 0.5);
+}

@@ -1,0 +1,151 @@
+/* Additions for /workshops only.
+   The base sits in app/corporate/corporate.css, imported by the layout, so
+   the two B2B pages share type, colour, buttons and forms and cannot drift
+   apart. Everything here is scoped under .corporate-page too. */
+
+/* ---------- education chain ---------- */
+.corporate-page .ws-chain { display: grid; gap: 14px; margin-top: 44px; }
+@media (min-width: 900px) { .corporate-page .ws-chain { grid-template-columns: repeat(4, 1fr); } }
+
+.corporate-page .ws-link {
+  position: relative; border-radius: 22px; padding: 26px 24px 28px;
+  background: #fff; border: 1px solid var(--c-line);
+  box-shadow: 0 12px 30px rgba(25, 50, 49, 0.06);
+}
+/* The arrow between stages. Hidden on the last card and on narrow screens,
+   where the cards stack and an arrow pointing right would be wrong. */
+.corporate-page .ws-link::after {
+  content: "\2192"; position: absolute; top: 50%; right: -22px;
+  transform: translateY(-50%); font-size: 20px; color: var(--c-sage);
+}
+.corporate-page .ws-link:last-child::after { content: none; }
+@media (max-width: 899px) { .corporate-page .ws-link::after { content: none; } }
+
+.corporate-page .ws-link-n {
+  font-size: 13px; font-weight: 800; letter-spacing: 0.14em; color: var(--c-green);
+}
+.corporate-page .ws-link h3 { margin: 12px 0 8px; font-size: 21px; font-weight: 800; letter-spacing: -0.02em; }
+.corporate-page .ws-link p { margin: 0; font-size: 15px; line-height: 1.55; color: rgba(28, 43, 34, 0.65); }
+
+/* ---------- module picker ---------- */
+.corporate-page .ws-modules { display: grid; gap: 22px; margin-top: 44px; }
+@media (min-width: 940px) { .corporate-page .ws-modules { grid-template-columns: 330px 1fr; align-items: start; } }
+
+.corporate-page .ws-tabs { display: grid; gap: 8px; }
+.corporate-page .ws-tab {
+  display: flex; align-items: center; gap: 13px; width: 100%; text-align: left;
+  font: inherit; font-size: 15.5px; font-weight: 700; cursor: pointer;
+  padding: 16px 18px; border-radius: 16px;
+  border: 1.5px solid rgba(249, 247, 242, 0.12);
+  background: rgba(249, 247, 242, 0.04); color: var(--c-mist);
+  transition: background .2s, border-color .2s, color .2s;
+}
+.corporate-page .ws-tab:hover { border-color: rgba(200, 217, 167, 0.4); color: var(--c-ivory); }
+.corporate-page .ws-tab.on { background: var(--c-sage); border-color: var(--c-sage); color: var(--c-dark); }
+.corporate-page .ws-tab-n { font-size: 12px; font-weight: 800; opacity: 0.6; flex: none; }
+
+.corporate-page .ws-panel {
+  border-radius: 26px; padding: clamp(24px, 3vw, 40px);
+  border: 1px solid rgba(200, 217, 167, 0.25);
+  background: linear-gradient(165deg, #22453c, #0E1512);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+  animation: wsFade .35s ease both;
+}
+.corporate-page .ws-panel h3 {
+  margin: 0 0 8px; font-size: clamp(22px, 2.6vw, 32px);
+  font-weight: 800; letter-spacing: -0.025em; color: var(--c-ivory);
+}
+.corporate-page .ws-panel-lead { margin: 0 0 22px; font-size: 16.5px; line-height: 1.55; color: var(--c-sage); }
+
+.corporate-page .ws-points { list-style: none; margin: 0; padding: 0; display: grid; gap: 11px; }
+.corporate-page .ws-points li {
+  display: flex; gap: 12px; align-items: flex-start;
+  font-size: 15.5px; line-height: 1.5; color: var(--c-mist);
+}
+.corporate-page .ws-points .tick { background: rgba(200, 217, 167, 0.16); color: var(--c-sage); margin-top: 2px; }
+
+.corporate-page .ws-who {
+  margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(249, 247, 242, 0.12);
+  font-size: 14.5px; color: var(--c-mist);
+}
+.corporate-page .ws-who b {
+  display: block; font-size: 11.5px; font-weight: 800; letter-spacing: 0.14em;
+  color: var(--c-sage); margin-bottom: 6px;
+}
+
+/* ---------- formats ---------- */
+.corporate-page .ws-formats { display: grid; gap: 14px; margin-top: 44px; }
+@media (min-width: 820px) { .corporate-page .ws-formats { grid-template-columns: 1fr 1fr; } }
+.corporate-page .ws-format {
+  display: grid; gap: 8px; padding: 26px 26px 28px; border-radius: 22px;
+  background: #fff; border: 1px solid var(--c-line);
+}
+.corporate-page .ws-format-top { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.corporate-page .ws-format h3 { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
+.corporate-page .ws-tagpill {
+  padding: 5px 12px; border-radius: 999px; font-size: 11.5px; font-weight: 800;
+  letter-spacing: 0.06em; background: rgba(45, 90, 78, 0.1); color: var(--c-green);
+}
+.corporate-page .ws-format p { margin: 0; font-size: 15.5px; line-height: 1.55; color: rgba(28, 43, 34, 0.65); }
+
+/* ---------- partners ---------- */
+.corporate-page .ws-partners { display: grid; gap: 14px; margin-top: 40px; }
+@media (min-width: 760px) { .corporate-page .ws-partners { grid-template-columns: repeat(3, 1fr); } }
+.corporate-page .ws-partner {
+  display: flex; align-items: center; gap: 16px; padding: 20px 22px;
+  border-radius: 20px; background: rgba(249, 247, 242, 0.05);
+  border: 1px solid rgba(249, 247, 242, 0.1);
+}
+.corporate-page .ws-partner img {
+  height: 34px; width: auto; max-width: 96px; object-fit: contain; flex: none;
+  background: #fff; border-radius: 8px; padding: 5px 8px;
+}
+.corporate-page .ws-partner b { display: block; font-size: 15.5px; color: var(--c-ivory); }
+.corporate-page .ws-partner span { display: block; margin-top: 3px; font-size: 13.5px; line-height: 1.45; color: var(--c-mist); }
+
+/* ---------- offer ---------- */
+.corporate-page .ws-offer {
+  margin-top: 40px; border-radius: 28px; padding: clamp(26px, 3.4vw, 46px);
+  border: 1px dashed rgba(200, 217, 167, 0.45);
+  background: rgba(200, 217, 167, 0.06);
+}
+.corporate-page .ws-offer-list {
+  list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 11px;
+}
+@media (min-width: 720px) { .corporate-page .ws-offer-list { grid-template-columns: 1fr 1fr; } }
+.corporate-page .ws-offer-list li {
+  display: flex; gap: 12px; align-items: flex-start;
+  font-size: 16px; line-height: 1.5; color: var(--c-mist);
+}
+.corporate-page .ws-offer-list .tick { background: rgba(200, 217, 167, 0.16); color: var(--c-sage); margin-top: 2px; }
+
+@keyframes wsFade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .corporate-page .ws-panel { animation: none; }
+}
+
+/* ---------- bridge to /corporate ----------
+   Sage wash rather than another white card, so it reads as a change of
+   subject and not as one more section of the workshop pitch. */
+.corporate-page .ws-bridge-wrap { padding-top: 0; }
+.corporate-page .ws-bridge {
+  border-radius: 30px;
+  padding: clamp(28px, 4vw, 56px);
+  background:
+    radial-gradient(120% 140% at 100% 0%, rgba(200, 217, 167, 0.5), transparent 62%),
+    #EFF2E2;
+  border: 1px solid rgba(45, 90, 78, 0.14);
+}
+.corporate-page .ws-bridge-list {
+  list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 10px;
+}
+.corporate-page .ws-bridge-list li {
+  display: flex; gap: 12px; align-items: flex-start;
+  font-size: 16px; line-height: 1.5; color: rgba(28, 43, 34, 0.72);
+}
+.corporate-page .ws-bridge-list .tick {
+  background: rgba(45, 90, 78, 0.14); color: #2D5A4E; margin-top: 2px;
+}

@@ -6,9 +6,9 @@
 // respectively, so neither travels here - only the assets do.
 
 const PARTNERS = [
-  { src: "/lp-assets/logo-cult.png", alt: "Cult", sub: "Cult Pass Home" },
-  { src: "/lp-assets/logo-redcliffe.png", alt: "Redcliffe Labs", sub: "Blood tests" },
-  { src: "/lp-assets/logo-mrmed.jpg", alt: "Mr.Med", sub: "Medicine delivery" },
+  { src: "/lp-assets/logo-cult.png", alt: "Cult", sub: "Online workout partner through Cult Pass" },
+  { src: "/lp-assets/logo-redcliffe.png", alt: "Redcliffe Labs", sub: "Our diagnostics partner for blood tests" },
+  { src: "/lp-assets/logo-mrmed.jpg", alt: "Mr.Med", sub: "Our delivery partner for medicine deliveries" },
 ];
 
 // Only outlets that have actually covered Lean Protocol belong here - a logo
@@ -26,8 +26,10 @@ export function PspPartners() {
   return (
     <section className="sec sec-ivory">
       <div className="wrap">
-        <p className="label">DELIVERY PARTNERS</p>
-        <h2>The network already in place.</h2>
+        <div className="psp-partners-head">
+          <p className="label">DELIVERY PARTNERS</p>
+          <h2>The partner network for across India.</h2>
+        </div>
         <div className="psp-partners">
           {PARTNERS.map((p) => (
             <div className="psp-partner" key={p.alt}>

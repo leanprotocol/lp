@@ -26,9 +26,9 @@ export const HERO = {
 
 export const VALUE = {
   label: "WHY SUPPORT MATTERS",
-  h2: "Real care starts after the prescription.",
+  h2: "True value unlocks and scales with care.",
   intro:
-    "In GLP-1, support has been shown to improve continuity, results and the brand experience.",
+    "Our internal data suggests that support improves continuity, results and the brand experience.",
 };
 
 export const EVIDENCE = {
@@ -44,7 +44,7 @@ export const EVIDENCE = {
 
 export const JOURNEY = {
   label: "HOW IT WORKS",
-  h2: "How do we execute the GLP-1 patient support protocol.",
+  h2: "How do we execute the patient support protocol.",
   steps: [
     {
       title: "Onboarding",
@@ -52,7 +52,7 @@ export const JOURNEY = {
     },
     {
       title: "Nutrition & education",
-      copy: "A customised diet plan for their demography, pen administration guidance and regular expert-led webinars.",
+      copy: "A customised diet plan for their demography, administration guidance and regular expert-led webinars.",
     },
     {
       title: "Regular follow-ups",
@@ -60,7 +60,7 @@ export const JOURNEY = {
     },
     {
       title: "Coordinate",
-      copy: "Subsequent pen purchase reminders, payment collection and delivery coordination.",
+      copy: "Subsequent purchase reminders, payment collection and delivery coordination.",
     },
     {
       title: "Patient success",
@@ -87,14 +87,14 @@ export const RUN = {
     },
     {
       title: "A clearer dashboard for you",
-      copy: "See enrolment, engagement, continuation trend, ARPU and average weight loss in one dashboard.",
+      copy: "See enrolment, engagement, continuation trend, ARPU and longitudinal metabolic data in one dashboard.",
     },
   ],
 };
 
 export const AREAS = {
   label: "CARE AREAS",
-  h2: "Extended support for other conditions.",
+  h2: "Conditions we specialise in and support.",
   intro:
     "The same care team and technology can support different therapies and patient needs.",
   // size drives the mosaic: "lg" spans two columns on desktop.
@@ -108,12 +108,14 @@ export const AREAS = {
     { title: "Heart health", size: "lg", img: "/psp/areas/heart.webp", alt: "An older adult walking in a park with family." },
     { title: "PCOS", size: "sm", img: "/psp/areas/pcos.png", alt: "A woman in an everyday wellness setting." },
     { title: "Sleep health", size: "sm", img: "/psp/areas/sleep.png", alt: "A calm bedroom in soft morning light." },
-    { title: "High cholesterol", size: "sm", img: "/psp/areas/cholesterol.png", alt: "Heart-conscious food being prepared at home." },
+    { title: "Hepatology related conditions", size: "sm", img: "/psp/areas/hepatology.png", alt: "A clinician reviewing a liver scan report." },
+    { title: "Oncology", size: "lg", img: "/psp/areas/oncology.png", alt: "A patient in conversation with a member of their care team." },
+    { title: "Nephrology related", size: "sm", img: "/psp/areas/nephrology.png", alt: "A kidney-health consultation in a clinic setting." },
   ],
 };
 
 export const MODEL = {
-  h2: "Hire a whole extended care team for your GLP-1 therapy.",
+  h2: "Hire a whole extended care team for your therapy.",
   copy: "A 24/7 care team, so patients feel more connected.",
   flow: [
     "Doctor prescribes",
@@ -129,7 +131,7 @@ export const MODEL = {
 
 export const PILOT = {
   h3: "Start small. Learn quickly. Scale with confidence.",
-  copy: "Begin with one therapy and a defined North India pilot. Agree the success measures, launch the programme, then expand into more regions and languages.",
+  copy: "Begin with one therapy and a defined pilot. Agree the success measures, launch the programme, then expand into more regions and languages.",
   stages: ["Design", "Launch", "Measure and scale"],
   proof:
     "Lean Protocol already has trained care teams, patient education, follow-up workflows and care-team technology.",
@@ -147,7 +149,9 @@ export const THERAPY_OPTIONS = [
   "Heart health",
   "PCOS",
   "Sleep health",
-  "High cholesterol",
+  "Hepatology related conditions",
+  "Oncology",
+  "Nephrology related",
   "Other",
 ];
 
@@ -168,3 +172,56 @@ export const FAQS = [
 
 export const DISCLAIMER =
   "Lean Protocol supports patients after a valid prescription. Diagnosis, prescribing and dose decisions remain with the treating physician. Medicines are dispensed by authorised pharmacies. The programme is not an emergency service.";
+
+/* Capability grid. The icon key maps to a lucide component in
+   components/psp/psp-features.tsx - keep this file free of imports. */
+export const FEATURES = {
+  label: "WHAT THE PROGRAMME DOES",
+  h2: "Everything a patient needs, in one place.",
+  intro:
+    "Eight capabilities, delivered by our own care team rather than assembled from vendors. Configured per programme, so you take what your therapy needs.",
+  items: [
+    {
+      icon: "enrol",
+      title: "Enrolment and consent",
+      copy: "Digital consent, identity capture and onboarding, with a record you can audit.",
+    },
+    {
+      icon: "adherence",
+      title: "Adherence and persistence",
+      copy: "Dose reminders, refill prompts and follow-up calls, with a person behind them.",
+    },
+    {
+      icon: "clinical",
+      title: "Doctor and dietitian access",
+      copy: "Scheduled consults and on-demand clinical support throughout the therapy.",
+    },
+    {
+      icon: "safety",
+      title: "Side-effect management",
+      copy: "Early identification, structured triage, and adverse events routed to your safety team.",
+    },
+    {
+      icon: "labs",
+      title: "Diagnostics and labs",
+      copy: "At-home and in-clinic collection, with results read by our clinical team.",
+    },
+    {
+      icon: "delivery",
+      title: "Medicine delivery",
+      copy: "Fulfilment coordination through licensed pharmacy partners, on a prescription.",
+    },
+    {
+      icon: "language",
+      title: "Multilingual support",
+      copy: "Care delivered in the language the patient actually speaks at home.",
+    },
+    {
+      icon: "data",
+      title: "Analytics and reporting",
+      copy: "Enrolment, engagement, continuity and longitudinal metabolic data in one console.",
+    },
+  ],
+  note:
+    "Adverse events identified through the programme are reported to your pharmacovigilance team within agreed timelines.",
+};

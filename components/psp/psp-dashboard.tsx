@@ -9,8 +9,8 @@ export function PspDashboard() {
   return (
     <section className="sec sec-forest" id="dashboard">
       <div className="wrap">
-        <p className="label">YOUR OWN CONSOLE</p>
-        <h2>See your programme as it runs.</h2>
+        <p className="label">REFERENCE CONSOLE</p>
+        <h2>Reference console for semaglutide.</h2>
 
         <div className="dash">
           <div className="dash__glow" aria-hidden="true" />
