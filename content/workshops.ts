@@ -1,350 +1,256 @@
 /**
- * /workshops - workplace health education, B2B.
+ * /workshops - workplace wellness workshop.
  *
- * The entry point to the corporate vertical: a workshop costs an employer
- * an hour, not a budget cycle, and it is where the six-month programme is
- * earned rather than pitched.
- *
- * Conventions match content/corporate.ts - no JSX, pure ASCII, \u escapes,
- * and [SQUARE BRACKETS] for anything not yet verified.
+ * Copy follows the delivered template. Conventions as elsewhere: no JSX,
+ * pure ASCII with \u escapes, and any claim carrying a caveat keeps it in
+ * the same block.
  */
 
-export const isReady = (v: string) => !(v.trim().startsWith("[") && v.trim().endsWith("]"));
-
 export const NAV = [
-  { label: "Why education first", href: "#why" },
-  { label: "The sessions", href: "#sessions" },
-  { label: "What changes after", href: "#action" },
-  { label: "Formats", href: "#formats" },
-  { label: "Partners", href: "#partners" },
-  { label: "Full programme", href: "/corporate" },
+  { label: "The workshop", href: "#workshop" },
+  { label: "Curriculum", href: "#curriculum" },
+  { label: "Sample workshop", href: "#sample" },
+  { label: "Care programmes", href: "#care" },
 ];
 
 export const hero = {
-  eyebrow: "WORKPLACE HEALTH WORKSHOPS \u00B7 ON-SITE AND REMOTE",
-  headA: "Nobody changes a habit",
-  headB: "they do not understand.",
-  lede:
-    "An hour with our doctors and dietitians, built for people who sit for nine hours and eat at their desk. Practical, specific to Indian offices and Indian food, and the first step of a longer programme rather than a talk that ends when the room empties.",
-  ctaPrimary: { label: "Plan a session for your team", href: "#talk" },
-  ctaSecondary: { label: "See the sessions", href: "#sessions" },
-  markers: [
-    "Led by doctors and dietitians",
-    "60 to 90 minutes, on-site or remote",
-    "Built around your workforce, not a template",
-  ],
+  eyebrow: "Lean Protocol / Workplace Wellness Workshop",
+  headA: "Healthier habits",
+  headEm: "fit into",
+  headB: "the workday.",
+  lead:
+    "A practical workshop packed with engaging activities and simple nutrition and movement hacks your team can put to work the very next day.",
+  ctaPrimary: { label: "I want a sample of this workshop", href: "#sample" },
+  ctaSecondary: { label: "See the workshop breakdown", href: "#curriculum" },
+  noteA: "Useful for every employee.",
+  noteB: "Built around your team's real routine.",
+  image: "/workshops/workshop-hero.webp",
+  imageAlt: "Colleagues taking a light movement break in a bright workplace",
+  overlayLabel: "A new kind of work break",
+  overlayA: "Small actions.",
+  overlayB: "Repeated daily.",
+  orbit: "MOVE \u00B7 EAT \u00B7 RESET \u00B7 ",
 };
 
-/* ---------------- why education first ---------------- */
+export const intro = {
+  id: "workshop",
+  eyebrow: "01 / The approach",
+  headA: "Not a sales workshop.",
+  headEm: "A practical guide.",
+  copy:
+    "Doctors and dietitians turn busy-workday challenges into activities employees can practise together and repeat the next day.",
+  link: { label: "See the workshop breakdown", href: "#curriculum" },
+  splitA: { n: "80%", label: "practical learning, activities & expert Q&A" },
+  splitB: { n: "20%", label: "optional programmes & corporate offers" },
+  splitNote: "No purchase is needed to benefit from the workshop.",
+};
 
-export const why = {
-  id: "why",
-  eyebrow: "WHY START HERE",
-  headA: "A wellness programme is a long road.",
-  headB: "Education is the first mile.",
-  body:
-    "Most employers know their people are not well. Fewer know what to do first, and almost none can get a whole workforce to commit to a six-month clinical programme on day one. A workshop asks for an hour. It is where interest starts.",
-  chain: [
+export const curriculum = {
+  id: "curriculum",
+  eyebrow: "02 / Workshop breakdown",
+  head: "A powerful workshop with doctors and dietitians.",
+  intro:
+    "Live Q&A with expert doctors and nutritionists, with practical activities throughout.",
+  cards: [
     {
       n: "01",
-      title: "Education",
-      body: "People learn why they are tired at 3pm, what visceral fat actually is, and why the office snack drawer is doing more damage than the commute.",
+      symbol: "\u25D2",
+      title: "Quick nutrition hacks for busy days",
+      copy:
+        "Easy meal and snack ideas that save decision time and support steady energy and focus during a demanding workday.",
+      points: [
+        "A five-minute backup meal plan",
+        "Protein, fibre and portion cues for weight goals",
+        "Practical cafeteria and travel choices",
+      ],
     },
     {
       n: "02",
-      title: "Awareness",
-      body: "They start noticing their own patterns. The sitting, the skipped breakfast, the fourth coffee. Nothing changes until somebody sees it.",
+      symbol: "\u2197",
+      title: "Break up the sitting day",
+      copy:
+        "Learn short walking breaks, gentle joint mobility and simple workstation habits that help interrupt long periods of sitting.",
+      points: [
+        "Strategic walks between meetings",
+        "Shoulder, neck and hip mobility",
+        "Comfortable desk setup and regular position changes",
+      ],
     },
     {
       n: "03",
-      title: "Action",
-      body: "Small things first, because those are the ones that hold. A walk after lunch. Protein at breakfast. A stretch between calls.",
-    },
-    {
-      n: "04",
-      title: "Measurement",
-      body: "For those who want to go further, a blood panel turns a hunch into a number, and a number into a plan with a doctor behind it.",
+      symbol: "\u2733",
+      title: "Reset and refocus",
+      copy:
+        "Use brief breathing and planning pauses to handle a demanding day, alongside food and movement habits that support wellbeing.",
+      points: [
+        "One-minute breathing practice",
+        "A realistic afternoon reset",
+        "A personal next-step plan",
+      ],
     },
   ],
-  note:
-    "We do not claim a single session changes clinical outcomes. It changes what people know, and it opens the door to the programme that does.",
+  footnote:
+    "The workshop offers general education. It does not replace medical advice or a personalised treatment plan.",
 };
 
-/* ---------------- the sessions ---------------- */
-
-export const sessions = {
-  id: "sessions",
-  eyebrow: "THE SESSIONS",
-  headA: "Six modules.",
-  headB: "Chosen for your workforce.",
-  body:
-    "Each runs 60 to 90 minutes with live Q&A. We usually recommend two or three for a first engagement, picked after a short conversation with your HR team about what your people are actually dealing with.",
-  modules: [
-    {
-      key: "nutrition",
-      title: "Eating well on a workday",
-      lead: "Nutrition that survives a 9-hour shift and a canteen menu.",
-      points: [
-        "Why the 3pm crash is a breakfast problem, not a coffee problem",
-        "Protein first: what it means with roti, rice, dal and a tiffin",
-        "Reading a canteen or delivery menu without a calorie app",
-        "Snacking that steadies blood sugar instead of spiking it",
-        "Hydration, and why most desk workers get it wrong",
-      ],
-      who: "Everyone. This is the module we run most often.",
-    },
-    {
-      key: "metabolism",
-      title: "Metabolism in a sedentary job",
-      lead: "What sitting does, and the smallest things that undo it.",
-      points: [
-        "Why sitting is metabolically different from resting",
-        "Insulin sensitivity, and why it falls before weight rises",
-        "Asian-Indian thresholds: how our bodies cross the line earlier",
-        "Muscle as a metabolic organ, not an aesthetic one",
-        "What a blood panel would show, and when it is worth doing",
-      ],
-      who: "Desk-heavy teams, engineering, finance, customer support.",
-    },
-    {
-      key: "movement",
-      title: "Strategic walking and desk mobility",
-      lead: "Movement that fits between meetings, not around them.",
-      points: [
-        "Post-meal walking: the ten minutes that do the most work",
-        "Walking meetings, and how to actually make them happen",
-        "Basic joint stretches for hips, neck, wrists and lower back",
-        "Setting up a desk so it stops causing the problem",
-        "Building a movement habit that survives a deadline week",
-      ],
-      who: "Teams with long sitting hours or reported back and neck pain.",
-    },
-    {
-      key: "breath",
-      title: "Breathing, stress and recovery",
-      lead: "Practical techniques, taught properly, with the physiology behind them.",
-      points: [
-        "What chronic stress does to cortisol, appetite and belly fat",
-        "Box breathing and extended exhale, practised in the room",
-        "A two-minute reset between back-to-back calls",
-        "Sleep as the recovery lever most people ignore",
-        "Where breathwork helps, and where it is not the answer",
-      ],
-      who: "High-pressure functions, shift workers, leadership teams.",
-    },
-    {
-      key: "focus",
-      title: "Food, focus and mood",
-      lead: "The link between what people eat and how well they think.",
-      points: [
-        "Blood sugar stability and sustained concentration",
-        "Caffeine: timing, ceiling, and the afternoon trap",
-        "Deficiencies common in Indian office populations, and their symptoms",
-        "The gut-mood connection, stated carefully and without overclaiming",
-        "Building a day that does not end in exhaustion",
-      ],
-      who: "Knowledge work, creative teams, anyone reporting brain fog.",
-    },
-    {
-      key: "leaders",
-      title: "For managers and HR",
-      lead: "How to build a workplace where the other five modules stick.",
-      points: [
-        "Meeting culture, lunch culture and what they do to health",
-        "Spotting burnout before it becomes attrition",
-        "Making wellness voluntary and still well attended",
-        "What to measure, and what is not worth measuring",
-        "Where a clinical programme fits, and when it does not",
-      ],
-      who: "People managers, HR and benefits teams.",
-    },
-  ],
-};
-
-/* ---------------- from education to action ---------------- */
-
-export const action = {
-  id: "action",
-  eyebrow: "EDUCATION IS NOT THE POINT",
-  headA: "What happens",
-  headB: "after the room empties.",
-  body:
-    "A talk people enjoyed and forgot is a cost, not an investment. Every session ends with something an employee can do that week, and something your HR team can act on.",
-  cards: [
-    {
-      title: "A takeaway per person",
-      text: "Not a slide deck. A one-page plan with three things to change this week, written for the module they attended.",
-    },
-    {
-      title: "An anonymous pulse check",
-      text: "A short pre-session survey tells us what your workforce is actually struggling with. You get the aggregate view, with nobody identifiable.",
-    },
-    {
-      title: "An optional screening day",
-      text: "For employers who want it, we run on-site or at-home blood panels in the weeks after. Voluntary, individually consented, results to the employee.",
-    },
-    {
-      title: "A route into the programme",
-      text: "Employees who want to go further can join our clinical programmes at a corporate rate, arranged through you but paid however you choose.",
-    },
-  ],
-  note:
-    "Screening and clinical programmes are always voluntary for the employee, individually consented, and never a condition of employment.",
-};
-
-/* ---------------- formats ---------------- */
-
-export const formats = {
-  id: "formats",
-  eyebrow: "HOW IT RUNS",
-  headA: "Not a one-off,",
-  headB: "unless that is what you need.",
-  body:
-    "We shape the engagement around your workforce. Some employers start with a single session and stop there; most run a series once they see the attendance.",
+export const sample = {
+  id: "sample",
+  eyebrow: "03 / Sample workshop",
+  head: "See how a live session turns advice into action.",
+  intro:
+    "Our doctors and dietitians use questions, everyday scenarios and live Q&A to keep the room involved. Try one small activity below.",
+  image: "/workshops/workshop-sample.webp",
+  imageAlt: "Illustration of a group taking part in an online nutrition workshop",
+  caption:
+    "Illustrative workshop preview. This is not a screenshot of an actual session or its participants.",
+  promptLabel: "Try a workshop prompt",
+  prompt: "Lunch gets pushed back. What is your easiest backup plan?",
   options: [
     {
-      name: "Single session",
-      when: "A starting point, or a specific problem",
-      detail: "One module, 60 to 90 minutes, on-site or remote. Useful for a health day, an offsite, or testing the water before committing further.",
+      key: "snack",
+      label: "Keep a snack ready",
+      response:
+        "A planned snack gives you a flexible option when meetings shift. Fruit with nuts or yoghurt is one simple pairing.",
     },
     {
-      name: "Quarterly series",
-      when: "Most common",
-      detail: "Three or four sessions across the year, sequenced so each builds on the last. Attendance tends to rise after the first, not fall.",
+      key: "cafeteria",
+      label: "Choose a cafeteria option",
+      response:
+        "A cafeteria meal can work too. Look for vegetables, a satisfying protein source and a grain or other carbohydrate.",
     },
     {
-      name: "Function-specific",
-      when: "Where roles differ sharply",
-      detail: "Different modules for different teams. Night-shift operations and a desk-bound finance team do not have the same problem.",
-    },
-    {
-      name: "Workshop plus screening",
-      when: "Employers ready to measure",
-      detail: "Education first, then a voluntary panel, then a report on the shape of your workforce's health. The bridge into the six-month programme.",
+      key: "calendar",
+      label: "Protect a meal break",
+      response:
+        "A protected meal break can make the day easier. Even a short pause gives you time to eat away from the screen.",
     },
   ],
+  idle:
+    "Choose one option to see the kind of practical discussion we use in the workshop.",
+  foot: ["Live polls & group discussion", "Doctor & dietitian Q&A", "One action for the next day"],
 };
 
-/* ---------------- partners ---------------- */
+export const care = {
+  id: "care",
+  eyebrow: "04 / Optional next steps",
+  head: "Support that goes further, for those who want it.",
+  intentTitle: "What we cover in the final 20%",
+  intentCopy:
+    "We introduce two optional paths: a workplace wellness series for employers and personalised care programmes for interested employees, with eligible corporate discounts. Everyone keeps the workshop takeaways whether or not they enrol.",
+  cards: [
+    {
+      tag: "For organisations",
+      title: "Workplace wellness programme",
+      copy:
+        "Nutrition and lifestyle education adapted to your company, with repeat workshops and practical follow-through shaped by employee needs.",
+      points: [
+        "Workshop series or ongoing cadence",
+        "Desk-friendly movement and food habits",
+        "Content tailored to your workforce",
+      ],
+      link: { label: "Discuss your team's needs", href: "#contact" },
+      featured: false,
+    },
+    {
+      tag: "For interested employees",
+      title: "Personalised health support",
+      copy:
+        "Individual programmes for weight management and related health needs, including diabetes, high blood pressure and cardiovascular risk, as well as thyroid concerns where relevant.",
+      points: [
+        "Nutrition and lifestyle guidance",
+        "Clinician-led assessment and follow-up",
+        "Medication, including GLP-1 treatment, only when prescribed and appropriate",
+      ],
+      link: { label: "Ask about corporate access", href: "#contact" },
+      featured: true,
+    },
+  ],
+  note:
+    "Eligible programmes are offered at a corporate discount, with package details discussed individually. Care plans depend on professional assessment.",
+};
 
 export const partners = {
-  id: "partners",
-  eyebrow: "WHO WE WORK WITH",
-  headA: "The delivery is not",
-  headB: "a slide deck and a promise.",
-  body:
-    "When a workshop leads to screening or a clinical programme, it runs on infrastructure we already use every day.",
-  list: [
-    { name: "Redcliffe Labs", logo: "/lp-assets/logo-redcliffe.png", role: "Diagnostics and at-home sample collection" },
-    { name: "MrMed", logo: "/lp-assets/logo-mrmed.jpg", role: "Medicine fulfilment, where a doctor prescribes" },
-    { name: "Cult.fit", logo: "/lp-assets/logo-cult.png", role: "Fitness access for programme members" },
+  eyebrow: "Part of a wider care ecosystem",
+  head: "Connected support when it matters.",
+  names: ["Redcliffe Labs", "Mr.Med", "Cult"],
+  caption:
+    "Lean Protocol lists these partners across diagnostics, medicine access and activity support. Specific services depend on the selected programme and availability.",
+};
+
+export const evidence = {
+  eyebrow: "05 / Why continuity matters",
+  head: "A workshop starts the conversation. Support helps it continue.",
+  copy:
+    "External research offers a useful reason to pair education with longer-term action, while recognising that results from other programmes cannot predict Lean Protocol outcomes.",
+  items: [
+    {
+      source: "UK weight management cohort",
+      copy:
+        "In a nine-month programme that included behavioural support and medication, survey respondents reported fewer sick-leave days at follow-up.",
+      link: {
+        label: "Read the Oviva poster",
+        href: "https://oviva.com/global/wp-content/uploads/2026/05/Reference-No.-0203_Reduced-health-care-resource-utilisation-and-sick-days-after-9-months.pdf",
+      },
+    },
+    {
+      source: "Indian insurer coaching study",
+      copy:
+        "In a retrospective study, greater engagement with a nine-month coaching programme was associated with lower preventable-claim costs.",
+      link: {
+        label: "Read the study",
+        href: "https://www.cureus.com/articles/423164-evaluating-the-impact-of-insurer-sponsored-health-coaching-on-hospitalization-and-costs-in-india-a-retrospective-cohort-study",
+      },
+    },
   ],
   note:
-    "Partner services are arranged for employees who choose to take them up. Medication is dispensed only on a licensed physician's prescription.",
+    "These are external, observational findings from different programmes. They do not establish that a Lean Protocol workshop reduces sick leave or healthcare costs.",
 };
 
-/* ---------------- offer ---------------- */
-
-export const offer = {
-  eyebrow: "AT THE END OF THE SESSION",
-  headA: "A corporate rate,",
-  headB: "for those who want more.",
-  body:
-    "Employees who want to go further can join a Lean Protocol programme at a rate negotiated for your organisation. We explain it once, at the end, and never during the teaching. Nobody is sold to in a session your employer arranged.",
-  bullets: [
-    "Obesity and weight management, doctor-led",
-    "Metabolic health: pre-diabetes, lipids, fatty liver",
-    "Full blood panels with a six-month re-test",
-    "Dietitian-led nutrition support",
+export const faqs = {
+  eyebrow: "Good to know",
+  head: "A few common questions.",
+  items: [
+    {
+      q: "Do employees need to join a paid programme?",
+      a: "No. Most of the workshop is practical education. Employees keep the takeaways whether or not they choose further support.",
+    },
+    {
+      q: "Is this only for obesity management?",
+      a: "No. The workshop offers nutrition, movement and lifestyle education for everyone. Optional individual care can support weight management and health needs such as diabetes, high blood pressure, cardiovascular risk and thyroid concerns. Medication is considered only after a clinician's assessment.",
+    },
+    {
+      q: "Can this run more than once?",
+      a: "Yes. A session every two weeks is one option. Each workshop can use polls, practical activities and live Q&A, with topics adapted to your team's needs.",
+    },
+    {
+      q: "How does the learning turn into action?",
+      a: "Employees practise realistic decisions during the workshop and choose one small action to try the next workday. Follow-up sessions can revisit what worked and what got in the way.",
+    },
   ],
-  note:
-    "Corporate rates are agreed per organisation and depend on headcount and scope. Eligibility for any clinical programme is decided by a physician after individual assessment.",
 };
 
-/* ---------------- proof ---------------- */
-
-export const proof = {
-  eyebrow: "SO FAR",
-  stats: [
-    { value: "[N]", label: "Sessions delivered" },
-    { value: "[N]", label: "Employees attended" },
-    { value: "[N]", label: "Average session rating" },
-    { value: "[N]", label: "Went on to a screening" },
+export const contact = {
+  id: "contact",
+  eyebrow: "Let's make healthy habits practical",
+  headA: "Bring the conversation",
+  headEm: "to your workplace.",
+  copy:
+    "Tell us about your team, your workday and the topics you want to address. We'll shape a workshop or series around what will be useful.",
+  cardLabel: "Start with a conversation",
+  email: "support@leanprotocol.in",
+  emailSubject: "Workplace%20wellness%20workshop%20enquiry",
+  emailCta: "Email Lean Protocol",
+  cardCopy:
+    "Ask about workshop format, repeat sessions and the corporate discount for optional programmes.",
+  links: [
+    { label: "Use the contact page", href: "/contact" },
+    { label: "Call +91 96504 91267", href: "tel:+919650491267" },
   ],
-  note: "Figures across corporate engagements to date.",
-  fallback:
-    "We are early in this vertical and would rather show you real attendance and feedback from a comparable employer than a number we cannot stand behind. Ask us on the call.",
 };
 
-/* ---------------- bridge to the full programme ---------------- */
-
-export const bridge = {
-  eyebrow: "WHEN A WORKSHOP IS NOT ENOUGH",
-  headA: "Education opens the door.",
-  headB: "The programme walks through it.",
-  body:
-    "For employers ready to go further, we run a six-month clinical programme: a full metabolic blood panel for every participating employee, doctor-led care for those who need it, and a second panel at month six that shows what actually changed.",
-  points: [
-    "Baseline and month-six blood panels, same markers, same labs",
-    "Risk-stratified cohorts, not one plan for everyone",
-    "Aggregate reporting for HR, with no individual health data",
-  ],
-  cta: { label: "See the six-month programme", href: "/corporate" },
-  note:
-    "Most employers start with a workshop and decide afterwards. There is no requirement to commit to the programme to run a session.",
-};
-
-/* ---------------- FAQ ---------------- */
-
-export const faqs = [
-  {
-    q: "How long is a session and what does it need from us?",
-    a: "Sixty to ninety minutes including Q&A. On-site we need a room and a screen; remote we run it on your platform. We handle the content, the speaker and the materials.",
-  },
-  {
-    q: "Who actually delivers it?",
-    a: "Our own doctors and dietitians, the same clinical team behind our programmes. Not a hired speaker working from our slides.",
-  },
-  {
-    q: "Is this a sales pitch in disguise?",
-    a: "The teaching is the session. We mention our programmes once, at the end, for anyone who wants to go further. Employees who do not are not followed up.",
-  },
-  {
-    q: "Can you tailor it to our workforce?",
-    a: "That is the default. We ask about roles, shift patterns, age profile and what HR is already seeing, and pick modules from there. An optional anonymous pulse survey sharpens it further.",
-  },
-  {
-    q: "What about our teams outside the head office?",
-    a: "Sessions run remotely on the same terms, and screening collection is at-home as well as on-site, so distributed and plant teams are not left out.",
-  },
-  {
-    q: "Do you share who attended or what they said?",
-    a: "Attendance numbers yes, individual responses no. Pulse survey results come to you in aggregate only, with small groups suppressed.",
-  },
-  {
-    q: "What does it cost?",
-    a: "It depends on format, number of sessions and locations. We will give you a figure on the first call rather than after three meetings.",
-  },
-];
-
-/* ---------------- CTA ---------------- */
-
-export const cta = {
-  id: "talk",
-  eyebrow: "NEXT STEP",
-  headA: "Tell us about",
-  headB: "your workforce.",
-  body:
-    "A short call: what your people are struggling with, which modules would land, and what a first session would cost. We will say if we think a workshop is the wrong starting point for you.",
-  bullets: [
-    "On-site across India, or remote",
-    "GST-compliant invoicing",
-    "No commitment to a longer programme",
-  ],
-  form: {
-    submit: "Plan a session",
-    sending: "Sending...",
-    done: "Thank you. We will be in touch within one working day to talk through the sessions.",
-    sizes: ["1-50", "51-200", "201-500", "501-1000", "1000+"],
-  },
+export const footer = {
+  tagline: "Practical wellbeing for the real workday.",
+  backToTop: "Back to top",
+  legal: "General wellbeing education; individual care requires professional assessment.",
+  link: { label: "Explore patient support", href: "/psp" },
 };

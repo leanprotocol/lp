@@ -1,382 +1,306 @@
 import * as W from "@/content/workshops"
-import { WsHeader, ModulePicker, WsFaq, WsForm } from "@/components/workshops/workshops-interactive"
+import { WsHeader, SamplePoll } from "@/components/workshops/workshops-interactive"
 
 /**
- * /workshops - workplace health education.
+ * /workshops - workplace wellness workshop.
  *
- * The front door to the corporate vertical. A six-month clinical programme
- * is a hard first ask; an hour is not. The page argues that education is
- * the first mile of that road, then shows what happens after the room
- * empties so it does not read as a talk for its own sake.
- *
- * Shape: hook -> why education first -> the six modules -> what changes
- * after -> formats -> partners -> the corporate offer -> FAQ -> one CTA.
+ * Markup follows the delivered template; styling is the template's own CSS,
+ * scoped under .ws-page in app/workshops/workshops.css. Copy lives in
+ * content/workshops.ts so a wording change never touches this file.
  */
-const TICK = "\u2713"
-
 export default function WorkshopsPage() {
-  const statsReady = W.proof.stats.every((s) => W.isReady(s.value))
-
   return (
-    <div id="top">
+    <>
+      <a className="skip-link" href="#main">
+        Skip to content
+      </a>
+
       <WsHeader />
 
-      {/* ---------------- hook ---------------- */}
-      <section className="hero">
-        <div aria-hidden className="hero-glow" />
-        <div className="wrap" style={{ position: "relative", zIndex: 2 }}>
-          <p className="eyebrow" style={{ color: "#C8D9A7" }}>
-            {W.hero.eyebrow}
-          </p>
-          <h1>
-            {W.hero.headA}
-            <br />
-            <span className="accent serif">{W.hero.headB}</span>
-          </h1>
-          <p className="lede">{W.hero.lede}</p>
-
-          <div className="hero-cta">
-            <a href={W.hero.ctaPrimary.href} className="btn btn-sage">
-              {W.hero.ctaPrimary.label}
-            </a>
-            <a href={W.hero.ctaSecondary.href} className="btn btn-ghost">
-              {W.hero.ctaSecondary.label}
-            </a>
-          </div>
-
-          <ul className="hero-markers">
-            {W.hero.markers.map((m) => (
-              <li key={m}>
-                <span aria-hidden className="tick">
-                  {TICK}
-                </span>
-                {m}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* ---------------- why education first ---------------- */}
-      <section
-        id={W.why.id}
-        className="rounded-top"
-        style={{ marginTop: -44, position: "relative", background: "#F9F7F2" }}
-      >
-        <div className="wrap">
-          <p className="eyebrow">{W.why.eyebrow}</p>
-          <h2 className="h">
-            {W.why.headA}{" "}
-            <span className="serif" style={{ color: "#2D5A4E" }}>
-              {W.why.headB}
-            </span>
-          </h2>
-          <p className="lede">{W.why.body}</p>
-
-          <div className="ws-chain">
-            {W.why.chain.map((c) => (
-              <div key={c.n} className="ws-link">
-                <div className="ws-link-n">{c.n}</div>
-                <h3>{c.title}</h3>
-                <p>{c.body}</p>
-              </div>
-            ))}
-          </div>
-
-          <p className="fine" style={{ marginTop: 28 }}>
-            {W.why.note}
-          </p>
-        </div>
-      </section>
-
-      {/* ---------------- the sessions ---------------- */}
-      <section id={W.sessions.id} className="on-dark">
-        <div className="wrap">
-          <p className="eyebrow">{W.sessions.eyebrow}</p>
-          <h2 className="h" style={{ color: "#F9F7F2" }}>
-            {W.sessions.headA}{" "}
-            <span className="serif" style={{ color: "#C8D9A7" }}>
-              {W.sessions.headB}
-            </span>
-          </h2>
-          <p className="lede">{W.sessions.body}</p>
-
-          <ModulePicker />
-        </div>
-      </section>
-
-      {/* ---------------- what changes after ---------------- */}
-      <section id={W.action.id}>
-        <div className="wrap">
-          <p className="eyebrow">{W.action.eyebrow}</p>
-          <h2 className="h">
-            {W.action.headA}{" "}
-            <span className="serif" style={{ color: "#2D5A4E" }}>
-              {W.action.headB}
-            </span>
-          </h2>
-          <p className="lede">{W.action.body}</p>
-
-          <div className="grid">
-            {W.action.cards.map((c) => (
-              <div key={c.title} className="card">
-                <h3>{c.title}</h3>
-                <p>{c.text}</p>
-              </div>
-            ))}
-          </div>
-
-          <p className="fine" style={{ marginTop: 26 }}>
-            {W.action.note}
-          </p>
-        </div>
-      </section>
-
-      {/* ---------------- formats ---------------- */}
-      <section id={W.formats.id} style={{ background: "#F3F1EA" }}>
-        <div className="wrap">
-          <p className="eyebrow">{W.formats.eyebrow}</p>
-          <h2 className="h">
-            {W.formats.headA}{" "}
-            <span className="serif" style={{ color: "#2D5A4E" }}>
-              {W.formats.headB}
-            </span>
-          </h2>
-          <p className="lede">{W.formats.body}</p>
-
-          <div className="ws-formats">
-            {W.formats.options.map((o) => (
-              <div key={o.name} className="ws-format">
-                <div className="ws-format-top">
-                  <h3>{o.name}</h3>
-                  <span className="ws-tagpill">{o.when.toUpperCase()}</span>
-                </div>
-                <p>{o.detail}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ---------------- partners and the offer ---------------- */}
-      <section id={W.partners.id} className="on-black">
-        <div className="wrap on-dark">
-          <p className="eyebrow">{W.partners.eyebrow}</p>
-          <h2 className="h" style={{ color: "#F9F7F2" }}>
-            {W.partners.headA}{" "}
-            <span className="serif" style={{ color: "#C8D9A7" }}>
-              {W.partners.headB}
-            </span>
-          </h2>
-          <p className="lede">{W.partners.body}</p>
-
-          <div className="ws-partners">
-            {W.partners.list.map((p) => (
-              <div key={p.name} className="ws-partner">
-                <img src={p.logo} alt={p.name} loading="lazy" />
-                <div>
-                  <b>{p.name}</b>
-                  <span>{p.role}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <p className="fine" style={{ marginTop: 22 }}>
-            {W.partners.note}
-          </p>
-
-          {/* The commercial ask, deliberately placed after the substance and
-              framed the way it is framed in the room: mentioned once, at the
-              end, never during the teaching. */}
-          <div className="ws-offer">
-            <p className="eyebrow" style={{ color: "#C8D9A7" }}>
-              {W.offer.eyebrow}
-            </p>
-            <h3
-              style={{
-                margin: "0 0 12px",
-                fontSize: "clamp(24px,3vw,40px)",
-                fontWeight: 800,
-                letterSpacing: "-0.03em",
-                color: "#F9F7F2",
-              }}
-            >
-              {W.offer.headA}{" "}
-              <span className="serif" style={{ color: "#C8D9A7" }}>
-                {W.offer.headB}
-              </span>
-            </h3>
-            <p className="lede" style={{ maxWidth: "62ch" }}>
-              {W.offer.body}
-            </p>
-
-            <ul className="ws-offer-list">
-              {W.offer.bullets.map((b) => (
-                <li key={b}>
-                  <span aria-hidden className="tick">
-                    {TICK}
-                  </span>
-                  {b}
-                </li>
-              ))}
-            </ul>
-
-            <p className="fine" style={{ marginTop: 22 }}>
-              {W.offer.note}
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ---------------- proof ---------------- */}
-      <section
-        className="rounded-top"
-        style={{ marginTop: -44, position: "relative", background: "#F9F7F2" }}
-      >
-        <div className="wrap">
-          <p className="eyebrow">{W.proof.eyebrow}</p>
-          {statsReady ? (
-            <>
-              <div className="grid" style={{ marginTop: 20 }}>
-                {W.proof.stats.map((s) => (
-                  <div key={s.label} className="card">
-                    <h3 style={{ fontSize: 40, color: "#2D5A4E", letterSpacing: "-0.03em" }}>
-                      {s.value}
-                    </h3>
-                    <p>{s.label}</p>
-                  </div>
-                ))}
-              </div>
-              <p className="fine" style={{ marginTop: 24 }}>
-                {W.proof.note}
-              </p>
-            </>
-          ) : (
-            /* Values are still bracketed in content/workshops.ts, so the
-               tiles stay hidden rather than showing a placeholder to a CHRO. */
-            <p className="lede" style={{ marginTop: 8, maxWidth: "56ch" }}>
-              {W.proof.fallback}
-            </p>
-          )}
-        </div>
-      </section>
-
-      {/* ---------------- bridge to /corporate ---------------- */}
-      <section className="ws-bridge-wrap">
-        <div className="wrap">
-          <div className="ws-bridge">
-            <div>
-              <p className="eyebrow">{W.bridge.eyebrow}</p>
-              <h2 className="h" style={{ fontSize: "clamp(26px,3.4vw,44px)" }}>
-                {W.bridge.headA}{" "}
-                <span className="serif" style={{ color: "#2D5A4E" }}>
-                  {W.bridge.headB}
-                </span>
-              </h2>
-              <p className="lede" style={{ maxWidth: "54ch" }}>
-                {W.bridge.body}
-              </p>
-
-              <ul className="ws-bridge-list">
-                {W.bridge.points.map((p) => (
-                  <li key={p}>
-                    <span aria-hidden className="tick">
-                      {TICK}
-                    </span>
-                    {p}
-                  </li>
-                ))}
-              </ul>
-
-              <a href={W.bridge.cta.href} className="btn btn-ink" style={{ marginTop: 28 }}>
-                {W.bridge.cta.label} {"\u2192"}
-              </a>
-
-              <p className="fine" style={{ marginTop: 18, maxWidth: "58ch" }}>
-                {W.bridge.note}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ---------------- FAQ ---------------- */}
-      <section style={{ paddingTop: 0 }}>
-        <div className="wrap" style={{ maxWidth: 900 }}>
-          <p className="eyebrow">QUESTIONS HR TEAMS ASK</p>
-          <h2 className="h">
-            Before you{" "}
-            <span className="serif" style={{ color: "#2D5A4E" }}>
-              book a room.
-            </span>
-          </h2>
-          <WsFaq />
-        </div>
-      </section>
-
-      {/* ---------------- CTA ---------------- */}
-      <section id={W.cta.id} className="on-dark">
-        <div className="wrap">
-          <p className="eyebrow">{W.cta.eyebrow}</p>
-          <h2 className="h" style={{ color: "#F9F7F2" }}>
-            {W.cta.headA}{" "}
-            <span className="serif" style={{ color: "#C8D9A7" }}>
-              {W.cta.headB}
-            </span>
-          </h2>
-
-          <div className="form-grid">
-            <div>
-              <p className="lede">{W.cta.body}</p>
-              <ul
-                className="hero-markers"
-                style={{ flexDirection: "column", gap: 12, marginTop: 28 }}
-              >
-                {W.cta.bullets.map((b) => (
-                  <li key={b}>
-                    <span aria-hidden className="tick">
-                      {TICK}
-                    </span>
-                    {b}
-                  </li>
-                ))}
-              </ul>
-              <p className="fine" style={{ marginTop: 28 }}>
-                Running a full programme already?{" "}
-                <a href="/corporate" style={{ color: "#C8D9A7" }}>
-                  See the six-month version
+      <main id="main">
+        {/* ---------------- hero ---------------- */}
+        <section className="hero" aria-labelledby="hero-title">
+          <div className="wrap hero-grid">
+            <div className="hero-copy">
+              <p className="eyebrow light">{W.hero.eyebrow}</p>
+              <h1 id="hero-title">
+                {W.hero.headA} <span>{W.hero.headEm}</span> {W.hero.headB}
+              </h1>
+              <p className="hero-lead">{W.hero.lead}</p>
+              <div className="hero-actions">
+                <a className="button button-lime" href={W.hero.ctaPrimary.href}>
+                  {W.hero.ctaPrimary.label}
                 </a>
-              </p>
+                <a className="text-link light-link" href={W.hero.ctaSecondary.href}>
+                  {W.hero.ctaSecondary.label}
+                </a>
+              </div>
+              <div className="hero-note">
+                <span className="note-rule" />
+                <span>
+                  {W.hero.noteA}
+                  <br />
+                  {W.hero.noteB}
+                </span>
+              </div>
             </div>
 
-            <WsForm />
+            <div className="hero-visual">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={W.hero.image} alt={W.hero.imageAlt} width={1536} height={1024} />
+              <div className="hero-overlay">
+                <span className="overlay-label">{W.hero.overlayLabel}</span>
+                <strong>
+                  {W.hero.overlayA}
+                  <br />
+                  {W.hero.overlayB}
+                </strong>
+              </div>
+              <div className="hero-orbit" aria-hidden="true">
+                {W.hero.orbit.repeat(3)}
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* ---------------- 01 approach ---------------- */}
+        <section className="intro section" id={W.intro.id} aria-labelledby="intro-title">
+          <div className="wrap intro-grid">
+            <div>
+              <p className="eyebrow">{W.intro.eyebrow}</p>
+              <h2 id="intro-title">
+                {W.intro.headA}
+                <br />
+                <em>{W.intro.headEm}</em>
+              </h2>
+            </div>
+            <div className="intro-copy">
+              <p>{W.intro.copy}</p>
+              <a className="inline-link" href={W.intro.link.href}>
+                {W.intro.link.label}
+              </a>
+            </div>
+          </div>
+
+          <div className="wrap promise-strip">
+            <div>
+              <strong>{W.intro.splitA.n}</strong>
+              <span>{W.intro.splitA.label}</span>
+            </div>
+            <span className="strip-divider" aria-hidden="true" />
+            <div>
+              <strong>{W.intro.splitB.n}</strong>
+              <span>{W.intro.splitB.label}</span>
+            </div>
+            <p>{W.intro.splitNote}</p>
+          </div>
+        </section>
+
+        {/* ---------------- 02 curriculum ---------------- */}
+        <section className="learn section" id={W.curriculum.id} aria-labelledby="learn-title">
+          <div className="wrap">
+            <div className="section-head">
+              <div>
+                <p className="eyebrow">{W.curriculum.eyebrow}</p>
+                <h2 id="learn-title">{W.curriculum.head}</h2>
+              </div>
+              <p>{W.curriculum.intro}</p>
+            </div>
+
+            <div className="learn-grid">
+              {W.curriculum.cards.map((c, i) => (
+                <article className={`learn-card card-${["one", "two", "three"][i]}`} key={c.n}>
+                  <span className="card-index">{c.n}</span>
+                  <div className="learn-symbol" aria-hidden="true">
+                    {c.symbol}
+                  </div>
+                  <h3>{c.title}</h3>
+                  <p>{c.copy}</p>
+                  <ul>
+                    {c.points.map((p) => (
+                      <li key={p}>{p}</li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+
+            <p className="learn-footnote">{W.curriculum.footnote}</p>
+          </div>
+        </section>
+
+        {/* ---------------- 03 sample ---------------- */}
+        <section className="sample section" id={W.sample.id} aria-labelledby="sample-title">
+          <div className="wrap">
+            <div className="sample-head">
+              <div>
+                <p className="eyebrow light">{W.sample.eyebrow}</p>
+                <h2 id="sample-title">{W.sample.head}</h2>
+              </div>
+              <p>{W.sample.intro}</p>
+            </div>
+
+            <div className="sample-layout">
+              <figure className="sample-figure">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={W.sample.image} alt={W.sample.imageAlt} width={1672} height={941} />
+                <figcaption>{W.sample.caption}</figcaption>
+              </figure>
+
+              <SamplePoll />
+            </div>
+
+            <div className="sample-foot">
+              {W.sample.foot.map((f) => (
+                <span key={f}>{f}</span>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ---------------- 04 care ---------------- */}
+        <section className="care section" id={W.care.id} aria-labelledby="care-title">
+          <div className="wrap">
+            <div className="section-head">
+              <div>
+                <p className="eyebrow">{W.care.eyebrow}</p>
+                <h2 id="care-title">{W.care.head}</h2>
+              </div>
+            </div>
+
+            <div className="care-intent">
+              <strong>{W.care.intentTitle}</strong>
+              <p>{W.care.intentCopy}</p>
+            </div>
+
+            <div className="care-grid">
+              {W.care.cards.map((c) => (
+                <article className={`care-card${c.featured ? " featured" : ""}`} key={c.title}>
+                  <span className="care-tag">{c.tag}</span>
+                  <h3>{c.title}</h3>
+                  <p>{c.copy}</p>
+                  <ul>
+                    {c.points.map((p) => (
+                      <li key={p}>{p}</li>
+                    ))}
+                  </ul>
+                  <a className="inline-link" href={c.link.href}>
+                    {c.link.label}
+                  </a>
+                </article>
+              ))}
+            </div>
+
+            <p className="care-note">{W.care.note}</p>
+          </div>
+        </section>
+
+        {/* ---------------- partners ---------------- */}
+        <section className="partners section" aria-labelledby="partners-title">
+          <div className="wrap partner-row">
+            <div>
+              <p className="eyebrow">{W.partners.eyebrow}</p>
+              <h2 id="partners-title">{W.partners.head}</h2>
+            </div>
+            <div className="partner-names" aria-label="Lean Protocol partners">
+              {W.partners.names.map((n) => (
+                <span key={n}>{n}</span>
+              ))}
+            </div>
+          </div>
+          <div className="wrap">
+            <p className="partner-caption">{W.partners.caption}</p>
+          </div>
+        </section>
+
+        {/* ---------------- 05 evidence ---------------- */}
+        <section className="evidence section" aria-labelledby="evidence-title">
+          <div className="wrap evidence-grid">
+            <div>
+              <p className="eyebrow">{W.evidence.eyebrow}</p>
+              <h2 id="evidence-title">{W.evidence.head}</h2>
+              <p>{W.evidence.copy}</p>
+            </div>
+            <div className="evidence-list">
+              {W.evidence.items.map((e) => (
+                <article key={e.source}>
+                  <span>{e.source}</span>
+                  <p>{e.copy}</p>
+                  <a href={e.link.href} target="_blank" rel="noopener noreferrer">
+                    {e.link.label}
+                  </a>
+                </article>
+              ))}
+              <small>{W.evidence.note}</small>
+            </div>
+          </div>
+        </section>
+
+        {/* ---------------- FAQ ---------------- */}
+        <section className="faq section" aria-labelledby="faq-title">
+          <div className="wrap faq-grid">
+            <div>
+              <p className="eyebrow">{W.faqs.eyebrow}</p>
+              <h2 id="faq-title">{W.faqs.head}</h2>
+            </div>
+            <div className="faq-list">
+              {W.faqs.items.map((f) => (
+                <details key={f.q}>
+                  <summary>{f.q}</summary>
+                  <p>{f.a}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ---------------- contact ---------------- */}
+        <section className="contact section" id={W.contact.id} aria-labelledby="contact-title">
+          <div className="wrap contact-grid">
+            <div>
+              <p className="eyebrow light">{W.contact.eyebrow}</p>
+              <h2 id="contact-title">
+                {W.contact.headA} <em>{W.contact.headEm}</em>
+              </h2>
+              <p>{W.contact.copy}</p>
+            </div>
+            <div className="contact-card">
+              <span>{W.contact.cardLabel}</span>
+              <a
+                className="button button-lime"
+                href={`mailto:${W.contact.email}?subject=${W.contact.emailSubject}`}
+              >
+                {W.contact.emailCta}
+              </a>
+              <p>{W.contact.cardCopy}</p>
+              {W.contact.links.map((l) => (
+                <a className="contact-site" href={l.href} key={l.href}>
+                  {l.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
 
       {/* ---------------- footer ---------------- */}
-      <footer className="foot">
-        <div className="wrap">
-          <img
-            src="/logo-cropped.png"
-            alt="Lean Protocol"
-            style={{ height: 46, width: "auto" }}
-          />
-          <p className="fine" style={{ marginTop: 18, maxWidth: "90ch" }}>
-            Workshops are educational and are not medical advice or a diagnosis. Clinical
-            decisions, including any prescription, are made by licensed physicians after
-            individual assessment. Participation in any screening or programme is voluntary and
-            individually consented.
-          </p>
-          <p className="fine" style={{ marginTop: 14 }}>
-            {"\u00A9"} {new Date().getFullYear()} Lean Protocol Private Limited {"\u00B7"}{" "}
-            <a href="/corporate">Corporate wellness</a> {"\u00B7"}{" "}
-            <a href="/privacy-policy">Privacy</a> {"\u00B7"}{" "}
-            <a href="/terms-conditions">Terms</a>
-          </p>
+      <footer className="footer">
+        <div className="wrap footer-top">
+          <a className="wordmark" href="/" aria-label="Lean Protocol home">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo-cropped.png" alt="Lean Protocol" />
+          </a>
+          <p>{W.footer.tagline}</p>
+          <a href="#main">{W.footer.backToTop}</a>
+        </div>
+        <div className="wrap footer-bottom">
+          <span>
+            {"\u00A9"} {new Date().getFullYear()} Lean Protocol
+          </span>
+          <span>{W.footer.legal}</span>
+          <a href={W.footer.link.href}>{W.footer.link.label}</a>
         </div>
       </footer>
-    </div>
+    </>
   )
 }
