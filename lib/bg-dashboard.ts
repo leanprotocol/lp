@@ -254,9 +254,9 @@ export function bgConfigured() {
 }
 
 export function checkPassword(input: string) {
-  const want = process.env.BG_DASHBOARD_PASSWORD || "";
+  const want = (process.env.BG_DASHBOARD_PASSWORD || "").trim().replace(/^["']|["']$/g, "");
   if (!want) return false;
-  return safeEq(sha(input), sha(want));
+  return safeEq(sha(input.trim()), sha(want));
 }
 
 export function makeSession() {
