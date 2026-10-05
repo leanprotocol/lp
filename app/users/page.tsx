@@ -487,7 +487,7 @@ export default function UsersFunnel() {
       // unavailable, so a locked-down browser still sees a confirmation.
       try {
         const first = name.trim().split(" ")[0] || "friend";
-        sessionStorage.setItem("lp_thanks", JSON.stringify({ name: first, fired: false }));
+        sessionStorage.setItem("lp_thanks", JSON.stringify({ name: first, fullName: name.trim(), phone: phoneDigits, fired: false }));
         window.location.assign(
           window.location.pathname.startsWith("/users") ? "/users/thankyou" : "/thankyou",
         );

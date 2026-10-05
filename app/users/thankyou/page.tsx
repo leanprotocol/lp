@@ -2,33 +2,50 @@
 
 // app/users/thankyou/page.tsx
 //
+// The screens after the /users lead form: the paid senior-health-coach call,
+// then a confirmation. Copy and price live in content/users-next.ts.
+//
 // Served at forms.leanprotocol.in/thankyou through a host rewrite, and at
 // /users/thankyou on the main domain.
 //
-// WHY THIS IS A SEPARATE URL. Meta classifies this domain as a health and
-// wellness provider and blocks the Lead standard event. PageView is not
-// restricted, so a custom conversion on "URL contains /thankyou" can count
-// completed enquiries that the blocked event cannot. That only works if the
-// visit is a real page load - see the navigation note in ../page.tsx.
+// WHY THIS IS STILL THE /thankyou URL. Meta classifies this domain as a
+// health and wellness provider and blocks the Lead standard event. PageView
+// is not restricted, so a custom conversion on "URL contains /thankyou"
+// counts completed enquiries. The coach screen therefore opens here, with a
+// real page load (see the navigation note in ../page.tsx).
 //
-// WHY THE NAME IS NOT IN THE URL. It is read from session storage rather than
-// a query parameter. Every pixel on this page records the URL, and a name in
-// the query string would hand patient data to ad platforms that have just
-// classified us as a health advertiser.
+// WHY THE SCREENS DO NOT CHANGE THE URL. They switch in place, without
+// history.pushState. Meta's pixel can treat a history change as a fresh
+// PageView, which would count one lead two or three times. Drop-off between
+// screens goes to GA4 and GTM as virtual pageviews instead.
+//
+// WHY NAME AND PHONE ARE NOT IN THE URL. They are read from session storage.
+// Every pixel on this page records the URL, and personal details in a query
+// string would hand them to ad platforms.
 //
 // Metadata (title, noindex) comes from the /users layout.
 
 import { useEffect, useState } from "react";
+import { AFTER, COACH, COACH_AMOUNT_INR } from "../../../content/users-next";
 
 const TICK = "\u2713";
+const ARROW = "\u2192";
+const BACK = "\u2190";
+const RUPEE = "\u20B9";
 const KEY = "lp_thanks";
 
-type Stored = { name?: string; fired?: boolean };
+type Stored = { name?: string; fullName?: string; phone?: string; fired?: boolean };
+type View = "coach" | "paid" | "later";
 
 type PixelWindow = {
   oaiq?: (...args: unknown[]) => void;
   fbq?: (...args: unknown[]) => void;
   gtag?: (...args: unknown[]) => void;
+  dataLayer?: unknown[];
+  Razorpay?: new (opts: Record<string, unknown>) => {
+    open: () => void;
+    on: (evt: string, cb: (e: { error?: { description?: string } }) => void) => void;
+  };
 };
 
 /** Where the form lives, relative to whichever host served this page. */
@@ -60,31 +77,58 @@ function whenReady(ready: () => boolean, fire: () => void) {
   }, 150);
 }
 
+/** GA4 and GTM pageview for a screen. The real page load covers "coach". */
+function trackView(view: View) {
+  const w = window as unknown as PixelWindow;
+  const path = `${window.location.pathname.replace(/\/$/, "")}/${view}`;
+  try {
+    w.gtag?.("event", "page_view", { page_path: path, page_title: `Post-lead ${view}` });
+  } catch { /* analytics must not break the page */ }
+  w.dataLayer = w.dataLayer || [];
+  w.dataLayer.push({ event: "virtual_pageview", page_path: path, funnel_step: `post-lead-${view}` });
+}
+
+function loadRazorpay(): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if ((window as unknown as PixelWindow).Razorpay) { resolve(); return; }
+    const s = document.createElement("script");
+    s.src = "https://checkout.razorpay.com/v1/checkout.js";
+    s.async = true;
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error("The payment window did not load. Check your connection and try again."));
+    document.body.appendChild(s);
+  });
+}
+
 export default function ThankYouPage() {
-  const [name, setName] = useState<string | null>(null);
+  const [data, setData] = useState<Stored | null>(null);
+  const [view, setView] = useState<View>("coach");
+  const [paying, setPaying] = useState(false);
+  const [payError, setPayError] = useState<string | null>(null);
+  const [paymentRef, setPaymentRef] = useState("");
 
   useEffect(() => {
-    let data: Stored | null = null;
+    let stored: Stored | null = null;
     try {
-      data = JSON.parse(sessionStorage.getItem(KEY) || "null");
+      stored = JSON.parse(sessionStorage.getItem(KEY) || "null");
     } catch {
-      data = null;
+      stored = null;
     }
 
     // Nobody arrives here without submitting. A direct visit or a bookmark
     // goes back to the form, so it cannot pass for a completed enquiry.
-    if (!data) {
+    if (!stored) {
       window.location.replace(formHome());
       return;
     }
 
-    setName(data.name || "friend");
+    setData({ ...stored, name: stored.name || "friend" });
 
     // Once per submission. Marked before firing, so a refresh while the
     // pixels are still loading cannot count the same lead twice.
-    if (data.fired) return;
+    if (stored.fired) return;
     try {
-      sessionStorage.setItem(KEY, JSON.stringify({ ...data, fired: true }));
+      sessionStorage.setItem(KEY, JSON.stringify({ ...stored, fired: true }));
     } catch {
       /* storage full or locked: fire anyway, a double count beats none */
     }
@@ -107,14 +151,100 @@ export default function ThankYouPage() {
     });
   }, []);
 
-  const startOver = () => {
-    try {
-      sessionStorage.removeItem(KEY);
-    } catch {
-      /* nothing to clear */
-    }
-    window.location.assign(formHome());
+  const go = (v: View) => {
+    setPayError(null);
+    setView(v);
+    trackView(v);
   };
+
+  async function pay() {
+    if (paying || !data) return;
+    const phone = (data.phone || "").replace(/\D/g, "");
+    if (!/^[6-9]\d{9}$/.test(phone)) {
+      setPayError(AFTER.noPhone);
+      return;
+    }
+    const fullName = (data.fullName || data.name || "").trim();
+
+    setPaying(true);
+    setPayError(null);
+    try {
+      const res = await fetch("/api/users/coach-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: fullName, phone }),
+      });
+      const order = await res.json().catch(() => ({}));
+      if (!res.ok || !order?.success) throw new Error(order?.error || "Could not start payment. Please try again.");
+
+      await loadRazorpay();
+      const w = window as unknown as PixelWindow;
+      if (!w.Razorpay) throw new Error("The payment window did not load. Please try again.");
+
+      const rzp = new w.Razorpay({
+        key: order.keyId,
+        currency: order.currency,
+        amount: Math.round(order.amount * 100),
+        name: "Lean Protocol",
+        description: "Senior health coach call",
+        order_id: order.orderId,
+        prefill: { name: fullName, contact: phone },
+        theme: { color: "#193231" },
+        modal: { ondismiss: () => setPaying(false) },
+        handler: async (resp: {
+          razorpay_order_id: string;
+          razorpay_payment_id: string;
+          razorpay_signature: string;
+        }) => {
+          setPaymentRef(resp.razorpay_payment_id);
+          try {
+            const vr = await fetch("/api/users/coach-verify", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                razorpayOrderId: resp.razorpay_order_id,
+                razorpayPaymentId: resp.razorpay_payment_id,
+                razorpaySignature: resp.razorpay_signature,
+              }),
+            });
+            const vd = await vr.json().catch(() => ({}));
+            if (!vr.ok || !vd?.success) throw new Error("verify");
+
+            go("paid");
+            const pw = window as unknown as PixelWindow;
+            whenReady(() => typeof pw.gtag === "function", () => {
+              pw.gtag?.("event", "purchase", {
+                transaction_id: resp.razorpay_payment_id,
+                value: COACH_AMOUNT_INR,
+                currency: "INR",
+                items: [{ item_name: "Senior health coach call", price: COACH_AMOUNT_INR, quantity: 1 }],
+              });
+            });
+            // Likely suppressed for the same health classification as Lead.
+            whenReady(() => typeof pw.fbq === "function", () => {
+              pw.fbq?.("track", "Purchase", { value: COACH_AMOUNT_INR, currency: "INR" });
+            });
+          } catch {
+            setPayError(AFTER.verifyFailed);
+          } finally {
+            setPaying(false);
+          }
+        },
+      });
+
+      rzp.on("payment.failed", (e) => {
+        setPayError(e?.error?.description || "Payment failed. No money was taken. Please try again.");
+        setPaying(false);
+      });
+      rzp.open();
+    } catch (err) {
+      setPayError(err instanceof Error ? err.message : "Could not start payment. Please try again.");
+      setPaying(false);
+    }
+  }
+
+  const name = data?.name || "friend";
+  const confirmed = view === "paid" || view === "later";
 
   return (
     <div className="stage">
@@ -127,19 +257,86 @@ export default function ThankYouPage() {
         <div className="blob blob-b" />
 
         <div className="topbar">
-          <span
-            className="back"
-            aria-hidden="true"
-            style={{ opacity: 0, pointerEvents: "none" }}
-          >
-            {"\u2190"}
+          <span className="back" aria-hidden="true" style={{ opacity: 0, pointerEvents: "none" }}>
+            {BACK}
           </span>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo-cropped.png" alt="Lean Protocol" />
         </div>
 
-        <div className="step">
-          {name !== null && (
+        <div className="step" key={`post-${view}`}>
+          {data !== null && view === "coach" && (
+            <div className="pane">
+              <div className="badge">{COACH.badge}</div>
+              <h2 className="q-h2" style={{ margin: "0 0 8px" }}>
+                {COACH.title} <span className="serif">{COACH.titleSerif}</span>
+              </h2>
+              <p className="q-hint">{COACH.sub}</p>
+
+              <div className="panel" style={{ padding: "4px 18px", marginTop: 16 }}>
+                {COACH.includes.map((it, i) => (
+                  <div
+                    key={it.title}
+                    style={{ display: "flex", gap: 12, padding: "13px 0", borderTop: i ? "1px solid rgba(28,43,34,.08)" : "none" }}
+                  >
+                    <span
+                      aria-hidden="true"
+                      style={{ width: 22, height: 22, borderRadius: "50%", background: "#2D5A4E", color: "#F9F7F2", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 800, flex: "none", marginTop: 1 }}
+                    >
+                      {TICK}
+                    </span>
+                    <div>
+                      <div style={{ fontWeight: 800, fontSize: 15, color: "#193231", lineHeight: 1.3 }}>{it.title}</div>
+                      <div style={{ fontSize: 13, color: "rgba(28,43,34,.6)", lineHeight: 1.45, marginTop: 2 }}>{it.body}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div
+                className="panel-dark"
+                style={{ marginTop: 14, padding: "18px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}
+              >
+                <div>
+                  <div style={{ fontWeight: 800, fontSize: 15, color: "#F9F7F2" }}>{COACH.priceLabel}</div>
+                  {COACH.priceNote && (
+                    <div style={{ fontSize: 12.5, color: "#A8BEB7", marginTop: 3 }}>{COACH.priceNote}</div>
+                  )}
+                </div>
+                <div style={{ fontWeight: 800, fontSize: 40, color: "#C8D9A7", letterSpacing: "-.04em", lineHeight: 1, flex: "none" }}>
+                  {RUPEE}{COACH_AMOUNT_INR}
+                </div>
+              </div>
+
+              {payError && <p className="err" role="alert">{payError}</p>}
+              {payError && paymentRef && (
+                <p className="fine" style={{ marginTop: 6 }}>{AFTER.paymentRef}: {paymentRef}</p>
+              )}
+
+              <div className="cta-wrap" style={{ paddingTop: 18 }}>
+                <button
+                  type="button"
+                  className={`cta ${paying ? "cta-idle" : "cta-primary"}`}
+                  onClick={pay}
+                  disabled={paying}
+                  style={{ padding: 18, fontSize: 17 }}
+                >
+                  {paying ? COACH.paying : `${COACH.cta}, ${RUPEE}${COACH_AMOUNT_INR} ${ARROW}`}
+                </button>
+              </div>
+              <p className="fine" style={{ marginTop: 10 }}>{COACH.secure}</p>
+              <button
+                type="button"
+                onClick={() => go("later")}
+                style={{ alignSelf: "center", background: "none", border: 0, padding: "8px 4px", marginTop: 2, color: "rgba(28,43,34,.55)", fontSize: 13.5, fontWeight: 600, textDecoration: "underline", cursor: "pointer" }}
+              >
+                {COACH.skip}
+              </button>
+              <p className="fine" style={{ fontSize: 10.5, marginTop: 8 }}>{COACH.fine}</p>
+            </div>
+          )}
+
+          {data !== null && confirmed && (
             <div className="pane" style={{ justifyContent: "center", textAlign: "center" }}>
               <div
                 style={{
@@ -159,43 +356,15 @@ export default function ThankYouPage() {
               >
                 {TICK}
               </div>
-              <h1
-                style={{
-                  fontWeight: 800,
-                  fontSize: "clamp(30px,8.5vw,44px)",
-                  letterSpacing: "-.035em",
-                  lineHeight: 1.04,
-                  margin: "0 0 14px",
-                  color: "#193231",
-                }}
-              >
-                You&apos;re in, <span className="serif">{name}.</span>
+              <h1 style={{ fontWeight: 800, fontSize: "clamp(30px,8.5vw,44px)", letterSpacing: "-.035em", lineHeight: 1.04, margin: "0 0 14px", color: "#193231" }}>
+                {view === "paid" ? AFTER.paidTitle : AFTER.laterTitle} <span className="serif">{name}.</span>
               </h1>
-              <p
-                style={{
-                  fontSize: 18,
-                  lineHeight: 1.5,
-                  color: "rgba(28,43,34,.62)",
-                  margin: "0 0 34px",
-                }}
-              >
-                We&apos;ll message you on WhatsApp within 24 hours.
+              <p style={{ fontSize: 18, lineHeight: 1.5, color: "rgba(28,43,34,.62)", margin: "0 0 18px" }}>
+                {view === "paid" ? AFTER.paidBody : AFTER.laterBody}
               </p>
-              <button
-                type="button"
-                className="cta cta-primary"
-                onClick={startOver}
-                style={{
-                  background: "transparent",
-                  color: "rgba(28,43,34,.45)",
-                  boxShadow: "none",
-                  fontSize: 14.5,
-                  padding: 0,
-                  marginTop: 4,
-                }}
-              >
-                Start over
-              </button>
+              {view === "paid" && paymentRef && (
+                <p className="fine">{AFTER.paymentRef}: {paymentRef}</p>
+              )}
             </div>
           )}
         </div>
