@@ -10,25 +10,33 @@
 
 export const COACH_AMOUNT_INR = 49;
 
+/* The session's MRP, shown struck through next to the selling price.
+   Display only - the amount charged is COACH_AMOUNT_INR. Per the business
+   (5 Oct 2026), 999 is the MRP of this session. Keep it accurate: a struck
+   price that was never the real price is misleading under consumer law. */
+export const COACH_MRP_INR = 999;
+
 /* Written into the Razorpay order notes by coach-order and checked by
    coach-verify, so a payment for another product cannot pass as this one. */
 export const COACH_ORDER_SOURCE = "users-coach-call";
 
 export const COACH = {
   badge: "DETAILS RECEIVED",
-  title: "Talk to a",
-  titleSerif: "senior health coach.",
-  sub: "Before any test or plan, a senior coach goes through your answers with you, one to one.",
+  title: "Unlock your plan:",
+  titleSerif: "talk to a senior health coach.",
+  /* Empty hides the line under the heading. */
+  sub: "",
   includes: [
-    { title: "A 1:1 call at a time that suits you", body: "With a person, not a chatbot." },
-    { title: "Your answers, read properly", body: "Your BMI, goal, history and anything you are unsure about." },
-    { title: "Which tests make sense for you", body: "And what each one tells your doctor." },
-    { title: "A clear next step", body: "Including whether a doctor consultation is right for you." },
+    { title: "An exclusive 20-minute 1:1 call at a mutual time", body: "With a certified senior health coach." },
+    { title: "Root cause analysis", body: "Understanding your medical history before suggesting anything." },
+    { title: "Suggesting the best possible solutions for your weight loss", body: "The best possible options in the world, based on your future goals." },
+    { title: "A clear next step", body: "Your clear roadmap for the next 90 days." },
   ],
-  priceLabel: "One-time session fee",
+  priceLabel: "Session fee",
+  mrpLabel: "MRP",
   /* CONFIRM with the accountant before launch. Delete the text to hide the line. */
   priceNote: "Inclusive of taxes",
-  cta: "Book my call",
+  cta: "Book my call now!",
   paying: "Opening secure payment...",
   secure: "Secure payment by Razorpay. UPI, cards and netbanking.",
   skip: "Not now, I will wait for your WhatsApp message",
@@ -37,8 +45,9 @@ export const COACH = {
 };
 
 export const AFTER = {
-  paidTitle: "You are booked,",
-  paidBody: "A senior health coach will message you on WhatsApp within 24 hours to fix a time for your call.",
+  paidTitle: "Congratulations,",
+  paidTitleSerif: "you are booked.",
+  paidBody: "A senior health coach will call you shortly. Please keep your phone with you.",
   laterTitle: "You are in,",
   laterBody: "We will message you on WhatsApp within 24 hours.",
   paymentRef: "Payment reference",

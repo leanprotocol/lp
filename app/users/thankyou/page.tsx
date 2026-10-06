@@ -26,7 +26,7 @@
 // Metadata (title, noindex) comes from the /users layout.
 
 import { useEffect, useState } from "react";
-import { AFTER, COACH, COACH_AMOUNT_INR } from "../../../content/users-next";
+import { AFTER, COACH, COACH_AMOUNT_INR, COACH_MRP_INR } from "../../../content/users-next";
 
 const TICK = "\u2713";
 const ARROW = "\u2192";
@@ -271,7 +271,7 @@ export default function ThankYouPage() {
               <h2 className="q-h2" style={{ margin: "0 0 8px" }}>
                 {COACH.title} <span className="serif">{COACH.titleSerif}</span>
               </h2>
-              <p className="q-hint">{COACH.sub}</p>
+              {COACH.sub && <p className="q-hint">{COACH.sub}</p>}
 
               <div className="panel" style={{ padding: "4px 18px", marginTop: 16 }}>
                 {COACH.includes.map((it, i) => (
@@ -303,8 +303,16 @@ export default function ThankYouPage() {
                     <div style={{ fontSize: 12.5, color: "#A8BEB7", marginTop: 3 }}>{COACH.priceNote}</div>
                   )}
                 </div>
-                <div style={{ fontWeight: 800, fontSize: 40, color: "#C8D9A7", letterSpacing: "-.04em", lineHeight: 1, flex: "none" }}>
-                  {RUPEE}{COACH_AMOUNT_INR}
+                <div style={{ display: "flex", alignItems: "baseline", gap: 10, flex: "none" }}>
+                  {COACH_MRP_INR > COACH_AMOUNT_INR && (
+                    <span style={{ fontSize: 15, fontWeight: 700, color: "#A8BEB7" }}>
+                      {COACH.mrpLabel}{" "}
+                      <s aria-label={`was ${COACH_MRP_INR} rupees`} style={{ textDecorationThickness: 2 }}>{RUPEE}{COACH_MRP_INR}</s>
+                    </span>
+                  )}
+                  <span style={{ fontWeight: 800, fontSize: 40, color: "#C8D9A7", letterSpacing: "-.04em", lineHeight: 1 }}>
+                    {RUPEE}{COACH_AMOUNT_INR}
+                  </span>
                 </div>
               </div>
 
@@ -321,7 +329,7 @@ export default function ThankYouPage() {
                   disabled={paying}
                   style={{ padding: 18, fontSize: 17 }}
                 >
-                  {paying ? COACH.paying : `${COACH.cta}, ${RUPEE}${COACH_AMOUNT_INR} ${ARROW}`}
+                  {paying ? COACH.paying : `${COACH.cta} ${ARROW}`}
                 </button>
               </div>
               <p className="fine" style={{ marginTop: 10 }}>{COACH.secure}</p>
@@ -357,7 +365,11 @@ export default function ThankYouPage() {
                 {TICK}
               </div>
               <h1 style={{ fontWeight: 800, fontSize: "clamp(30px,8.5vw,44px)", letterSpacing: "-.035em", lineHeight: 1.04, margin: "0 0 14px", color: "#193231" }}>
-                {view === "paid" ? AFTER.paidTitle : AFTER.laterTitle} <span className="serif">{name}.</span>
+                {view === "paid" ? (
+                  <>{AFTER.paidTitle} <span className="serif">{AFTER.paidTitleSerif}</span></>
+                ) : (
+                  <>{AFTER.laterTitle} <span className="serif">{name}.</span></>
+                )}
               </h1>
               <p style={{ fontSize: 18, lineHeight: 1.5, color: "rgba(28,43,34,.62)", margin: "0 0 18px" }}>
                 {view === "paid" ? AFTER.paidBody : AFTER.laterBody}
