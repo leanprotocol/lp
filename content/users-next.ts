@@ -44,6 +44,17 @@ export const COACH = {
     "A health coach is not a doctor and does not prescribe. Any medication is decided by a doctor, only if you are eligible. Individual results vary.",
 };
 
+/* Doctor card on the coach page. Dr. Jain is on the Lean Protocol doctor
+   panel; he is NOT the person on the coach call, so the card is labelled as
+   the panel. The photo must be a real photo of Dr. Jain, used with his
+   consent - a name under a picture reads as "this is him". */
+export const DOCTOR = {
+  eyebrow: "From our doctor panel",
+  name: "Dr. Nishant Jain",
+  credentials: "MD, DM Endocrinology",
+  img: "/journey/doctor-nishant-jain.webp",
+};
+
 export const AFTER = {
   paidTitle: "Congratulations,",
   paidTitleSerif: "you are booked.",

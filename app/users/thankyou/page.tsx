@@ -26,7 +26,7 @@
 // Metadata (title, noindex) comes from the /users layout.
 
 import { useEffect, useState } from "react";
-import { AFTER, COACH, COACH_AMOUNT_INR, COACH_MRP_INR } from "../../../content/users-next";
+import { AFTER, COACH, COACH_AMOUNT_INR, COACH_MRP_INR, DOCTOR } from "../../../content/users-next";
 
 const TICK = "\u2713";
 const ARROW = "\u2192";
@@ -256,21 +256,31 @@ export default function ThankYouPage() {
         <div className="blob blob-a" />
         <div className="blob blob-b" />
 
-        <div className="topbar">
-          <span className="back" aria-hidden="true" style={{ opacity: 0, pointerEvents: "none" }}>
-            {BACK}
-          </span>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo-cropped.png" alt="Lean Protocol" />
-        </div>
+        {/* On the coach screen the logo sits beside the heading instead (below),
+            so the page does not spend a whole row on it. */}
+        {view !== "coach" && (
+          <div className="topbar">
+            <span className="back" aria-hidden="true" style={{ opacity: 0, pointerEvents: "none" }}>
+              {BACK}
+            </span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo-cropped.png" alt="Lean Protocol" />
+          </div>
+        )}
 
         <div className="step" key={`post-${view}`}>
           {data !== null && view === "coach" && (
             <div className="pane">
-              <div className="badge">{COACH.badge}</div>
-              <h2 className="q-h2" style={{ margin: "0 0 8px" }}>
-                {COACH.title} <span className="serif">{COACH.titleSerif}</span>
-              </h2>
+              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 14 }}>
+                <div style={{ minWidth: 0 }}>
+                  <div className="badge">{COACH.badge}</div>
+                  <h2 className="q-h2" style={{ margin: "0 0 8px" }}>
+                    {COACH.title} <span className="serif">{COACH.titleSerif}</span>
+                  </h2>
+                </div>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/logo-cropped.png" alt="Lean Protocol" style={{ width: 64, height: "auto", flex: "none", marginTop: 2 }} />
+              </div>
               {COACH.sub && <p className="q-hint">{COACH.sub}</p>}
 
               <div className="panel" style={{ padding: "4px 18px", marginTop: 16 }}>
@@ -291,6 +301,31 @@ export default function ThankYouPage() {
                     </div>
                   </div>
                 ))}
+              </div>
+
+              <div className="shot" style={{ height: 200, flex: "none", marginTop: 14 }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={DOCTOR.img}
+                  alt={`${DOCTOR.name}, ${DOCTOR.credentials}`}
+                  loading="lazy"
+                  style={{ objectPosition: "50% 50%" }}
+                />
+                <div
+                  className="shot-veil"
+                  style={{ background: "linear-gradient(180deg,rgba(25,50,49,0) 35%,rgba(25,50,49,.88))" }}
+                />
+                <div style={{ position: "absolute", left: 18, right: 18, bottom: 16 }}>
+                  <div style={{ fontSize: 10.5, letterSpacing: ".14em", fontWeight: 800, color: "#C8D9A7", textTransform: "uppercase", marginBottom: 4 }}>
+                    {DOCTOR.eyebrow}
+                  </div>
+                  <div style={{ fontWeight: 800, fontSize: 19, color: "#F9F7F2", letterSpacing: "-.02em", lineHeight: 1.2 }}>
+                    {DOCTOR.name}
+                  </div>
+                  <div style={{ fontSize: 13.5, fontWeight: 700, color: "#C8D9A7", marginTop: 2 }}>
+                    {DOCTOR.credentials}
+                  </div>
+                </div>
               </div>
 
               <div

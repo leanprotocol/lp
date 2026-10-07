@@ -300,25 +300,27 @@ export default function UsersFunnel() {
     : 80 + Math.min(1, (bmiNum - 40) / 10) * 20;
 
   const goalPick = answers.target as string | undefined;
+  /* 2-5 kg and 5-10 kg: a three-month graph to their stated goal. 10 kg or more: six months at 22% of body weight. */
+  const months = goalPick === "2-5 kg" || goalPick === "5-10 kg" ? 3 : 6;
   const goalKg =
-    goalPick === "2-5 kg" ? 5 : goalPick === "5-10 kg" ? 10 : Math.max(12, Math.round(weight * 0.18));
-  const loss = Math.min(goalKg, Math.round(weight * 0.22));
+    goalPick === "2-5 kg" ? 5 : goalPick === "5-10 kg" ? 10 : Math.ceil(weight * 0.22);
+  const loss = Math.min(goalKg, Math.ceil(weight * 0.22));
   const target = Math.max(45, weight - loss);
   const lossKg = weight - target;
-  const lossPct = Math.round((lossKg / weight) * 100);
+  const lossPct = months === 6 && target > 45 ? 22 : Math.round((lossKg / weight) * 100);
 
   const now = new Date();
-  const monthPts = Array.from({ length: 7 }, (_, i) => {
+  const monthPts = Array.from({ length: months + 1 }, (_, i) => {
     const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
     return { label: MONTHS[d.getMonth()], y: d.getFullYear() };
   });
-  const targetDate = `${monthPts[6].label} ${monthPts[6].y}`;
+  const targetDate = `${monthPts[months].label} ${monthPts[months].y}`;
 
   const yTop = 12, yBot = 140, xL = 6, xR = 314;
   const hiV = weight + 2, loV = target - 4;
   const yFor = (v: number) => yTop + ((hiV - v) / (hiV - loV)) * (yBot - yTop);
   const pts = monthPts.map((m, i) => {
-    const t = i / 6;
+    const t = i / months;
     const v = weight - (weight - target) * (1 - Math.pow(1 - t, 1.9));
     return { x: Math.round(xL + t * (xR - xL)), y: Math.round(yFor(v) * 10) / 10, label: m.label, i };
   });
@@ -327,7 +329,7 @@ export default function UsersFunnel() {
     const p0 = pts[i - 1], p1 = pts[i], cx = (p0.x + p1.x) / 2;
     linePath += ` C ${cx} ${p0.y}, ${cx} ${p1.y}, ${p1.x} ${p1.y}`;
   }
-  const areaPath = `${linePath} L ${pts[6].x} ${yBot} L ${pts[0].x} ${yBot} Z`;
+  const areaPath = `${linePath} L ${pts[months].x} ${yBot} L ${pts[0].x} ${yBot} Z`;
   const gridVals = [Math.round(hiV), Math.round((hiV + loV) / 2), Math.round(loV)];
 
   /* Same curve as linePath, sampled at the pointer. nearIdx highlights the
@@ -337,8 +339,8 @@ export default function UsersFunnel() {
   if (hoverT !== null) {
     const hv = weight - (weight - target) * (1 - Math.pow(1 - hoverT, 1.9));
     const hy = yFor(hv);
-    nearIdx = Math.round(hoverT * 6);
-    const mo = monthPts[Math.min(6, Math.max(0, nearIdx))];
+    nearIdx = Math.round(hoverT * months);
+    const mo = monthPts[Math.min(months, Math.max(0, nearIdx))];
     hover = {
       on: true,
       left: Math.round(hoverT * 1000) / 10,
@@ -580,7 +582,7 @@ export default function UsersFunnel() {
                 weight-loss plan
               </h1>
               <p className="lede">
-                Six questions. We&apos;ll model your six-month curve and tell you if a health expert
+                Six questions. We&apos;ll model your weight-loss curve and tell you if a health expert
                 is likely to find you eligible.
               </p>
               <div className="shot" style={{ flex: 1, minHeight: 200, margin: "18px 0 2px" }}>
@@ -841,13 +843,13 @@ export default function UsersFunnel() {
           {step === S.GRAPH && (
             <div className="pane">
               <div style={{ textAlign: "center" }}>
-                <div style={{ fontSize: 16, color: "rgba(28,43,34,.6)", fontWeight: 600 }}>We can help you reach</div>
+                <div style={{ fontSize: 16, color: "rgba(28,43,34,.6)", fontWeight: 600 }}>{months === 3 ? "Your goal" : "We can help you reach"}</div>
                 <div style={{ fontWeight: 800, fontSize: "clamp(48px,13vw,68px)", color: "#2D5A4E", letterSpacing: "-.045em", lineHeight: 1, margin: "6px 0", animation: "fnPop .6s both" }}>
                   {target} kg*
                 </div>
                 <div style={{ fontWeight: 800, fontSize: 19, color: "#193231" }}>by {targetDate}</div>
                 <p style={{ fontSize: 15, lineHeight: 1.5, color: "rgba(28,43,34,.6)", margin: "14px 0 20px" }}>
-                  Modelled from your numbers {DASH} then sustained past the six months.
+                  Modelled from your numbers.
                 </p>
               </div>
 
@@ -877,7 +879,7 @@ export default function UsersFunnel() {
                         </div>
                       </>
                     )}
-                    <svg viewBox="0 0 320 160" preserveAspectRatio="none" style={{ width: "100%", height: 150, display: "block" }} aria-label="Projected weight over six months">
+                    <svg viewBox="0 0 320 160" preserveAspectRatio="none" style={{ width: "100%", height: 150, display: "block" }} aria-label={`Projected weight over ${months} months`}>
                       <defs>
                         <linearGradient id="fnFill" x1="0" y1="0" x2="0" y2="1">
                           <stop offset="0%" stopColor="#2D5A4E" stopOpacity=".22" />
@@ -895,12 +897,12 @@ export default function UsersFunnel() {
                         style={{ animation: "fnDraw 1.4s cubic-bezier(.2,.7,.2,1) both" }}
                       />
                       {pts.map((p) => (
-                        <circle key={p.i} cx={p.x} cy={p.y} r={p.i === 6 ? 5.5 : 4} fill={p.i === 6 ? "#C9A84C" : "#2D5A4E"} stroke="#F9F7F2" strokeWidth="2" vectorEffect="non-scaling-stroke" />
+                        <circle key={p.i} cx={p.x} cy={p.y} r={p.i === months ? 5.5 : 4} fill={p.i === months ? "#C9A84C" : "#2D5A4E"} stroke="#F9F7F2" strokeWidth="2" vectorEffect="non-scaling-stroke" />
                       ))}
                     </svg>
                     <div style={{ display: "flex", justifyContent: "space-between", marginTop: 8 }}>
                       {pts.map((p) => (
-                        <div key={p.i} style={{ fontSize: 11, fontWeight: 800, color: p.i === nearIdx ? "#2D5A4E" : p.i === 6 ? "#193231" : "rgba(28,43,34,.45)", lineHeight: 1, whiteSpace: "nowrap", transition: "color .2s" }}>
+                        <div key={p.i} style={{ fontSize: 11, fontWeight: 800, color: p.i === nearIdx ? "#2D5A4E" : p.i === months ? "#193231" : "rgba(28,43,34,.45)", lineHeight: 1, whiteSpace: "nowrap", transition: "color .2s" }}>
                           {p.label}
                         </div>
                       ))}
