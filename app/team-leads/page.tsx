@@ -67,10 +67,30 @@ function ago(ms: number, now: number) {
   return `${Math.round(h / 24)}d ago`;
 }
 
-type Kind = "fresh" | "open" | "won" | "lost";
+/* Statuses callers set when a lead is confirmed as a fit. Compared without
+   regard to case or surrounding spaces. Agreed 7 Oct 2026; add "contacted"
+   here if the team decides that counts too. */
+const QUALIFIED_STATUSES = ["qualified", "interested"];
+
+/* Lead-list tabs. "Converted" is a status the team is adding in TeleCRM
+   (7 Oct 2026); until a caller uses it, that tab is empty. Statuses are
+   compared without regard to case or surrounding spaces. */
+const LIST_TABS = [
+  { key: "all", label: "All", statuses: [] as string[] },
+  { key: "interested", label: "Interested", statuses: ["interested"] },
+  { key: "converted", label: "Converted", statuses: ["converted"] },
+] as const;
+type ListTab = (typeof LIST_TABS)[number]["key"];
+const inTab = (l: { status: string }, tab: ListTab) => {
+  const t = LIST_TABS.find((x) => x.key === tab);
+  return !t || !t.statuses.length || (t.statuses as readonly string[]).includes(l.status.trim().toLowerCase());
+};
+
+type Kind = "fresh" | "open" | "qual" | "won" | "lost";
 function kindOf(status: string): Kind {
   const t = status.trim().toLowerCase();
   if (t === "lost") return "lost";
+  if (QUALIFIED_STATUSES.includes(t)) return "qual";
   if (/won|convert|paid|enrol/.test(t)) return "won";
   if (t === "" || t === "fresh" || t === "new") return "fresh";
   return "open";
@@ -78,12 +98,12 @@ function kindOf(status: string): Kind {
 
 const pct = (a: number, b: number) => (b ? Math.round((a * 100) / b) : 0);
 
-type Row = { name: string; total: number; fresh: number; open: number; won: number; lost: number };
+type Row = { name: string; total: number; fresh: number; open: number; qual: number; won: number; lost: number };
 function groupRows(leads: Lead[], key: (l: Lead) => string): Row[] {
   const m = new Map<string, Row>();
   for (const l of leads) {
     const name = key(l) || "(not set)";
-    const r = m.get(name) || { name, total: 0, fresh: 0, open: 0, won: 0, lost: 0 };
+    const r = m.get(name) || { name, total: 0, fresh: 0, open: 0, qual: 0, won: 0, lost: 0 };
     r.total += 1;
     r[kindOf(l.status)] += 1;
     m.set(name, r);
@@ -119,7 +139,7 @@ const CSS = `
 .bgd-pills button[aria-pressed=true]{background:#C8D9A7;color:#193231}
 .bgd-ghost{border:1.5px solid rgba(249,247,242,.22);background:transparent;color:#F9F7F2;border-radius:999px;padding:9px 18px;font:inherit;font-weight:700;font-size:13.5px;cursor:pointer}
 .bgd-ghost:hover{border-color:#C8D9A7}
-.bgd-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1px solid rgba(249,247,242,.14)}
+.bgd-kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;border-top:1px solid rgba(249,247,242,.14)}
 .bgd-kpi{padding:22px 18px 4px 0}
 .bgd-kpi+.bgd-kpi{padding-left:22px;border-left:1px solid rgba(249,247,242,.14)}
 .bgd-kpi-n{font-size:clamp(34px,4.6vw,56px);font-weight:800;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
@@ -148,7 +168,13 @@ const CSS = `
 .bgd-full{min-width:200px;max-width:300px;white-space:normal;overflow-wrap:anywhere;line-height:1.4}
 .bgd-mix{display:flex;height:6px;border-radius:999px;overflow:hidden;background:rgba(28,43,34,.07);margin-top:7px;min-width:90px}
 .bgd-mix span{display:block;height:100%}
-.k-won{background:#2D5A4E}.k-open{background:#C9A84C}.k-fresh{background:#A8BEB7}.k-lost{background:#B3402F}
+.k-won{background:#2D5A4E}.k-qual{background:#8DB36B}.k-open{background:#C9A84C}.k-fresh{background:#A8BEB7}.k-lost{background:#B3402F}
+.bgd-tabs{display:inline-flex;flex-wrap:wrap;gap:4px;padding:4px;border-radius:999px;background:rgba(28,43,34,.06);margin:0 0 14px}
+.bgd-tabs button{border:0;background:transparent;padding:7px 14px;border-radius:999px;font:inherit;font-weight:700;font-size:13px;color:rgba(28,43,34,.6);cursor:pointer;white-space:nowrap}
+.bgd-tabs button[aria-pressed=true]{background:#193231;color:#F9F7F2}
+.bgd-tabs b{display:inline-block;min-width:20px;margin-left:6px;padding:0 6px;border-radius:999px;background:rgba(28,43,34,.1);font-size:11.5px;text-align:center}
+.bgd-tabs button[aria-pressed=true] b{background:rgba(249,247,242,.18)}
+.bgd-qrate{display:inline-block;min-width:44px;text-align:center;padding:2px 9px;border-radius:999px;font-weight:700;font-size:12.5px;background:rgba(141,179,107,.2);color:#3F6B2A}
 .bgd-rate{display:inline-block;min-width:44px;text-align:center;padding:2px 9px;border-radius:999px;font-weight:700;font-size:12.5px}
 .r-ok{background:rgba(45,90,78,.1);color:#2D5A4E}.r-mid{background:rgba(201,168,76,.16);color:#8A6E22}.r-bad{background:rgba(179,64,47,.1);color:#B3402F}
 
@@ -170,7 +196,7 @@ const CSS = `
 
 .bgd-chip{display:inline-block;padding:4px 11px;border-radius:999px;font-weight:700;font-size:12.5px;white-space:nowrap}
 .c-fresh{background:rgba(168,190,183,.28);color:#3E5751}.c-open{background:rgba(201,168,76,.16);color:#8A6E22}
-.c-won{background:#2D5A4E;color:#F9F7F2}.c-lost{background:rgba(179,64,47,.1);color:#B3402F}
+.c-won{background:#2D5A4E;color:#F9F7F2}.c-qual{background:rgba(141,179,107,.22);color:#3F6B2A}.c-lost{background:rgba(179,64,47,.1);color:#B3402F}
 .bgd-why{display:block;color:rgba(28,43,34,.55);font-size:12.5px;margin-top:4px}
 .bgd tr.changed td{background:rgba(200,217,167,.28)}
 .bgd tr.changed td:first-child{box-shadow:inset 3px 0 0 #2D5A4E}
@@ -193,7 +219,8 @@ const CSS = `
 @media (max-width:900px){.bgd-grid{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:720px){
   .bgd-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .bgd-kpi:nth-child(3){padding-left:0;border-left:0}
+  .bgd-kpi+.bgd-kpi{padding-left:0;border-left:0}
+  .bgd-kpi:nth-child(even){padding-left:22px;border-left:1px solid rgba(249,247,242,.14)}
   .bgd-kpi:nth-child(n+3){border-top:1px solid rgba(249,247,242,.14);margin-top:14px}
   .bgd-card{padding:20px 18px;border-radius:20px}
   .bgd-body{border-radius:30px 30px 0 0;margin-top:-30px}
@@ -243,12 +270,16 @@ function Chip({ status }: { status: string }) {
 }
 
 function Mix({ r }: { r: Row }) {
-  const parts: [Kind, number][] = [["won", r.won], ["open", r.open], ["fresh", r.fresh], ["lost", r.lost]];
+  const parts: [Kind, number][] = [["won", r.won], ["qual", r.qual], ["open", r.open], ["fresh", r.fresh], ["lost", r.lost]];
   return (
     <div className="bgd-mix" aria-hidden="true">
       {parts.map(([k, n]) => (n ? <span key={k} className={`k-${k}`} style={{ width: `${(n * 100) / r.total}%` }} /> : null))}
     </div>
   );
+}
+
+function QRate({ q, total }: { q: number; total: number }) {
+  return <span className="bgd-qrate">{pct(q, total)}%</span>;
 }
 
 function Rate({ lost, total }: { lost: number; total: number }) {
@@ -407,6 +438,7 @@ export default function BgDashboard() {
   const [range, setRange] = useState<RangeKey>("30d");
   const [channel, setChannel] = useState<string>("All");
   const [shown, setShown] = useState(200);
+  const [tab, setTab] = useState<ListTab>("all");
   const [now, setNow] = useState(() => Date.now());
   const [changed, setChanged] = useState<Set<string>>(new Set());
   const [openId, setOpenId] = useState<string | null>(null);
@@ -471,7 +503,10 @@ export default function BgDashboard() {
     return all.filter((l) => l.createdOn >= from);
   }, [scoped, r]);
 
-  const totals = useMemo(() => groupRows(leads, () => "all")[0] || { name: "all", total: 0, fresh: 0, open: 0, won: 0, lost: 0 }, [leads]);
+  const listLeads = useMemo(() => leads.filter((l) => inTab(l, tab)), [leads, tab]);
+  const tabCount = (k: ListTab) => (k === "all" ? leads.length : leads.filter((l) => inTab(l, k)).length);
+
+  const totals = useMemo(() => groupRows(leads, () => "all")[0] || { name: "all", total: 0, fresh: 0, open: 0, qual: 0, won: 0, lost: 0 }, [leads]);
   const campaigns = useMemo(() => groupRows(leads, (l) => l.campaign), [leads]);
   const ads = useMemo(() => groupRows(leads, (l) => l.ad), [leads]);
   const channels = useMemo(() => groupRows(leads, (l) => l.channel), [leads]);
@@ -539,9 +574,16 @@ export default function BgDashboard() {
 
               <div className="bgd-kpis">
                 <div className="bgd-kpi">
-                  <div className="bgd-kpi-n" style={{ color: "#C8D9A7" }}>{totals.total}</div>
+                  <div className="bgd-kpi-n">{totals.total}</div>
                   <div className="bgd-kpi-l">Leads</div>
                   <div className="bgd-kpi-x">{r.label}</div>
+                </div>
+                <div className="bgd-kpi">
+                  <div className="bgd-kpi-n" style={{ color: "#C8D9A7" }}>{totals.qual}</div>
+                  <div className="bgd-kpi-l">Qualified</div>
+                  <div className="bgd-kpi-x">
+                    {pct(totals.qual, totals.total)}% of leads, {pct(totals.qual, totals.total - totals.fresh)}% of called
+                  </div>
                 </div>
                 <div className="bgd-kpi">
                   <div className="bgd-kpi-n">{totals.fresh}</div>
@@ -549,7 +591,7 @@ export default function BgDashboard() {
                   <div className="bgd-kpi-x">{pct(totals.fresh, totals.total)}% of leads</div>
                 </div>
                 <div className="bgd-kpi">
-                  <div className="bgd-kpi-n">{totals.open + totals.won}</div>
+                  <div className="bgd-kpi-n">{totals.open + totals.qual + totals.won}</div>
                   <div className="bgd-kpi-l">Being worked</div>
                   <div className="bgd-kpi-x">{totals.won ? `${totals.won} converted` : `${pct(totals.open, totals.total)}% of leads`}</div>
                 </div>
@@ -560,13 +602,14 @@ export default function BgDashboard() {
                 </div>
               </div>
 
-              <div className="bgd-ribbon" role="img" aria-label={`${totals.won} converted, ${totals.open} in progress, ${totals.fresh} not called, ${totals.lost} lost`}>
-                {([["won", totals.won], ["open", totals.open], ["fresh", totals.fresh], ["lost", totals.lost]] as [Kind, number][]).map(([k, n]) =>
+              <div className="bgd-ribbon" role="img" aria-label={`${totals.won} converted, ${totals.qual} qualified, ${totals.open} in progress, ${totals.fresh} not called, ${totals.lost} lost`}>
+                {([["won", totals.won], ["qual", totals.qual], ["open", totals.open], ["fresh", totals.fresh], ["lost", totals.lost]] as [Kind, number][]).map(([k, n]) =>
                   n ? <span key={k} className={`k-${k}`} style={{ width: `${(n * 100) / Math.max(1, totals.total)}%` }} /> : null
                 )}
               </div>
               <div className="bgd-legend">
                 <span><i className="k-won" />Converted</span>
+                <span><i className="k-qual" />Qualified</span>
                 <span><i className="k-open" />In progress</span>
                 <span><i className="k-fresh" />Not called</span>
                 <span><i className="k-lost" />Lost</span>
@@ -585,13 +628,14 @@ export default function BgDashboard() {
                   {campaigns.length ? (
                     <div className="bgd-scroll">
                       <table>
-                        <thead><tr><th>Campaign</th><th className="n">Leads</th><th className="n">Lost</th><th className="n">Lost rate</th></tr></thead>
+                        <thead><tr><th>Campaign</th><th className="n">Leads</th><th className="n">Qualified</th><th className="n">Qual. rate</th><th className="n">Lost rate</th></tr></thead>
                         <tbody>
                           {campaigns.map((c) => (
                             <tr key={c.name}>
                               <td><div className="bgd-full bgd-strong" style={{ maxWidth: 420 }}>{c.name}</div><Mix r={c} /></td>
                               <td className="n bgd-strong">{c.total}</td>
-                              <td className="n">{c.lost}</td>
+                              <td className="n">{c.qual}</td>
+                              <td className="n"><QRate q={c.qual} total={c.total} /></td>
                               <td className="n"><Rate lost={c.lost} total={c.total} /></td>
                             </tr>
                           ))}
@@ -660,12 +704,13 @@ export default function BgDashboard() {
                   </div>
                   {channels.length ? (
                     <div className="bgd-scroll"><table>
-                      <thead><tr><th>Channel</th><th className="n">Leads</th><th className="n">Not called</th><th className="n">Lost</th><th className="n">Lost rate</th></tr></thead>
+                      <thead><tr><th>Channel</th><th className="n">Leads</th><th className="n">Qualified</th><th className="n">Qual. rate</th><th className="n">Lost rate</th></tr></thead>
                       <tbody>
                         {channels.map((c) => (
                           <tr key={c.name}>
                             <td><div className="bgd-strong">{c.name}</div><Mix r={c} /></td>
-                            <td className="n bgd-strong">{c.total}</td><td className="n">{c.fresh}</td><td className="n">{c.lost}</td>
+                            <td className="n bgd-strong">{c.total}</td><td className="n">{c.qual}</td>
+                            <td className="n"><QRate q={c.qual} total={c.total} /></td>
                             <td className="n"><Rate lost={c.lost} total={c.total} /></td>
                           </tr>
                         ))}
@@ -704,13 +749,14 @@ export default function BgDashboard() {
                 {ads.length ? (
                   <div className="bgd-scroll">
                     <table>
-                      <thead><tr><th>Ad</th><th className="n">Leads</th><th className="n">Not called</th><th className="n">In progress</th><th className="n">Lost</th><th className="n">Lost rate</th></tr></thead>
+                      <thead><tr><th>Ad</th><th className="n">Leads</th><th className="n">Qualified</th><th className="n">Qual. rate</th><th className="n">Not called</th><th className="n">Lost rate</th></tr></thead>
                       <tbody>
                         {ads.map((a) => (
                           <tr key={a.name}>
                             <td><div className="bgd-name bgd-strong" title={a.name}>{a.name}</div><Mix r={a} /></td>
-                            <td className="n bgd-strong">{a.total}</td><td className="n">{a.fresh}</td><td className="n">{a.open + a.won}</td>
-                            <td className="n">{a.lost}</td><td className="n"><Rate lost={a.lost} total={a.total} /></td>
+                            <td className="n bgd-strong">{a.total}</td><td className="n">{a.qual}</td>
+                            <td className="n"><QRate q={a.qual} total={a.total} /></td><td className="n">{a.fresh}</td>
+                            <td className="n"><Rate lost={a.lost} total={a.total} /></td>
                           </tr>
                         ))}
                       </tbody>
@@ -724,14 +770,21 @@ export default function BgDashboard() {
                   <h2 className="bgd-h2">Every <span className="serif">lead</span></h2>
                   <span className="bgd-hint">Click a lead for caller notes. Tinted rows changed in the last refresh.</span>
                 </div>
-                {leads.length ? (
+                <div className="bgd-tabs" role="group" aria-label="Lead status">
+                  {LIST_TABS.map((t) => (
+                    <button key={t.key} type="button" aria-pressed={tab === t.key} onClick={() => { setTab(t.key); setShown(200); }}>
+                      {t.label}<b>{tabCount(t.key)}</b>
+                    </button>
+                  ))}
+                </div>
+                {listLeads.length ? (
                   <div className="bgd-scroll">
                     <table>
                       <thead>
                         <tr><th>Name</th><th>Channel</th><th>Came in</th><th>Status</th><th>Caller</th><th>Campaign</th><th>Ad set</th><th>Ad</th><th className="n">Forms</th><th>Phone</th><th>Last update</th></tr>
                       </thead>
                       <tbody>
-                        {leads.slice(0, shown).map((l) => (
+                        {listLeads.slice(0, shown).map((l) => (
                           <tr key={l.id} className={`click${changed.has(l.id) ? " changed" : ""}`} onClick={() => setOpenId(l.id)}>
                             <td><button type="button" className="bgd-link" title={`Open notes for ${l.name || "this lead"}`} onClick={(e) => { e.stopPropagation(); setOpenId(l.id); }}>{l.name || "Unnamed"}</button></td>
                             <td style={{ whiteSpace: "nowrap" }}>{l.channel}</td>
@@ -748,15 +801,23 @@ export default function BgDashboard() {
                         ))}
                       </tbody>
                     </table>
-                    {leads.length > shown && (
+                    {listLeads.length > shown && (
                       <div style={{ textAlign: "center", marginTop: 16 }}>
                         <button type="button" className="bgd-ink" style={{ width: "auto", padding: "12px 22px", fontSize: 14 }} onClick={() => setShown((n) => n + 200)}>
-                          Show {Math.min(200, leads.length - shown)} more of {leads.length - shown}
+                          Show {Math.min(200, listLeads.length - shown)} more of {listLeads.length - shown}
                         </button>
                       </div>
                     )}
                   </div>
-                ) : <div className="bgd-empty">No leads in this period.</div>}
+                ) : (
+                  <div className="bgd-empty">
+                    {tab === "converted"
+                      ? "No converted leads in this period. Leads appear here when a caller sets their status to Converted in TeleCRM."
+                      : tab === "interested"
+                        ? "No interested leads in this period."
+                        : "No leads in this period."}
+                  </div>
+                )}
                 <p className="bgd-note">
                   Paid leads from Meta, Google and ChatGPT, excluding BG campaigns. Full phone numbers and health details stay in TeleCRM. For Lean Protocol staff only.
                 </p>
