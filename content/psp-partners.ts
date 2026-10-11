@@ -128,6 +128,18 @@ export const PSP_PARTNERS: PspPartner[] = [
     logo: "/psp/logos/zydus.png",
     video: { src: "/psp/videos/zydus-3.mp4" },
   },
+  {
+    slug: "dr-reddys-2",
+    company: "Dr. Reddy's",
+    logo: "/psp/logos/dr-reddys.png",
+    video: { src: "/psp/videos/dr-reddys-2.mp4" },
+  },
+  {
+    slug: "hetero-2",
+    company: "Hetero",
+    logo: "/psp/logos/hetero.png",
+    video: { src: "/psp/videos/hetero-2.mp4" },
+  },
 ];
 
 /* True when a value is written and no longer a [bracketed] placeholder. */
