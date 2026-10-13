@@ -23,7 +23,7 @@ const APPROX = "\u2248";
 const S = {
   INTRO: 0, REASON: 1, TARGET: 2, HEIGHT: 3, WEIGHT: 4,
   TIMING: 5, LOADING: 6, GRAPH: 7, BMI: 8,
-  REGISTER: 9, DONE: 10,
+  REGISTER: 9, DONE: 10, NOT_ELIGIBLE: 11,
 } as const;
 
 const NONE = "None of these";
@@ -413,7 +413,7 @@ export default function UsersFunnel() {
 
   const back = useCallback(() => {
     clearTimers();
-    setStep((s) => (s === S.INTRO ? s : s === S.GRAPH ? S.TIMING : s - 1));
+    setStep((s) => (s === S.INTRO ? s : s === S.NOT_ELIGIBLE ? S.BMI : s === S.GRAPH ? S.TIMING : s - 1));
   }, [clearTimers]);
 
   const restart = useCallback(() => {
@@ -992,7 +992,7 @@ export default function UsersFunnel() {
               </p>
 
               <div className="cta-wrap" style={{ paddingTop: 20 }}>
-                <button type="button" className="cta cta-primary" onClick={next} style={{ padding: 18, fontSize: 17 }}>
+                <button type="button" className="cta cta-primary" onClick={() => (Number(bmi) < 27 ? setStep(S.NOT_ELIGIBLE) : next())} style={{ padding: 18, fontSize: 17 }}>
                   Unlock my plan {ARROW}
                 </button>
               </div>
@@ -1083,6 +1083,29 @@ export default function UsersFunnel() {
                 </button>
               </div>
 
+            </div>
+          )}
+
+          {/* ---------- not eligible (BMI under 27) ---------- */}
+          {step === S.NOT_ELIGIBLE && (
+            <div className="pane" style={{ justifyContent: "center", textAlign: "center" }}>
+              <div style={{ width: 84, height: 84, borderRadius: "50%", background: "rgba(28,43,34,.08)", color: "#193231", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 40, fontWeight: 800, margin: "0 auto 26px" }}>
+                !
+              </div>
+              <h2 style={{ fontWeight: 800, fontSize: "clamp(26px,7vw,36px)", letterSpacing: "-.03em", lineHeight: 1.1, margin: "0 0 14px", color: "#193231" }}>
+                You are not eligible for this programme
+              </h2>
+              <p style={{ fontSize: 17, lineHeight: 1.55, color: "rgba(28,43,34,.75)", margin: "0 0 10px" }}>
+                Our programme is for people with a BMI of 27 or above. Your BMI is {bmi}.
+              </p>
+              <p style={{ fontSize: 15, lineHeight: 1.55, color: "rgba(28,43,34,.6)", margin: "0 0 30px" }}>
+                If you filled in your height or weight wrongly, please refill the form.
+              </p>
+              <div className="cta-wrap">
+                <button type="button" className="cta cta-primary" onClick={restart} style={{ padding: 18, fontSize: 17 }}>
+                  Refill the form {ARROW}
+                </button>
+              </div>
             </div>
           )}
 
