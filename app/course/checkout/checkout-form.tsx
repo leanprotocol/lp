@@ -7,6 +7,7 @@
 
 import { useState } from "react";
 import { COURSE } from "@/content/course";
+import AttributionCapture, { readAttribution } from "../attribution";
 
 type RzpWindow = Window & {
   Razorpay?: new (o: Record<string, unknown>) => { open: () => void; on: (e: string, cb: (x: { error?: { description?: string } }) => void) => void };
@@ -63,7 +64,7 @@ export default function CheckoutForm() {
     try {
       const r = await fetch("/api/course/order", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name.trim(), phone }),
+        body: JSON.stringify({ name: name.trim(), phone, attribution: readAttribution() }),
       });
       const order = await r.json().catch(() => ({}));
       if (!r.ok || !order?.success) throw new Error(order?.error || "Could not start payment. Please try again.");
@@ -103,6 +104,7 @@ export default function CheckoutForm() {
   return (
     <main className="co">
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
+      <AttributionCapture />
       {paidRef ? (
         <div className="box" style={{ textAlign: "center" }}>
           <span className="ok" aria-hidden="true">{"\u2713"}</span>

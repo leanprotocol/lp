@@ -15,6 +15,7 @@ import {
 import IntroVideo from "./intro-video";
 import OfferCountdown from "./offer-countdown";
 import ChapterList from "./chapter-list";
+import AttributionCapture from "./attribution";
 
 export const dynamic = "force-static";
 
@@ -209,6 +210,7 @@ export default function CoursePage() {
   return (
     <main className="lpc">
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
+      <AttributionCapture />
 
       <header className="hdr">
         <div className="w">
