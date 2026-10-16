@@ -98,7 +98,9 @@ const CSS = `
 .lpc .glance ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;flex:1;justify-content:space-between}
 .lpc .glance li{display:flex;align-items:center;gap:0;padding:14px 0;border-top:1px solid rgba(28,43,34,.12)}
 .lpc .glance li:first-child{border-top:0}
-.lpc .glance b{flex:none;width:236px;padding-right:18px;font-size:32px;font-weight:800;letter-spacing:-.03em;color:#2D5A4E;line-height:1.1}
+.lpc .glance b{flex:none;width:200px;padding-right:18px;font-size:32px;font-weight:800;letter-spacing:-.03em;color:#2D5A4E;line-height:1.15;white-space:nowrap}
+/* a long value (e.g. "Community") shrinks to fit its column instead of wrapping */
+.lpc .glance b.long{font-size:clamp(18px,1.95vw,27px)}
 .lpc .glance span{color:#4A5A52;font-size:16px;padding-left:18px;border-left:1.5px solid rgba(28,43,34,.15);align-self:stretch;display:flex;align-items:center}
 /* instructors */
 .lpc .people{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px}
@@ -170,7 +172,10 @@ const CSS = `
   .lpc .mcta{display:flex;position:fixed;left:12px;right:12px;bottom:12px;z-index:50;align-items:center;justify-content:space-between;gap:12px;background:#C8D9A7;color:#193231;text-decoration:none;padding:12px 14px 12px 22px;border-radius:999px;box-shadow:0 12px 32px rgba(15,31,30,.35);min-height:56px}
   .lpc .ftr{padding-bottom:110px}
   .lpc .nav a:not(.pill){display:none}
-  .lpc .glance b{width:130px;padding-right:12px;font-size:24px}
+  .lpc .glance{padding:24px 20px}
+  .lpc .glance b{width:112px;padding-right:12px;font-size:22px}
+  .lpc .glance b.long{font-size:17px}
+  .lpc .glance span{padding-left:12px;font-size:14.5px}
   .lpc .glance span{padding-left:12px}
 }
 .lpc a:focus-visible,.lpc summary:focus-visible,.lpc button:focus-visible{outline:3px solid #C8D9A7;outline-offset:3px}
@@ -273,7 +278,9 @@ export default function CoursePage() {
           <aside className="card glance" aria-label="At a glance">
             <p className="eyebrow">At a glance</p>
             <ul>
-              {GLANCE.filter((g) => isReady(g.big)).map((g) => <li key={g.big}><b>{g.big}</b><span>{g.text}</span></li>)}
+              {GLANCE.filter((g) => isReady(g.big)).map((g) => (
+                <li key={g.big}><b className={g.big.length > 7 ? "long" : undefined}>{g.big}</b><span>{g.text}</span></li>
+              ))}
             </ul>
           </aside>
         </div>
@@ -367,12 +374,6 @@ export default function CoursePage() {
                 </div>
               )}
             </div>
-            {COMPANY.columns.map((col) => (
-              <nav key={col.title} aria-label={col.title}>
-                <h4>{col.title}</h4>
-                {col.links.map(([label, href]) => <p key={href}><a href={href}>{label}</a></p>)}
-              </nav>
-            ))}
           </div>
           <div className="legal">
             <p>This master class is for education only and is not medical advice. Lean Protocol is not affiliated with Novo Nordisk A/S or Eli Lilly &amp; Co. GLP medications are prescription-only and are dispensed solely when a licensed physician determines they are clinically appropriate. Results vary and are not guaranteed.</p>
