@@ -113,6 +113,10 @@ export default function CheckoutForm() {
   async function pay() {
     if (!valid || busy) return;
     setBusy(true); setError(null);
+    /* Checkout started. Not a lead event: the programme funnel owns those. */
+    const w0 = window as unknown as { gtag?: (...a: unknown[]) => void; fbq?: (...a: unknown[]) => void; oaiq?: (...a: unknown[]) => void };
+    try { w0.fbq?.("track", "InitiateCheckout", { value: amount, currency: "INR" }); } catch {}
+    try { w0.gtag?.("event", "begin_checkout", { value: amount, currency: "INR" }); } catch {}
     try {
       const r = await fetch("/api/course/order", {
         method: "POST", headers: { "Content-Type": "application/json" },
@@ -137,9 +141,10 @@ export default function CheckoutForm() {
             const d = await v.json().catch(() => ({}));
             if (!v.ok || !d?.success) throw new Error("verify");
             setPaidRef(resp.razorpay_payment_id);
-            const w = window as unknown as { gtag?: (...a: unknown[]) => void; fbq?: (...a: unknown[]) => void };
+            const w = window as unknown as { gtag?: (...a: unknown[]) => void; fbq?: (...a: unknown[]) => void; oaiq?: (...a: unknown[]) => void };
             try { w.gtag?.("event", "purchase", { transaction_id: resp.razorpay_payment_id, value: order.amount, currency: "INR" }); } catch {}
             try { w.fbq?.("track", "Purchase", { value: order.amount, currency: "INR" }); } catch {}
+            try { w.oaiq?.("measure", "purchase", { value: order.amount, currency: "INR" }); } catch {}
           } catch {
             setError(`Your payment went through, but we could not confirm it. Do not pay again. Email support@leanprotocol.in with reference ${resp.razorpay_payment_id}.`);
           } finally { setBusy(false); }
