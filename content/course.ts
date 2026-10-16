@@ -35,35 +35,44 @@ export const COURSE = {
 export const OFFER = {
   heading: "Limited-time launch offer",
   /* Struck-through price. Must be a real price the course sells at. */
-  mrpInr: 499,
+  mrpInr: 4999,
   /* Real end of the offer, India time, e.g. "2026-10-31T23:59:00+05:30".
      Empty hides the countdown and the "valid till" line. */
   endsAt: "",
   points: [
-    "A complete, start-to-finish GLP weight loss master class",
+    "Complete, structured GLP weight loss master class",
     "Conducted by experienced professionals: a senior health coach and a physician",
-    "Decoding the top weight-loss strategies, backed by science",
-    "Find the approach that suits you best",
-    "Access to the Lean Protocol community of 1000+ members",
+    "By the end of the course, you get clarity on what suits you",
   ],
 };
 
+/* Checkout bonus. Each visitor gets a real BONUS.windowMinutes window from
+   their first visit, kept through refreshes. Within it, the checkout shows a
+   tap-to-reveal bonus: BONUS.discountInr off plus community access. The server
+   issues a signed coupon that expires with the window, and the order route
+   charges the discounted price only for a valid, unexpired coupon. Closing the
+   pop-up without revealing keeps the normal price. */
+export const BONUS = {
+  code: "LEAN30",
+  discountInr: 30,
+  windowMinutes: 5,
+  title: "\u20b930 off + Lean Protocol community access",
+};
+
 export const ACHIEVE = [
-  { title: "Know the top methods of weight loss in 2026", body: "What works, what does not, and how the main approaches compare." },
-  { title: "Understand your body type and what to expect", body: "How much weight you can realistically expect to lose, and why it differs from person to person." },
-  { title: "Decode the strategies top trainers use", body: "The weight-loss strategies used by well-known fitness trainers, explained simply." },
+  { title: "Know the top methods of weight loss in 2026" },
+  { title: "Understand your body type and what to expect" },
+  { title: "Decode the strategies top trainers use" },
 ];
 
 export const ABOUT = {
   heading: "What this GLP master class involves",
-  lead: "13 video chapters that take you from the basics to an advanced level, while learning:",
+  lead: "13 video chapters that take you from a beginner to a GLP pro, while learning:",
   points: [
-    "Why results differ from person to person",
-    "What to do when the weight stops moving",
-    "Handling side effects like a pro",
-    "What treatment costs, and how to save money during treatment",
+    "The best weight-loss methods of 2026",
+    "Minimising side effects like a pro",
+    "Five hacks to save significant money during therapy",
   ],
-  taught: "Taught by a senior health coach and physician, in practical and simple language.",
 };
 
 export const GLANCE = [
@@ -85,8 +94,8 @@ export const INSTRUCTORS = [
   {
     name: "Dr. Siddharth Garg",
     role: "MBBS, MD (Internal Medicine)",
-    photo: "/course/instructors/dr-sidd.webp",
-    bio: "Dr. Siddharth has been through his own weight transformation. He explains the medical science: why the same GLP medicine works differently for everyone, how to manage side effects, and the options that may suit you best.",
+    photo: "/course/instructors/dr-siddharth-garg.jpeg",
+    bio: "Dr. Siddharth, who had his own weight transformation, explains the medical science: why the same GLP works differently for everyone, how to manage side effects, and the options that may suit you best.",
   },
 ];
 
@@ -94,12 +103,12 @@ export type Chapter = { slug: string; label: string; title: string; withDoctor?:
 
 /* Shown in three groups: the first 4, then "show 4 more", then the rest. */
 export const CHAPTERS: Chapter[] = [
-  { slug: "01", label: "Chapter 1", title: "How to tackle obesity, and the top weight-loss methods across the world" },
+  { slug: "01", label: "Chapter 1", title: "Decoding the top 5 methods across the world" },
   { slug: "02", label: "Chapter 2", title: "How these modern therapies work, and are they safe?" },
   { slug: "03", label: "Chapter 3", title: "How much weight loss to expect in 1, 3 and 6 months: what the research says" },
   { slug: "04", label: "Chapter 4", title: "Same GLP, different results: the dosing strategy and root-cause analysis", withDoctor: true },
   { slug: "05", label: "Chapter 5", title: "Plateaus decoded: the best methods for protecting muscle while losing fat" },
-  { slug: "06", label: "Chapter 6", title: "Natural, pills or shots?", withDoctor: true },
+  { slug: "06", label: "Chapter 6", title: "Natural weight loss vs pills vs shots", withDoctor: true },
   { slug: "07", label: "Chapter 7", title: "Branded vs generic, and what our experience says" },
   { slug: "08", label: "Chapter 8", title: "8 essential items to have during weight loss" },
   { slug: "08b", label: "Chapter 8 \u00b7 Part 2", title: "Minimising side effects like a pro", withDoctor: true },
@@ -114,7 +123,7 @@ export const CHAPTER_GROUPS = [4, 8]; // first 4 shown; "Show more" reveals up t
 export const FAQ = [
   { q: "Where do I watch the master class?", a: "In the Lean Protocol app, on Android or iPhone. Pay here, then sign in to the app with the same mobile number to unlock every chapter." },
   { q: "What does \u20b999 include?", a: "All 13 video chapters, the diet charts and access to the Lean Protocol community. It is a one-time payment." },
-  { q: "Do I need to be taking a GLP medicine?", a: "No. The master class is for anyone who wants to understand GLP weight loss, whether or not they are on treatment." },
+  { q: "Do I need to be on GLP treatment?", a: "No. The master class is for anyone who wants to understand GLP weight loss, whether or not they are on treatment." },
   { q: "Is this medical advice?", a: "No. It is educational. GLP medicines are prescription-only; speak to your doctor about your own treatment." },
 ];
 

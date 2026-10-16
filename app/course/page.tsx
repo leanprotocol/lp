@@ -14,6 +14,7 @@ import {
 } from "@/content/course";
 import IntroVideo from "./intro-video";
 import OfferCountdown from "./offer-countdown";
+import OfferTimer from "./offer-timer";
 import ChapterList from "./chapter-list";
 import AttributionCapture from "./attribution";
 
@@ -95,10 +96,10 @@ const CSS = `
 .lpc .tick{flex:none;width:26px;height:26px;border-radius:999px;background:#2D5A4E;color:#F9F7F2;display:flex;align-items:center;justify-content:center;margin-top:1px}
 .lpc .glance{flex:1 1 360px;min-width:0;align-self:stretch;padding:30px 32px;display:flex;flex-direction:column;gap:14px;border-radius:24px}
 .lpc .glance ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;flex:1;justify-content:space-between}
-.lpc .glance li{display:flex;align-items:baseline;gap:14px;padding:12px 0;border-top:1px solid rgba(28,43,34,.08)}
+.lpc .glance li{display:flex;align-items:center;gap:0;padding:14px 0;border-top:1px solid rgba(28,43,34,.12)}
 .lpc .glance li:first-child{border-top:0}
-.lpc .glance b{flex:none;min-width:160px;font-size:24px;font-weight:800;letter-spacing:-.03em;color:#2D5A4E;line-height:1.1}
-.lpc .glance span{color:#4A5A52;font-size:16px}
+.lpc .glance b{flex:none;width:236px;padding-right:18px;font-size:32px;font-weight:800;letter-spacing:-.03em;color:#2D5A4E;line-height:1.1}
+.lpc .glance span{color:#4A5A52;font-size:16px;padding-left:18px;border-left:1.5px solid rgba(28,43,34,.15);align-self:stretch;display:flex;align-items:center}
 /* instructors */
 .lpc .people{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px}
 .lpc .person{overflow:hidden;border-radius:28px;display:flex;flex-direction:column}
@@ -169,7 +170,8 @@ const CSS = `
   .lpc .mcta{display:flex;position:fixed;left:12px;right:12px;bottom:12px;z-index:50;align-items:center;justify-content:space-between;gap:12px;background:#C8D9A7;color:#193231;text-decoration:none;padding:12px 14px 12px 22px;border-radius:999px;box-shadow:0 12px 32px rgba(15,31,30,.35);min-height:56px}
   .lpc .ftr{padding-bottom:110px}
   .lpc .nav a:not(.pill){display:none}
-  .lpc .glance b{min-width:120px;font-size:21px}
+  .lpc .glance b{width:130px;padding-right:12px;font-size:24px}
+  .lpc .glance span{padding-left:12px}
 }
 .lpc a:focus-visible,.lpc summary:focus-visible,.lpc button:focus-visible{outline:3px solid #C8D9A7;outline-offset:3px}
 `;
@@ -252,7 +254,6 @@ export default function CoursePage() {
               <div className="card ach" key={a.title}>
                 <span className="no">{String(i + 1).padStart(2, "0")}</span>
                 <h3>{a.title}</h3>
-                <p className="muted">{a.body}</p>
               </div>
             ))}
           </div>
@@ -268,7 +269,6 @@ export default function CoursePage() {
             <ul className="ticks">
               {ABOUT.points.map((p) => <li key={p}><Tick />{p}</li>)}
             </ul>
-            <p className="muted">{ABOUT.taught}</p>
           </div>
           <aside className="card glance" aria-label="At a glance">
             <p className="eyebrow">At a glance</p>
@@ -323,6 +323,7 @@ export default function CoursePage() {
             <span className="now">{price} <span style={{ fontSize: 22, fontWeight: 700 }}>only</span></span>
             <span className="tag">One-time payment {DOT} full master class</span>
           </div>
+          <OfferTimer />
           <a href={COURSE.checkoutPath} className="pill buy">Get the master class for {price}</a>
           <OfferCountdown endsAt={OFFER.endsAt} />
         </div>

@@ -5,8 +5,10 @@
 // server (/api/course/order) and re-checked when verifying, so the browser
 // cannot change it. Pure ASCII file.
 
-import { useState } from "react";
-import { COURSE } from "@/content/course";
+import { useEffect, useState } from "react";
+import { BONUS, COURSE } from "@/content/course";
+import BonusPopup from "./bonus-popup";
+import { COUPON_KEY, DISMISS_KEY, fmt, getWindowEnd } from "../offer-window";
 import AttributionCapture, { readAttribution } from "../attribution";
 
 type RzpWindow = Window & {
@@ -45,6 +47,26 @@ const CSS = `
 .co .err{margin:0;color:#B3402F;font-size:14px}
 .co .fine{margin:0;font-size:12.5px;color:#5A6A62}
 .co a{color:#2D5A4E}
+.co .bonus-on{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;background:#E7EFD9;border:1px solid #C8D9A7;border-radius:14px;padding:10px 14px;font-size:13.5px;color:#193231}
+.co .bonus-time{font-weight:800;color:#C0392B;font-variant-numeric:tabular-nums}
+.bp-scrim{position:fixed;inset:0;z-index:1000;background:rgba(10,20,19,.7);display:flex;align-items:center;justify-content:center;padding:20px}
+.bp-box{position:relative;width:100%;max-width:400px;background:#F9F7F2;border-radius:26px;padding:34px 28px 28px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;box-shadow:0 30px 80px rgba(0,0,0,.4);animation:bpIn .25s ease-out}
+.bp-close{position:absolute;top:12px;right:14px;width:40px;height:40px;border:0;background:transparent;font-size:28px;line-height:1;color:#5A6A62;cursor:pointer;border-radius:999px}
+.bp-eyebrow{margin:0;font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#2D5A4E}
+.bp-box h2{margin:0;font-size:24px;line-height:1.2;letter-spacing:-.02em;font-weight:800;color:#193231}
+.bp-gift{margin:10px 0 0;border:0;background:radial-gradient(circle,#fff 0%,#F1F5EA 70%);width:150px;height:150px;border-radius:999px;display:flex;align-items:center;justify-content:center;cursor:pointer;animation:bpBob 1.6s ease-in-out infinite}
+.bp-gift.open{animation:bpShake .9s ease-in-out}
+.bp-hint{margin:0;font-weight:700;color:#4A5A52}
+.bp-code{background:#193231;color:#C8D9A7;border-radius:12px;padding:10px 16px;font-weight:700}
+.bp-code b{color:#F9F7F2;letter-spacing:.08em}
+.bp-price{margin:4px 0 0;font-size:18px;color:#193231}
+.bp-price s{color:#7A867F;margin-right:6px}
+.bp-price b{font-size:28px}
+.bp-go{margin-top:6px;width:100%;border:0;border-radius:999px;background:#193231;color:#F9F7F2;font:inherit;font-weight:800;font-size:16px;padding:15px;cursor:pointer;min-height:48px}
+@keyframes bpIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+@keyframes bpBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes bpShake{0%,100%{transform:rotate(0)}20%{transform:rotate(-10deg) scale(1.05)}40%{transform:rotate(10deg) scale(1.08)}60%{transform:rotate(-8deg) scale(1.1)}80%{transform:rotate(6deg) scale(1.12)}}
+@media (prefers-reduced-motion:reduce){.bp-box,.bp-gift,.bp-gift.open{animation:none}}
 .co .ok{width:72px;height:72px;border-radius:999px;background:#193231;color:#C8D9A7;display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto}
 `;
 
@@ -55,7 +77,37 @@ export default function CheckoutForm() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [paidRef, setPaidRef] = useState<string | null>(null);
-  const price = `${RUPEE}${COURSE.priceInr}`;
+  const [windowEnd, setWindowEnd] = useState(0);
+  const [showBonus, setShowBonus] = useState(false);
+  const [coupon, setCoupon] = useState<{ token: string; expiresAt: number } | null>(null);
+  const [now, setNow] = useState(() => Date.now());
+
+  useEffect(() => {
+    const end = getWindowEnd();
+    setWindowEnd(end);
+    let saved: { token: string; expiresAt: number } | null = null;
+    try { saved = JSON.parse(localStorage.getItem(COUPON_KEY) || "null"); } catch {}
+    if (saved && saved.expiresAt > Date.now()) setCoupon(saved);
+    let dismissed = false;
+    try { dismissed = localStorage.getItem(DISMISS_KEY) === "1"; } catch {}
+    if (!saved && !dismissed && end > Date.now()) setShowBonus(true);
+    const id = window.setInterval(() => setNow(Date.now()), 1000);
+    return () => window.clearInterval(id);
+  }, []);
+
+  const bonusActive = Boolean(coupon && coupon.expiresAt > now);
+  const amount = bonusActive ? COURSE.priceInr - BONUS.discountInr : COURSE.priceInr;
+  const price = `${RUPEE}${amount}`;
+
+  const onCoupon = (token: string, expiresAt: number) => {
+    const c = { token, expiresAt };
+    setCoupon(c);
+    try { localStorage.setItem(COUPON_KEY, JSON.stringify(c)); } catch {}
+  };
+  const closeBonus = () => {
+    setShowBonus(false);
+    try { localStorage.setItem(DISMISS_KEY, "1"); } catch {}
+  };
   const valid = name.trim().length > 1 && /^[6-9]\d{9}$/.test(phone) && consent;
 
   async function pay() {
@@ -64,7 +116,7 @@ export default function CheckoutForm() {
     try {
       const r = await fetch("/api/course/order", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name.trim(), phone, attribution: readAttribution() }),
+        body: JSON.stringify({ name: name.trim(), phone, attribution: readAttribution(), coupon: bonusActive ? coupon?.token : undefined }),
       });
       const order = await r.json().catch(() => ({}));
       if (!r.ok || !order?.success) throw new Error(order?.error || "Could not start payment. Please try again.");
@@ -86,8 +138,8 @@ export default function CheckoutForm() {
             if (!v.ok || !d?.success) throw new Error("verify");
             setPaidRef(resp.razorpay_payment_id);
             const w = window as unknown as { gtag?: (...a: unknown[]) => void; fbq?: (...a: unknown[]) => void };
-            try { w.gtag?.("event", "purchase", { transaction_id: resp.razorpay_payment_id, value: COURSE.priceInr, currency: "INR" }); } catch {}
-            try { w.fbq?.("track", "Purchase", { value: COURSE.priceInr, currency: "INR" }); } catch {}
+            try { w.gtag?.("event", "purchase", { transaction_id: resp.razorpay_payment_id, value: order.amount, currency: "INR" }); } catch {}
+            try { w.fbq?.("track", "Purchase", { value: order.amount, currency: "INR" }); } catch {}
           } catch {
             setError(`Your payment went through, but we could not confirm it. Do not pay again. Email support@leanprotocol.in with reference ${resp.razorpay_payment_id}.`);
           } finally { setBusy(false); }
@@ -105,6 +157,7 @@ export default function CheckoutForm() {
     <main className="co">
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <AttributionCapture />
+      {showBonus && !paidRef && <BonusPopup windowEnd={windowEnd} onCoupon={onCoupon} onClose={closeBonus} />}
       {paidRef ? (
         <div className="box" style={{ textAlign: "center" }}>
           <span className="ok" aria-hidden="true">{"\u2713"}</span>
@@ -117,13 +170,25 @@ export default function CheckoutForm() {
       ) : (
         <div className="box">
           <h1>Get the GLP weight loss <i>master class.</i></h1>
-          <div className="sum"><span>Full master class, one-time</span><b>{price}</b></div>
+          <div className="sum">
+            <span>Full master class</span>
+            <span style={{ textAlign: "right" }}>
+              {bonusActive && <s style={{ color: "#7A867F", fontWeight: 700, marginRight: 8 }}>{RUPEE}{COURSE.priceInr}</s>}
+              <b>{price}</b>
+            </span>
+          </div>
+          {bonusActive && coupon && (
+            <div className="bonus-on">
+              <span>Code <b>{BONUS.code}</b> applied: {BONUS.title}</span>
+              <span className="bonus-time">Valid for {fmt(coupon.expiresAt - now)}</span>
+            </div>
+          )}
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             <label htmlFor="nm">Your name</label>
             <input id="nm" type="text" autoComplete="name" value={name} onChange={(e) => setName(e.target.value)} />
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            <label htmlFor="ph">Mobile number (you will sign in to the app with this)</label>
+            <label htmlFor="ph">Mobile number</label>
             <div className="ph">
               <span>+91</span>
               <input id="ph" type="tel" inputMode="numeric" maxLength={10} autoComplete="tel-national" value={phone} onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))} />

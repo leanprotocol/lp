@@ -4,12 +4,13 @@ export const runtime = "nodejs";
    buyer's phone (creating the lead if new). The app unlocks the course for
    that phone number. Fields (create them in TeleCRM under Lead Fields):
    course_payment (dropdown: Paid), course_amount (number),
-   course_paid_on (date), razorpay_payment_id (text, already exists). */
+   course_paid_on (date), course_coupon (text),
+   razorpay_payment_id (text, already exists). */
 
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import Razorpay from "razorpay";
-import { COURSE } from "../../../../content/course";
+import { BONUS, COURSE } from "../../../../content/course";
 
 const SOURCE = "course-masterclass";
 const ENT = process.env.TELECRM_ENTERPRISE_ID;
@@ -29,7 +30,8 @@ export async function POST(request: NextRequest) {
 
     const order = (await new Razorpay({ key_id: keyId, key_secret: keySecret }).orders.fetch(orderId)) as unknown as { amount: number | string; notes?: Record<string, string> };
     const notes = order.notes || {};
-    if (Number(order.amount) !== COURSE.priceInr * 100 || notes.source !== SOURCE) {
+    const allowed = [COURSE.priceInr, COURSE.priceInr - BONUS.discountInr].map((x) => x * 100);
+    if (!allowed.includes(Number(order.amount)) || notes.source !== SOURCE) {
       return NextResponse.json({ error: "This payment does not match the master class" }, { status: 400 });
     }
 
@@ -41,7 +43,8 @@ export async function POST(request: NextRequest) {
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${TOKEN}` },
           body: JSON.stringify({ fields: {
             phone: `91${phone}`, name: notes.name || undefined,
-            course_payment: "Paid", course_amount: COURSE.priceInr, course_paid_on: Date.now(), razorpay_payment_id: paymentId,
+            course_payment: "Paid", course_amount: Number(order.amount) / 100, course_paid_on: Date.now(), razorpay_payment_id: paymentId,
+            course_coupon: notes.coupon || undefined,
           } }),
           signal: AbortSignal.timeout(8000),
         });
