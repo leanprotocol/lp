@@ -3,7 +3,7 @@ export const runtime = "nodejs";
 /* Creates the Razorpay order for the senior-health-coach call that follows
    the /users lead form. The amount comes from content/users-next.ts and is
    set here, on the server - nothing the browser sends can change it.
-   Modelled on consult49/create-order, kept separate so that page can be
+   Modelled on start/create-order, kept separate so that page can be
    switched on or changed without touching this funnel. */
 
 import { NextRequest, NextResponse } from "next/server";
