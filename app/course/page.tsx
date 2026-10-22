@@ -74,7 +74,7 @@ const CSS = `
 .lpc .hero-sub b{color:#F9F7F2}
 .lpc .video-wrap{position:relative}
 .lpc .video{width:100%;aspect-ratio:16/9;border-radius:24px;background:#0F1F1E;border:1px solid rgba(200,217,167,.18);display:block}
-.lpc .unmute{position:absolute;left:50%;bottom:72px;transform:translateX(-50%);display:inline-flex;align-items:center;gap:10px;border:0;cursor:pointer;background:#C8D9A7;color:#193231;font:inherit;font-weight:800;font-size:17px;padding:14px 24px;border-radius:999px;box-shadow:0 12px 32px rgba(0,0,0,.35);min-height:48px}
+""" + PLAY_CSS + """
 .lpc .stores{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
 .lpc .store{display:inline-flex;align-items:center;gap:12px;background:#C8D9A7;color:#193231;text-decoration:none;padding:12px 24px;border-radius:16px;min-height:56px}
 .lpc .store:hover{background:#d6e4b9}
