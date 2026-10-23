@@ -42,10 +42,19 @@ function BMICalculator() {
 
   function needleDeg() { return Math.max(0, Math.min(1, (bmi - 12) / 30)) * 180 - 90; }
 
+  const resultRef = useRef<HTMLDivElement>(null);
+
   const handleCheck = () => {
     setEligible(bmiEligible);
     setShowResult(true);
     if (bmiEligible) (window as any).lpConfetti?.();
+    /* Bring the result and the form into view so nobody has to hunt for it.
+       A frame of delay lets the block render before we scroll to it. */
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
   };
 
   const handleBMILead = async (e: React.FormEvent) => {
@@ -102,7 +111,7 @@ function BMICalculator() {
             </div>
           </div>
           {showResult && (
-            <div className="bmi-result show">
+            <div className="bmi-result show" ref={resultRef}>
               <div className={`elig ${eligible ? "yes" : "no"}`}>{eligible ? "🎉 You are eligible for the weight management program" : "😔 Based on your BMI, you are not eligible yet"}</div>
               {eligible && (<div className="glp-box show"><h4>You are eligible for the program 🎯</h4><p>A doctor-supervised path, with your plan decided by a clinician after reviewing your history and labs.</p></div>)}
               <details className="faq-dropdown" id="dropdown" open={eligible}><summary>What Your BMI Means?</summary><div className="para">BMI above 27 with comorbidities, or above 30 without, makes you eligible for the program (barring rare cases). Final eligibility is decided by your doctor.</div></details>
@@ -221,11 +230,40 @@ function StartContent() {
 
   return (
     <>
-      <header>
+      {/* Pinned call-to-action styles */}
+      <style>{`
+        .start-page .pinned-head { position: sticky; top: 0; z-index: 60; }
+        .start-page .pinned-head .nav { gap: 12px; }
+        .start-page .head-cta { flex-shrink: 0; white-space: nowrap; font-size: 14px; padding: 11px 20px; }
+        @media (max-width: 560px) { .start-page .head-cta { font-size: 12.5px; padding: 10px 14px; } }
+
+        /* Pinned strip along the bottom. Sits above the footer content so it
+           never hides the disclaimer: the footer carries matching padding. */
+        .start-page .elig-strip {
+          position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 70;
+          display: flex; align-items: center; justify-content: center; gap: 12px;
+          min-height: 56px; padding: 14px 22px; border-radius: 999px;
+          background: linear-gradient(135deg, #D9B65C, #C9A24B); color: #2b1f06;
+          font-family: var(--display); font-size: 16px; letter-spacing: .04em; text-transform: uppercase;
+          text-decoration: none; box-shadow: 0 14px 36px rgba(21,96,63,.34);
+        }
+        .start-page .elig-strip:hover { transform: translateY(-2px); }
+        .start-page .elig-strip:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
+        .start-page .elig-arrow {
+          display: inline-flex; align-items: center; justify-content: center; flex: none;
+          width: 26px; height: 26px; border-radius: 999px; background: rgba(0,0,0,.14);
+        }
+        .start-page footer { padding-bottom: 104px; }
+        @media (min-width: 900px) { .start-page .elig-strip { left: auto; right: 24px; bottom: 24px; padding: 15px 30px; } }
+        @media (prefers-reduced-motion: reduce) { .start-page .elig-strip:hover { transform: none; } }
+      `}</style>
+
+      <header className="pinned-head">
         <div className="wrap nav">
           <div className="logo" style={{ flexShrink: 0 }}>
             <img src="/logo.png" alt="Lean Protocol" style={{ height: "70px", width: "auto", display: "block", alignSelf: "center" }} />
           </div>
+          <a className="btn btn-primary head-cta" href="#bmi">Check my eligibility</a>
         </div>
       </header>
 
@@ -270,6 +308,9 @@ function StartContent() {
 
       {/* Stats — roll-up counter */}
       <RollupStats />
+
+      {/* BMI Calculator */}
+      <BMICalculator />
 
       {/* Testimonial rail */}
       <style>{`
@@ -323,9 +364,6 @@ function StartContent() {
         </div>
       </section>
 
-      {/* BMI Calculator */}
-      <BMICalculator />
-
       {/* FAQ */}
       <section id="faq" className="alt">
         <div className="wrap">
@@ -350,6 +388,14 @@ function StartContent() {
           </div>
         </div>
       </section>
+
+      {/* Pinned eligibility strip */}
+      <a className="elig-strip" href="#bmi">
+        <span>Check my eligibility</span>
+        <span className="elig-arrow" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12l7 7 7-7" /></svg>
+        </span>
+      </a>
 
       {/* Footer */}
       <footer>
