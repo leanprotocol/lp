@@ -439,7 +439,7 @@ export const privacyPolicy: LegalDoc = {
       heading: "22. Privacy contact and grievance mechanism",
       blocks: [
         { t: "p", text: "For privacy questions, rights requests or complaints, contact:" },
-        { t: "p", text: "Privacy and Grievance Officer: **Muskan Nagar** Company Email: support@leanprotocol.in Phone: +91 96504 91267 Address: Lean Protocol Pvt Ltd, 20, Block H-1/A, Sector 63, Noida, Gautam Buddha Nagar, Uttar Pradesh 201301, India." },
+        { t: "p", text: "Privacy and Grievance Officer: Muskan Nagar Company Email: support@leanprotocol.in Phone: +91 96504 91267 Address: Lean Protocol Pvt Ltd, 20, Block H-1/A, Sector 63, Noida, Gautam Buddha Nagar, Uttar Pradesh 201301, India." },
         { t: "p", text: "You may approach the appropriate statutory authority after using our grievance mechanism, where such right is available under applicable law." },
       ],
     },

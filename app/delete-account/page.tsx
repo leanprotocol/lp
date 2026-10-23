@@ -69,11 +69,21 @@ export default function DeleteAccountPage() {
       <h2 className="mt-10 text-xl font-semibold text-neutral-900">How long it takes</h2>
       <p className="mt-3">We complete every request within 30 days, and usually much sooner.</p>
 
-      <p className="mt-10">
-        Questions:{" "}
+      <h2 className="mt-10 text-xl font-semibold text-neutral-900">Who to contact</h2>
+      <p className="mt-3">
+        Our Privacy and Grievance Officer under the Digital Personal Data Protection Act, 2023
+        is{" "}<strong className="font-semibold text-neutral-900">Muskan Nagar</strong>. She handles
+        questions about your data, requests to access or correct it, and any complaint about how we
+        have used it.
+      </p>
+      <p className="mt-3">
+        Email{" "}
         <a href={`mailto:${MAIL}`} className="font-medium underline underline-offset-2">
           {MAIL}
-        </a>
+        </a>{" "}
+        and we will acknowledge your request within 48 hours and aim to resolve it within 30 days.
+        If you are not satisfied with our response, you may complain to the Data Protection Board of
+        India.
       </p>
     </main>
   );
