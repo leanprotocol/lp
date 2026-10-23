@@ -191,6 +191,9 @@ export default function UsersFunnel() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [consent, setConsent] = useState(false);
+  /* Marketing is a separate purpose under DPDP, so it gets its own tick and
+     is optional: leaving it unticked must not block the enquiry. */
+  const [marketingConsent, setMarketingConsent] = useState(false);
   const [sending, setSending] = useState(false);
   const [sendError, setSendError] = useState<string | null>(null);
   const [hoverT, setHoverT] = useState<number | null>(null);
@@ -472,6 +475,12 @@ export default function UsersFunnel() {
           timeline: (answers.timing as string) || "",
           projected_target_kg: String(target),
           source: "users-questionnaire",
+          /* Evidence of what was agreed, and so marketing can be filtered
+             to the people who actually asked for it. */
+          consent_contact: "Yes",
+          consent_age_18_plus: "Yes",
+          consent_marketing: marketingConsent ? "Yes" : "No",
+          consent_recorded_at: new Date().toISOString(),
           ...campaign.current,
           page_url: landingUrl.current || (typeof window !== "undefined" ? window.location.href : ""),
           referrer: typeof document !== "undefined" ? document.referrer : "",
@@ -1030,13 +1039,29 @@ export default function UsersFunnel() {
                 </div>
               </div>
 
+              {/* What we collect and why, in plain words, next to the form rather
+                 than behind a link. DPDP expects the notice at the point of collection. */}
+              <p style={{ fontSize: 12, lineHeight: 1.5, color: "rgba(28,43,34,.6)", margin: "4px 0 10px" }}>
+                We use your name, number and the answers above (height, weight, goal and any
+                conditions) so a Lean Protocol expert can call you about your enquiry. We do not
+                sell your data.
+              </p>
+
               <label className="consent">
                 <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} />
                 <span>
-                  I agree to be contacted about my enquiry and accept the{" "}
+                  I am 18 or older, agree to be contacted about my enquiry, and accept the{" "}
                   <a href="/users/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
                   {" and "}
                   <a href="/users/terms" target="_blank" rel="noopener noreferrer">Terms</a>.
+                </span>
+              </label>
+
+              <label className="consent" style={{ marginTop: 8 }}>
+                <input type="checkbox" checked={marketingConsent} onChange={(e) => setMarketingConsent(e.target.checked)} />
+                <span>
+                  Send me health tips and offers on WhatsApp.{" "}
+                  <span style={{ opacity: .65 }}>Optional, and you can stop any time.</span>
                 </span>
               </label>
 
