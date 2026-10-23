@@ -163,6 +163,7 @@ export default function ProgramTestimonials() {
                       controlsList="nodownload"
                       loop
                       playsInline
+                      preload="metadata"
                       onPlay={() => handleVideoPlay(index)}
                       onPause={() => handleVideoPause(index)}
                       onEnded={() => handleVideoPause(index)}
