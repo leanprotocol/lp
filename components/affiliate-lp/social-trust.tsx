@@ -165,7 +165,7 @@ export function SocialTrust() {
                 type: "video",
                 name: "Ayushi",
                 result: "Transformation Journey",
-                src: "/testimonials/ayushi.mp4",
+                src: "/before-after/ayushi.mp4",
               },
               {
                 type: "image",
@@ -177,7 +177,7 @@ export function SocialTrust() {
                 type: "video",
                 name: "Manav",
                 result: "Transformation Journey",
-                src: "/testimonials/manav.mp4",
+                src: "/before-after/manav.mp4",
               },
               {
                 type: "image",
@@ -189,7 +189,7 @@ export function SocialTrust() {
                 type: "video",
                 name: "Uday",
                 result: "Transformation Journey",
-                src: "/testimonials/uday.mp4",
+                src: "/before-after/uday.mp4",
               },
               {
                 type: "image",
@@ -201,25 +201,25 @@ export function SocialTrust() {
                 type: "video",
                 name: "Ananya",
                 result: "Transformation Journey",
-                src: "/testimonials/ananya.mp4",
+                src: "/before-after/ananya.mp4",
               },
               {
                 type: "video",
                 name: "Aditya",
                 result: "Transformation Journey",
-                src: "/testimonials/aditya.mp4",
+                src: "/before-after/aditya.mp4",
               },
               {
                 type: "video",
                 name: "Roshni",
                 result: "Transformation Journey",
-                src: "/testimonials/roshni.mp4",
+                src: "/before-after/roshni.mp4",
               },
               {
                 type: "video",
                 name: "Atreyee, 28",
                 result: "Transformation Journey",
-                src: "/testimonials/atreyee.mp4",
+                src: "/before-after/atreyee.mp4",
               },
             ].map((story, i) => (
               <div key={i} className={`break-inside-avoid rounded-2xl overflow-hidden relative shadow-lg group cursor-default bg-black mb-6 w-full ${story.type === 'video' ? 'aspect-[9/16]' : 'aspect-square'}`}>

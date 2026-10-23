@@ -163,15 +163,15 @@ export const steps = [
 
 export const stories = [
   { type: "photo" as const, src: "/testimonials/pratima.webp", name: "Pratima, 37", result: "Transformation journey" },
-  { type: "video" as const, src: "/testimonials/ayushi.mp4", name: "Ayushi", result: "Transformation journey" },
+  { type: "video" as const, src: "/before-after/ayushi.mp4", name: "Ayushi", result: "Transformation journey" },
   { type: "photo" as const, src: "/testimonials/kanti.webp", name: "Kanti, 44", result: "Transformation journey" },
-  { type: "video" as const, src: "/testimonials/manav.mp4", name: "Manav", result: "Transformation journey" },
+  { type: "video" as const, src: "/before-after/manav.mp4", name: "Manav", result: "Transformation journey" },
   { type: "photo" as const, src: "/testimonials/rohit.webp", name: "Rohit, 39", result: "Transformation journey" },
-  { type: "video" as const, src: "/testimonials/uday.mp4", name: "Uday", result: "Transformation journey" },
-  { type: "video" as const, src: "/testimonials/ananya.mp4", name: "Ananya", result: "Transformation journey" },
-  { type: "video" as const, src: "/testimonials/aditya.mp4", name: "Aditya", result: "Transformation journey" },
-  { type: "video" as const, src: "/testimonials/roshni.mp4", name: "Roshni", result: "Transformation journey" },
-  { type: "video" as const, src: "/testimonials/atreyee.mp4", name: "Atreyee, 28", result: "Lost 6 Kgs*" },
+  { type: "video" as const, src: "/before-after/uday.mp4", name: "Uday", result: "Transformation journey" },
+  { type: "video" as const, src: "/before-after/ananya.mp4", name: "Ananya", result: "Transformation journey" },
+  { type: "video" as const, src: "/before-after/aditya.mp4", name: "Aditya", result: "Transformation journey" },
+  { type: "video" as const, src: "/before-after/roshni.mp4", name: "Roshni", result: "Transformation journey" },
+  { type: "video" as const, src: "/before-after/atreyee.mp4", name: "Atreyee, 28", result: "Lost 6 Kgs*" },
 ];
 
 export const experts = [
