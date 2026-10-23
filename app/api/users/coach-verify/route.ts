@@ -157,7 +157,7 @@ export async function POST(request: NextRequest) {
         firstTime ? addPaymentActivity(phone91, paymentId) : Promise.resolve(true),
       ]);
       if (!fieldsOk || !activityOk) {
-        console.error("[Coach Verify] PAID but TeleCRM not fully updated:", { orderId, paymentId, phone, fieldsOk, activityOk });
+        console.error("[Coach Verify] PAID but TeleCRM not fully updated:", { orderId, paymentId, fieldsOk, activityOk });
       }
     }
 

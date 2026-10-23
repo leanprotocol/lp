@@ -7,6 +7,7 @@ export const runtime = "nodejs";
 
 import { NextRequest, NextResponse } from "next/server";
 import { verifyFirebaseIdToken } from "@/lib/firebase/admin";
+import { isTestToken, testDecodedToken } from "@/lib/auth/test-mode";
 import {
   SESSION_COOKIE,
   COOKIE_OPTIONS,
@@ -48,13 +49,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Rehearsal bypass: 9999999999 with code 123456, no SMS sent.
-    let decoded: any;
-    if (body.firebaseIdToken === "mock-firebase-id-token") {
-      decoded = { phone_number: "+919999999999" };
-    } else {
-      decoded = await verifyFirebaseIdToken(body.firebaseIdToken);
-    }
+    /* Rehearsal number 9999999999 with code 123456, development only.
+       See lib/auth/test-mode.ts - this is refused on the live site. */
+    const decoded: any = isTestToken(body.firebaseIdToken)
+      ? testDecodedToken()
+      : await verifyFirebaseIdToken(body.firebaseIdToken);
 
     if (!decoded?.phone_number) {
       return NextResponse.json(

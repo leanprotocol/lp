@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { forgotPasswordVerifySchema } from '@/lib/validations/auth';
 import { verifyFirebaseIdToken } from '@/lib/firebase/admin';
+import { isTestToken, testDecodedToken } from '@/lib/auth/test-mode';
 
 export const runtime = 'nodejs';
 
@@ -10,15 +11,10 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validatedData = forgotPasswordVerifySchema.parse(body);
 
-    let decodedToken;
-    if (validatedData.firebaseIdToken === 'mock-firebase-id-token') {
-      decodedToken = {
-        phone_number: '+919999999999',
-        uid: 'mock-user-uid',
-      };
-    } else {
-      decodedToken = await verifyFirebaseIdToken(validatedData.firebaseIdToken);
-    }
+    /* The test token is accepted in development only - see lib/auth/test-mode.ts */
+    const decodedToken = isTestToken(validatedData.firebaseIdToken)
+      ? testDecodedToken()
+      : await verifyFirebaseIdToken(validatedData.firebaseIdToken);
     
     if (!decodedToken || !decodedToken.phone_number) {
       return NextResponse.json(

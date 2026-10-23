@@ -47,7 +47,7 @@ export async function POST(req: Request) {
     if (!id || !token) {
       /* Degrade loudly in the log, quietly for the visitor - a corporate
          enquiry is too valuable to lose to a blank error screen. */
-      console.error("[corporate lead] TeleCRM not configured. Lead:", fields)
+      console.error("[corporate lead] TeleCRM not configured - lead not sent")
       return NextResponse.json({ success: true, queued: false })
     }
 
@@ -59,7 +59,7 @@ export async function POST(req: Request) {
 
     if (!res.ok) {
       const text = await res.text().catch(() => "")
-      console.error("[corporate lead] TeleCRM rejected", res.status, text, fields)
+      console.error("[corporate lead] TeleCRM rejected", res.status, text)
       return NextResponse.json({ success: false, error: "Could not submit right now. Please email us instead." }, { status: 502 })
     }
 

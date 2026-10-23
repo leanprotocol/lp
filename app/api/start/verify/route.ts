@@ -11,7 +11,7 @@ const TELECRM_URL = TELECRM_ENTERPRISE_ID
 
 async function pushToCRM(fields: Record<string, any>) {
   if (!TELECRM_URL || !TELECRM_API_TOKEN) {
-    console.log('[Start Verify] TeleCRM not configured. Payload:', fields);
+    console.log('[Start Verify] TeleCRM not configured - update not sent');
     return { ok: true };
   }
   try {

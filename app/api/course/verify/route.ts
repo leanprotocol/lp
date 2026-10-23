@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
           signal: AbortSignal.timeout(8000),
         });
         if (!res.ok) console.error("[Course Verify] TeleCRM rejected:", res.status, (await res.text().catch(() => "")).slice(0, 200));
-      } catch (e) { console.error("[Course Verify] PAID but TeleCRM not updated:", orderId, paymentId, phone, e); }
+      } catch (e) { console.error("[Course Verify] PAID but TeleCRM not updated:", orderId, paymentId, e); }
     }
     return NextResponse.json({ success: true });
   } catch (error) {

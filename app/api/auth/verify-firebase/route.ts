@@ -4,8 +4,9 @@ import { verifyFirebaseSchema } from '@/lib/validations/auth';
 import { verifyFirebaseIdToken } from '@/lib/firebase/admin';
 import { hashPassword } from '@/lib/auth/password';
 import { signJWT } from '@/lib/auth/jwt';
-import { clearAuthCookie, setAuthCookie, setTempAuthCookie } from '@/lib/auth/cookies';
+import { clearAuthCookie, setAuthCookie } from '@/lib/auth/cookies';
 import { randomBytes } from 'crypto';
+import { isTestToken, testDecodedToken } from '@/lib/auth/test-mode';
 
 export const runtime = 'nodejs';
 
@@ -14,19 +15,13 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validatedData = verifyFirebaseSchema.parse(body);
 
-    let decodedToken;
-    if (validatedData.firebaseIdToken === 'mock-firebase-id-token') {
-      console.log('[FirebaseBypass] Using mock token for +919999999999');
-      decodedToken = {
-        phone_number: '+919999999999',
-        uid: 'mock-user-uid',
-      };
-    } else {
-      decodedToken = await verifyFirebaseIdToken(validatedData.firebaseIdToken);
-    }
+    /* The test token is accepted in development only - see lib/auth/test-mode.ts */
+    const decodedToken = isTestToken(validatedData.firebaseIdToken)
+      ? testDecodedToken()
+      : await verifyFirebaseIdToken(validatedData.firebaseIdToken);
     
     if (!decodedToken || !decodedToken.phone_number) {
-      console.warn('[FirebaseBypass] Verification failed: Invalid token or phone number');
+      console.warn('[Auth] Firebase token rejected');
       return NextResponse.json(
         { error: 'Invalid Firebase token or phone number not verified' },
         { status: 401 }
@@ -34,7 +29,6 @@ export async function POST(request: NextRequest) {
     }
 
     const phoneNumber = decodedToken.phone_number.replace(/^\+91/, '');
-    console.log('[FirebaseBypass] Proceeding with phone number:', phoneNumber);
 
     const quizSessionId = request.cookies.get('quiz-session')?.value ?? null;
 
@@ -44,7 +38,7 @@ export async function POST(request: NextRequest) {
         where: { mobileNumber: phoneNumber },
       });
     } catch (dbError) {
-      console.error('[FirebaseBypass] Database error finding user:', dbError);
+      console.error('[Auth] Database error finding user:', dbError);
       return NextResponse.json(
         { error: 'Database connection failed. Please ensure your DB is running.' },
         { status: 500 }
@@ -57,7 +51,6 @@ export async function POST(request: NextRequest) {
 
     try {
       if (!user) {
-        console.log('[FirebaseBypass] Creating new user for:', phoneNumber);
         user = await prisma.user.create({
           data: {
             mobileNumber: phoneNumber,
@@ -67,7 +60,6 @@ export async function POST(request: NextRequest) {
           },
         });
       } else {
-        console.log('[FirebaseBypass] Updating existing user:', user.id);
         const updateData: Record<string, any> = {};
 
         if (validatedData.password) {
@@ -88,7 +80,7 @@ export async function POST(request: NextRequest) {
         });
       }
     } catch (dbError) {
-      console.error('[FirebaseBypass] Database error creating/updating user:', dbError);
+      console.error('[Auth] Database error saving user:', dbError);
       return NextResponse.json(
         { error: 'Failed to save user data. Please check database migrations.' },
         { status: 500 }
@@ -145,7 +137,7 @@ export async function POST(request: NextRequest) {
     });
 
     clearAuthCookie(response);
-    setAuthCookie(response, token); // Use setAuthCookie instead of setTempAuthCookie
+    setAuthCookie(response, token);
 
     return response;
 

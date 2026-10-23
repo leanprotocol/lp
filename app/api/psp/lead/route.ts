@@ -1,4 +1,4 @@
-﻿// app/api/psp/lead/route.ts
+// app/api/psp/lead/route.ts
 // B2B enquiry endpoint for the /psp site. Posts to TeleCRM with a distinct
 // source so pharmaceutical enquiries can be separated from patient leads.
 //
@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
     };
 
     if (!TELECRM_URL || !API_TOKEN) {
-      console.log("[psp/lead] TeleCRM not configured. Payload:", fields);
+      console.log("[psp/lead] TeleCRM not configured - lead not sent");
       return NextResponse.json({ success: true, delivered: false });
     }
 

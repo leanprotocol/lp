@@ -10,7 +10,7 @@ const TELECRM_URL = TELECRM_ENTERPRISE_ID
 
 async function pushToCRM(fields: Record<string, any>) {
   if (!TELECRM_URL || !TELECRM_API_TOKEN) {
-    console.log('[Users Lead] TeleCRM not configured. Payload:', fields);
+    console.log('[Users Lead] TeleCRM not configured - lead not sent');
     return { ok: true };
   }
   try {
