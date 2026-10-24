@@ -272,15 +272,19 @@ function StartContent() {
         <div className="wrap">
           <div className="sec-head" style={{ marginBottom: "22px" }}><div className="divider"></div><h2>Talk to real GLP doctors before you spend ₹15,000 on the program</h2></div>
           <style>{`
-            .doc-row { display:flex; justify-content:center; align-items:flex-end; gap:6px; flex-wrap:nowrap; width:100%; }
+            /* The cutouts sit in a fixed-height box that bottom-aligns them, so a
+               doctor whose role or hospital wraps to two lines no longer pushes
+               their photo up out of line with the others. */
+            .doc-row { display:flex; justify-content:center; align-items:flex-start; gap:6px; flex-wrap:nowrap; width:100%; }
             .doc-col { display:flex; flex-direction:column; align-items:center; flex:1 1 0; min-width:0; }
-            .doc-cutout { width:100%; height:auto; max-height:230px; object-fit:contain; }
-            .doc-name { margin-top:2px !important; }
+            /* Give every cutout the same height and let width follow, so the
+               three line up without a fixed box leaving dead space above them. */
+            .doc-figure { width:100%; display:flex; align-items:flex-end; justify-content:center; }
+            .doc-cutout { height:clamp(150px, 34vw, 430px); width:auto; max-width:100%; object-fit:contain; }
+            .doc-name { margin-top:6px !important; }
             @media (min-width:768px){
               .doc-row { gap:32px; }
-              .doc-col { flex:1 1 0; min-width:0; }
-              .doc-cutout { width:100%; height:auto; max-height:460px; }
-              .doc-name { margin-top:4px !important; }
+              .doc-name { margin-top:8px !important; }
             }
           `}</style>
           <div className="doc-row">
@@ -290,13 +294,15 @@ function StartContent() {
               { img: "/start/doctor-3.webp", name: "Dr. Siddharth Garg", role: "MD · Internal Medicine", hospital: "Former Medanta, Gurgaon" },
             ].map((d, i) => (
               <div key={i} className="doc-col">
-                <img
-                  src={d.img}
-                  alt={d.name}
-                  loading="lazy"
-                  className="doc-cutout"
-                  style={{ display: "block" }}
-                />
+                <div className="doc-figure">
+                  <img
+                    src={d.img}
+                    alt={d.name}
+                    loading="lazy"
+                    className="doc-cutout"
+                    style={{ display: "block" }}
+                  />
+                </div>
                 <div className="doc-name" style={{ fontFamily: "var(--display)", fontSize: "clamp(13px, 2vw, 20px)", fontWeight: 700, color: "var(--green)", textAlign: "center", lineHeight: 1.2 }}>{d.name}</div>
                 <div style={{ fontSize: "clamp(11px, 1.4vw, 13px)", color: "var(--sage)", marginTop: "4px", textAlign: "center", lineHeight: 1.3 }}>{d.role}</div>
                 <div style={{ fontSize: "clamp(10px, 1.2vw, 12px)", color: "var(--green)", fontWeight: 600, marginTop: "2px", textAlign: "center", lineHeight: 1.3 }}>{d.hospital}</div>
@@ -356,6 +362,23 @@ function StartContent() {
       <section className="alt" style={{ padding: "40px 0 22px" }}>
         <div className="wrap">
           <div style={{ textAlign: "center", fontSize: "11px", letterSpacing: ".2em", textTransform: "uppercase", color: "var(--sage)", fontWeight: 700, marginBottom: "24px" }}>Trusted partners</div>
+          <style>{`
+            /* The captions were set to never wrap on a row that could not wrap
+               either, so on a narrow screen the text ran outside the cards.
+               Below 760px each card takes a full row and the text wraps. */
+            .start-page .partner-logos { flex-wrap: wrap; row-gap: 12px; }
+            .start-page .plg { flex: 1 1 210px; height: auto; min-height: 68px; padding: 12px clamp(10px, 2vw, 22px); }
+            /* Above the mobile breakpoint keep all three on one row. */
+            @media (min-width: 761px) { .start-page .plg { flex: 1 1 0; min-width: 0; } }
+            .start-page .plg small,
+            .start-page .plg .wm { white-space: normal; overflow-wrap: anywhere; }
+            @media (max-width: 760px) {
+              .start-page .plg { flex: 1 1 100%; justify-content: flex-start; gap: 14px; }
+              .start-page .plg img { height: 26px; }
+              .start-page .plg small { font-size: 12px; }
+              .start-page .plg .wm { font-size: 15px; }
+            }
+          `}</style>
           <div className="partner-logos reveal">
             <div className="plg"><img src="/lp-assets/logo-cult.png" alt="Cult" style={{ height: "28px", width: "auto", objectFit: "contain" }} /><div><small>For Cult Pass Home</small></div></div>
             <div className="plg"><img src="/lp-assets/logo-redcliffe.png" alt="Redcliffe Labs" style={{ height: "28px", width: "auto", objectFit: "contain" }} /><div><span className="wm"><span style={{ color: "#C0202E" }}>Redcliffe</span> <span style={{ color: "#1B9CCB" }}>labs</span></span><small>For Blood Tests</small></div></div>
@@ -425,7 +448,6 @@ export default function StartPage() {
     </Suspense>
   );
 }
-
 
 
 
