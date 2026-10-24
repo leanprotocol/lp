@@ -16,6 +16,7 @@ import {
   MessageSquare,
   Loader2,
   TrendingUp,
+  Clock,
 } from "lucide-react";
 
 const quickLinks = [
@@ -62,6 +63,12 @@ const quickLinks = [
     icon: MessageSquare,
   },
   {
+    title: "Retention review",
+    description: "Enquiry data past its two-year period.",
+    href: "/admin/retention",
+    icon: Clock,
+  },
+  {
     title: "Admins",
     description: "Manage admin accounts.",
     href: "/admin/admins",
@@ -102,9 +109,16 @@ interface DashboardStats {
 export default function AdminHomePage() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
+  /* Records past the two-year retention period. Shown here because this is
+     where decisions get made - an alert nobody opens is not a review. */
+  const [overdue, setOverdue] = useState<number>(0);
 
   useEffect(() => {
     fetchStats();
+    fetch("/api/admin/retention?countOnly=1")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => { if (d?.success) setOverdue(d.total as number); })
+      .catch(() => { /* the banner is a prompt, not a blocker */ });
   }, []);
 
   const fetchStats = async () => {
@@ -157,6 +171,24 @@ export default function AdminHomePage() {
           </div>
         </div>
       </header>
+
+      {overdue > 0 && (
+        <Link
+          href="/admin/retention"
+          className="flex items-start gap-3 rounded-2xl border border-amber-300 bg-amber-50 p-5 transition hover:border-amber-400"
+        >
+          <Clock className="mt-0.5 h-5 w-5 flex-shrink-0 text-amber-600" />
+          <div>
+            <p className="font-semibold text-amber-900">
+              {overdue} record{overdue === 1 ? "" : "s"} past the two-year retention period
+            </p>
+            <p className="mt-1 text-sm text-amber-800">
+              Enquiries with no activity for two years. Review them and either erase them or
+              record why they must be kept.
+            </p>
+          </div>
+        </Link>
+      )}
 
       {loading ? (
         <div className="flex items-center justify-center py-12">
