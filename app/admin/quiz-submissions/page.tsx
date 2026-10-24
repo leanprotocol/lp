@@ -119,13 +119,32 @@ export default function QuizSubmissionsPage() {
         </div>
         <div className="flex items-center gap-2">
           {error && <span className="text-sm text-red-600">{error}</span>}
-          <a
-            href="/api/admin/quiz/export"
+          <button
+            type="button"
+            onClick={() => {
+              /* This file carries health answers, so the reason is recorded in
+                 the audit log and the window defaults to the last 90 days.
+                 Leave the dates empty when asked to export everything. */
+              const why = window.prompt(
+                "Why are you exporting this? It is recorded in the audit log.\n\ne.g. monthly review, clinical audit"
+              );
+              if (!why || why.trim().length < 6) return;
+              const since = new Date();
+              since.setDate(since.getDate() - 90);
+              const from = window.prompt(
+                "From which date? YYYY-MM-DD.\n\nClear this box to export every submission ever.",
+                since.toISOString().slice(0, 10)
+              );
+              if (from === null) return;
+              const q = new URLSearchParams({ reason: why.trim() });
+              if (from.trim()) q.set("from", from.trim());
+              window.location.href = "/api/admin/quiz/export?" + q.toString();
+            }}
             className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 disabled:opacity-60"
           >
             <Download className="h-4 w-4" />
             Download Excel
-          </a>
+          </button>
           <button
             onClick={() => refresh()}
             disabled={loading}

@@ -3,6 +3,7 @@ export const runtime = 'nodejs';
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { requireAuth } from '@/lib/auth/middleware';
+import { logExport, provenanceLine } from '@/lib/admin/export-guard';
 
 export async function GET(request: NextRequest) {
   try {
@@ -53,9 +54,24 @@ export async function GET(request: NextRequest) {
         c.status
     ]);
 
+    /* Scoped to this affiliate's own commissions by affiliateId above, but it
+       still carries customer names and mobile numbers to someone outside the
+       company, so the download is recorded. No reason is demanded: an
+       affiliate checking their own statement is routine. */
+    await logExport({
+      actorId: affiliateId,
+      kind: 'affiliateStatement',
+      rows: commissions.length,
+      reason: 'affiliate self-service statement',
+      range: month || 'all months',
+      containsHealthData: false,
+    });
+
     const csvContent = [
         headers.join(','),
-        ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+        ...rows.map(row => row.map(cell => `"${cell}"`).join(',')),
+        '',
+        `"${provenanceLine(affiliateId, 'affiliate statement', month || 'all months').replace(/"/g, "'")}"`
     ].join('\n');
 
     return new NextResponse(csvContent, {

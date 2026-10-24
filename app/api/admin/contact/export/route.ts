@@ -4,11 +4,18 @@ import { NextRequest, NextResponse } from 'next/server';
 import ExcelJS from 'exceljs';
 import { prisma } from '@/lib/prisma';
 import { requireAuth } from '@/lib/auth/middleware';
+import { logExport, parseRange, provenanceLine, requireReason } from '@/lib/admin/export-guard';
 
 export async function GET(request: NextRequest) {
   try {
-    const { authorized, response } = await requireAuth(request, ['admin']);
+    const { authorized, response, user } = await requireAuth(request, ['admin']);
     if (!authorized) return response!;
+
+    const url = request.nextUrl;
+    const asked = requireReason(url);
+    if ('error' in asked) return asked.error;
+    const range = parseRange(url);
+    const actorId = (user as { userId?: string } | undefined)?.userId;
 
     const contactQueries = await prisma.contactQuery.findMany({
       include: {
@@ -20,7 +27,19 @@ export async function GET(request: NextRequest) {
           },
         },
       },
+      where: range.from || range.to
+        ? { createdAt: { ...(range.from ? { gte: range.from } : {}), ...(range.to ? { lte: range.to } : {}) } }
+        : {},
       orderBy: { createdAt: 'desc' },
+    });
+
+    await logExport({
+      actorId,
+      kind: 'contactQueries',
+      rows: contactQueries.length,
+      reason: asked.reason,
+      range: range.label,
+      containsHealthData: false,
     });
 
     const workbook = new ExcelJS.Workbook();
@@ -73,6 +92,10 @@ export async function GET(request: NextRequest) {
         row.alignment = { vertical: 'middle' };
       }
     });
+
+    const note = worksheet.addRow({});
+    note.getCell(1).value = provenanceLine(actorId || 'unknown admin', asked.reason, range.label);
+    note.font = { italic: true, size: 9 };
 
     const buffer = await workbook.xlsx.writeBuffer();
     const fileName = `contact-queries-${new Date().toISOString().slice(0, 10)}.xlsx`;

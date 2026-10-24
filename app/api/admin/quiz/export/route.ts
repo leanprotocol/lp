@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import ExcelJS from 'exceljs';
 import { prisma } from '@/lib/prisma';
 import { requireAuth } from '@/lib/auth/middleware';
+import { logExport, parseRange, provenanceLine, requireReason } from '@/lib/admin/export-guard';
 
 function normalizeAnswers(answers: any): string {
   if (answers == null) return '';
@@ -33,8 +34,16 @@ function normalizeAnswers(answers: any): string {
 
 export async function GET(request: NextRequest) {
   try {
-    const { authorized, response } = await requireAuth(request, ['admin']);
+    const { authorized, response, user } = await requireAuth(request, ['admin']);
     if (!authorized) return response!;
+
+    /* This file carries health answers. A reason is required, the window is
+       recorded, and the download is written to AuditLog. */
+    const url = request.nextUrl;
+    const asked = requireReason(url);
+    if ('error' in asked) return asked.error;
+    const range = parseRange(url);
+    const actorId = (user as { userId?: string } | undefined)?.userId;
 
     const submissions = await prisma.quizSubmission.findMany({
       include: {
@@ -52,7 +61,19 @@ export async function GET(request: NextRequest) {
           },
         },
       },
+      where: range.from || range.to
+        ? { submittedAt: { ...(range.from ? { gte: range.from } : {}), ...(range.to ? { lte: range.to } : {}) } }
+        : {},
       orderBy: { submittedAt: 'desc' },
+    });
+
+    await logExport({
+      actorId,
+      kind: 'quizSubmissions',
+      rows: submissions.length,
+      reason: asked.reason,
+      range: range.label,
+      containsHealthData: true,
     });
 
     const workbook = new ExcelJS.Workbook();
@@ -107,6 +128,10 @@ export async function GET(request: NextRequest) {
         row.alignment = { vertical: 'middle' };
       }
     });
+
+    const note = worksheet.addRow({});
+    note.getCell(1).value = provenanceLine(actorId || 'unknown admin', asked.reason, range.label);
+    note.font = { italic: true, size: 9 };
 
     const buffer = await workbook.xlsx.writeBuffer();
     const fileName = `quiz-submissions-${new Date().toISOString().slice(0, 10)}.xlsx`;

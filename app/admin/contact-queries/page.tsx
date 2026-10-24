@@ -58,13 +58,22 @@ export default function ContactQueriesPage() {
             View and manage user inquiries and support requests
           </p>
         </div>
-        <a
-          href="/api/admin/contact/export"
+        <button
+          type="button"
+          onClick={() => {
+            /* Exports of personal data are logged with a reason. */
+            const why = window.prompt(
+              "Why are you exporting this? It is recorded in the audit log.\n\ne.g. monthly review, support investigation"
+            );
+            if (!why || why.trim().length < 6) return;
+            window.location.href =
+              "/api/admin/contact/export?reason=" + encodeURIComponent(why.trim());
+          }}
           className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-700 hover:bg-slate-50"
         >
           <Download className="h-4 w-4" />
           Download Excel
-        </a>
+        </button>
       </div>
 
       <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6">
