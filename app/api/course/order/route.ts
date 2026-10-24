@@ -18,13 +18,13 @@ const COURSE_ORDER_SOURCE = "course-masterclass";
 export async function POST(request: NextRequest) {
   let crm: Promise<boolean> | null = null;
   try {
-    const body = (await request.json().catch(() => ({}))) as { name?: string; phone?: string; attribution?: Attribution; coupon?: string };
+    const body = (await request.json().catch(() => ({}))) as { name?: string; phone?: string; attribution?: Attribution; coupon?: string; marketingConsent?: boolean };
     const name = String(body.name || "").trim().slice(0, 100);
     const phone = String(body.phone || "").replace(/\D/g, "").replace(/^91(?=\d{10}$)/, "");
     if (!name || !/^[6-9]\d{9}$/.test(phone)) {
       return NextResponse.json({ error: "Please enter your name and a valid 10-digit mobile number" }, { status: 400 });
     }
-    crm = recordCheckoutStarted(name, phone, body.attribution || {});
+    crm = recordCheckoutStarted(name, phone, body.attribution || {}, body.marketingConsent === true);
 
     const keyId = process.env.RAZORPAY_KEY_ID;
     const keySecret = process.env.RAZORPAY_KEY_SECRET;

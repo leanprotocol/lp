@@ -86,6 +86,10 @@ export default function CheckoutForm() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [consent, setConsent] = useState(false);
+  /* Buying the course is not consent to be marketed to afterwards. This is the
+     only basis for messaging a buyer, so it is asked separately and is optional:
+     leaving it unticked must not block the payment. */
+  const [marketingConsent, setMarketingConsent] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [paidRef, setPaidRef] = useState<string | null>(null);
@@ -132,7 +136,11 @@ export default function CheckoutForm() {
     try {
       const r = await fetch("/api/course/order", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name.trim(), phone, attribution: readAttribution(), coupon: bonusActive ? coupon?.token : undefined }),
+        body: JSON.stringify({
+          name: name.trim(), phone, attribution: readAttribution(),
+          coupon: bonusActive ? coupon?.token : undefined,
+          marketingConsent,
+        }),
       });
       const order = await r.json().catch(() => ({}));
       if (!r.ok || !order?.success) throw new Error(order?.error || "Could not start payment. Please try again.");
@@ -214,6 +222,10 @@ export default function CheckoutForm() {
           <label className="consent">
             <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} />
             <span>I am 18 or older and accept the <a href="/terms-conditions" target="_blank" rel="noopener noreferrer">Terms</a>, <a href="/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a> and <a href="/refund-policy" target="_blank" rel="noopener noreferrer">Refund Policy</a>.</span>
+          </label>
+          <label className="consent">
+            <input type="checkbox" checked={marketingConsent} onChange={(e) => setMarketingConsent(e.target.checked)} />
+            <span>Send me health tips and offers on WhatsApp. <span style={{ opacity: .7 }}>Optional, and you can stop any time.</span></span>
           </label>
           {error && <p className="err" role="alert">{error}</p>}
           <button type="button" className="pay" onClick={pay} disabled={!valid || busy}>

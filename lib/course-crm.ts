@@ -10,8 +10,11 @@
    - A lead already marked Paid is never set back to "Checkout started".
 
    TeleCRM Lead Fields used (create them under Settings -> Lead Fields):
-     course_payment       Dropdown: "Checkout started", "Paid"
-     course_checkout_on   Date
+     course_payment        Dropdown: "Checkout started", "Paid"
+     course_checkout_on    Date
+     consent_age_18_plus   Text   (same field the /users funnel writes)
+     consent_marketing     Text   (same field the /users funnel writes)
+     consent_recorded_at   Text
    (course_amount, course_paid_on and razorpay_payment_id are set on payment.)
 
    Pure ASCII file. */
@@ -67,7 +70,7 @@ async function pushLead(fields: Record<string, unknown>) {
   return true;
 }
 
-export async function recordCheckoutStarted(name: string, phone10: string, a: Attribution): Promise<boolean> {
+export async function recordCheckoutStarted(name: string, phone10: string, a: Attribution, marketingConsent = false): Promise<boolean> {
   try {
     const phone91 = `91${phone10}`;
     const existing = await findLead(phone91);
@@ -77,6 +80,12 @@ export async function recordCheckoutStarted(name: string, phone10: string, a: At
       phone: phone91,
       course_payment: "Checkout started",
       course_checkout_on: Date.now(),
+      /* What was agreed at the point of purchase, and when. Same field names as
+         the /users funnel so the two report consistently. The required tick
+         covers age and the policies; marketing is the separate optional one. */
+      consent_age_18_plus: "Yes",
+      consent_marketing: marketingConsent ? "Yes" : "No",
+      consent_recorded_at: new Date().toISOString(),
     };
     if (existing === null) {
       Object.assign(fields, {
