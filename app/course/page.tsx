@@ -72,7 +72,16 @@ const CSS = `
 .lpc h1 .serif{color:#C8D9A7}
 .lpc .hero-sub{margin:0;font-size:19px;color:#C9D6D1;max-width:62ch}
 .lpc .hero-sub b{color:#F9F7F2}
-.lpc .video-wrap{position:relative}
+.lpc .video-wrap{position:relative;border-radius:22px;overflow:hidden;background:#0d1a19}
+.lpc .video{display:block;width:100%;aspect-ratio:16/9;border:0;background:#0d1a19}
+.lpc .facade{position:relative;padding:0;cursor:pointer;overflow:hidden}
+.lpc .facade img{width:100%;height:100%;object-fit:cover;display:block}
+.lpc .facade::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45))}
+.lpc .facade-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2;display:flex;align-items:center;justify-content:center;width:76px;height:76px;border-radius:999px;background:#C8D9A7;color:#193231;box-shadow:0 12px 34px rgba(0,0,0,.4)}
+.lpc .facade:hover .facade-play{background:#d6e4b9}
+.lpc .facade-label{position:absolute;left:0;right:0;bottom:16px;z-index:2;color:#F9F7F2;font-weight:800;font-size:15px;text-align:center;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.lpc .facade:focus-visible{outline:3px solid #C8D9A7;outline-offset:3px}
+@media (max-width:600px){.lpc .facade-play{width:60px;height:60px}.lpc .facade-label{font-size:13px}}
 .lpc .video{width:100%;aspect-ratio:16/9;border-radius:24px;background:#0F1F1E;border:1px solid rgba(200,217,167,.18);display:block}
 """ + PLAY_CSS + """
 .lpc .stores{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}

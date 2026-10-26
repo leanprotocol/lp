@@ -1,59 +1,57 @@
-"use client";
-
-// app/course/intro-video.tsx
-// Hero video for /course.
-//
-// BANDWIDTH: this file previously used preload="auto" so the video could
-// autoplay. That made every visitor download the whole file: in one 12-hour
-// window, 8.7K requests for a 20.5 MB video used 75 GB and paused the Vercel
-// deployment. Autoplay is gone. The browser now fetches only metadata, and
-// the file is downloaded when someone actually presses play.
-//
-// The poster is shown until then, with a play button over it.
-// Pure ASCII file.
-
-import { useRef, useState } from "react";
-
-type Props = { src: string; poster?: string; title?: string };
-
-export default function IntroVideo({ src, poster, title }: Props) {
-  const ref = useRef<HTMLVideoElement>(null);
-  const [started, setStarted] = useState(false);
-
-  const play = () => {
-    const v = ref.current;
-    if (!v) return;
-    setStarted(true);
-    v.play().catch(() => {
-      /* If the browser refuses, the native controls are still there. */
-    });
-  };
-
-  return (
-    <div className="video-wrap">
-      <video
-        ref={ref}
-        className="video"
-        controls
-        playsInline
-        /* metadata only: a few KB until the visitor presses play */
-        preload="metadata"
-        poster={poster}
-        title={title || "Course introduction"}
-        onPlay={() => setStarted(true)}
-      >
-        <source src={src} type="video/mp4" />
-        Your browser cannot play this video.
-      </video>
-
-      {!started && (
-        <button type="button" className="play-btn" onClick={play} aria-label="Play the course introduction">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M8 5.5v13l10.5-6.5z" />
-          </svg>
-          <span>Watch the introduction</span>
-        </button>
-      )}
-    </div>
-  );
-}
+"use client";
+
+// app/course/intro-video.tsx
+//
+// The intro is hosted on YouTube, not on this server. It used to be a 20.5 MB
+// file in public/, and with preload="auto" every visitor downloaded the whole
+// thing: 8.7K requests and 75 GB in twelve hours, which paused the Vercel
+// deployment in October 2026. Even compressed and without preload it was still
+// 88% of all bandwidth, because people do watch it.
+//
+// This is a click-to-load embed, not a plain iframe. The poster is a local
+// image; YouTube's player is only fetched when someone presses play. So:
+//   - a visitor who does not watch costs a few KB, not a video
+//   - YouTube sets no cookies and runs no tracking until there is a click
+//   - the page stays fast, since the embed script is ~100 KB on its own
+//
+// youtube-nocookie.com is used for the same reason.
+// Pure ASCII file.
+
+import { useState } from "react";
+import { COURSE } from "@/content/course";
+
+type Props = { poster?: string; title?: string };
+
+export default function IntroVideo({ poster, title }: Props) {
+  const [playing, setPlaying] = useState(false);
+  const id = COURSE.intro.youtubeId;
+  const still = poster || COURSE.intro.poster;
+  const label = title || "Watch the introduction";
+
+  if (!id) return null;
+
+  return (
+    <div className="video-wrap">
+      {playing ? (
+        <iframe
+          className="video"
+          src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
+          title={label}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+        />
+      ) : (
+        <button type="button" className="video facade" onClick={() => setPlaying(true)} aria-label={label}>
+          <img src={still} alt="" loading="lazy" decoding="async" />
+          <span className="facade-play" aria-hidden="true">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5.5v13l10.5-6.5z" />
+            </svg>
+          </span>
+          <span className="facade-label">{label}</span>
+        </button>
+      )}
+    </div>
+  );
+}
