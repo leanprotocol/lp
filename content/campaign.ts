@@ -1,4 +1,4 @@
-// content/campaign.ts
+﻿// content/campaign.ts
 // All copy for the /lp/[ref] campaign page. No strings in components.
 // Pure ASCII: unicode via \u escapes. Rupee = \u20B9, em dash = \u2014, en dash = \u2013.
 // Claims rules (CONTENT-MAP.md s6 / HANDOVER s7): no unqualified guarantees,
@@ -67,8 +67,8 @@ export const posters: Record<MedTrack, Record<DurationKey, string>> = {
   },
   MOUNJARO: {
     "1 Month": "/lp-assets/mounjaro-1-month-plan.webp",
-    "3 Months": "/lp-assets/mounjaro-3-months-plan.webp",
-    "6 Months": "/lp-assets/mounjaro-6-months-plan.webp",
+    "3 Months": "/lp-assets/mounjaro-3-months-plan.png",
+    "6 Months": "/lp-assets/mounjaro-6-months-plan.png",
   },
 };
 

@@ -39,8 +39,8 @@ export function HeroSection({ onBuyNow, isCheckoutLoading, dbPlans, pageTitle, m
     else if (plan.durationDays <= 15 || plan.name.toLowerCase().includes("doctor")) durationLabel = "Doctor Consultation";
 
     let image = medicationType === "MOUNJARO" ? "/lp-assets/mounjaro-1-month-plan.webp" : "/lp-assets/1-month-plan.webp";
-    if (durationLabel === "3 Months") image = medicationType === "MOUNJARO" ? "/lp-assets/mounjaro-3-months-plan.webp" : "/lp-assets/3-months-plan.webp";
-    else if (durationLabel === "6 Months") image = medicationType === "MOUNJARO" ? "/lp-assets/mounjaro-6-months-plan.webp" : "/lp-assets/6-months-plan.webp";
+    if (durationLabel === "3 Months") image = medicationType === "MOUNJARO" ? "/lp-assets/mounjaro-3-months-plan.png" : "/lp-assets/3-months-plan.webp";
+    else if (durationLabel === "6 Months") image = medicationType === "MOUNJARO" ? "/lp-assets/mounjaro-6-months-plan.png" : "/lp-assets/6-months-plan.webp";
     else if (durationLabel === "Doctor Consultation") image = "/lp-assets/doctor-lean-protocol.jpeg";
 
     return {
