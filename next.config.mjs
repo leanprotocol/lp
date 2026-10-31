@@ -32,6 +32,11 @@ const nextConfig = {
           destination: '/users',
         },
         {
+          source: '/talk-to-health-coach',
+          has: [{ type: 'host', value: '(?<host>forms\\.leanprotocol\\.in.*)' }],
+          destination: '/talk-to-health-coach',
+        },
+        {
           source: '/thankyou',
           has: [{ type: 'host', value: '(?<host>forms\\.leanprotocol\\.in.*)' }],
           destination: '/users/thankyou',
