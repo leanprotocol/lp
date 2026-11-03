@@ -110,10 +110,10 @@ export default function WorkshopsPage() {
             <div className="learn-grid">
               {W.curriculum.cards.map((c, i) => (
                 <article className={`learn-card card-${["one", "two", "three"][i]}`} key={c.n}>
-                  <span className="card-index">{c.n}</span>
-                  <div className="learn-symbol" aria-hidden="true">
-                    {c.symbol}
-                  </div>
+                  <figure className="learn-figure">
+                    <img src={`/workshops/card-0${i + 1}.webp`} alt="" loading="lazy" decoding="async" />
+                    <span className="card-index">{c.n}</span>
+                  </figure>
                   <h3>{c.title}</h3>
                   <p>{c.copy}</p>
                   <ul>
@@ -203,8 +203,11 @@ export default function WorkshopsPage() {
               <h2 id="partners-title">{W.partners.head}</h2>
             </div>
             <div className="partner-names" aria-label="Lean Protocol partners">
-              {W.partners.names.map((n) => (
-                <span key={n}>{n}</span>
+              {W.partners.names.map((p) => (
+                <div key={p.name} className="partner-mark">
+                  <img src={p.logo} alt={p.name} loading="lazy" decoding="async" />
+                  <span>{p.sub}</span>
+                </div>
               ))}
             </div>
           </div>

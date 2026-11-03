@@ -172,7 +172,15 @@ export const care = {
 export const partners = {
   eyebrow: "Part of a wider care ecosystem",
   head: "Connected support when it matters.",
-  names: ["Redcliffe Labs", "Mr.Med", "Cult"],
+  /* Same three partners, same order, same captions and the same 48px height
+     as the homepage strip in components/trusted-partners.tsx. Kept in step
+     with it deliberately: two different treatments of the same three logos
+     on the same site reads as an oversight. */
+  names: [
+    { name: "Cult", logo: "/lp-assets/logo-cult.png", sub: "For Cult Pass Home" },
+    { name: "Redcliffe Labs", logo: "/lp-assets/logo-redcliffe.png", sub: "For Blood Tests" },
+    { name: "Mr.Med", logo: "/lp-assets/logo-mrmed.jpg", sub: "For Medicine Delivery" },
+  ],
   caption:
     "Lean Protocol lists these partners across diagnostics, medicine access and activity support. Specific services depend on the selected programme and availability.",
 };
