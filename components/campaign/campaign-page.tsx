@@ -12,7 +12,7 @@
 // applies at checkout - we neither set nor clear it here.
 
 import { useEffect, useMemo, useState } from "react";
-import OTPModal from "@/components/get-started/otp-modal";
+import QuickStartModal from "./quick-start-modal";
 import { useRazorpayCheckout } from "@/hooks/use-razorpay-checkout";
 import type { MedTrack } from "@/content/campaign";
 
@@ -50,7 +50,7 @@ export function CampaignPage({ affiliateRef }: CampaignPageProps) {
   });
   const [plansLoading, setPlansLoading] = useState(true);
 
-  const [showOTP, setShowOTP] = useState(false);
+  const [showQuickStart, setShowQuickStart] = useState(false);
   const [pendingCheckoutPlanId, setPendingCheckoutPlanId] = useState<
     string | null
   >(null);
@@ -127,18 +127,22 @@ export function CampaignPage({ affiliateRef }: CampaignPageProps) {
       .finally(() => setAuthChecked(true));
   }, []);
 
+  /* No OTP between intent and payment. A signed-in buyer goes straight to
+     Razorpay; everyone else gives a name and number, which is the least
+     /api/payment/create-order needs to build the Subscription and Payment
+     rows against a userId. */
   const handleBuyNow = (planId: string) => {
     if (!planId) return;
     if (isLoggedIn) {
       openCheckout(planId);
     } else {
       setPendingCheckoutPlanId(planId);
-      setShowOTP(true);
+      setShowQuickStart(true);
     }
   };
 
-  const handleAuthSuccess = () => {
-    setShowOTP(false);
+  const handleQuickStartReady = () => {
+    setShowQuickStart(false);
     if (pendingCheckoutPlanId) {
       openCheckout(pendingCheckoutPlanId);
       setPendingCheckoutPlanId(null);
@@ -195,10 +199,10 @@ export function CampaignPage({ affiliateRef }: CampaignPageProps) {
         />
       )}
 
-      <OTPModal
-        isOpen={showOTP}
-        onClose={() => setShowOTP(false)}
-        onNext={handleAuthSuccess}
+      <QuickStartModal
+        isOpen={showQuickStart}
+        onClose={() => setShowQuickStart(false)}
+        onReady={handleQuickStartReady}
       />
     </div>
   );
