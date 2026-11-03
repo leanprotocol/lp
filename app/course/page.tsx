@@ -84,8 +84,11 @@ const CSS = `
 @media (max-width:600px){.lpc .facade-play{width:60px;height:60px}.lpc .facade-label{font-size:13px}}
 .lpc .video{width:100%;aspect-ratio:16/9;border-radius:24px;background:#0F1F1E;border:1px solid rgba(200,217,167,.18);display:block}
 """ + PLAY_CSS + """
-.lpc .stores{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
-.lpc .store{display:inline-flex;align-items:center;gap:12px;background:#C8D9A7;color:#193231;text-decoration:none;padding:12px 24px;border-radius:16px;min-height:56px}
+.lpc .stores{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;width:100%;min-width:0}
+.lpc .store{border:2px solid #193231;display:inline-flex;align-items:center;gap:12px;background:#C8D9A7;color:#193231;text-decoration:none;padding:12px 24px;border-radius:16px;min-height:56px;max-width:100%;min-width:0;flex:0 1 auto;box-sizing:border-box}
+.lpc .store b,.lpc .store small{overflow-wrap:anywhere}
+.lpc .getapp .stores{justify-content:flex-start}
+@media (max-width:420px){.lpc .store{flex:1 1 100%;justify-content:center;padding:12px 18px}}
 .lpc .store:hover{background:#d6e4b9}
 .lpc .store small{display:block;font-size:12px;font-weight:600;line-height:1.1}
 .lpc .store b{display:block;font-size:18px;font-weight:800;line-height:1.15}
@@ -157,6 +160,10 @@ const CSS = `
 .lpc .cd-valid{margin:0;font-size:15px;font-weight:700;color:#FF9A9A}
 /* get the app */
 .lpc .getapp .w{max-width:1040px;display:flex;gap:48px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.lpc .getapp .shot{flex:0 1 380px;min-width:0;display:flex;gap:14px;justify-content:center}
+.lpc .getapp .shot img{width:calc(50% - 7px);max-width:190px;height:auto;border-radius:22px;display:block;box-shadow:0 26px 60px rgba(0,0,0,.42)}
+.lpc .getapp .shot img:last-child{transform:translateY(26px)}
+@media (max-width:860px){.lpc .getapp .shot{flex:1 1 100%;margin-top:10px}.lpc .getapp .shot img:last-child{transform:none}}
 /* faq */
 .lpc details.qa{background:#fff;border-radius:18px;padding:20px 24px}
 .lpc details.qa summary{cursor:pointer;list-style:none;font-weight:700;font-size:17px}
@@ -246,10 +253,7 @@ export default function CoursePage() {
       <section className="hero dark" id="top">
         <div className="w">
           <div className="hero-head">
-            <h1>The GLP weight loss <span className="serif">master class.</span></h1>
-            <p className="hero-sub">
-              Exclusively by <b>Abhinav Dobrial</b>, senior health coach, and <b>Dr. Siddharth Garg</b>, MBBS, MD (Internal Medicine).
-            </p>
+            <h1>GLP weight loss educational <span className="serif">master class.</span></h1>
           </div>
           <IntroVideo src={COURSE.intro.video} poster={COURSE.intro.poster} title="Master class introduction" />
           <StoreButtons />
@@ -350,7 +354,17 @@ export default function CoursePage() {
           <div className="stack" style={{ flex: "1 1 420px", minWidth: 0, gap: 18 }}>
             <h2>The course lives in <span className="serif">the Lean Protocol app.</span></h2>
             <p style={{ margin: 0, fontSize: 18, color: "#C9D6D1" }}>Pay once here, then sign in to the app with the same mobile number to watch every chapter.</p>
-            <div style={{ display: "flex" }}><StoreButtons /></div>
+            <StoreButtons />
+          </div>
+          {/* The section is a two-column flex built for text beside a visual.
+              With only the text in it, the row reserved space for a column
+              that was never filled, leaving a gap under the buttons. These
+              are the app screens already used on /start. */}
+          <div className="shot" aria-hidden="true">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/start/app-today.webp" alt="" loading="lazy" decoding="async" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/start/app-diet.webp" alt="" loading="lazy" decoding="async" />
           </div>
         </div>
       </section>
