@@ -21,15 +21,14 @@ export const COACH_MRP_INR = 999;
 export const COACH_ORDER_SOURCE = "users-coach-call";
 
 export const COACH = {
-  badge: "DETAILS RECEIVED",
   title: "Unlock your plan:",
   titleSerif: "talk to a senior health coach.",
   /* Empty hides the line under the heading. */
   sub: "",
   includes: [
-    { title: "An exclusive 20-minute 1:1 call at a mutual time", body: "With a certified senior health coach." },
+    { title: "Exclusive 20-minute 1:1 call at a mutual time", body: "With a certified senior health coach." },
     { title: "Root cause analysis", body: "Understanding your medical history before suggesting anything." },
-    { title: "Suggesting the best possible solutions for your weight loss", body: "The best possible options in the world, based on your future goals." },
+    { title: "Get suggested with best weight loss solutions", body: "The best possible options in the world, based on your future goals." },
     { title: "A clear next step", body: "Your clear roadmap for the next 90 days." },
   ],
   priceLabel: "Session fee",

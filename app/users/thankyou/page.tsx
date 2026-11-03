@@ -273,7 +273,7 @@ export default function ThankYouPage() {
             <div className="pane">
               <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 14 }}>
                 <div style={{ minWidth: 0 }}>
-                  <div className="badge">{COACH.badge}</div>
+                  {COACH.badge && <div className="badge">{COACH.badge}</div>}
                   <h2 className="q-h2" style={{ margin: "0 0 8px" }}>
                     {COACH.title} <span className="serif">{COACH.titleSerif}</span>
                   </h2>
