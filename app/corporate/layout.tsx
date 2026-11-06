@@ -7,15 +7,16 @@ import "./corporate.css"
 export const metadata: Metadata = {
   title: "Corporate Wellness | Lean Protocol",
   description:
-    "Doctor-led metabolic health for your workforce. A full blood panel at month zero, care for those who need it, and a second panel at month six that shows what changed.",
+    "Doctor-led corporate wellness for Indian workplaces: blood tests at work or at home, doctor follow-up, and a quarterly report that names nobody.",
   alternates: { canonical: "https://www.leanprotocol.in/corporate" },
   openGraph: {
     type: "website",
     url: "https://www.leanprotocol.in/corporate",
     title: "Corporate Wellness | Lean Protocol",
     description:
-      "Most wellness programmes report attendance. We report HbA1c. Doctor-led metabolic care for Indian workplaces, measured before and after.",
+      "Good health is the foundation of a productive workforce. Screening, doctor follow-up and quarterly reporting for Indian workplaces.",
     locale: "en_IN",
+    images: ["/og-image.jpg"],
   },
   robots: { index: true, follow: true },
 }

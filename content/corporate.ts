@@ -1,267 +1,288 @@
 /**
  * /corporate - employee wellness, B2B.
  *
+ * Rebuilt in November 2026 from the approved design (claude.ai artifact
+ * 8ZK3P4SEz5f2AN4Eu9TTZ4). The previous HbA1c / six-month version of this
+ * file is in the installer backup if anything needs to come back.
+ *
  * Conventions follow content/psp.ts and content/home-v2.ts:
  *   - no JSX, plain data only
  *   - pure ASCII, \u escapes for symbols
- *   - any claim carrying "*" keeps its note in the same block
- *
- * UNVERIFIED VALUES are wrapped in [SQUARE BRACKETS], the same convention
- * /innovation uses. isReady() below hides anything still bracketed, so the
- * page can ship before every number is signed off rather than shipping a
- * placeholder to a CHRO.
+ *   - icon names map to components/corporate/corporate-icons.tsx
  */
-
-export const isReady = (v: string) => !(v.trim().startsWith("[") && v.trim().endsWith("]"));
 
 export const company = {
   legalName: "Lean Protocol Private Limited",
   email: "corporate@leanprotocol.in",
-  phone: "[PHONE]",
   canonical: "https://www.leanprotocol.in/corporate",
 };
 
 export const NAV = [
-  { label: "The gap", href: "#gap" },
-  { label: "How it works", href: "#how" },
-  { label: "What we measure", href: "#measure" },
-  { label: "For HR", href: "#hr" },
-  { label: "Privacy", href: "#privacy" },
+  { label: "Why it matters", href: "#why" },
+  { label: "Workshops", href: "#workshops" },
+  { label: "What changes", href: "#outcomes" },
+  { label: "Care team", href: "#team" },
+  { label: "Reports", href: "#reports" },
 ];
 
-/* ---------------- hook ---------------- */
+/* ---------------- hero ---------------- */
 
 export const hero = {
-  eyebrow: "EMPLOYEE HEALTH \u00B7 FOR INDIAN WORKPLACES",
-  headA: "Most wellness programmes",
-  headB: "report attendance.",
-  headC: "We report HbA1c.",
-  lede:
-    "A full metabolic blood panel at month zero. Doctor-led care for the people who need it. A second panel at month six \u2014 and a board-ready report of what actually moved.",
-  ctaPrimary: { label: "Book a 20-minute walkthrough", href: "#talk" },
-  ctaSecondary: { label: "See what we measure", href: "#measure" },
-  markers: [
-    "Doctor-led, not app-only",
-    "Before and after bloodwork",
-    "Aggregate reporting, DPDP-aligned",
-  ],
-};
-
-/* ---------------- the gap ---------------- */
-
-export const gap = {
-  id: "gap",
-  eyebrow: "WHY THE USUAL PROGRAMME DOES NOT WORK",
-  headA: "Step challenges are easy to run",
-  headB: "and impossible to defend.",
-  body:
-    "Most corporate wellness in India is measured by participation: how many joined, how many logged in, how many walked. None of that tells a CHRO whether anyone got healthier \u2014 and none of it survives a budget review.",
-  cards: [
-    {
-      title: "Engagement is not an outcome",
-      text: "Logins and step counts describe activity, not health. A programme can be well attended and change nothing clinically.",
-    },
-    {
-      title: "Insurance starts after the illness",
-      text: "Group cover pays once someone is already unwell. Nothing in it is designed to stop the HbA1c climbing in the first place.",
-    },
-    {
-      title: "Indian bodies cross the line earlier",
-      text: "Asian-Indian thresholds for overweight and metabolic risk sit lower than Western ones, so employees who look fine on a BMI chart can already be insulin resistant.",
-    },
-    {
-      title: "Nobody re-tests",
-      text: "Annual health checks produce a PDF and a filing cabinet. Without a second panel against the first, there is no way to show what changed.",
-    },
-  ],
-};
-
-/* ---------------- how it works ---------------- */
-
-export const how = {
-  id: "how",
-  eyebrow: "THE PROGRAMME",
-  headA: "Four stages.",
-  headB: "Six months.",
-  body:
-    "The same doctor-led protocol we run for individuals, delivered across a workforce and reported in aggregate.",
-  steps: [
-    {
-      n: "01",
-      title: "Baseline panel",
-      body: "At-home or on-site collection for every participating employee. A full metabolic and hormone panel, not a basic lipid profile.",
-      detail: "Weeks 1-3",
-    },
-    {
-      n: "02",
-      title: "Risk stratification",
-      body: "Results are read by our clinical team and employees are grouped by risk, not by job title. Most need nutrition and habit work; some need a doctor.",
-      detail: "Week 4",
-    },
-    {
-      n: "03",
-      title: "Doctor-led care",
-      body: "Each cohort gets its own pathway \u2014 dietitian-led coaching for the low-risk group, physician review and closer monitoring for the high-risk one. Medication only where a doctor determines it is clinically appropriate.",
-      detail: "Months 1-6",
-    },
-    {
-      n: "04",
-      title: "Re-test and report",
-      body: "A second panel against the first, same markers, same labs. You get the delta per cohort and an anonymised report you can take to the board.",
-      detail: "Month 6",
-    },
-  ],
-};
-
-/* ---------------- what we measure ---------------- */
-
-export const measure = {
-  id: "measure",
-  eyebrow: "WHAT WE MEASURE",
-  headA: "The report is bloodwork,",
-  headB: "not attendance.",
-  body:
-    "Every marker below is captured at baseline and again at month six, so the change is a measurement rather than a claim.",
-  markers: [
-    { name: "HbA1c", why: "Three-month average blood glucose. The single clearest signal of metabolic direction." },
-    { name: "Fasting insulin and glucose", why: "Catches insulin resistance years before a diabetes diagnosis." },
-    { name: "Lipid profile", why: "LDL, HDL, triglycerides. Cardiovascular risk, and one of the fastest to respond." },
-    { name: "Blood pressure", why: "Recorded at every review, not once a year." },
-    { name: "Liver markers", why: "ALT, AST and fatty liver indicators, which track closely with metabolic load." },
-    { name: "Thyroid panel", why: "Commonly missed, and a frequent reason weight will not move." },
-    { name: "Vitamin D and B12", why: "Widespread deficiency in Indian office populations, and directly tied to fatigue." },
-    { name: "Body composition", why: "Weight, waist circumference and fat-to-muscle ratio \u2014 more honest than BMI alone." },
-  ],
-  note:
-    "Individual results vary. Marker selection is reviewed per cohort by our clinical team; not every panel is appropriate for every workforce.",
-};
-
-/* ---------------- for HR ---------------- */
-
-export const hr = {
-  id: "hr",
-  eyebrow: "FOR HR AND BENEFITS TEAMS",
-  headA: "One dashboard.",
-  headB: "No individual health data.",
-  body:
-    "You see the shape of your workforce's health and how it moves. You never see whose HbA1c is whose \u2014 that stays between the employee and their doctor.",
-  cards: [
-    { title: "Cohort movement", text: "How many employees moved from high risk to moderate, and moderate to low, over six months." },
-    { title: "Participation and completion", text: "Enrolment, panel completion and consult attendance by location or business unit." },
-    { title: "Marker deltas in aggregate", text: "Average change in HbA1c, lipids, blood pressure and weight across each cohort." },
-    { title: "Board-ready export", text: "A dated report you can put in front of finance, with methodology stated." },
-  ],
-  footnote:
-    "Reporting thresholds apply: cohorts below a minimum size are suppressed so no individual can be identified by inference.",
-};
-
-/* ---------------- calculator ---------------- */
-
-export const calc = {
-  id: "calc",
-  eyebrow: "PROGRAMME SCALE",
-  headA: "What a programme",
-  headB: "looks like at your size.",
-  body:
-    "Move the slider to see the delivery footprint. These are programme inputs \u2014 what gets collected and delivered \u2014 not predicted outcomes.",
-  min: 50,
-  max: 5000,
-  initial: 500,
-  /* Delivery ratios. Change here, nowhere else. */
-  panelsPerEmployee: 2,
-  dietitianPerEmployee: 4,
-  doctorReviewRate: 0.35,
-  note:
-    "Indicative delivery volumes based on full participation. Actual figures depend on enrolment, which we agree with you before the programme starts.",
-};
-
-/* ---------------- privacy ---------------- */
-
-export const privacy = {
-  id: "privacy",
-  eyebrow: "DATA AND CONSENT",
-  headA: "The employer never sees",
-  headB: "an individual's results.",
-  points: [
-    "Each employee consents separately, to us, before any sample is collected. Participation is voluntary and declining carries no consequence at work.",
-    "Clinical results go to the employee and their assigned clinician. They are never shared with the employer, in any form that could identify a person.",
-    "Employer reporting is aggregate only, with small cohorts suppressed so nobody can be identified by working backwards.",
-    "Data is processed under India's Digital Personal Data Protection Act 2023, with defined retention periods and a named grievance contact.",
-    "Employees can withdraw consent at any time, and ask for their data to be erased, without telling their employer why.",
-  ],
-  note:
-    "This summary is not a substitute for the data processing agreement, which we provide before any programme begins.",
-};
-
-/* ---------------- proof ---------------- */
-
-export const proof = {
-  eyebrow: "WHAT WE BRING",
-  stats: [
-    { value: "[N]", label: "Employees enrolled to date" },
-    { value: "[N]", label: "Panels completed" },
-    { value: "[N]", label: "Average HbA1c change at six months*" },
-    { value: "[N]", label: "Programme completion rate" },
-  ],
-  note:
-    "*Aggregate across participating cohorts. Individual results vary and depend on clinical assessment.",
-  fallback:
-    "We publish outcome figures once a cohort has completed its six-month re-test, rather than before. Ask us for the current dataset under NDA.",
-};
-
-/* ---------------- FAQ ---------------- */
-
-export const faqs = [
-  {
-    q: "How is this different from our group health insurance?",
-    a: "Insurance pays after someone is ill. This is designed to change the markers that lead to the claim \u2014 and to show you, with a second blood panel, whether it did.",
+  eyebrow: "Corporate wellness",
+  headA: "Good health is the foundation of",
+  headB: "a productive workforce.",
+  ctaPrimary: { label: "Get a quote", href: "#talk" },
+  ctaSecondary: { label: "Book a free workshop", href: "#workshops" },
+  image: {
+    src: "/corporate/hero.webp",
+    alt: "Colleagues at a desk, one stretching at her chair",
+    width: 1400,
+    height: 933,
   },
-  {
-    q: "How is it different from a wellness app or a steps challenge?",
-    a: "Those measure participation. We measure blood. Employees who need clinical care get a doctor, not a push notification.",
-  },
-  {
-    q: "Will we see which employees are unwell?",
-    a: "No. You get cohort-level movement and completion data. Individual results go to the employee and their clinician only, and small cohorts are suppressed so nobody can be identified by inference.",
-  },
-  {
-    q: "Is medication part of the programme?",
-    a: "Only where a licensed physician determines it is clinically appropriate for that individual, after reviewing their panel and history. It is never automatic and never a condition of taking part.",
-  },
-  {
-    q: "What about employees outside the main office?",
-    a: "Sample collection is at-home as well as on-site, and consults are remote by default, so distributed and factory-floor teams are covered on the same terms.",
-  },
-  {
-    q: "What do you need from our HR team?",
-    a: "An enrolment window, a communications channel to employees, and a nominated contact. We run the clinical side, the logistics and the reporting.",
-  },
-  {
-    q: "How long before we see anything?",
-    a: "Baseline panels complete in the first three weeks, and you get a risk-profile report of your workforce at week four. Outcome data comes at month six, when the second panel lands.",
-  },
+};
+
+/* ---------------- moving strip under the hero ---------------- */
+
+export const includes = [
+  "Blood tests at the office or at home",
+  "Doctor consultations for anything flagged",
+  "Dietitian support built around Indian food",
+  "Add-on therapies where they are needed",
+  "A quarterly report that names nobody",
 ];
 
-/* ---------------- CTA ---------------- */
+/* ---------------- why it matters ---------------- */
+
+/* image: a square photo in public/corporate/conditions/ (800x800 WebP).
+   Set it to "" to fall back to the plain brand-green tile. */
+export const why = {
+  id: "why",
+  eyebrow: "Why it matters",
+  lines: ["Most of it is already there.", "Almost none of\u00A0it is diagnosed."],
+  conditions: [
+    { icon: "drop", title: "Type 2 diabetes and prediabetes", image: "/corporate/conditions/diabetes.webp" },
+    { icon: "heartPulse", title: "High blood pressure", image: "/corporate/conditions/blood-pressure.webp" },
+    { icon: "liver", title: "Fatty liver", image: "/corporate/conditions/fatty-liver.webp" },
+    { icon: "cholesterol", title: "High cholesterol", image: "/corporate/conditions/cholesterol.webp" },
+    { icon: "thyroid", title: "Thyroid disorders", image: "/corporate/conditions/thyroid.webp" },
+    { icon: "hormone", title: "PCOS and hormonal health", image: "/corporate/conditions/pcos-hormones.webp" },
+    { icon: "waist", title: "Obesity and central weight gain", image: "/corporate/conditions/weight.webp" },
+    { icon: "moon", title: "Sleep and stress disorders", image: "/corporate/conditions/sleep-stress.webp" },
+  ],
+};
+
+/* ---------------- care team ---------------- */
+
+export const team = {
+  id: "team",
+  eyebrow: "Your care team",
+  head: "The doctors behind the programme.",
+  doctors: [
+    { name: "Dr. Nishant Jain", role: "MD, DM Endocrinology", image: "/corporate/doctor-nishant-jain.webp" },
+    { name: "Dr. Gautam Kumar", role: "MD, DM Endocrinology", image: "/corporate/doctor-gautam-kumar.webp" },
+    { name: "Dr. Akhil Konduru", role: "MD, Internal Medicine", image: "/corporate/doctor-akhil-konduru.webp" },
+    { name: "Dr. Siddharth Garg", role: "MD, Internal Medicine", image: "/corporate/doctor-siddharth-garg.webp" },
+  ],
+};
+
+/* ---------------- outcomes ---------------- */
+
+export const outcomes = {
+  id: "outcomes",
+  eyebrow: "What changes",
+  head: "The results we measure.",
+  items: [
+    {
+      icon: "calendar",
+      title: "Fewer days lost",
+      text: "Problems treated early mean fewer sick days.",
+      measure: "Measured: sick days per employee",
+    },
+    {
+      icon: "search",
+      title: "Found before it is felt",
+      text: "Blood tests show problems years before symptoms do.",
+      measure: "Measured: new findings per 100 screened",
+    },
+    {
+      icon: "trend",
+      title: "Markers that actually move",
+      text: "Sugar, cholesterol and BP, guided by a doctor.",
+      measure: "Measured: repeat blood test at 12 weeks",
+    },
+    {
+      icon: "heart",
+      title: "A reason to stay",
+      text: "Employees value health care they actually use.",
+      measure: "Measured: participation and repeat visits",
+    },
+  ],
+  note:
+    "Your own numbers go here once the first two quarters are in. We would rather report yours than quote someone else\u2019s.",
+};
+
+/* ---------------- statement band ---------------- */
+
+export const statement = {
+  head: "A blood report on a PDF changes nothing.",
+  image: {
+    src: "/corporate/care-conversation.webp",
+    alt: "A doctor talking with a patient",
+    width: 1237,
+    height: 720,
+  },
+};
+
+/* ---------------- add-ons ---------------- */
+
+export const addons = {
+  eyebrow: "Add-ons",
+  head: "Add what your workforce actually needs.",
+  sub: "Not every workforce needs the same things.",
+  items: [
+    { icon: "scale", title: "Weight management", text: "Doctor-led. GLP-1 only where prescribed." },
+    { icon: "drop", title: "Diabetes management", text: "Sugar control with a doctor and a dietitian." },
+    { icon: "thyroid", title: "Thyroid management", text: "Tests, dosing and follow-up." },
+    { icon: "hormone", title: "Hormone management", text: "PCOS, menopause and testosterone." },
+    { icon: "heartPulse", title: "Heart health", text: "Blood pressure and cholesterol, tracked." },
+    { icon: "liver", title: "Fatty liver care", text: "Diet first, with repeat tests." },
+    { icon: "bowl", title: "Nutrition plans", text: "Indian food, built around a working day." },
+    { icon: "mind", title: "Mental health sessions", text: "Confidential, with licensed professionals." },
+    { icon: "physio", title: "Physiotherapy", text: "For what desk work does to backs and necks." },
+    { icon: "moon", title: "Sleep and stress care", text: "Guided by clinicians, not apps." },
+    { icon: "family", title: "Family access", text: "Spouses and parents, same doctors." },
+    { icon: "dumbbell", title: "Cult Pass Home", text: "At-home fitness, not just for gym-goers." },
+  ],
+};
+
+/* ---------------- workshops ---------------- */
+
+export const workshops = {
+  id: "workshops",
+  eyebrow: "Free workshops",
+  head: "Start with a workshop. It costs nothing.",
+  points: [
+    "Run at your office or online, on your schedule",
+    "A doctor and a dietitian, taking live questions",
+    "Practical nutrition and movement for a working day",
+    "No cost, and no obligation to buy anything afterwards",
+  ],
+  image: {
+    src: "/corporate/workshop-live.webp",
+    alt: "A live Lean Protocol workshop on Google Meet, with 93 people on the call",
+    width: 1400,
+    height: 789,
+  },
+  card: {
+    title: "Awareness and guidance, at no cost",
+    text: "Most companies start here, then decide.",
+    cta: { label: "Book a workshop", href: "#talk" },
+  },
+};
+
+/* ---------------- quarterly reporting ---------------- */
+
+export const reports = {
+  id: "reports",
+  eyebrow: "Quarterly reporting",
+  head: "See how your team is doing, every quarter.",
+  sub: "Every quarter. Built only from aggregates.",
+  cards: [
+    { chart: "participation", title: "How many took part", text: "By department and location.", wide: false },
+    { chart: "prevalence", title: "What was found", text: "Prevalence, in aggregate only.", wide: false },
+    { chart: "change", title: "What changed", text: "Quarter on quarter movement.", wide: false },
+    { chart: "risk", title: "Where the risk sits", text: "Which groups to aim at next.", wide: false },
+    {
+      chart: "cover",
+      title: "What it means for cover",
+      text: "The picture your insurer forms at renewal, before they form it.",
+      wide: true,
+    },
+  ],
+  noteLead: "Individual results never reach you.",
+  noteRest:
+    " They go to the employee and their doctor. That is what the law requires, and it is why people take part.",
+};
+
+/* ---------------- partners ---------------- */
+
+/* Logos, captions and order come from content/workshops.ts (partners.names),
+   which is kept in step with the homepage strip. Only the headings live here. */
+export const partnersHead = {
+  eyebrow: "Delivered with",
+  head: "Delivered with partners you already know.",
+};
+
+/* ---------------- press ---------------- */
+
+export const press = {
+  eyebrow: "In the news",
+  head: "Written about, not just advertised.",
+  items: [
+    {
+      name: "Zee News",
+      href: "https://zeenews.india.com/consumer-connect/the-glp-1-hype-how-lean-protocol-is-building-a-sustainable-weight-loss-ecosystem",
+      logo: "/corporate/press/zee-news.svg",
+      width: 116,
+      height: 44,
+    },
+    {
+      name: "News24",
+      href: "https://news24online.com/information/the-entrepreneurial-journey-behind-a-glp-1-startup-lean-protocol/",
+      logo: "/corporate/press/news24.webp",
+      width: 38,
+      height: 44,
+    },
+    {
+      name: "News Today 24x7",
+      href: "https://www.newstoday24x7.co.in/2026/04/from-gimmicks-to-ethics-entrepreneurial.html",
+      logo: "/corporate/press/news-today-24x7.webp",
+      width: 99,
+      height: 44,
+    },
+    {
+      name: "The Startup Story",
+      href: "https://thestartupstory.co.in/why-india-needs-a-new-approach-to-weight-loss-the-lean-protocol-perspective/",
+      logo: "/corporate/press/the-startup-story.webp",
+      width: 85,
+      height: 44,
+    },
+    {
+      name: "The Tribune",
+      href: "https://www.tribuneindia.com/partner-exclusives/is-lean-protocol-building-a-sustainable-weight-loss-ecosystem",
+      logo: "/corporate/press/the-tribune.webp",
+      width: 150,
+      height: 37,
+    },
+    {
+      name: "The Republic News",
+      href: "https://www.therepublicnews.co.in/2026/04/from-gimmicks-to-ethics-entrepreneurial.html",
+      logo: "/corporate/press/the-republic-news.webp",
+      width: 115,
+      height: 44,
+    },
+  ],
+};
+
+/* ---------------- enquiry ---------------- */
 
 export const cta = {
   id: "talk",
-  eyebrow: "NEXT STEP",
-  headA: "Start with your",
-  headB: "workforce's baseline.",
-  body:
-    "A 20-minute call: what we would measure for your team, what the six-month report looks like, and what it costs. No obligation to run anything.",
-  bullets: [
-    "Pan-India, on-site and at-home collection",
-    "GST-compliant invoicing",
-    "Data processing agreement provided up front",
-  ],
+  eyebrow: "Talk to us",
+  head: "Tell us about your team.",
+  sub: "Tell us the headcount. We come back with a number, usually the same day.",
   form: {
-    submit: "Request a walkthrough",
+    sizes: ["1 to 50", "51 to 200", "201 to 500", "501 to 1,000", "More than 1,000"],
+    submit: "Request a proposal",
     sending: "Sending...",
     done: "Thank you. Our team will be in touch within one working day.",
-    sizes: ["1-50", "51-200", "201-500", "501-1000", "1000+"],
-    consent:
-      "I agree to be contacted about this enquiry and accept the Privacy Policy.",
+    fine: "We use these details to contact you about this enquiry. We do not sell your data.",
   },
+};
+
+/* ---------------- footer ---------------- */
+
+export const footer = {
+  disclaimer:
+    "Lean Protocol is a doctor-led weight and metabolic health service. Clinical decisions, including any prescription, are made by licensed physicians after individual assessment. Results vary between individuals. Nothing on this page is medical advice.",
 };
