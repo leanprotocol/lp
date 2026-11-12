@@ -17,6 +17,7 @@ const NO_CLARITY_PATHS = [
   "/challenge",
   "/dashboard",
   "/bg-dashboard",
+  "/team-leads",
 ]
 
 export function clarityAllowed(host: string, path: string): boolean {
