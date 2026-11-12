@@ -451,3 +451,69 @@ export function loginDiagnosis(nameInput: string) {
   const found = users.some((u) => u.name === name);
   return `name=${name} reason=${found ? "wrong-password" : "no-such-login"} logins=${users.map((u) => u.name).join("|")}${broken}`;
 }
+
+/* ---------- coverage check ----------
+   Answers "why does the dashboard show fewer leads than TeleCRM?". Pulls every
+   lead TeleCRM created in the last N days and counts whether this dashboard
+   includes it and, if not, why. Counts and marketing labels only: no names,
+   phones or health fields leave this function. */
+
+const bump = (m: Map<string, number>, k: string) => m.set(k, (m.get(k) || 0) + 1);
+const topOf = (m: Map<string, number>, n: number) =>
+  Object.fromEntries(Array.from(m.entries()).sort((a, b) => b[1] - a[1]).slice(0, n));
+
+export async function getCoverage(days: number) {
+  const to = Date.now();
+  const from = to - days * 86_400_000;
+  let basis = "created_on";
+  let raw: RawLead[];
+  try {
+    raw = await searchAll({ created_on: { from, to } }, 20_000);
+  } catch {
+    basis = "modified_on (the created_on search was refused)";
+    raw = await searchAll({ modified_on: { from, to } }, 20_000);
+  }
+  const nm = await teamNames();
+  let total = 0, counted = 0, noSource = 0, otherSource = 0, bgCampaign = 0, withClickId = 0;
+  const otherSources = new Map<string, number>();
+  const bgCampaigns = new Map<string, number>();
+  const byChannel = new Map<string, number>();
+  const byFormSource = new Map<string, number>();
+  const byKey = new Map<string, number>();
+  for (const r of raw) {
+    const f = r.fields || {};
+    const created = Number(f.created_on) || 0;
+    if (created && (created < from || created > to)) continue;
+    total++;
+    if (toLead(r, nm)) { counted++; continue; }
+    const src = str(f.utm_source).trim().toLowerCase();
+    if (!src) noSource++;
+    else if (!TEAM_CONFIG.sources[src]) { otherSource++; bump(otherSources, src.slice(0, 40)); }
+    else { bgCampaign++; bump(bgCampaigns, str(f.utm_campaign).trim().slice(0, 60)); }
+    bump(byChannel, str(f.lead_channel).trim().slice(0, 40) || "(empty)");
+    bump(byFormSource, str(f.source).trim().slice(0, 40) || "(empty)");
+    if (str(f.gclid) || str(f.fbclid)) withClickId++;
+    for (const k of Object.keys(f)) bump(byKey, k.slice(0, 40));
+  }
+  let dashboardShowsNow: number | null = null;
+  try {
+    const snap = await getTeamLeads();
+    dashboardShowsNow = snap.leads.filter((l) => l.createdOn >= from).length;
+  } catch {
+    dashboardShowsNow = null;
+  }
+  return {
+    window: `last ${days} days`,
+    basis,
+    telecrmLeads: total,
+    countedByDashboard: counted,
+    dashboardShowsNow,
+    notCounted: { noUtmSource: noSource, otherUtmSource: otherSource, bgCampaign },
+    otherUtmSourceValues: topOf(otherSources, 25),
+    bgCampaignNames: topOf(bgCampaigns, 15),
+    notCountedByLeadChannel: topOf(byChannel, 10),
+    notCountedByFormSource: topOf(byFormSource, 15),
+    notCountedWithAdClickId: withClickId,
+    fieldsOnNotCountedLeads: topOf(byKey, 40),
+  };
+}
