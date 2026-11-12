@@ -2,16 +2,17 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 import { NextRequest, NextResponse } from "next/server";
-import { TEAM_COOKIE, getTeamLeads, validSession } from "../../../../lib/team-dashboard";
+import { TEAM_COOKIE, displayName, getTeamLeads, sessionUser } from "../../../../lib/team-dashboard";
 
 export async function GET(request: NextRequest) {
-  if (!validSession(request.cookies.get(TEAM_COOKIE)?.value)) {
+  const user = sessionUser(request.cookies.get(TEAM_COOKIE)?.value);
+  if (user === null) {
     return NextResponse.json({ error: "Not signed in" }, { status: 401 });
   }
   try {
     const snap = await getTeamLeads();
     return NextResponse.json(
-      { syncedAt: snap.syncedAt, stale: snap.stale, leads: snap.leads },
+      { syncedAt: snap.syncedAt, stale: snap.stale, leads: snap.leads, user: displayName(user) || null },
       { headers: { "Cache-Control": "no-store" } }
     );
   } catch {

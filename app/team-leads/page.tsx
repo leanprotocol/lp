@@ -27,7 +27,7 @@ type Lead = {
   phoneTail: string;
 };
 
-type Payload = { syncedAt: number; stale: boolean; leads: Lead[] };
+type Payload = { syncedAt: number; stale: boolean; leads: Lead[]; user?: string | null };
 
 type Activity = {
   id: string;
@@ -385,18 +385,19 @@ function LeadPanel({ lead, onClose }: { lead: Lead; onClose: () => void }) {
 }
 
 function Login({ onDone }: { onDone: () => void }) {
+  const [name, setName] = useState("");
   const [pw, setPw] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   async function go() {
-    if (!pw || busy) return;
+    if (!pw || !name.trim() || busy) return;
     setBusy(true);
     setErr(null);
     try {
       const r = await fetch("/api/team-dashboard/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password: pw }),
+        body: JSON.stringify({ name, password: pw }),
       });
       const d = await r.json().catch(() => ({}));
       if (!r.ok) throw new Error(d?.error || "Could not sign in");
@@ -411,7 +412,19 @@ function Login({ onDone }: { onDone: () => void }) {
     <div className="bgd-stage">
       <div className="bgd-login">
         <h1>Campaign <span className="serif">leads.</span></h1>
-        <p>Live from TeleCRM. Sign in with the team password.</p>
+        <p>Live from TeleCRM. Sign in with your own name and password.</p>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          onKeyDown={(e) => { if (e.key === "Enter") go(); }}
+          placeholder="Your name"
+          aria-label="Your name"
+          autoComplete="username"
+          autoCapitalize="none"
+          spellCheck={false}
+          autoFocus
+        />
         <input
           type="password"
           value={pw}
@@ -420,9 +433,8 @@ function Login({ onDone }: { onDone: () => void }) {
           placeholder="Password"
           aria-label="Password"
           autoComplete="current-password"
-          autoFocus
         />
-        <button type="button" className="bgd-ink" onClick={go} disabled={busy || !pw}>
+        <button type="button" className="bgd-ink" onClick={go} disabled={busy || !pw || !name.trim()}>
           {busy ? "Signing in..." : "Sign in"}
         </button>
         {err && <p className="bgd-err" role="alert">{err}</p>}
@@ -541,7 +553,7 @@ export default function BgDashboard() {
           <section className="bgd-band">
             <div className="bgd-in">
               <div className="bgd-nav">
-                <div className="bgd-brand">Lean Protocol<span>Marketing team</span></div>
+                <div className="bgd-brand">Lean Protocol<span>{data?.user ? `Marketing team \u00B7 ${data.user}` : "Marketing team"}</span></div>
                 <button type="button" className="bgd-ghost" onClick={signOut}>Sign out</button>
               </div>
 
