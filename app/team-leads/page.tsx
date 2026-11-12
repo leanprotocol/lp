@@ -1,9 +1,9 @@
 "use client";
 
 /* Main marketing team lead dashboard. Live from TeleCRM via
-   /api/team-dashboard/data, refreshed every 30 seconds. Shows paid leads from
-   Meta, Google and ChatGPT, excluding "BG" campaigns (the BG team's own
-   dashboard is at /bg-dashboard).
+   /api/team-dashboard/data, refreshed every 30 seconds. Shows every TeleCRM
+   lead, each tagged Meta, Google, ChatGPT or Other (lib/team-dashboard.ts,
+   channelOf).
 
    Drawn as a fixed full-screen layer so the main site's header and footer
    never show here. Pure ASCII file: symbols are \u escapes. */
@@ -557,7 +557,7 @@ export default function BgDashboard() {
                 <button type="button" className="bgd-ghost" onClick={signOut}>Sign out</button>
               </div>
 
-              <p className="bgd-eyebrow">Meta, Google and ChatGPT</p>
+              <p className="bgd-eyebrow">Every lead in TeleCRM</p>
               <h1 className="bgd-h1">Every lead, <span className="serif">as your callers mark it.</span></h1>
 
               <div className="bgd-bar-row">
@@ -571,7 +571,7 @@ export default function BgDashboard() {
                 </span>
                 <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
                   <div className="bgd-pills" role="group" aria-label="Channel">
-                    {["All", "Meta", "Google", "ChatGPT"].map((c) => (
+                    {["All", "Meta", "Google", "ChatGPT", "Other"].map((c) => (
                       <button key={c} type="button" aria-pressed={channel === c} onClick={() => { setChannel(c); setShown(200); }}>{c}</button>
                     ))}
                   </div>
@@ -831,7 +831,7 @@ export default function BgDashboard() {
                   </div>
                 )}
                 <p className="bgd-note">
-                  Paid leads from Meta, Google and ChatGPT, excluding BG campaigns. Full phone numbers and health details stay in TeleCRM. For Lean Protocol staff only.
+                  Every lead in TeleCRM, from Meta, Google, ChatGPT and other sources. Full phone numbers and health details stay in TeleCRM. For Lean Protocol staff only.
                 </p>
               </div>
             </div>
