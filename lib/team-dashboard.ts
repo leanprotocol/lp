@@ -285,19 +285,50 @@ export async function getLeadActivity(leadId: string): Promise<TeamActivity[] | 
 }
 
 /* ---------- login ----------
-   Own password (TEAM_DASHBOARD_PASSWORD) and signing secret
-   (TEAM_DASHBOARD_SECRET), separate from the BG dashboard, so neither team's
-   login opens the other's leads. Changing the password signs everyone out. */
+   One login per person (HIPAA plan, change 5).
+
+   TEAM_DASHBOARD_USERS lists each person as name:salt:hash, separated by
+   commas, where hash = scrypt(password, salt). Make entries with
+     node scripts/team-logins.mjs <name> [<name> ...]
+   Passwords are not stored anywhere, only their hashes.
+   - Deleting someone's entry, or replacing it, signs out only that person.
+   - While TEAM_DASHBOARD_USERS is empty, the old shared TEAM_DASHBOARD_PASSWORD
+     still works, so nobody is locked out between deploy and setup. Once it is
+     set, the shared password stops working and shared sessions end.
+
+   TEAM_DASHBOARD_SECRET signs the session cookie. This login is separate from
+   every other login on the site. */
 
 export const TEAM_COOKIE = "tmd_session";
 export const TEAM_SESSION_DAYS = 7;
 
 const sha = (s: string) => crypto.createHash("sha256").update(s).digest("hex");
-const cleanPw = () => (process.env.TEAM_DASHBOARD_PASSWORD || "").trim().replace(/^["']|["']$/g, "");
+const unquote = (s: string) => s.trim().replace(/^["']|["']$/g, "");
+const cleanPw = () => unquote(process.env.TEAM_DASHBOARD_PASSWORD || "");
+const secret = () => process.env.TEAM_DASHBOARD_SECRET || "";
 
-function sign(exp: number) {
-  const secret = process.env.TEAM_DASHBOARD_SECRET || "";
-  return crypto.createHmac("sha256", secret).update(`tmd.${exp}.${sha(cleanPw())}`).digest("hex");
+type TeamUser = { name: string; salt: string; hash: string };
+
+/** Login names are lower case letters, digits and hyphens: "Priya S" -> "priya-s".
+    scripts/team-logins.mjs uses the same rule. */
+export function loginName(s: string) {
+  return s.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "").slice(0, 32);
+}
+
+/** "priya-s" -> "Priya-s", for showing who is signed in. */
+export function displayName(user: string) {
+  return user ? user.charAt(0).toUpperCase() + user.slice(1) : "";
+}
+
+function teamUsers(): TeamUser[] {
+  const out: TeamUser[] = [];
+  for (const part of unquote(process.env.TEAM_DASHBOARD_USERS || "").split(/[\s,]+/)) {
+    const [name = "", salt = "", hash = ""] = part.split(":");
+    if (/^[a-z0-9-]{1,32}$/.test(name) && /^[a-f0-9]{32}$/.test(salt) && /^[a-f0-9]{64}$/.test(hash)) {
+      out.push({ name, salt, hash });
+    }
+  }
+  return out;
 }
 
 function safeEq(a: string, b: string) {
@@ -306,25 +337,93 @@ function safeEq(a: string, b: string) {
   return x.length === y.length && crypto.timingSafeEqual(x, y);
 }
 
+function scryptHex(password: string, saltHex: string) {
+  return crypto.scryptSync(password, Buffer.from(saltHex, "hex"), 32).toString("hex");
+}
+
+/* Shared-password sessions are signed exactly as before, so nobody is signed
+   out by the deploy itself. */
+function signShared(exp: number) {
+  return crypto.createHmac("sha256", secret()).update(`tmd.${exp}.${sha(cleanPw())}`).digest("hex");
+}
+
+function signUser(u: TeamUser, exp: number) {
+  return crypto.createHmac("sha256", secret()).update(`tmd.u.${u.name}.${exp}.${u.hash}`).digest("hex");
+}
+
+const DUMMY_SALT = "0".repeat(32);
+const DUMMY_HASH = "0".repeat(64);
+
 export function teamConfigured() {
-  return Boolean(process.env.TEAM_DASHBOARD_SECRET && cleanPw());
+  return Boolean(secret() && (teamUsers().length > 0 || cleanPw()));
 }
 
-export function checkPassword(input: string) {
+/** True once TEAM_DASHBOARD_USERS has at least one valid entry. */
+export function individualLogins() {
+  return teamUsers().length > 0;
+}
+
+/** Checks a sign-in. Returns the login name, "" for the old shared password,
+    or null if it does not match. */
+export function checkLogin(nameInput: string, password: string): string | null {
+  const users = teamUsers();
+  if (users.length) {
+    const name = loginName(nameInput);
+    const u = users.find((x) => x.name === name);
+    // Hash even for an unknown name, so the response time does not reveal names.
+    const got = scryptHex(password.trim(), u ? u.salt : DUMMY_SALT);
+    const ok = safeEq(got, u ? u.hash : DUMMY_HASH);
+    return u && ok ? u.name : null;
+  }
   const want = cleanPw();
-  if (!want) return false;
-  return safeEq(sha(input.trim()), sha(want));
+  if (!want) return null;
+  return safeEq(sha(password.trim()), sha(want)) ? "" : null;
 }
 
-export function makeSession() {
+/** Old shared-password check, kept for anything that still calls it. */
+export function checkPassword(input: string) {
+  return !individualLogins() && checkLogin("", input) === "";
+}
+
+export function makeSession(user = "") {
   const exp = Date.now() + TEAM_SESSION_DAYS * 86_400_000;
-  return `${exp}.${sign(exp)}`;
+  if (!user) return `${exp}.${signShared(exp)}`;
+  const u = teamUsers().find((x) => x.name === user);
+  if (!u) throw new Error("Unknown team dashboard user");
+  return `${exp}.${u.name}.${signUser(u, exp)}`;
+}
+
+/** The signed-in person's login name, "" for a shared-password session, or
+    null when the cookie is missing, expired, or no longer valid. */
+export function sessionUser(value: string | undefined): string | null {
+  if (!value || !teamConfigured()) return null;
+  const parts = value.split(".");
+  const exp = Number(parts[0]);
+  if (!exp || exp < Date.now()) return null;
+  const users = teamUsers();
+  if (users.length) {
+    if (parts.length !== 3) return null;
+    const u = users.find((x) => x.name === parts[1]);
+    return u && safeEq(signUser(u, exp), parts[2]) ? u.name : null;
+  }
+  if (parts.length !== 2 || !cleanPw()) return null;
+  return safeEq(signShared(exp), parts[1]) ? "" : null;
 }
 
 export function validSession(value: string | undefined) {
-  if (!value || !teamConfigured()) return false;
-  const [expStr, sig] = value.split(".");
-  const exp = Number(expStr);
-  if (!exp || !sig || exp < Date.now()) return false;
-  return safeEq(sign(exp), sig);
+  return sessionUser(value) !== null;
+}
+
+/** Why a sign-in failed, for the Vercel logs. Never includes a password, salt or hash. */
+export function loginDiagnosis(nameInput: string) {
+  const raw = unquote(process.env.TEAM_DASHBOARD_USERS || "");
+  const parts = raw.split(/[\s,]+/).filter(Boolean);
+  const users = teamUsers();
+  const name = loginName(nameInput) || "-";
+  if (!users.length) {
+    const seen = raw ? `${parts.length} part(s), none valid` : "empty or missing in this deployment";
+    return `name=${name} reason=shared-password-mode TEAM_DASHBOARD_USERS=${seen}`;
+  }
+  const found = users.some((u) => u.name === name);
+  return `name=${name} reason=${found ? "wrong-password" : "no-such-login"} logins=${users.map((u) => u.name).join("|")} broken_parts=${parts.length - users.length}`;
 }
