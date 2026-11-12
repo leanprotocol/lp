@@ -617,12 +617,6 @@ export default function CoachFunnel() {
         {/* ---------------- offer ---------------- */}
         {step === S.OFFER && (
           <div className="step">
-            <div style={{ display: "flex", alignItems: "center", gap: 10, paddingTop: 26 }}>
-              <span style={{ width: 26, height: 26, borderRadius: "50%", background: "#C8D9A7", color: "#193231", display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 7" /></svg>
-              </span>
-              <span style={{ fontSize: 13.5, fontWeight: 600, color: "#C8D9A7" }}>Answers saved</span>
-            </div>
             <h2 className="q" style={{ marginTop: 20, fontSize: 31, lineHeight: "37px", color: "#F9F7F2" }}>
               Want to know why your weight is stuck?
             </h2>
@@ -633,7 +627,7 @@ export default function CoachFunnel() {
               <div className="offer-steps">
                 {["Where your weight sits, and what is holding it there",
                   "What is realistic to expect, and how quickly",
-                  "Whether a doctor consultation is worth your time"].map((t, i) => (
+                  "Get suggested with best weight loss solutions"].map((t, i) => (
                   <div className="offer-step" key={i}>
                     <span className="offer-n">{i + 1}</span>
                     <span style={{ fontSize: 14.5, lineHeight: 1.5, color: "#D7E2DA" }}>{t}</span>
