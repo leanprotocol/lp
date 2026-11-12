@@ -355,7 +355,7 @@ export default function QuizFunnel() {
               </div>
               <div className="surprise">
                 <p>{fullMarks
-                  ? "You scored full marks, so the course is yours free. Claim it below."
+                  ? "You scored full marks! You have won the course for absolutely free, along with a dietetics consultation!"
                   : "You might have missed the chance for a free course, but we have a huge surprise for you."}</p>
               </div>
             </div>
