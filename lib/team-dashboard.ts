@@ -287,14 +287,19 @@ export async function getLeadActivity(leadId: string): Promise<TeamActivity[] | 
 /* ---------- login ----------
    One login per person (HIPAA plan, change 5).
 
-   TEAM_DASHBOARD_USERS lists each person as name:salt:hash, separated by
-   commas, where hash = scrypt(password, salt). Make entries with
-     node scripts/team-logins.mjs <name> [<name> ...]
-   Passwords are not stored anywhere, only their hashes.
-   - Deleting someone's entry, or replacing it, signs out only that person.
-   - While TEAM_DASHBOARD_USERS is empty, the old shared TEAM_DASHBOARD_PASSWORD
-     still works, so nobody is locked out between deploy and setup. Once it is
-     set, the shared password stops working and shared sessions end.
+   Logins come from two places, and passwords are never stored, only
+   scrypt hashes made by  node scripts/team-logins.mjs <name> [<name> ...]
+   1. One Vercel variable per person (the normal way, since Vercel hides
+      Secret values and a shared list cannot be added to):
+        TEAM_DASHBOARD_USER_RAHUL = salt:hash     -> login name "rahul"
+        TEAM_DASHBOARD_USER_ANKIT_K = salt:hash   -> login name "ankit-k"
+      Add a person: add their variable. Reset: give it a new value.
+      Remove: set it to  off  (works for people in the list below too).
+   2. TEAM_DASHBOARD_USERS, the first list: name:salt:hash entries separated by
+      commas. A per-person variable overrides that person's list entry.
+   Any change signs out only the person it touches, after a redeploy.
+   While there are no logins at all, the old shared TEAM_DASHBOARD_PASSWORD
+   still works; once there is one, the shared password stops working.
 
    TEAM_DASHBOARD_SECRET signs the session cookie. This login is separate from
    every other login on the site. */
@@ -320,15 +325,37 @@ export function displayName(user: string) {
   return user ? user.charAt(0).toUpperCase() + user.slice(1) : "";
 }
 
-function teamUsers(): TeamUser[] {
-  const out: TeamUser[] = [];
-  for (const part of unquote(process.env.TEAM_DASHBOARD_USERS || "").split(/[\s,]+/)) {
+const USER_VAR = "TEAM_DASHBOARD_USER_";
+const okName = (n: string) => /^[a-z0-9-]{1,32}$/.test(n);
+const okSalt = (s: string) => /^[a-f0-9]{32}$/.test(s);
+const okHash = (h: string) => /^[a-f0-9]{64}$/.test(h);
+
+/** All logins, plus what could not be read (for loginDiagnosis). */
+function readUsers() {
+  const byName = new Map<string, TeamUser>();
+  const listParts = unquote(process.env.TEAM_DASHBOARD_USERS || "").split(/[\s,]+/).filter(Boolean);
+  let listValid = 0;
+  for (const part of listParts) {
     const [name = "", salt = "", hash = ""] = part.split(":");
-    if (/^[a-z0-9-]{1,32}$/.test(name) && /^[a-f0-9]{32}$/.test(salt) && /^[a-f0-9]{64}$/.test(hash)) {
-      out.push({ name, salt, hash });
-    }
+    if (okName(name) && okSalt(salt) && okHash(hash)) { byName.set(name, { name, salt, hash }); listValid++; }
   }
-  return out;
+  // TEAM_DASHBOARD_USER_<NAME>: "salt:hash" (or "name:salt:hash"), or "off" to remove that person.
+  const brokenVars: string[] = [];
+  for (const key of Object.keys(process.env).sort()) {
+    if (!key.startsWith(USER_VAR)) continue;
+    const name = key.slice(USER_VAR.length).toLowerCase().replace(/_/g, "-");
+    const val = unquote(process.env[key] || "");
+    if (!okName(name)) { brokenVars.push(key); continue; }
+    if (/^(off|disabled|removed)$/i.test(val)) { byName.delete(name); continue; }
+    const [salt = "", hash = ""] = val.split(":").slice(-2);
+    if (okSalt(salt) && okHash(hash)) byName.set(name, { name, salt, hash });
+    else brokenVars.push(key);
+  }
+  return { users: [...byName.values()], listParts: listParts.length, listValid, brokenVars };
+}
+
+function teamUsers(): TeamUser[] {
+  return readUsers().users;
 }
 
 function safeEq(a: string, b: string) {
@@ -416,14 +443,11 @@ export function validSession(value: string | undefined) {
 
 /** Why a sign-in failed, for the Vercel logs. Never includes a password, salt or hash. */
 export function loginDiagnosis(nameInput: string) {
-  const raw = unquote(process.env.TEAM_DASHBOARD_USERS || "");
-  const parts = raw.split(/[\s,]+/).filter(Boolean);
-  const users = teamUsers();
+  const { users, listParts, listValid, brokenVars } = readUsers();
   const name = loginName(nameInput) || "-";
-  if (!users.length) {
-    const seen = raw ? `${parts.length} part(s), none valid` : "empty or missing in this deployment";
-    return `name=${name} reason=shared-password-mode TEAM_DASHBOARD_USERS=${seen}`;
-  }
+  const broken =
+    ` broken_list_parts=${listParts - listValid}` + (brokenVars.length ? ` unreadable_vars=${brokenVars.join("|")}` : "");
+  if (!users.length) return `name=${name} reason=shared-password-mode (no logins in this deployment)${broken}`;
   const found = users.some((u) => u.name === name);
-  return `name=${name} reason=${found ? "wrong-password" : "no-such-login"} logins=${users.map((u) => u.name).join("|")} broken_parts=${parts.length - users.length}`;
+  return `name=${name} reason=${found ? "wrong-password" : "no-such-login"} logins=${users.map((u) => u.name).join("|")}${broken}`;
 }

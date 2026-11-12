@@ -1,21 +1,23 @@
-// Makes individual logins for the marketing team dashboard (/team-leads).
+// Makes logins for the marketing team dashboard (/team-leads).
 //
-//   node scripts/team-logins.mjs priya rahul ankit
+//   node scripts/team-logins.mjs rahul            (one person)
+//   node scripts/team-logins.mjs rahul priya      (several)
 //
-// For each name it prints a new random password and a TEAM_DASHBOARD_USERS
-// entry. Only the entries go into Vercel. The passwords are not saved
-// anywhere, so give each person theirs privately before closing the window.
+// For each name it prints a new random password and one Vercel variable,
+// TEAM_DASHBOARD_USER_<NAME>. Only the variable goes into Vercel (type Secret,
+// Production). The password is not saved anywhere, so give it to that person
+// privately before closing the window.
 //
-//   Add someone:       run it with their name, then add the entry to the end of
-//                      TEAM_DASHBOARD_USERS after a comma.
-//   Reset a password:  run it with their name and replace their entry.
-//   Remove someone:    delete their entry.
-// Vercel applies a changed variable on the next deploy (Deployments > Redeploy).
+//   Add someone:       add their variable.
+//   Reset a password:  run it for them again and replace their variable's value.
+//   Remove someone:    set their variable's value to  off
+// Then redeploy: git commit --allow-empty --only -m "Load team logins"; git push
 
 import crypto from "node:crypto";
 
 // Same rule as loginName() in lib/team-dashboard.ts.
 const loginName = (s) => s.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "").slice(0, 32);
+const varName = (name) => "TEAM_DASHBOARD_USER_" + name.toUpperCase().replace(/-/g, "_");
 
 // No 0/o, 1/l/i, so passwords can be read out or typed from a phone.
 const ALPHABET = "abcdefghjkmnpqrstuvwxyz23456789";
@@ -44,7 +46,7 @@ const rows = names.map((name) => {
   const password = newPassword();
   const salt = crypto.randomBytes(16).toString("hex");
   const hash = crypto.scryptSync(password, Buffer.from(salt, "hex"), 32).toString("hex");
-  return { name, password, entry: `${name}:${salt}:${hash}` };
+  return { name, password, key: varName(name), value: `${salt}:${hash}` };
 });
 
 console.log("");
@@ -52,7 +54,10 @@ console.log("Logins - send each person only their own line, privately:");
 console.log("");
 for (const r of rows) console.log("  name: " + r.name.padEnd(16) + "  password: " + r.password);
 console.log("");
-console.log("TEAM_DASHBOARD_USERS - paste this into Vercel as one line:");
-console.log("");
-console.log(rows.map((r) => r.entry).join(","));
+console.log("Vercel > Settings > Environment Variables > Add. Type: Secret. Environment: Production.");
+for (const r of rows) {
+  console.log("");
+  console.log("  Key:   " + r.key);
+  console.log("  Value: " + r.value);
+}
 console.log("");
