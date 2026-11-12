@@ -18,6 +18,15 @@ const nextConfig = {
   // match the bare root in Next, so the root gets its own explicit entry.
   // It sits last, so /checkout and /unlock resolve through the path rule
   // first and only '/' falls through to it.
+  // /bg-dashboard is retired: its team has left. Redirects run before pages and
+  // rewrites, so the page cannot be reached on any domain. Temporary (307), so it
+  // can be reversed without browsers caching it.
+  async redirects() {
+    return [
+      { source: '/bg-dashboard', destination: '/', permanent: false },
+      { source: '/bg-dashboard/:path*', destination: '/', permanent: false },
+    ]
+  },
   async rewrites() {
     return {
       beforeFiles: [
