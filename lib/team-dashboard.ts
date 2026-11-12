@@ -1,11 +1,13 @@
 /* Main marketing team lead dashboard - server side.
    Reads live from the TeleCRM Sync API. Nothing is copied to our database.
 
-   Scope: paid leads from Meta, Google and ChatGPT, EXCEPT campaigns whose
-   name starts with "bg" (those belong to the BG team's own dashboard).
+   Scope: every lead in TeleCRM (since 12 Nov 2026; before that, paid leads
+   only and no BG campaigns). Each lead gets a channel - Meta, Google, ChatGPT
+   or Other - from its utm_source, then lead_channel, then the ad click ID,
+   then TeleCRM's lead_source (see channelOf).
 
-   SYNC. This team covers most paid leads, so re-downloading everything every
-   30 seconds would hit TeleCRM's rate limit. Instead:
+   SYNC. Re-downloading everything every 30 seconds would hit TeleCRM's rate
+   limit. Instead (the full load runs in 30-day windows, see loadAllLeads):
      - a full load on first use and every 30 minutes (catches deletes/merges),
      - in between, every 30 seconds, only leads modified since the last check
        (TeleCRM's modified_on range filter, tested on this account 5 Oct 2026).
@@ -28,8 +30,6 @@ export const TEAM_CONFIG = {
     google: "Google",
     chatgpt: "ChatGPT", openai: "ChatGPT",
   } as Record<string, string>,
-  /* Campaigns starting with this belong to the BG team and are excluded. */
-  excludePrefix: "bg",
   pollMs: 30_000,
   fullReloadMs: 30 * 60_000,
 };
@@ -63,21 +63,27 @@ export type TeamLead = {
 
 const str = (v: unknown) => (v === undefined || v === null ? "" : String(v));
 
+/* A TeleCRM 429 (rate limit) or 5xx is retried twice, 0.8 s then 1.6 s
+   later, before the call counts as failed. */
 async function tc(path: string, init?: RequestInit) {
   const ent = process.env.TELECRM_ENTERPRISE_ID;
   const tok = process.env.TELECRM_SYNC_TOKEN;
   if (!ent || !tok) throw new Error("TELECRM_ENTERPRISE_ID or TELECRM_SYNC_TOKEN is not set");
-  const res = await fetch(`${SYNC_BASE}/enterprise/${ent}${path}`, {
-    ...init,
-    headers: { "Content-Type": "application/json", Authorization: `Bearer ${tok}` },
-    cache: "no-store",
-    signal: AbortSignal.timeout(15_000),
-  });
-  if (!res.ok) {
+  for (let attempt = 0; ; attempt++) {
+    const res = await fetch(`${SYNC_BASE}/enterprise/${ent}${path}`, {
+      ...init,
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${tok}` },
+      cache: "no-store",
+      signal: AbortSignal.timeout(15_000),
+    });
+    if (res.ok) return res.json();
     const body = await res.text().catch(() => "");
+    if (attempt < 2 && (res.status === 429 || res.status >= 500)) {
+      await new Promise((r) => setTimeout(r, 800 * (attempt + 1)));
+      continue;
+    }
     throw new Error(`TeleCRM ${res.status}: ${body.slice(0, 200)}`);
   }
-  return res.json();
 }
 
 async function searchAll(filter: Record<string, unknown>, cap = 10_000): Promise<RawLead[]> {
@@ -112,13 +118,30 @@ async function teamNames(): Promise<Record<string, string>> {
   return map;
 }
 
-/* Returns the lead if it is in scope, otherwise null. */
-function toLead(r: RawLead, nm: Record<string, string>): TeamLead | null {
+/* Which channel a lead came from, and what decided it.
+   1. utm_source, when it is one of TEAM_CONFIG.sources;
+   2. lead_channel, which our lead routes work out from UTMs and click IDs;
+   3. an ad click ID: fbclid = Meta, gclid = Google (catches ads whose
+      utm_source was filled in with an ad set name, e.g. "hanta || lead");
+   4. TeleCRM's own lead_source, for Meta's instant forms;
+   otherwise "Other" (organic, direct, WhatsApp, added by hand). */
+export function channelOf(f: Record<string, unknown>): { channel: string; by: string } {
+  const src = TEAM_CONFIG.sources[str(f.utm_source).trim().toLowerCase()];
+  if (src) return { channel: src, by: "utm_source" };
+  const lc = str(f.lead_channel).trim().toLowerCase();
+  if (lc.startsWith("meta")) return { channel: "Meta", by: "lead_channel" };
+  if (lc.startsWith("google")) return { channel: "Google", by: "lead_channel" };
+  if (lc.includes("chatgpt") || lc.includes("openai")) return { channel: "ChatGPT", by: "lead_channel" };
+  if (str(f.fbclid).trim()) return { channel: "Meta", by: "click_id" };
+  if (str(f.gclid).trim()) return { channel: "Google", by: "click_id" };
+  if (/facebook|instagram|\bmeta\b/i.test(str(f.lead_source))) return { channel: "Meta", by: "lead_source" };
+  return { channel: "Other", by: "none" };
+}
+
+function toLead(r: RawLead, nm: Record<string, string>): TeamLead {
   const f = r.fields || {};
-  const channel = TEAM_CONFIG.sources[str(f.utm_source).trim().toLowerCase()];
-  if (!channel) return null;
+  const { channel } = channelOf(f);
   const campaign = str(f.utm_campaign).trim();
-  if (campaign.toLowerCase().startsWith(TEAM_CONFIG.excludePrefix)) return null;
   const email = str(r.employeeid).toLowerCase();
   const status = str(r.status) || "Fresh";
   return {
@@ -149,16 +172,32 @@ type State = {
 let state: State | null = null;
 let inflight: Promise<State> | null = null;
 
+/* Every lead, in 30-day windows of created_on, newest first. A single search
+   over all time made TeleCRM answer 500 (12 Nov 2026), while 30-day searches
+   work. Walks back until three windows in a row are empty, never further
+   than three years. Windows touch end to end, and leads are keyed by id, so
+   none is lost or counted twice. */
+async function loadAllLeads(): Promise<RawLead[]> {
+  const WINDOW = 30 * 86_400_000;
+  const out: RawLead[] = [];
+  let to = Date.now();
+  let empty = 0;
+  for (let w = 0; w < 37 && empty < 3; w++) {
+    const from = to - WINDOW;
+    const page = await searchAll({ created_on: { from, to } }, 20_000);
+    out.push(...page);
+    empty = page.length ? 0 : empty + 1;
+    to = from;
+  }
+  return out;
+}
+
 async function fullLoad(): Promise<State> {
   const nm = await teamNames();
   const leads = new Map<string, TeamLead>();
-  /* One search per source value: TeleCRM matches each exactly (ignoring
-     case), so "Meta" and "meta" come back from the same search. */
-  for (const src of Object.keys(TEAM_CONFIG.sources)) {
-    for (const r of await searchAll({ utm_source: src })) {
-      const l = toLead(r, nm);
-      if (l) leads.set(l.id, l);
-    }
+  for (const r of await loadAllLeads()) {
+    const l = toLead(r, nm);
+    leads.set(l.id, l);
   }
   const now = Date.now();
   return { leads, fullAt: now, pollAt: now, syncedAt: now, stale: false };
@@ -171,8 +210,7 @@ async function poll(prev: State): Promise<State> {
   const changed = await searchAll({ modified_on: { from, to: now } }, 2_000);
   for (const r of changed) {
     const l = toLead(r, nm);
-    if (l) prev.leads.set(l.id, l);
-    else prev.leads.delete(str(r.id)); // moved out of scope
+    prev.leads.set(l.id, l);
   }
   return { ...prev, pollAt: now, syncedAt: now, stale: false };
 }
@@ -453,10 +491,10 @@ export function loginDiagnosis(nameInput: string) {
 }
 
 /* ---------- coverage check ----------
-   Answers "why does the dashboard show fewer leads than TeleCRM?". Pulls every
-   lead TeleCRM created in the last N days and counts whether this dashboard
-   includes it and, if not, why. Counts and marketing labels only: no names,
-   phones or health fields leave this function. */
+   Answers "does the dashboard match TeleCRM, and how was each lead's channel
+   decided?". Pulls every lead TeleCRM created in the last N days and counts
+   them by channel and by the rule that decided it. Counts and marketing
+   labels only: no names, phones or health fields leave this function. */
 
 const bump = (m: Map<string, number>, k: string) => m.set(k, (m.get(k) || 0) + 1);
 const topOf = (m: Map<string, number>, n: number) =>
@@ -473,27 +511,25 @@ export async function getCoverage(days: number) {
     basis = "modified_on (the created_on search was refused)";
     raw = await searchAll({ modified_on: { from, to } }, 20_000);
   }
-  const nm = await teamNames();
-  let total = 0, counted = 0, noSource = 0, otherSource = 0, bgCampaign = 0, withClickId = 0;
-  const otherSources = new Map<string, number>();
-  const bgCampaigns = new Map<string, number>();
+  let total = 0;
   const byChannel = new Map<string, number>();
-  const byFormSource = new Map<string, number>();
-  const byKey = new Map<string, number>();
+  const decidedBy = new Map<string, number>();
+  const otherLeadSource = new Map<string, number>();
+  const otherLeadChannel = new Map<string, number>();
+  const otherKeys = new Map<string, number>();
   for (const r of raw) {
     const f = r.fields || {};
     const created = Number(f.created_on) || 0;
     if (created && (created < from || created > to)) continue;
     total++;
-    if (toLead(r, nm)) { counted++; continue; }
-    const src = str(f.utm_source).trim().toLowerCase();
-    if (!src) noSource++;
-    else if (!TEAM_CONFIG.sources[src]) { otherSource++; bump(otherSources, src.slice(0, 40)); }
-    else { bgCampaign++; bump(bgCampaigns, str(f.utm_campaign).trim().slice(0, 60)); }
-    bump(byChannel, str(f.lead_channel).trim().slice(0, 40) || "(empty)");
-    bump(byFormSource, str(f.source).trim().slice(0, 40) || "(empty)");
-    if (str(f.gclid) || str(f.fbclid)) withClickId++;
-    for (const k of Object.keys(f)) bump(byKey, k.slice(0, 40));
+    const { channel, by } = channelOf(f);
+    bump(byChannel, channel);
+    bump(decidedBy, `${channel} by ${by}`);
+    if (channel === "Other") {
+      bump(otherLeadSource, str(f.lead_source).trim().slice(0, 40) || "(empty)");
+      bump(otherLeadChannel, str(f.lead_channel).trim().slice(0, 40) || "(empty)");
+      for (const k of Object.keys(f)) bump(otherKeys, k.slice(0, 40));
+    }
   }
   let dashboardShowsNow: number | null = null;
   try {
@@ -506,14 +542,11 @@ export async function getCoverage(days: number) {
     window: `last ${days} days`,
     basis,
     telecrmLeads: total,
-    countedByDashboard: counted,
     dashboardShowsNow,
-    notCounted: { noUtmSource: noSource, otherUtmSource: otherSource, bgCampaign },
-    otherUtmSourceValues: topOf(otherSources, 25),
-    bgCampaignNames: topOf(bgCampaigns, 15),
-    notCountedByLeadChannel: topOf(byChannel, 10),
-    notCountedByFormSource: topOf(byFormSource, 15),
-    notCountedWithAdClickId: withClickId,
-    fieldsOnNotCountedLeads: topOf(byKey, 40),
+    byChannel: topOf(byChannel, 10),
+    decidedBy: topOf(decidedBy, 20),
+    otherByLeadSource: topOf(otherLeadSource, 15),
+    otherByLeadChannel: topOf(otherLeadChannel, 10),
+    fieldsOnOtherLeads: topOf(otherKeys, 40),
   };
 }

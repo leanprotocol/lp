@@ -1,5 +1,7 @@
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+// The first load after a deploy reads every lead from TeleCRM in 30-day windows.
+export const maxDuration = 120;
 
 import { NextRequest, NextResponse } from "next/server";
 import { TEAM_COOKIE, getLeadActivity, sessionUser } from "../../../../lib/team-dashboard";
