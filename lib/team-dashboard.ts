@@ -1,10 +1,13 @@
 /* Main marketing team lead dashboard - server side.
    Reads live from the TeleCRM Sync API. Nothing is copied to our database.
 
-   Scope: every lead in TeleCRM (since 12 Nov 2026; before that, paid leads
-   only and no BG campaigns). Each lead gets a channel - Meta, Google, ChatGPT
-   or Other - from its utm_source, then lead_channel, then the ad click ID,
-   then TeleCRM's lead_source (see channelOf).
+   Scope: this team's paid leads - Meta, Google and ChatGPT ads - EXCEPT
+   campaigns whose name starts with "bg" (the old BG team's), and except
+   leads with no ad source at all (organic, direct, added by hand). The
+   channel comes from utm_source, then lead_channel, then the ad click ID,
+   then TeleCRM's lead_source (see channelOf), so Meta ads whose utm_source
+   was filled in with an audience name ("hanta || ...") still count.
+   Decided 12 Nov 2026.
 
    SYNC. Re-downloading everything every 30 seconds would hit TeleCRM's rate
    limit. Instead (the full load runs in 30-day windows, see loadAllLeads):
@@ -30,6 +33,8 @@ export const TEAM_CONFIG = {
     google: "Google",
     chatgpt: "ChatGPT", openai: "ChatGPT",
   } as Record<string, string>,
+  /* Campaigns starting with this were the BG team's and are excluded. */
+  excludePrefix: "bg",
   pollMs: 30_000,
   fullReloadMs: 30 * 60_000,
 };
@@ -124,7 +129,8 @@ async function teamNames(): Promise<Record<string, string>> {
    3. an ad click ID: fbclid = Meta, gclid = Google (catches ads whose
       utm_source was filled in with an ad set name, e.g. "hanta || lead");
    4. TeleCRM's own lead_source, for Meta's instant forms;
-   otherwise "Other" (organic, direct, WhatsApp, added by hand). */
+   otherwise "Other" (organic, direct, WhatsApp, added by hand), which this
+   dashboard does not show. */
 export function channelOf(f: Record<string, unknown>): { channel: string; by: string } {
   const src = TEAM_CONFIG.sources[str(f.utm_source).trim().toLowerCase()];
   if (src) return { channel: src, by: "utm_source" };
@@ -138,10 +144,13 @@ export function channelOf(f: Record<string, unknown>): { channel: string; by: st
   return { channel: "Other", by: "none" };
 }
 
-function toLead(r: RawLead, nm: Record<string, string>): TeamLead {
+/* Returns the lead if it is in scope, otherwise null. */
+function toLead(r: RawLead, nm: Record<string, string>): TeamLead | null {
   const f = r.fields || {};
   const { channel } = channelOf(f);
+  if (channel === "Other") return null;
   const campaign = str(f.utm_campaign).trim();
+  if (campaign.toLowerCase().startsWith(TEAM_CONFIG.excludePrefix)) return null;
   const email = str(r.employeeid).toLowerCase();
   const status = str(r.status) || "Fresh";
   return {
@@ -197,7 +206,7 @@ async function fullLoad(): Promise<State> {
   const leads = new Map<string, TeamLead>();
   for (const r of await loadAllLeads()) {
     const l = toLead(r, nm);
-    leads.set(l.id, l);
+    if (l) leads.set(l.id, l);
   }
   const now = Date.now();
   return { leads, fullAt: now, pollAt: now, syncedAt: now, stale: false };
@@ -210,7 +219,8 @@ async function poll(prev: State): Promise<State> {
   const changed = await searchAll({ modified_on: { from, to: now } }, 2_000);
   for (const r of changed) {
     const l = toLead(r, nm);
-    prev.leads.set(l.id, l);
+    if (l) prev.leads.set(l.id, l);
+    else prev.leads.delete(str(r.id)); // moved out of scope
   }
   return { ...prev, pollAt: now, syncedAt: now, stale: false };
 }
@@ -491,10 +501,11 @@ export function loginDiagnosis(nameInput: string) {
 }
 
 /* ---------- coverage check ----------
-   Answers "does the dashboard match TeleCRM, and how was each lead's channel
-   decided?". Pulls every lead TeleCRM created in the last N days and counts
-   them by channel and by the rule that decided it. Counts and marketing
-   labels only: no names, phones or health fields leave this function. */
+   Answers "which TeleCRM leads does the dashboard show, and why not the
+   rest?". Pulls every lead TeleCRM created in the last N days and counts
+   them: shown (by channel, and the rule that decided it), BG campaigns, or no
+   ad source. Counts and marketing labels only: no names, phones or health
+   fields leave this function. */
 
 const bump = (m: Map<string, number>, k: string) => m.set(k, (m.get(k) || 0) + 1);
 const topOf = (m: Map<string, number>, n: number) =>
@@ -511,24 +522,31 @@ export async function getCoverage(days: number) {
     basis = "modified_on (the created_on search was refused)";
     raw = await searchAll({ modified_on: { from, to } }, 20_000);
   }
-  let total = 0;
-  const byChannel = new Map<string, number>();
+  const nm = await teamNames();
+  let total = 0, counted = 0, bgCampaign = 0, noAdSource = 0;
+  const countedByChannel = new Map<string, number>();
   const decidedBy = new Map<string, number>();
-  const otherLeadSource = new Map<string, number>();
-  const otherLeadChannel = new Map<string, number>();
-  const otherKeys = new Map<string, number>();
+  const bgCampaigns = new Map<string, number>();
+  const noSourceLeadSource = new Map<string, number>();
+  const noSourceLeadChannel = new Map<string, number>();
   for (const r of raw) {
     const f = r.fields || {};
     const created = Number(f.created_on) || 0;
     if (created && (created < from || created > to)) continue;
     total++;
     const { channel, by } = channelOf(f);
-    bump(byChannel, channel);
-    bump(decidedBy, `${channel} by ${by}`);
-    if (channel === "Other") {
-      bump(otherLeadSource, str(f.lead_source).trim().slice(0, 40) || "(empty)");
-      bump(otherLeadChannel, str(f.lead_channel).trim().slice(0, 40) || "(empty)");
-      for (const k of Object.keys(f)) bump(otherKeys, k.slice(0, 40));
+    const l = toLead(r, nm);
+    if (l) {
+      counted++;
+      bump(countedByChannel, channel);
+      bump(decidedBy, `${channel} by ${by}`);
+    } else if (channel === "Other") {
+      noAdSource++;
+      bump(noSourceLeadSource, str(f.lead_source).trim().slice(0, 40) || "(empty)");
+      bump(noSourceLeadChannel, str(f.lead_channel).trim().slice(0, 40) || "(empty)");
+    } else {
+      bgCampaign++;
+      bump(bgCampaigns, str(f.utm_campaign).trim().slice(0, 60));
     }
   }
   let dashboardShowsNow: number | null = null;
@@ -542,11 +560,13 @@ export async function getCoverage(days: number) {
     window: `last ${days} days`,
     basis,
     telecrmLeads: total,
+    countedByDashboard: counted,
     dashboardShowsNow,
-    byChannel: topOf(byChannel, 10),
+    countedByChannel: topOf(countedByChannel, 10),
     decidedBy: topOf(decidedBy, 20),
-    otherByLeadSource: topOf(otherLeadSource, 15),
-    otherByLeadChannel: topOf(otherLeadChannel, 10),
-    fieldsOnOtherLeads: topOf(otherKeys, 40),
+    notShown: { bgCampaign, noAdSource },
+    bgCampaignNames: topOf(bgCampaigns, 15),
+    noAdSourceByLeadSource: topOf(noSourceLeadSource, 15),
+    noAdSourceByLeadChannel: topOf(noSourceLeadChannel, 10),
   };
 }
