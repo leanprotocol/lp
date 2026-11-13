@@ -91,7 +91,8 @@ async function tc(path: string, init?: RequestInit) {
   }
 }
 
-async function searchAll(filter: Record<string, unknown>, cap = 10_000): Promise<RawLead[]> {
+/* Also used by lib/google-ads-conversions.ts (Google Ads purchase feed). */
+export async function searchAll(filter: Record<string, unknown>, cap = 10_000): Promise<RawLead[]> {
   const out: RawLead[] = [];
   for (let skip = 0; skip < cap; skip += 100) {
     const r = await tc(`/lead/search?skip=${skip}&limit=100`, {

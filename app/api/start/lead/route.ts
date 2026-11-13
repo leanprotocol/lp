@@ -8,6 +8,18 @@ const TELECRM_URL = TELECRM_ENTERPRISE_ID
   ? `https://next-api.telecrm.in/enterprise/${TELECRM_ENTERPRISE_ID}/autoupdatelead`
   : null;
 
+/* The BMI form on /start sends only page_url, so UTM tags and ad click IDs
+   (gclid for Google, fbclid for Meta) are read from it when not sent
+   separately. The gclid lets a later "Package purchased" be reported back
+   to Google Ads (lib/google-ads-conversions.ts). */
+function fromPageUrl(pageUrl: unknown, key: string): string {
+  try {
+    return (new URL(String(pageUrl || '')).searchParams.get(key) || '').trim().slice(0, 200);
+  } catch {
+    return '';
+  }
+}
+
 async function pushToCRM(fields: Record<string, any>) {
   if (!TELECRM_URL || !TELECRM_API_TOKEN) {
     console.log('[Start Lead] TeleCRM not configured - lead not sent');
@@ -73,11 +85,11 @@ export async function POST(request: NextRequest) {
       has_comorbidities: has_comorbidities ?? '',
       eligible: eligible ?? '',
       source: source || 'start-bmi-calculator',
-      utm_source: utm_source || '',
-      utm_medium: utm_medium || '',
-      utm_campaign: utm_campaign || '',
-      gclid: gclid || '',
-      fbclid: fbclid || '',
+      utm_source: utm_source || fromPageUrl(page_url, 'utm_source'),
+      utm_medium: utm_medium || fromPageUrl(page_url, 'utm_medium'),
+      utm_campaign: utm_campaign || fromPageUrl(page_url, 'utm_campaign'),
+      gclid: gclid || fromPageUrl(page_url, 'gclid'),
+      fbclid: fbclid || fromPageUrl(page_url, 'fbclid'),
       page_url: page_url || '',
       referrer: referrer || '',
     });
