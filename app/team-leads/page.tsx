@@ -75,16 +75,18 @@ function ago(ms: number, now: number) {
    here if the team decides that counts too. */
 const QUALIFIED_STATUSES = ["qualified", "interested"];
 
-/* Lead-list tabs. "Converted" is a status the team is adding in TeleCRM
-   (7 Oct 2026); until a caller uses it, that tab is empty. Statuses are
-   compared without regard to case or surrounding spaces. */
+/* Lead-list tabs. Statuses are compared without regard to case or
+   surrounding spaces. The sale tab shows every lead whose status counts as
+   a sale (kindOf = "won"), which in TeleCRM is "Package purchased"
+   (13 Nov 2026; there is no "Converted" status). */
 const LIST_TABS = [
   { key: "all", label: "All", statuses: [] as string[] },
   { key: "interested", label: "Interested", statuses: ["interested"] },
-  { key: "converted", label: "Converted", statuses: ["converted"] },
+  { key: "converted", label: "Package purchased", statuses: ["package purchased"] },
 ] as const;
 type ListTab = (typeof LIST_TABS)[number]["key"];
 const inTab = (l: { status: string }, tab: ListTab) => {
+  if (tab === "converted") return kindOf(l.status) === "won";
   const t = LIST_TABS.find((x) => x.key === tab);
   return !t || !t.statuses.length || (t.statuses as readonly string[]).includes(l.status.trim().toLowerCase());
 };
@@ -94,7 +96,7 @@ function kindOf(status: string): Kind {
   const t = status.trim().toLowerCase();
   if (t === "lost") return "lost";
   if (QUALIFIED_STATUSES.includes(t)) return "qual";
-  if (/won|convert|paid|enrol/.test(t)) return "won";
+  if (/won|convert|paid|enrol|purchas/.test(t)) return "won"; // "Package purchased" in TeleCRM
   if (t === "" || t === "fresh" || t === "new") return "fresh";
   return "open";
 }
@@ -610,7 +612,7 @@ export default function BgDashboard() {
                 <div className="bgd-kpi">
                   <div className="bgd-kpi-n">{totals.open + totals.qual + totals.won}</div>
                   <div className="bgd-kpi-l">Being worked</div>
-                  <div className="bgd-kpi-x">{totals.won ? `${totals.won} converted` : `${pct(totals.open, totals.total)}% of leads`}</div>
+                  <div className="bgd-kpi-x">{totals.won ? `${totals.won} purchased a package` : `${pct(totals.open, totals.total)}% of leads`}</div>
                 </div>
                 <div className="bgd-kpi">
                   <div className="bgd-kpi-n">{totals.lost}</div>
@@ -619,13 +621,13 @@ export default function BgDashboard() {
                 </div>
               </div>
 
-              <div className="bgd-ribbon" role="img" aria-label={`${totals.won} converted, ${totals.qual} qualified, ${totals.open} in progress, ${totals.fresh} not called, ${totals.lost} lost`}>
+              <div className="bgd-ribbon" role="img" aria-label={`${totals.won} purchased a package, ${totals.qual} qualified, ${totals.open} in progress, ${totals.fresh} not called, ${totals.lost} lost`}>
                 {([["won", totals.won], ["qual", totals.qual], ["open", totals.open], ["fresh", totals.fresh], ["lost", totals.lost]] as [Kind, number][]).map(([k, n]) =>
                   n ? <span key={k} className={`k-${k}`} style={{ width: `${(n * 100) / Math.max(1, totals.total)}%` }} /> : null
                 )}
               </div>
               <div className="bgd-legend">
-                <span><i className="k-won" />Converted</span>
+                <span><i className="k-won" />Package purchased</span>
                 <span><i className="k-qual" />Qualified</span>
                 <span><i className="k-open" />In progress</span>
                 <span><i className="k-fresh" />Not called</span>
@@ -829,7 +831,7 @@ export default function BgDashboard() {
                 ) : (
                   <div className="bgd-empty">
                     {tab === "converted"
-                      ? "No converted leads in this period. Leads appear here when a caller sets their status to Converted in TeleCRM."
+                      ? "No package purchases in this period. Leads appear here when a caller sets their status to Package purchased in TeleCRM."
                       : tab === "interested"
                         ? "No interested leads in this period."
                         : "No leads in this period."}
