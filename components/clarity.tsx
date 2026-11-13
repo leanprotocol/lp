@@ -18,6 +18,12 @@ const NO_CLARITY_PATHS = [
   "/dashboard",
   "/bg-dashboard",
   "/team-leads",
+  /* added 13 Nov 2026: pages that ask for weight, height or conditions */
+  "/start",
+  "/quiz",
+  "/bmi-calculator",
+  "/bmr-calculator",
+  "/waist-to-hip-calculator",
 ]
 
 export function clarityAllowed(host: string, path: string): boolean {
