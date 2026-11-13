@@ -43,11 +43,14 @@ type Activity = {
 const POLL_MS = 30_000;
 const DASH = "\u2014";
 
+/* days: 0 = one calendar day in IST (ago = how many days back), -1 = all time,
+   otherwise a rolling window of that many days. */
 const RANGES = [
-  { key: "today", label: "Today", days: 0 },
-  { key: "7d", label: "7 days", days: 7 },
-  { key: "30d", label: "30 days", days: 30 },
-  { key: "all", label: "All time", days: -1 },
+  { key: "today", label: "Today", days: 0, ago: 0 },
+  { key: "yesterday", label: "Yesterday", days: 0, ago: 1 },
+  { key: "7d", label: "7 days", days: 7, ago: 0 },
+  { key: "30d", label: "30 days", days: 30, ago: 0 },
+  { key: "all", label: "All time", days: -1, ago: 0 },
 ] as const;
 type RangeKey = (typeof RANGES)[number]["key"];
 
@@ -224,6 +227,8 @@ const CSS = `
   .bgd-kpi:nth-child(n+3){border-top:1px solid rgba(249,247,242,.14);margin-top:14px}
   .bgd-card{padding:20px 18px;border-radius:20px}
   .bgd-body{border-radius:30px 30px 0 0;margin-top:-30px}
+  .bgd-bar-row>div{min-width:0;max-width:100%}
+  .bgd-pills{flex-wrap:wrap;max-width:100%;border-radius:22px}
   .bgd-pills button{padding:8px 11px}
   .bgd-name{max-width:170px}
   .bgd-full{min-width:160px}
@@ -510,7 +515,7 @@ export default function BgDashboard() {
   const leads = useMemo(() => {
     const all = scoped;
     if (r.days < 0) return all;
-    if (r.days === 0) { const today = istDay(Date.now()); return all.filter((l) => istDay(l.createdOn) === today); }
+    if (r.days === 0) { const day = istDay(Date.now() - r.ago * 86_400_000); return all.filter((l) => istDay(l.createdOn) === day); }
     const from = Date.now() - r.days * 86_400_000;
     return all.filter((l) => l.createdOn >= from);
   }, [scoped, r]);
