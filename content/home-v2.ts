@@ -101,6 +101,8 @@ export const results = {
       src: "/before-after/Neema, 46 Lost 10.8 kgs in 4 months.webp" },
     { name: "Atreyee, 28", result: "Lost 12 kg in 2 months*",     isVideo: true,
       src: "/before-after/atreyee.mp4" },
+    { name: "Shantam, 29", result: "Lost 15.5 kg in 6 months*", isVideo: false,
+      src: "/testimonials/shantam.webp" },
   ],
   note: "*Individual results may vary.",
 };

@@ -79,6 +79,8 @@ const STORIES = [
     quote: "They fixed my protein before they touched anything else." },
   { name: "Neema, 46", result: "Lost 10.8 kg in 4 months*", img: "/testimonials/neema.webp",
     quote: "At 46 I thought it was too late. The plan proved me wrong." },
+  { name: "Shantam, 29", result: "Lost 15.5 kg in 6 months*", img: "/testimonials/shantam.webp",
+    quote: "" },
 ];
 
 const DOCTORS = [
@@ -833,7 +835,7 @@ export default function UsersFunnel() {
                   </div>
                 </div>
                 <div style={{ padding: "18px 22px 20px" }}>
-                  <p className="story-quote">{"\u201C"}{STORIES[storyIdx].quote}{"\u201D"}</p>
+                  {STORIES[storyIdx].quote && <p className="story-quote">{"\u201C" + STORIES[storyIdx].quote + "\u201D"}</p>}
                 </div>
               </div>
 

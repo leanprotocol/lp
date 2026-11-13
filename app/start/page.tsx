@@ -11,6 +11,7 @@ const TESTIMONIALS = [
   { initial: "A", name: "Aditya", age: "", quote: "Doorstep delivery made it easy.", result: "Transformation", when: "journey", type: "video" as const, src: "/before-after/aditya.mp4" },
   { initial: "R", name: "Roshni", age: "23 yrs", quote: "Doctor-led made all the difference.", result: "−15 kg", when: "in 6 months", type: "video" as const, src: "/before-after/roshni.mp4" },
   { initial: "A", name: "Atreyee", age: "28 yrs", quote: "The constant motivation made all the difference.", result: "−6 kg", when: "in 1 month", type: "video" as const, src: "/before-after/atreyee.mp4" },
+  { initial: "S", name: "Shantam", age: "29 yrs", quote: "", result: "\u221215.5 kg", when: "in 6 months", type: "image" as const, src: "/testimonials/shantam.webp" },
 ];
 
 /* ─── Doctor Carousel ──────────────────────────────────────────── */

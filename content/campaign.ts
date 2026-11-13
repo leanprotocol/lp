@@ -172,6 +172,7 @@ export const stories = [
   { type: "video" as const, src: "/before-after/aditya.mp4", name: "Aditya", result: "Transformation journey" },
   { type: "video" as const, src: "/before-after/roshni.mp4", name: "Roshni", result: "Transformation journey" },
   { type: "video" as const, src: "/before-after/atreyee.mp4", name: "Atreyee, 28", result: "Lost 6 Kgs*" },
+  { type: "photo" as const, src: "/testimonials/shantam.webp", name: "Shantam, 29", result: "Transformation journey" },
 ];
 
 export const experts = [

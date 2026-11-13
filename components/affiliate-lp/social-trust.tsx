@@ -221,6 +221,12 @@ export function SocialTrust() {
                 result: "Transformation Journey",
                 src: "/before-after/atreyee.mp4",
               },
+              {
+                type: "image",
+                name: "Shantam, 29",
+                result: "Transformation Journey",
+                src: "/testimonials/shantam.webp",
+              },
             ].map((story, i) => (
               <div key={i} className={`break-inside-avoid rounded-2xl overflow-hidden relative shadow-lg group cursor-default bg-black mb-6 w-full ${story.type === 'video' ? 'aspect-[9/16]' : 'aspect-square'}`}>
                 {/* Media */}

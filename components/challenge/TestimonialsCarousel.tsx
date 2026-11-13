@@ -126,6 +126,17 @@ const TESTIMONIALS: Testimonial[] = [
     type: "video",
     src: "/before-after/atreyee.mp4",
   },
+  {
+    initial: "S",
+    name: "Shantam",
+    meta: "29 yrs",
+    badge: "Before & After",
+    quote: "",
+    result: "\u221215.5 kg",
+    when: "in 6 months",
+    type: "image",
+    src: "/testimonials/shantam.webp",
+  },
 ];
 
 export function TestimonialsCarousel() {
@@ -184,7 +195,7 @@ export function TestimonialsCarousel() {
                         </div>
                       </div>
                       <div className="stars">★★★★★</div>
-                      <div className="quote">&quot;{t.quote}&quot;</div>
+                      {t.quote && <div className="quote">{'"' + t.quote + '"'}</div>}
                       <div className="res">
                         <div className="big">{t.result}</div>
                         <div className="when">{t.when}</div>
