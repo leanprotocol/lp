@@ -19,9 +19,45 @@ const WeightLossChart = dynamic(() => import("@/components/weight-loss-chart").t
 import { VideoSection } from "@/components/video-section"
 import { NewsSection } from "@/components/news-section";
 import { TrustedPartners } from "@/components/trusted-partners";
+import type { Metadata } from "next";
+
+const SITE = "https://www.leanprotocol.in";
+
+/* The homepage's main address for search engines. Title and description come from app/layout.tsx. */
+export const metadata: Metadata = {
+  alternates: { canonical: SITE },
+};
+
+/* Tells search engines who runs this site. Every value here is already shown in the footer. */
+const organisationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Lean Protocol",
+  legalName: "Lean Protocol Private Limited",
+  url: SITE,
+  logo: `${SITE}/logo-cropped.png`,
+  email: "support@leanprotocol.in",
+  telephone: "+91 96504 91267",
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Lean Protocol",
+  url: SITE,
+};
+
 export default function Page() {
   return (
     <main className="min-h-screen bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organisationSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
       <Header />
 
       {/* 1  Hero + ticker */}

@@ -5,6 +5,7 @@ import WaistToHipInfo from "@/components/waist-to-hip-calculator/waist-to-hip-in
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://www.leanprotocol.in/waist-to-hip-calculator" },
   title: "Waist-to-Hip Ratio Calculator | Lean Protocol",
   description: "Calculate your Waist-to-Hip Ratio (WHR) to assess fat distribution and metabolic health. Learn why belly fat (apple shape) indicates higher risk than BMI suggests and how to measure accurately.",
   openGraph: {

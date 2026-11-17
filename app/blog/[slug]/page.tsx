@@ -18,6 +18,23 @@ import {
 
 export const revalidate = 60;
 
+const SITE = "https://www.leanprotocol.in";
+
+/* The stored excerpt is the whole article text, so cut it to search-result length at a word boundary. */
+function shortDescription(text: string | null | undefined): string | undefined {
+  const clean = (text || "").replace(/\s+/g, " ").trim();
+  if (!clean) return undefined;
+  if (clean.length <= 160) return clean;
+  const cut = clean.slice(0, 157);
+  const lastSpace = cut.lastIndexOf(" ");
+  return (lastSpace > 100 ? cut.slice(0, lastSpace) : cut) + "...";
+}
+
+/* Structured data sits inside a script tag, so "<" must not appear as a raw character. */
+function jsonLd(data: unknown): string {
+  return JSON.stringify(data).replace(/</g, "\\u003c");
+}
+
 type TocItem = {
   id: string;
   text: string;
@@ -187,9 +204,26 @@ export async function generateMetadata({
     };
   }
 
+  const url = `${SITE}/blog/${post.slug}`;
+  const description = shortDescription(post.excerpt);
+  const shareImage = post.mainImage
+    ? urlFor(post.mainImage).width(1200).height(630).fit("crop").url()
+    : "/og-image.jpg";
+
   return {
     title: post.title,
-    description: post.excerpt || undefined,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      url,
+      title: post.title,
+      description,
+      siteName: "Lean Protocol",
+      locale: "en_IN",
+      publishedTime: post.publishedAt || undefined,
+      images: [shareImage],
+    },
   };
 }
 
@@ -236,8 +270,45 @@ export default async function BlogPostPage({
     limit: 3,
   });
 
+  /* Structured data: tells search engines this is an article, who wrote it and when. */
+  const pageUrl = `${SITE}/blog/${post.slug}`;
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: shortDescription(post.excerpt),
+    image: imageUrl ? [imageUrl] : undefined,
+    datePublished: post.publishedAt || undefined,
+    author: post.author?.name
+      ? { "@type": "Person", name: post.author.name }
+      : { "@type": "Organization", name: "Lean Protocol" },
+    publisher: {
+      "@type": "Organization",
+      name: "Lean Protocol",
+      logo: { "@type": "ImageObject", url: `${SITE}/logo-cropped.png` },
+    },
+    mainEntityOfPage: pageUrl,
+  };
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE },
+      { "@type": "ListItem", position: 2, name: "Knowledge Hub", item: `${SITE}/blog` },
+      { "@type": "ListItem", position: 3, name: post.title, item: pageUrl },
+    ],
+  };
+
   return (
     <main className="min-h-screen bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLd(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbSchema) }}
+      />
       <Header />
 
 <div className="border-b border-dark/10 ">
@@ -294,7 +365,7 @@ export default async function BlogPostPage({
                   <div className="flex flex-col">
                     <span className="text-[10px] font-bold uppercase tracking-widest text-[#798F8B]">Author</span>
                     <span className="text-sm font-medium text-dark">
-                      {post.author?.name || "Jen Foods Team"}
+                      {post.author?.name || "Lean Protocol Team"}
                     </span>
                   </div>
                 </div>

@@ -4,6 +4,8 @@ import { AffiliateLandingPage } from "@/components/affiliate-lp/page";
 import { prisma } from "@/lib/prisma";
 
 export const metadata: Metadata = {
+  // Every partner link shows this same page, so search engines should not index the copies.
+  robots: { index: false, follow: true },
   title: "Lean Protocol | Doctor-Led GLP-1 Weight Management",
   description:
     "Doctor-led, science-based weight care with semaglutide where clinically appropriate. Eligible six-month members may qualify for a refund review; terms apply. Results vary. Plans from Rs 4,999.",

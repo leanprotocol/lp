@@ -18,9 +18,14 @@ const libreBaskerville = Libre_Baskerville({
 })
 
 export const metadata: Metadata = {
+  // Share images and other relative addresses resolve against the main site, not a subdomain.
+  metadataBase: new URL("https://www.leanprotocol.in"),
   title: "Lean Protocol | Doctor-Led Weight Care for India",
   description: "Advanced blood tests, 1-on-1 doctor and nutritionist care, and a personalised GLP-1 protocol where clinically appropriate. Results vary.",
   openGraph: {
+    type: "website",
+    siteName: "Lean Protocol",
+    locale: "en_IN",
     images: ["/og-image.jpg"],
   },
 }

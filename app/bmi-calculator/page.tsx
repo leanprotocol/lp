@@ -5,6 +5,7 @@ import { Header } from "@/components/header";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://www.leanprotocol.in/bmi-calculator" },
   title: "BMI Calculator | Lean Protocol",
   description: "Calculate your BMI instantly. Understand weight categories (Underweight to Obesity Class 3), learn why BMI is just a screening tool (muscle vs. fat), and explore holistic health factors for the Indian context.",
   openGraph: {

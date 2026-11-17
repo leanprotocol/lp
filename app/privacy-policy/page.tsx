@@ -4,6 +4,7 @@ import PrivacyPolicy from "./privacy-policy-content";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://www.leanprotocol.in/privacy-policy" },
   title: "Privacy Policy | Lean Protocol",
   description: "Learn how Lean Protocol collects, protects, and uses your personal and health data. Covers consent, data sharing with care teams/labs, security measures, and your rights under Indian law.",
   openGraph: {

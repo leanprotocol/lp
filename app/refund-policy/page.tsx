@@ -4,6 +4,7 @@ import RefundPolicy from "./refund-policy-content";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://www.leanprotocol.in/refund-policy" },
   title: "Refund Policy | Lean Protocol Results Promise",
   description: "The Lean Protocol Six-Month Results Promise. Eligibility, adherence requirements, how results are measured, exclusions and the claim process.",
   openGraph: {

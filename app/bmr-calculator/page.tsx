@@ -5,6 +5,7 @@ import { Header } from "@/components/header";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://www.leanprotocol.in/bmr-calculator" },
   title: "BMR Calculator for Weight Loss | Lean Protocol",
   description: "Calculate your BMR to find your body's 'idle mode' calorie needs. Learn how muscle mass impacts metabolism, explore formulas like Mifflin-St Jeor, and plan your diet for weight loss or muscle gain.",
   openGraph: {
