@@ -11,8 +11,10 @@ export const metadata: Metadata = {
   title: "Doctor-Led GLP-1 Weight Management Protocol | Lean Protocol",
   description:
     "Doctor-led, prescription-only GLP-1 weight management. At-home diagnostics, expert consultations and dietitian support. Full refund if a doctor finds you ineligible.",
+  // The same page is shown at www.leanprotocol.in/programme, which is the address
+  // search engines should list. This address stays the ad landing page.
   alternates: {
-    canonical: "https://pro.leanprotocol.in",
+    canonical: "https://www.leanprotocol.in/programme",
   },
 };
 

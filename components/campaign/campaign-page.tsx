@@ -35,6 +35,10 @@ interface CampaignPageProps {
   /** Optional. Passed by a route that has a ref segment; on the pro
    *  subdomain the ref is read from ?ref= instead. */
   affiliateRef?: string;
+  /** Optional. Plans already read on the server (app/programme), so the first
+   *  page a search engine reads has the heading and prices. The browser still
+   *  refreshes them from /api/plans below. */
+  initialPlans?: Record<MedTrack, DbPlan[]>;
 }
 
 const inr = (n: number) => "\u20B9" + Math.round(n).toLocaleString("en-IN");
@@ -42,13 +46,13 @@ const inr = (n: number) => "\u20B9" + Math.round(n).toLocaleString("en-IN");
 const isConsultPlan = (p: DbPlan) =>
   p.durationDays <= 15 || p.name.toLowerCase().includes("doctor");
 
-export function CampaignPage({ affiliateRef }: CampaignPageProps) {
+export function CampaignPage({ affiliateRef, initialPlans }: CampaignPageProps) {
   const [med, setMed] = useState<MedTrack>("SEMAGLUTIDE");
-  const [plansByTrack, setPlansByTrack] = useState<Record<MedTrack, DbPlan[]>>({
-    SEMAGLUTIDE: [],
-    MOUNJARO: [],
-  });
-  const [plansLoading, setPlansLoading] = useState(true);
+  const [plansByTrack, setPlansByTrack] = useState<Record<MedTrack, DbPlan[]>>(
+    initialPlans ?? { SEMAGLUTIDE: [], MOUNJARO: [] }
+  );
+  // With plans from the server there is nothing to wait for.
+  const [plansLoading, setPlansLoading] = useState(!initialPlans);
 
   const [showQuickStart, setShowQuickStart] = useState(false);
   const [pendingCheckoutPlanId, setPendingCheckoutPlanId] = useState<

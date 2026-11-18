@@ -14,6 +14,7 @@ const NAV = [
   {
     title: "Programme",
     links: [
+      { label: "Programme and plans", href: "/programme" },
       { label: "How it works", href: "/#journey" },
       { label: "Pricing", href: "/#pricing" },
       { label: "Our experts", href: "/#experts" },

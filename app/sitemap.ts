@@ -16,6 +16,7 @@ export const revalidate = 3600
 
 const PAGES = [
   "",
+  "/programme",
   "/our-why",
   "/blog",
   "/bmi-calculator",
