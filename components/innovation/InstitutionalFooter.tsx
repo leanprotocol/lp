@@ -5,6 +5,8 @@ import { InnovationImage } from "./InnovationImage";
 
 function Row({ label, value }: { label: string; value: string }) {
   const verified = isVerified(value);
+  // Placeholder values are not shown to visitors. The row appears once a real value is filled in.
+  if (!verified) return null;
   return (
     <div className="flex flex-wrap gap-x-2 text-[13px]">
       <span style={{ color: "var(--inv-muted)" }}>{label}:</span>

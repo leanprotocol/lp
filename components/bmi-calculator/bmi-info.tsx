@@ -9,13 +9,13 @@ import {
 } from "lucide-react";
 
 export default function BMIInfo() {
+  /* Asian-Indian cut-offs: the same ones the calculator above uses (content/tools.ts).
+     Clinical copy - change both places together. */
   const categories = [
     { label: "Underweight", range: "Below 18.5" },
-    { label: "Healthy Weight (Ideal)", range: "18.5 – 24.9" },
-    { label: "Overweight", range: "25.0 – 29.9" },
-    { label: "Obesity Class 1 (Low Risk)", range: "30.0 – 34.9" },
-    { label: "Obesity Class 2 (Moderate Risk)", range: "35.0 – 39.9" },
-    { label: "Obesity Class 3 (High Risk)", range: "40.0 or above" },
+    { label: "Healthy range", range: "18.5 \u2013 22.9" },
+    { label: "Overweight", range: "23.0 \u2013 24.9" },
+    { label: "Obese", range: "25.0 and above" },
   ];
 
   return (
@@ -86,7 +86,7 @@ export default function BMIInfo() {
                     {/* Table Header */}
                     <div className="bg-[#1F302B] p-6 text-white rounded-t-2xl">
                         <h3 className="font-serif text-xl flex items-center gap-2">
-                            Weight Status Categories (Adults)
+                            Weight Status Categories (Indian Adults)
                         </h3> </div>
 
                     {/* Table Body - Clean Rows */}
@@ -101,6 +101,9 @@ export default function BMIInfo() {
                                 </span>
                             </div>
                         ))}
+                        <p className="p-4 text-sm text-[#57534E]">
+                            Indian bodies accumulate visceral fat at lower weights, so the overweight cut-off starts at 23, not 25.
+                        </p>
                     </div>
                 </div>
 

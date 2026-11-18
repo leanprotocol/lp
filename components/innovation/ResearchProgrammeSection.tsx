@@ -52,7 +52,8 @@ export function ResearchProgrammeSection() {
         <aside className="inv-card h-fit">
           <p className="inv-marker mb-4">Project information</p>
           <dl className="grid gap-0">
-            {researchProgramme.projectInfo.map((row, i) => (
+            {/* Rows that still hold a placeholder are hidden until a real value is filled in. */}
+            {researchProgramme.projectInfo.filter((row) => isVerified(row.value)).map((row, i) => (
               <div
                 key={row.label}
                 className="grid grid-cols-[1fr_auto] items-baseline gap-4 py-3"

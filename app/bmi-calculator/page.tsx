@@ -6,8 +6,8 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   alternates: { canonical: "https://www.leanprotocol.in/bmi-calculator" },
-  title: "BMI Calculator | Lean Protocol",
-  description: "Calculate your BMI instantly. Understand weight categories (Underweight to Obesity Class 3), learn why BMI is just a screening tool (muscle vs. fat), and explore holistic health factors for the Indian context.",
+  title: "BMI Calculator for Indian Adults | Lean Protocol",
+  description: "Calculate your BMI instantly and read it against Asian-Indian cut-offs (overweight from 23, obese from 25). Learn why BMI is only a screening tool and what else to check.",
   openGraph: {
     images: ["/og-image.jpg"],
   },

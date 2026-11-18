@@ -256,7 +256,9 @@ export function WeightSlider() {
                 {showBars ? "TODAY VS SIX MONTHS" : "PROJECTED"}
               </span>
               <span className="text-[15px] font-extrabold text-accent">
-                {target} kg by {months[6].label} {months[6].year}
+                {today
+                  ? `${target} kg by ${months[6].label} ${months[6].year}`
+                  : `${target} kg in 6 months`}
               </span>
             </div>
 

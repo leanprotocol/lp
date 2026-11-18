@@ -33,6 +33,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: medication.title,
     description: medication.description,
+    // Older medicine pages that are no longer in the menu. Kept reachable by link, hidden from search.
+    robots: { index: false, follow: true },
   };
 }
 

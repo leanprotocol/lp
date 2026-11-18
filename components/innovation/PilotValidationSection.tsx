@@ -4,6 +4,9 @@ import { InnovationImage } from "./InnovationImage";
 import { Section, SectionHeading, NoteBox, StageChip } from "./InnovationUI";
 
 export function PilotValidationSection() {
+  // Placeholder values are not shown to visitors. A card appears once a real value is filled in.
+  const shownParameters = pilot.parameters.filter((param) => isVerified(param.value));
+
   return (
     <Section id={pilot.id} variant="surface">
       <SectionHeading
@@ -19,9 +22,9 @@ export function PilotValidationSection() {
         />
 
         <div>
-          <p className="inv-marker mb-4">Proposed parameters</p>
+          {shownParameters.length > 0 ? <p className="inv-marker mb-4">Proposed parameters</p> : null}
           <div className="grid gap-3 sm:grid-cols-3">
-            {pilot.parameters.map((param) => (
+            {shownParameters.map((param) => (
               <div key={param.label} className="inv-card">
                 <p className="inv-small">{param.label}</p>
                 <p

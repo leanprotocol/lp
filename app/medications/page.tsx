@@ -20,6 +20,8 @@ export const metadata: Metadata = {
   openGraph: {
     images: ["/og-image.jpg"],
   },
+  // An older page that is no longer in the menu. Kept reachable by link, hidden from search.
+  robots: { index: false, follow: true },
 }
 
 
