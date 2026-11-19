@@ -6,8 +6,8 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   alternates: { canonical: "https://www.leanprotocol.in/bmr-calculator" },
-  title: "BMR Calculator for Weight Loss | Lean Protocol",
-  description: "Calculate your BMR to find your body's 'idle mode' calorie needs. Learn how muscle mass impacts metabolism, explore formulas like Mifflin-St Jeor, and plan your diet for weight loss or muscle gain.",
+  title: "BMR Calculator India: Daily Calories in kg and cm | Lean Protocol",
+  description: "Free BMR calculator for Indian adults in kg and cm. Uses the Mifflin-St Jeor formula to estimate the calories your body burns at rest and your daily need, so you can plan weight loss or gain.",
   openGraph: {
     images: ["/og-image.jpg"],
   },

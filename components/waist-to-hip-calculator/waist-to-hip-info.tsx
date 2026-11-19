@@ -24,7 +24,7 @@ export default function WaistToHipInfo() {
         {/* --- Header Section --- */}
         <div className="mb-12 max-w-4xl">
           <h2 className="font-serif text-3xl md:text-4xl text-[#1F302B] mb-6">
-            WHR (Waist-to-Height Ratio)
+            WHR (Waist-to-Hip Ratio)
           </h2>
           <p className="text-[#57534E] text-lg leading-relaxed">
             Most people know about their weight and BMI (Body Mass Index) when tracking fitness or weight loss.

@@ -20,6 +20,15 @@ export const hero = {
 
 export const TAB_NAMES = ["BMI Calculator", "BMR Calculator", "Waist to Hip Ratio"];
 
+/* The main heading (h1) of each calculator page, in the same order as TAB_NAMES.
+   It is shown as the small label above the slogan and tells search engines
+   which calculator the page is. */
+export const PAGE_HEADINGS = [
+  "FREE BMI CALCULATOR FOR INDIAN ADULTS",
+  "FREE BMR CALCULATOR FOR INDIA \u00B7 KG AND CM",
+  "FREE WAIST TO HIP RATIO CALCULATOR",
+];
+
 export const ACTIVITIES: Array<[string, string, number]> = [
   ["Sedentary", "Little or no exercise", 1.2],
   ["Lightly active", "1-3 days a week", 1.375],

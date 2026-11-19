@@ -116,10 +116,12 @@ export default function ToolsCalculator({ defaultTab = 0 }: { defaultTab?: numbe
           style={{ background: "radial-gradient(circle,rgba(200,217,167,.2),transparent 65%)" }}
         />
         <div className="relative z-[2] mx-auto max-w-[1360px]">
-          <div className="text-[12.5px] font-bold tracking-[0.16em] text-accent">
-            {C.hero.eyebrow}
-          </div>
-          <h1
+          {/* The small label is the page's main heading (h1): it names the calculator.
+              The big slogan below keeps its look but is no longer the heading. */}
+          <h1 className="m-0 text-[12.5px] font-bold tracking-[0.16em] text-accent">
+            {C.PAGE_HEADINGS[defaultTab] ?? C.hero.eyebrow}
+          </h1>
+          <p
             className="m-0 mt-[22px] max-w-[15ch] font-extrabold leading-[0.96] tracking-[-0.035em] text-lp-bg"
             style={{ fontSize: "clamp(36px,7vw,104px)" }}
           >
@@ -127,7 +129,7 @@ export default function ToolsCalculator({ defaultTab = 0 }: { defaultTab?: numbe
             <span className="font-serif font-normal italic tracking-normal text-accent">
               {C.hero.headingB}
             </span>
-          </h1>
+          </p>
           <p
             className="m-0 mt-6 max-w-[56ch] leading-[1.55] text-accent2"
             style={{ fontSize: "clamp(15.5px,1.6vw,20px)" }}
