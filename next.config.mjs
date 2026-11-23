@@ -25,6 +25,10 @@ const nextConfig = {
     return [
       { source: '/bg-dashboard', destination: '/', permanent: false },
       { source: '/bg-dashboard/:path*', destination: '/', permanent: false },
+      // /masterclass is removed. The course people buy is at /course, so old
+      // links land there.
+      { source: '/masterclass', destination: '/course', permanent: false },
+      { source: '/masterclass/:path*', destination: '/course', permanent: false },
     ]
   },
   async rewrites() {
