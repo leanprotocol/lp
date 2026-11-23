@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { PortableText } from "next-sanity";
 import { format } from "date-fns";
 import type React from "react";
-import { ArrowLeft, Calendar, User, Hash, AlignLeft, Table } from "lucide-react";
+import { ArrowLeft, Calendar, User, Hash, AlignLeft, Table, ShieldCheck } from "lucide-react";
 import { Header } from "@/components/header";
 import Footer from "@/components/footer";
 import { Badge } from "@/components/ui/badge";
@@ -254,6 +254,21 @@ export default async function BlogPostPage({
   const dateText = post.publishedAt
     ? format(new Date(post.publishedAt), "MMM d, yyyy")
     : null;
+  /* Medical review. Shown only when a reviewer is set on the article in Blog Studio. */
+  const reviewer = post.reviewedBy?.name ? post.reviewedBy : null;
+  const reviewerName = reviewer
+    ? [reviewer.name, reviewer.credentials].filter(Boolean).join(", ")
+    : null;
+  const reviewedOn =
+    reviewer && post.reviewedAt && /^\d{4}-\d{2}-\d{2}/.test(post.reviewedAt)
+      ? post.reviewedAt.slice(0, 10)
+      : null;
+  /* Noon, so the calendar date reads the same in every time zone. */
+  const reviewedDate = reviewedOn ? new Date(`${reviewedOn}T12:00:00`) : null;
+  const reviewedText =
+    reviewedDate && !Number.isNaN(reviewedDate.getTime())
+      ? format(reviewedDate, "MMM d, yyyy")
+      : null;
   const wordCount = post.excerpt
     ? post.excerpt.trim().split(/\s+/).filter(Boolean).length
     : 0;
@@ -298,6 +313,21 @@ export default async function BlogPostPage({
       { "@type": "ListItem", position: 3, name: post.title, item: pageUrl },
     ],
   };
+  /* Tells search engines which doctor reviewed the article and when. Added only when a reviewer is set. */
+  const reviewSchema = reviewer
+    ? {
+        "@context": "https://schema.org",
+        "@type": "MedicalWebPage",
+        url: pageUrl,
+        name: post.title,
+        lastReviewed: (reviewedText && reviewedOn) || undefined,
+        reviewedBy: {
+          "@type": "Person",
+          name: reviewer.name,
+          honorificSuffix: reviewer.credentials || undefined,
+        },
+      }
+    : null;
 
   return (
     <main className="min-h-screen bg-background">
@@ -309,6 +339,12 @@ export default async function BlogPostPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbSchema) }}
       />
+      {reviewSchema ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLd(reviewSchema) }}
+        />
+      ) : null}
       <Header />
 
 <div className="border-b border-dark/10 ">
@@ -381,6 +417,27 @@ export default async function BlogPostPage({
                         <span className="text-sm font-medium text-dark">{dateText}</span>
                     </div>
                 </div>
+
+                {reviewerName ? (
+                  <>
+                    <div className="w-px h-8 bg-dark/10 hidden sm:block"></div>
+
+                    <div className="flex items-center gap-3">
+                      <div className="h-8 w-8 flex items-center justify-center text-[#798F8B]">
+                        <ShieldCheck className="h-4 w-4" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-[#798F8B]">Medically reviewed by</span>
+                        <span className="text-sm font-medium text-dark">
+                          {reviewerName}
+                          {reviewedText ? (
+                            <span className="font-normal text-dark/60"> on {reviewedText}</span>
+                          ) : null}
+                        </span>
+                      </div>
+                    </div>
+                  </>
+                ) : null}
               </div>
 
               {imageUrl ? (

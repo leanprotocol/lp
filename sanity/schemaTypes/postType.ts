@@ -96,6 +96,21 @@ export const postType = defineType({
       type: "datetime",
     }),
     defineField({
+      name: "reviewedBy",
+      title: "Medically reviewed by",
+      type: "reference",
+      to: { type: "author" },
+      description:
+        "The doctor who checked this article. Pick them from Authors and add their qualifications there. Leave empty if no doctor has reviewed it.",
+    }),
+    defineField({
+      name: "reviewedAt",
+      title: "Reviewed on",
+      type: "date",
+      description:
+        "The date of the doctor's latest review. Change it each time the article is checked again.",
+    }),
+    defineField({
       name: "body",
       type: "blockContent",
     }),

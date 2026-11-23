@@ -14,6 +14,20 @@ export const authorType = defineType({
       type: 'string',
     }),
     defineField({
+      name: 'credentials',
+      title: 'Qualifications',
+      type: 'string',
+      description:
+        'For doctors and dietitians. Shown after the name on articles they review, for example: MBBS, MD (Internal Medicine).',
+    }),
+    defineField({
+      name: 'registration',
+      title: 'Registration number',
+      type: 'string',
+      description:
+        'Medical council registration, for example: DMC 12345. Kept for the doctor profile page. It is not shown on articles.',
+    }),
+    defineField({
       name: 'slug',
       type: 'slug',
       options: {

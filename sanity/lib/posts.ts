@@ -24,6 +24,13 @@ export type BlogAuthor = {
   image?: SanityImage | null;
 };
 
+/* The doctor who checked an article. Set on each article in Blog Studio. */
+export type BlogReviewer = {
+  name: string | null;
+  credentials?: string | null;
+  image?: SanityImage | null;
+};
+
 export type BlogListItem = {
   _id: string;
   title: string;
@@ -51,6 +58,8 @@ export type BlogPost = {
   categories: BlogCategory[];
   excerpt: string | null;
   body: PortableTextBlock[] | null;
+  reviewedBy?: BlogReviewer | null;
+  reviewedAt?: string | null;
 };
 
 export type BlogCursor = {
@@ -100,6 +109,8 @@ const postBySlugQuery = groq`*[_type == "post" && coalesce(enabled, true) == tru
   "enabled": coalesce(enabled, true),
   mainImage,
   body,
+  "reviewedBy": reviewedBy->{name, credentials, image},
+  reviewedAt,
   "author": author->{name, image},
   "categories": coalesce(categories[]->{title, "slug": slug.current}, []),
   "excerpt": pt::text(body)
