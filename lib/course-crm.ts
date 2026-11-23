@@ -28,15 +28,19 @@ export type Attribution = {
   campaign_id?: string; gclid?: string; fbclid?: string; page_url?: string; referrer?: string;
 };
 
+import { unpaidChannel } from "./lead-touch";
+
 const clip = (v: unknown, n = 300) => String(v ?? "").slice(0, n);
 
-/* Same rule as the /users funnel: a click ID wins over utm_source. */
-export function leadChannel(utmSource?: string, gclid?: string, fbclid?: string): string {
+/* Same rule as the /users funnel: a click ID wins over utm_source. A buyer with
+   neither is "Organic search" when the course page was opened from a search
+   engine (referrer), otherwise "Organic / Direct". */
+export function leadChannel(utmSource?: string, gclid?: string, fbclid?: string, referrer?: string): string {
   const src = (utmSource || "").toLowerCase();
   if (gclid || src === "google") return "Google Ads";
   if (fbclid || ["meta", "facebook", "fb", "instagram", "ig"].includes(src)) return "Meta Ads";
   if (["chatgpt", "openai"].includes(src)) return "OpenAI Ads";
-  return src || "Organic / Direct";
+  return src || unpaidChannel(null, referrer);
 }
 
 /* null = no lead with this phone; undefined = could not tell (Sync API off or down). */
@@ -95,7 +99,7 @@ export async function recordCheckoutStarted(name: string, phone10: string, a: At
         utm_content: clip(a.utm_content), utm_term: clip(a.utm_term), campaign_id: clip(a.campaign_id),
         gclid: clip(a.gclid), fbclid: clip(a.fbclid),
         page_url: clip(a.page_url, 1000), referrer: clip(a.referrer, 500),
-        lead_channel: leadChannel(a.utm_source, a.gclid, a.fbclid),
+        lead_channel: leadChannel(a.utm_source, a.gclid, a.fbclid, a.referrer),
       });
     } else if (!existing || !existing.fields?.name) {
       fields.name = name;

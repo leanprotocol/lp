@@ -1,6 +1,7 @@
 export const runtime = 'nodejs';
 
 import { NextRequest, NextResponse } from 'next/server';
+import { readTouch, unpaidChannel } from '@/lib/lead-touch';
 
 const TELECRM_ENTERPRISE_ID = process.env.TELECRM_ENTERPRISE_ID;
 const TELECRM_API_TOKEN = process.env.TELECRM_API_TOKEN;
@@ -41,11 +42,13 @@ async function pushToCRM(fields: Record<string, any>) {
 
 // One clean column to filter on. A click ID wins over utm_source, because
 // Google and Meta add them even when nobody remembered to tag the campaign.
-function leadChannel(utmSource?: string, gclid?: string, fbclid?: string): string {
+// A lead with no ad click and no utm_source is "Organic search" when the visit
+// came from a search engine (see lib/lead-touch.ts), otherwise "Organic / Direct".
+function leadChannel(utmSource?: string, gclid?: string, fbclid?: string, unpaid = 'Organic / Direct'): string {
   const src = (utmSource || '').toLowerCase();
   if (gclid || src === 'google') return 'Google Ads';
   if (fbclid || ['meta', 'facebook', 'fb', 'instagram', 'ig'].includes(src)) return 'Meta Ads';
-  return src || 'Organic / Direct';
+  return src || unpaid;
 }
 
 export async function POST(request: NextRequest) {
@@ -109,7 +112,12 @@ export async function POST(request: NextRequest) {
       utm_content: utm_content || '',
       utm_term: utm_term || '',
       campaign_id: campaign_id || '',
-      lead_channel: leadChannel(utm_source, gclid, fbclid),
+      lead_channel: leadChannel(
+        utm_source,
+        gclid,
+        fbclid,
+        unpaidChannel(readTouch(request.headers.get('cookie')), referrer)
+      ),
     });
 
     if (!result.ok) {

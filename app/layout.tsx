@@ -31,6 +31,7 @@ export const metadata: Metadata = {
 }
 
 import { ReferralTracker } from "@/components/referral-tracker"
+import { FirstTouch } from "@/components/first-touch"
 import { Suspense } from "react"
 
 export default function RootLayout({
@@ -50,6 +51,8 @@ export default function RootLayout({
         <Suspense fallback={null}>
           <ReferralTracker />
         </Suspense>
+        {/* Remembers where the visit came from, so leads from Google search can be told apart. */}
+        <FirstTouch />
         {children}
         <Toaster />
         <Analytics />

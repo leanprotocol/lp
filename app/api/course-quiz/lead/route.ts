@@ -18,6 +18,7 @@ export const runtime = "nodejs";
 
 import { NextRequest, NextResponse } from "next/server";
 import { QUIZ_LEAD_SOURCE, QUIZ_PER_RUN } from "@/content/course-quiz";
+import { readTouch, unpaidChannel } from "@/lib/lead-touch";
 
 const ENT = process.env.TELECRM_ENTERPRISE_ID;
 const TOKEN = process.env.TELECRM_API_TOKEN;
@@ -27,12 +28,14 @@ const clip = (v: unknown, n = 300) => String(v ?? "").slice(0, n);
 
 /* Same rule as the other funnels: a click ID beats utm_source, because the
    ad platforms add them even when nobody tagged the campaign. */
-function leadChannel(utmSource?: string, gclid?: string, fbclid?: string): string {
+/* A lead with no ad click and no utm_source is "Organic search" when the visit
+   came from a search engine (see lib/lead-touch.ts), otherwise "Organic / Direct". */
+function leadChannel(utmSource?: string, gclid?: string, fbclid?: string, unpaid = "Organic / Direct"): string {
   const src = (utmSource || "").toLowerCase();
   if (gclid || src === "google") return "Google Ads";
   if (fbclid || ["meta", "facebook", "fb", "instagram", "ig"].includes(src)) return "Meta Ads";
   if (["chatgpt", "openai"].includes(src)) return "OpenAI Ads";
-  return src || "Organic / Direct";
+  return src || unpaid;
 }
 
 export async function POST(request: NextRequest) {
@@ -73,7 +76,12 @@ export async function POST(request: NextRequest) {
       fbclid: clip(b.fbclid),
       page_url: clip(b.page_url, 1000),
       referrer: clip(b.referrer, 500),
-      lead_channel: leadChannel(b.utm_source as string, b.gclid as string, b.fbclid as string),
+      lead_channel: leadChannel(
+        b.utm_source as string,
+        b.gclid as string,
+        b.fbclid as string,
+        unpaidChannel(readTouch(request.headers.get("cookie")), clip(b.referrer, 500))
+      ),
     };
 
     const clean = Object.fromEntries(
