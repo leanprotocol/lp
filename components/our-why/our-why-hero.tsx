@@ -44,11 +44,13 @@ export default function OurWhyHero() {
         />
 
         <div className="relative z-[2] mx-auto w-full max-w-[1360px]">
-          <div className="ow-rise inline-flex rounded-full border border-accent/40 px-5 py-[9px] text-[12.5px] font-bold tracking-[0.16em] text-accent">
+          {/* The small label is the page's main heading (h1): it names the page.
+              The big line below keeps its look but is no longer the heading. */}
+          <h1 className="ow-rise inline-flex rounded-full border border-accent/40 px-5 py-[9px] text-[12.5px] font-bold tracking-[0.16em] text-accent">
             {C.hero.eyebrow}
-          </div>
+          </h1>
 
-          <h1
+          <p
             className="ow-rise mb-0 mt-[26px] max-w-[14ch] font-extrabold leading-[0.95] tracking-[-0.035em] text-lp-bg"
             style={{ fontSize: "clamp(36px,8vw,116px)", animationDelay: ".1s" }}
           >
@@ -56,7 +58,7 @@ export default function OurWhyHero() {
             <span className="font-serif italic font-normal tracking-normal text-accent">
               {C.hero.headingB}
             </span>
-          </h1>
+          </p>
 
           <div
             className="ow-rise mt-7 flex flex-col gap-3 sm:mt-9 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3.5"

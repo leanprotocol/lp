@@ -86,11 +86,13 @@ export function Hero() {
         className="relative z-[2] mx-auto max-w-[1100px] text-center"
         style={{ textShadow: "0 2px 30px rgba(14,14,15,.6)" }}
       >
-        <div className="gw-rise inline-flex rounded-full border border-accent/40 px-5 py-[9px] text-[12.5px] font-bold tracking-[0.16em] text-accent">
+        {/* The small label is the page's main heading (h1): it says what the page is.
+            The big slogan below keeps its look but is no longer the heading. */}
+        <h1 className="gw-rise inline-flex rounded-full border border-accent/40 px-5 py-[9px] text-[12.5px] font-bold tracking-[0.16em] text-accent">
           {C.hero.eyebrow}
-        </div>
+        </h1>
 
-        <h1
+        <p
           className="gw-rise mt-7 font-extrabold leading-[0.94] tracking-[-0.03em] text-lp-bg"
           style={{ fontSize: "clamp(58px,11vw,170px)", animationDelay: ".1s" }}
         >
@@ -99,7 +101,7 @@ export function Hero() {
           <span className="gw-outline">
             LEANER<span className="gw-dot">.</span>
           </span>
-        </h1>
+        </p>
 
         <p
           className="gw-rise mx-auto mb-[34px] mt-[26px] max-w-[560px] text-accent2"

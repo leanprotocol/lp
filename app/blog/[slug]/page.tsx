@@ -9,6 +9,7 @@ import Footer from "@/components/footer";
 import { Badge } from "@/components/ui/badge";
 import { PostCard } from "@/components/blog/blog-cards";
 import { urlFor } from "@/sanity/lib/image";
+import { COURSE } from "@/content/course";
 import {
   fetchPostBySlug,
   fetchPostSlugs,
@@ -460,6 +461,27 @@ export default async function BlogPostPage({
                   <p className="text-sm text-muted-foreground">No content.</p>
                 )}
               </div>
+
+              {/* A way from every article to the course. The chapter count and price come from content/course.ts. */}
+              <aside className="mt-12 rounded-2xl border border-dark/10 bg-white p-6 md:p-8">
+                <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#798F8B] mb-3">
+                  Video course
+                </div>
+                <h2 className="font-serif text-2xl md:text-3xl text-dark leading-tight mb-3">
+                  The GLP weight loss master class
+                </h2>
+                <p className="text-base text-dark/70 leading-relaxed mb-6">
+                  {COURSE.chaptersCount} video chapters with a physician and a senior health coach, watched in
+                  the Lean Protocol app. Educational, not medical advice.
+                </p>
+                <Link
+                  href="/course"
+                  className="inline-flex items-center gap-2 rounded-full bg-dark px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-[#798F8B]"
+                >
+                  See the course for {"\u20b9"}
+                  {COURSE.priceInr}
+                </Link>
+              </aside>
             </div>
 
             <aside className="hidden lg:block sticky top-24 self-start space-y-2">
