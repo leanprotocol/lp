@@ -7,6 +7,26 @@ const nextConfig = {
     unoptimized: false,
     formats: ['image/webp'],
   },
+  // Screens that are not for search results: sign-in, account, affiliate, admin
+  // and the blog editor. The header asks search engines not to list them.
+  // Visitors, ads and the screens themselves are not affected.
+  async headers() {
+    const hidden = [{ key: 'X-Robots-Tag', value: 'noindex' }]
+    return [
+      '/login',
+      '/forgot-password',
+      '/welcome',
+      '/dashboard',
+      '/quiz',
+      '/affiliate',
+      '/affiliate/:path*',
+      '/get-started/affiliate',
+      '/admin',
+      '/admin/:path*',
+      '/studio',
+      '/studio/:path*',
+    ].map((source) => ({ source, headers: hidden }))
+  },
   // Subdomain roots. beforeFiles runs ahead of filesystem routing, which is
   // required here: the plain array form runs after Next resolves '/' to the
   // homepage, so these rewrites would never fire.
