@@ -26,7 +26,6 @@ const PAGES = [
   "/corporate",
   "/workshops",
   "/psp",
-  "/innovation",
   "/contact",
   "/privacy-policy",
   "/terms-conditions",

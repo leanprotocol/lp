@@ -36,7 +36,6 @@ const NAV = [
     links: [
       { label: "Our why", href: "/our-why" },
       { label: "Contact", href: "/contact" },
-      { label: "Innovation", href: "/innovation" },
     ],
   },
   {

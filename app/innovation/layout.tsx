@@ -40,7 +40,9 @@ export const metadata: Metadata = {
     description: seo.description,
     ...(images ? { images: images.map((i) => i.url) } : {}),
   },
-  robots: { index: true, follow: true },
+  // Kept out of search results: the page is for research funders and partners
+  // who are given the link, not for people searching for weight care.
+  robots: { index: false, follow: true },
 };
 
 export default function InnovationLayout({
