@@ -1,8 +1,9 @@
 ﻿/**
  * Health calculator content.
  *
- * Shared by /bmi-calculator, /bmr-calculator and /waist-to-hip-calculator,
- * which all render the same tabbed component with a different opening tab.
+ * Shared by /bmi-calculator, /bmr-calculator, /waist-to-hip-calculator and
+ * /protein-calculator, which all render the same tabbed component with a
+ * different opening tab.
  *
  * Thresholds here are Asian-Indian, not WHO. Indian bodies accumulate
  * visceral fat at lower weights, so overweight starts at 23 rather than 25.
@@ -15,10 +16,10 @@ export const hero = {
   headingA: "Numbers first,",
   headingB: "then a plan.",
   body:
-    "Three quick calculators to give you a baseline. They're a starting point for a conversation with a doctor \u2014 not a diagnosis.",
+    "Four quick calculators to give you a baseline. They're a starting point for a conversation with a doctor \u2014 not a diagnosis.",
 };
 
-export const TAB_NAMES = ["BMI Calculator", "BMR Calculator", "Waist to Hip Ratio"];
+export const TAB_NAMES = ["BMI Calculator", "BMR Calculator", "Waist to Hip Ratio", "Protein Calculator"];
 
 /* The main heading (h1) of each calculator page, in the same order as TAB_NAMES.
    It is shown as the small label above the slogan and tells search engines
@@ -27,6 +28,7 @@ export const PAGE_HEADINGS = [
   "FREE BMI CALCULATOR FOR INDIAN ADULTS",
   "FREE BMR CALCULATOR FOR INDIA \u00B7 KG AND CM",
   "FREE WAIST TO HIP RATIO CALCULATOR",
+  "FREE PROTEIN CALCULATOR FOR INDIA \u00B7 GRAMS PER DAY",
 ];
 
 export const ACTIVITIES: Array<[string, string, number]> = [
@@ -65,6 +67,15 @@ export const tools = [
     footnote:
       "Abdominal fat responds well to a protocol built around the root cause \u2014 hormones, sleep, insulin response.",
   },
+  {
+    title: "Daily Protein Need",
+    blurb:
+      "How many grams of protein to eat in a day, worked out from your body weight and what you want to do: hold your weight, lose fat or build muscle.",
+    resultLabel: "YOUR DAILY PROTEIN",
+    resultUnit: "grams per day",
+    footnote:
+      "Losing muscle along with fat is the main thing to avoid on a weight-loss plan. Our dietitians set your protein target first and build the meals around it.",
+  },
 ];
 
 export const bmi = {
@@ -100,6 +111,50 @@ export const whr = {
     ["Moderate risk", "0.80 \u2013 0.84", "#C9A84C"],
     ["High risk", "0.85 and above", "#C85A42"],
   ] as Array<[string, string, string]>,
+};
+
+/* Daily protein, in grams per kg of body weight. Clinical copy - have a doctor
+   or dietitian confirm any change.
+   - Stay at my weight: 0.83 is the allowance for Indian adults (ICMR-NIN, 2020);
+     1.0 allows for meals built mostly on cereals.
+   - Lose weight: 1.2 to 1.6, the range studied for keeping muscle during weight loss.
+   - Build muscle: 1.4 to 2.0, the sports-nutrition range for people who train.
+   The weight used is the person's own, or the weight at `referenceBmi` for their
+   height when they are above it, so that extra body fat does not raise the figure.
+   The same figures are explained on the page in
+   components/protein-calculator/protein-info.tsx - change both together. */
+export const protein = {
+  referenceBmi: 23,
+  /* which goal the "Protein target" row on the BMR tab uses */
+  weightLossGoal: 1,
+  goals: [
+    {
+      name: "Stay at my weight",
+      hint: "Everyday health",
+      low: 0.83,
+      high: 1.0,
+      note: "Covers a healthy adult by the Indian (ICMR-NIN) standard. The higher figure suits meals built mostly on cereals.",
+    },
+    {
+      name: "Lose weight",
+      hint: "Keep muscle, lose fat",
+      low: 1.2,
+      high: 1.6,
+      note: "Helps you keep muscle while you lose fat. Spread it over your meals and add strength exercise.",
+    },
+    {
+      name: "Build muscle",
+      hint: "With strength training",
+      low: 1.4,
+      high: 2.0,
+      note: "For people who do strength training most weeks. Spread it over your meals.",
+    },
+  ],
+  goalLabel: "YOUR GOAL",
+  perMeal: "Per meal, over 3 meals",
+  /* {kg} is replaced with the weight the figure was worked out on */
+  adjusted: "Your BMI is above 23, so this uses {kg} kg, your weight at BMI 23, not your current weight.",
+  caution: "Kidney disease, pregnancy or breastfeeding: ask your doctor first.",
 };
 
 export const limits = {

@@ -27,6 +27,7 @@ const NAV = [
       { label: "BMI calculator", href: "/bmi-calculator" },
       { label: "BMR calculator", href: "/bmr-calculator" },
       { label: "Waist-to-hip ratio", href: "/waist-to-hip-calculator" },
+      { label: "Protein calculator", href: "/protein-calculator" },
       { label: "Knowledge hub", href: "/blog" },
       { label: "GLP master class", href: "/course" },
     ],

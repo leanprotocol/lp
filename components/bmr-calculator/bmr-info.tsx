@@ -58,7 +58,6 @@ export default function BMRInfo() {
                         <li className="pl-2">Think of it as the “idle mode” of your body’s engine — just enough energy to keep your system running.</li>
                         <li className="pl-2">BMR usually makes up 60–70% of your total daily calorie burn.</li>
                         <li className="pl-2">For most people, this equals about 1000–2000 kilocalories per day, depending on factors like age, gender, and body composition.</li>
-                        <li className="pl-2">BMIB</li>
                     </ul>
                 </div>
 

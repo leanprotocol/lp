@@ -4,12 +4,12 @@ import { useState } from "react"
 import * as C from "@/content/tools"
 
 /**
- * The three health calculators, in one tabbed panel.
+ * The four health calculators, in one tabbed panel.
  *
- * Rendered by /bmi-calculator, /bmr-calculator and /waist-to-hip-calculator,
- * each passing its own defaultTab. Keeping three routes preserves the search
- * ranking each has built, while giving visitors one place to move between
- * the tools.
+ * Rendered by /bmi-calculator, /bmr-calculator, /waist-to-hip-calculator and
+ * /protein-calculator, each passing its own defaultTab. Keeping a route for
+ * each lets every calculator be found in search on its own, while giving
+ * visitors one place to move between the tools.
  *
  * Thresholds are Asian-Indian, from content/tools.ts. See the note there
  * before changing any of them.
@@ -38,6 +38,7 @@ export default function ToolsCalculator({ defaultTab = 0 }: { defaultTab?: numbe
   const [activity, setActivity] = useState(1)
   const [waist, setWaist] = useState(92)
   const [hip, setHip] = useState(100)
+  const [goal, setGoal] = useState(C.protein.weightLossGoal)
 
   const bmiVal = weight / Math.pow(height / 100, 2)
   const bmrVal =
@@ -46,6 +47,14 @@ export default function ToolsCalculator({ defaultTab = 0 }: { defaultTab?: numbe
       : 10 * weight + 6.25 * height - 5 * age - 161
   const tdee = bmrVal * C.ACTIVITIES[activity][2]
   const whrVal = waist / hip
+
+  // Protein is worked out on the person's own weight, or on the weight at BMI 23
+  // for their height when they are above it (see content/tools.ts - protein).
+  const proteinKg = Math.round(
+    Math.min(weight, C.protein.referenceBmi * Math.pow(height / 100, 2)),
+  )
+  const proteinRange = (g: { low: number; high: number }, meals = 1) =>
+    `${Math.round((proteinKg * g.low) / meals)}\u2013${Math.round((proteinKg * g.high) / meals)}`
 
   const inr = (n: number) => Math.round(n).toLocaleString("en-IN")
 
@@ -76,14 +85,14 @@ export default function ToolsCalculator({ defaultTab = 0 }: { defaultTab?: numbe
       ["Resting (BMR)", `${inr(bmrVal)} kcal`, "#A8BEB7", false],
       ["Maintenance", `${inr(tdee)} kcal`, "#C8D9A7", true],
       ["Gentle deficit", `${inr(tdee - 400)} kcal`, "#C9A84C", false],
-      ["Protein target", `${Math.round(weight * 1.6)} g/day`, "#C9A84C", false],
+      ["Protein target", `${proteinRange(C.protein.goals[C.protein.weightLossGoal])} g/day`, "#C9A84C", false],
     ]
     sliders = [
       { label: "HEIGHT", display: `${height} cm`, min: 130, max: 210, value: height, set: setHeight },
       { label: "WEIGHT", display: `${weight} kg`, min: 35, max: 180, value: weight, set: setWeight },
       { label: "AGE", display: `${age} yrs`, min: 16, max: 85, value: age, set: setAge },
     ]
-  } else {
+  } else if (tab === 2) {
     result = whrVal.toFixed(2)
     const male = sex === "male"
     const b = male
@@ -97,11 +106,42 @@ export default function ToolsCalculator({ defaultTab = 0 }: { defaultTab?: numbe
       { label: "WAIST", display: `${waist} cm`, min: 55, max: 160, value: waist, set: setWaist },
       { label: "HIP", display: `${hip} cm`, min: 60, max: 170, value: hip, set: setHip },
     ]
+  } else {
+    const g = C.protein.goals[goal]
+    result = proteinRange(g)
+    band = g.name
+    bandNote = [
+      g.note,
+      proteinKg < weight ? C.protein.adjusted.replace("{kg}", String(proteinKg)) : "",
+      C.protein.caution,
+    ]
+      .filter(Boolean)
+      .join(" ")
+    tone = TONE.green
+    scale = [
+      ...C.protein.goals.map(
+        (x, i): [string, string, string, boolean] => [
+          x.name,
+          `${proteinRange(x)} g/day`,
+          "#C8D9A7",
+          i === goal,
+        ],
+      ),
+      [C.protein.perMeal, `${proteinRange(g, 3)} g`, "#A8BEB7", false],
+    ]
+    sliders = [
+      { label: "HEIGHT", display: `${height} cm`, min: 130, max: 210, value: height, set: setHeight },
+      { label: "WEIGHT", display: `${weight} kg`, min: 35, max: 180, value: weight, set: setWeight },
+    ]
   }
 
   const tool = C.tools[tab]
   const showSex = tab === 1 || tab === 2
   const showActivity = tab === 1
+  const showGoal = tab === 3
+  // The protein result is a range such as 79 to 106, so it is set a little
+  // smaller than the single numbers on the other tabs to fit its card.
+  const resultSize = tab === 3 ? "clamp(44px,7.4vw,100px)" : "clamp(52px,9vw,120px)"
 
   return (
     <>
@@ -270,6 +310,42 @@ export default function ToolsCalculator({ defaultTab = 0 }: { defaultTab?: numbe
                 </div>
               </div>
             )}
+
+            {showGoal && (
+              <div>
+                <div className="mb-3 text-[12.5px] font-bold tracking-[0.12em] text-accent2">
+                  {C.protein.goalLabel}
+                </div>
+                <div className="grid gap-2.5">
+                  {C.protein.goals.map((g, i) => (
+                    <button
+                      key={g.name}
+                      type="button"
+                      onClick={() => setGoal(i)}
+                      aria-pressed={i === goal}
+                      className="flex items-center justify-between gap-3.5 rounded-[14px] border-[1.5px] px-4 py-3.5 text-left transition-colors sm:px-[18px]"
+                      style={{
+                        background: i === goal ? "rgba(200,217,167,.16)" : "rgba(249,247,242,.04)",
+                        borderColor: i === goal ? "rgba(200,217,167,.55)" : "rgba(249,247,242,.1)",
+                      }}
+                    >
+                      <span
+                        className="text-[15px] font-bold sm:text-[15.5px]"
+                        style={{ color: i === goal ? "#C8D9A7" : "#F9F7F2" }}
+                      >
+                        {g.name}
+                      </span>
+                      <span
+                        className="text-right text-[13px] sm:text-[13.5px]"
+                        style={{ color: i === goal ? "rgba(200,217,167,.8)" : "rgba(168,190,183,.65)" }}
+                      >
+                        {g.hint}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* result */}
@@ -286,7 +362,7 @@ export default function ToolsCalculator({ defaultTab = 0 }: { defaultTab?: numbe
               </div>
               <div
                 className="mb-1.5 mt-3.5 font-extrabold leading-none tracking-[-0.04em] text-accent"
-                style={{ fontSize: "clamp(52px,9vw,120px)" }}
+                style={{ fontSize: resultSize }}
               >
                 {result}
               </div>

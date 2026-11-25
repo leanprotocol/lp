@@ -22,6 +22,7 @@ const PAGES = [
   "/bmi-calculator",
   "/bmr-calculator",
   "/waist-to-hip-calculator",
+  "/protein-calculator",
   "/course",
   "/corporate",
   "/workshops",
