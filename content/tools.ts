@@ -172,7 +172,7 @@ export const limits = {
   ],
 };
 
-export const cta = { label: "Check my eligibility", href: "https://forms.leanprotocol.in/" };
+export const cta = { label: "Check my eligibility", href: "https://enquire.leanprotocol.in/" };
 
 export const disclaimer =
   "These calculators are for general awareness only and are not medical advice or a diagnosis. Speak to a qualified doctor about your individual health.";

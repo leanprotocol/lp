@@ -93,7 +93,7 @@ export function Header() {
             Log in
           </Link>
           <a
-            href="https://forms.leanprotocol.in/"
+            href="https://enquire.leanprotocol.in/"
             className="rounded-full bg-accent px-6 py-3 text-[15px] font-extrabold text-dark transition-colors hover:bg-white"
           >
             Get Started
@@ -139,7 +139,7 @@ export function Header() {
               Log in
             </Link>
             <a
-              href="https://forms.leanprotocol.in/"
+              href="https://enquire.leanprotocol.in/"
               onClick={() => setOpen(false)}
               className="mt-3 rounded-full bg-accent px-6 py-4 text-center text-[16px] font-extrabold text-dark"
             >

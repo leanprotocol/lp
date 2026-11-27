@@ -30,7 +30,7 @@ const nextConfig = {
   // Subdomain roots. beforeFiles runs ahead of filesystem routing, which is
   // required here: the plain array form runs after Next resolves '/' to the
   // homepage, so these rewrites would never fire.
-  //   forms.leanprotocol.in     -> the /users questionnaire
+  //   forms.leanprotocol.in and enquire.leanprotocol.in -> the /users questionnaire
   //   pro.leanprotocol.in       -> the redesigned campaign page at /pro
   //   challenge.leanprotocol.in -> the /challenge campaign, whole path tree
   //
@@ -56,27 +56,27 @@ const nextConfig = {
       beforeFiles: [
         {
           source: '/',
-          has: [{ type: 'host', value: '(?<host>forms\\.leanprotocol\\.in.*)' }],
+          has: [{ type: 'host', value: '(?<host>(?:forms|enquire)\\.leanprotocol\\.in.*)' }],
           destination: '/users',
         },
                 {
           source: '/page:n(\\d+)',
-          has: [{ type: 'host', value: '(?<host>forms\\.leanprotocol\\.in.*)' }],
+          has: [{ type: 'host', value: '(?<host>(?:forms|enquire)\\.leanprotocol\\.in.*)' }],
           destination: '/users',
         },
         {
           source: '/talk-to-health-coach',
-          has: [{ type: 'host', value: '(?<host>forms\\.leanprotocol\\.in.*)' }],
+          has: [{ type: 'host', value: '(?<host>(?:forms|enquire)\\.leanprotocol\\.in.*)' }],
           destination: '/talk-to-health-coach',
         },
         {
           source: '/course',
-          has: [{ type: 'host', value: '(?<host>forms\\.leanprotocol\\.in.*)' }],
+          has: [{ type: 'host', value: '(?<host>(?:forms|enquire)\\.leanprotocol\\.in.*)' }],
           destination: '/course-quiz',
         },
         {
           source: '/thankyou',
-          has: [{ type: 'host', value: '(?<host>forms\\.leanprotocol\\.in.*)' }],
+          has: [{ type: 'host', value: '(?<host>(?:forms|enquire)\\.leanprotocol\\.in.*)' }],
           destination: '/users/thankyou',
         },
         {
