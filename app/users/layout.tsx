@@ -17,21 +17,18 @@ const GTM_ID = "GTM-P2Q8FQJ3";
    events are arriving. Remove it once they confirm. */
 const OAI_PIXEL_ID = "ExeXJ9TEEr7Gci9U65VWhm";
 
-/* Meta Pixel. Note this is a DIFFERENT id from the 2207593576706808 pixel
-   that was removed from the main site on 3 August - that one fires from
-   inside the GTM container. Scoped to /users, so it also loads on
-   /users/privacy and /users/terms. */
-const META_PIXEL_ID = "1388275653443222";
+/* Meta Pixel. Replaced on 28 Nov 2026: the two earlier pixels
+   (1388275653443222 and the agency's 1110969804946521) were removed and this
+   one put in their place. Scoped to /users, which serves both
+   forms.leanprotocol.in and enquire.leanprotocol.in, so it fires on both,
+   and on /users/privacy and /users/terms.
 
-/* Second Meta pixel, added 17 Sep 2026 for the incoming agency.
-   fbq supports several pixels on one page: the library loads once and each
-   init registers another destination. A track call with no scoping fires to
-   BOTH, which is intended - each agency sees every conversion.
+   The track calls in page.tsx are unscoped, so they go to whichever pixels
+   are initialised here - no change needed there.
 
-   Worth knowing when the two dashboards are compared: they report the same
-   leads, so adding the totals double-counts. Campaign attribution comes from
-   the UTM parameters on the lead, not from which pixel saw it. */
-const META_PIXEL_ID_2 = "1110969804946521";
+   app/course/layout.tsx still carries the two old pixels. That is the
+   leanprotocol.in/course page, a different funnel, left as it was. */
+const META_PIXEL_ID = "4423028301243237";
 
 export const metadata: Metadata = {
   title: "Get Your Personalised Plan | Lean Protocol",
@@ -93,7 +90,6 @@ t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '${META_PIXEL_ID}');
-fbq('init', '${META_PIXEL_ID_2}');
 fbq('track', 'PageView');`}
       </Script>
       <noscript>
