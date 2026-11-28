@@ -12,6 +12,12 @@ const GOOGLE_ADS_ID = "AW-18352829434";
 const GA4_ID = "G-LEFM5XNNP5";
 const GTM_ID = "GTM-P2Q8FQJ3";
 
+/* Second GTM container, added 28 Nov 2026. Two containers on one page is
+   supported: both read the same dataLayer. Anything configured in BOTH
+   (a Meta pixel, the Ads or GA4 tags above) will fire twice, so keep each
+   tag in only one place. */
+const GTM_ID_2 = "GTM-WNSMH6DN";
+
 /* OpenAI ads pixel. The loader below defines a queue stub so the measure
    calls in page.tsx work before the SDK has finished downloading.
    debug:true logs to the console - marketing asked for it while they verify
@@ -52,6 +58,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <noscript>
         <iframe
           src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+          height="0"
+          width="0"
+          style={{ display: "none", visibility: "hidden" }}
+        />
+      </noscript>
+
+      {/* Second Google Tag Manager container */}
+      <Script id="gtm-2" strategy="afterInteractive">
+        {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${GTM_ID_2}');`}
+      </Script>
+      <noscript>
+        <iframe
+          src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID_2}`}
           height="0"
           width="0"
           style={{ display: "none", visibility: "hidden" }}
