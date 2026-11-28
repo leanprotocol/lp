@@ -253,21 +253,30 @@ export default function UsersFunnel() {
     return `${b}/page${s + 1}`;
   }, []);
 
+  /* The first screen's page view is already sent by the layout:
+     gtag('config') records one automatically on load, and the Meta loader
+     fires PageView. Sending another here as well counted every visit twice
+     in GA4 (seen in Tag Assistant, 28 Nov 2026). So the first run only sets
+     the URL; every step after that is tracked here as before. */
+  const firstView = useRef(true);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
+    const initial = firstView.current;
+    firstView.current = false;
     const path = pathForStep(step);
     if (window.location.pathname !== path) {
       window.history.pushState({ step }, "", path + window.location.search);
     }
     const w = window as any;
-    if (typeof w.gtag === "function") {
+    if (!initial && typeof w.gtag === "function") {
       w.gtag("event", "page_view", {
         page_path: path,
         page_title: `Funnel step ${step}`,
         page_location: window.location.href,
       });
     }
-    if (typeof w.fbq === "function") w.fbq("track", "PageView");
+    if (!initial && typeof w.fbq === "function") w.fbq("track", "PageView");
     w.dataLayer = w.dataLayer || [];
     w.dataLayer.push({ event: "virtual_pageview", page_path: path, funnel_step: step });
   }, [step, pathForStep]);
