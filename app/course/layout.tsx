@@ -14,6 +14,7 @@
 // Pure ASCII file.
 
 import Script from "next/script";
+import { META_PIXEL_ID } from "@/lib/meta-pixel";
 
 const GOOGLE_ADS_ID = "AW-18352829434";
 const GA4_ID = "G-LEFM5XNNP5";
@@ -21,7 +22,7 @@ const GTM_ID = "GTM-P2Q8FQJ3";
 const OAI_PIXEL_ID = "ExeXJ9TEEr7Gci9U65VWhm";
 /* Replaced on 28 Nov 2026, same pixel as /users. The earlier two
    (1388275653443222 and 1110969804946521) were removed. */
-const META_PIXEL_ID = "4423028301243237";
+// META_PIXEL_ID comes from lib/meta-pixel.ts, shared by every funnel.
 
 export default function CourseLayout({ children }: { children: React.ReactNode }) {
   return (

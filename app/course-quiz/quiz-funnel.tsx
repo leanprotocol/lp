@@ -181,6 +181,9 @@ export default function QuizFunnel() {
       const ld = await lead.json().catch(() => ({}));
       if (!lead.ok || !ld?.success) throw new Error(ld?.error || "Could not save your details. Please try again.");
 
+      /* Lead on submit, before Razorpay opens, so an abandoned payment still counts. */
+      try { (window as unknown as { fbq?: (...a: unknown[]) => void }).fbq?.("track", "Lead"); } catch { }
+
       if (fullMarks) { setShowPop(false); setStep(S.DONE); setBusy(false); return; }
 
       const r = await fetch("/api/course-quiz/order", {
@@ -220,7 +223,7 @@ export default function QuizFunnel() {
             if (!v.ok || !d?.success) throw new Error("verify");
             const w = window as unknown as { gtag?: (...a: unknown[]) => void; fbq?: (...a: unknown[]) => void };
             try { w.gtag?.("event", "purchase", { transaction_id: resp.razorpay_payment_id, value: order.amount, currency: "INR" }); } catch { }
-            try { w.fbq?.("track", "Purchase", { value: order.amount, currency: "INR" }); } catch { }
+            try { w.fbq?.("track", "CompleteRegistration", { value: order.amount, currency: "INR" }); } catch { }
             setShowPop(false);
             setStep(S.DONE);
           } catch {

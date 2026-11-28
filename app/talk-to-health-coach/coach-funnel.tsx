@@ -260,6 +260,7 @@ export default function CoachFunnel() {
       });
       const d = await res.json().catch(() => ({}));
       if (!res.ok || !d?.success) throw new Error(d?.error || "Could not save your details. Please try again.");
+      try { (window as unknown as { fbq?: (...a: unknown[]) => void }).fbq?.("track", "Lead"); } catch { }
       setStep(S.OFFER);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Could not save your details. Please try again.");
@@ -307,7 +308,7 @@ export default function CoachFunnel() {
             if (!v.ok || !d?.success) throw new Error("verify");
             const w = window as unknown as { gtag?: (...a: unknown[]) => void; fbq?: (...a: unknown[]) => void };
             try { w.gtag?.("event", "purchase", { transaction_id: resp.razorpay_payment_id, value: order.amount, currency: "INR" }); } catch {}
-            try { w.fbq?.("track", "Purchase", { value: order.amount, currency: "INR" }); } catch {}
+            try { w.fbq?.("track", "CompleteRegistration", { value: order.amount, currency: "INR" }); } catch {}
             setStep(S.PAID);
           } catch {
             setError(`Your payment went through, but we could not confirm it. Do not pay again. Email support@leanprotocol.in with reference ${resp.razorpay_payment_id}.`);

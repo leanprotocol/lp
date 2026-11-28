@@ -222,7 +222,7 @@ export default function ThankYouPage() {
             });
             // Likely suppressed for the same health classification as Lead.
             whenReady(() => typeof pw.fbq === "function", () => {
-              pw.fbq?.("track", "Purchase", { value: COACH_AMOUNT_INR, currency: "INR" });
+              pw.fbq?.("track", "CompleteRegistration", { value: COACH_AMOUNT_INR, currency: "INR" });
             });
           } catch {
             setPayError(AFTER.verifyFailed);

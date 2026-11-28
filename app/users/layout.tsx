@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { META_PIXEL_ID } from "@/lib/meta-pixel";
 import "./users.css";
 
 /* Google tags - scoped to the /users funnel only, not the main site.
@@ -26,9 +27,7 @@ const OAI_PIXEL_ID = "ExeXJ9TEEr7Gci9U65VWhm";
    The track calls in page.tsx are unscoped, so they go to whichever pixels
    are initialised here - no change needed there.
 
-   app/course/layout.tsx still carries the two old pixels. That is the
-   leanprotocol.in/course page, a different funnel, left as it was. */
-const META_PIXEL_ID = "4423028301243237";
+   The id itself lives in lib/meta-pixel.ts, shared by every funnel. */
 
 export const metadata: Metadata = {
   title: "Get Your Personalised Plan | Lean Protocol",
