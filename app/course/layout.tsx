@@ -19,8 +19,9 @@ const GOOGLE_ADS_ID = "AW-18352829434";
 const GA4_ID = "G-LEFM5XNNP5";
 const GTM_ID = "GTM-P2Q8FQJ3";
 const OAI_PIXEL_ID = "ExeXJ9TEEr7Gci9U65VWhm";
-const META_PIXEL_ID = "1388275653443222";
-const META_PIXEL_ID_2 = "1110969804946521";
+/* Replaced on 28 Nov 2026, same pixel as /users. The earlier two
+   (1388275653443222 and 1110969804946521) were removed. */
+const META_PIXEL_ID = "4423028301243237";
 
 export default function CourseLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -72,7 +73,6 @@ t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '${META_PIXEL_ID}');
-fbq('init', '${META_PIXEL_ID_2}');
 fbq('track', 'PageView');`}
       </Script>
       <noscript>
